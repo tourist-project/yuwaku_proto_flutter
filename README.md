@@ -33,5 +33,8 @@ issueに紐付ける場合は`#n(nはissueの番号)`を書く
 - :recycle: `:recycle:` - 整理
 - :tada: `:tada:` - Initial Commitやリリースなど
 
+## 要件定義
+[こちら](./RDD.md)に書いてあります
+
 ## 参考文献
 [emoji-commit-message-guideline](https://gist.github.com/p-chan/2912dc157b53449f7d1b)
