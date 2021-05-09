@@ -33,7 +33,5 @@ isuueを解決した場合には #issueの番号を書く
 - :recycle: `:recycle:` - 整理
 - :tada: `:tada:` - Initial Commitやリリースなど
 
-
-
 ## 参考文献
 [emoji-commit-message-guideline](https://gist.github.com/p-chan/2912dc157b53449f7d1b)
