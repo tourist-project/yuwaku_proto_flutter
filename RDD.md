@@ -21,6 +21,11 @@
 - カメラ
     - 撮れる
 
+### knowledge
+
+- 写真をローカルに保存する方法
+  - https://qiita.com/takaking216/items/66c7799ef5cd222307d0
+
 ## level2(5/23~6/26)
 
 ### 実装機能
