@@ -15,6 +15,15 @@
 出てこない場合は`pubspec.yaml`に行き上の方に`flutter pub get`とあるのでそれを押してください  
 ![](./README/img3.png)
 
+## 環境
+`flutter --version`は以下の通りです  
+```
+Flutter 2.0.6 • channel stable • https://github.com/flutter/flutter.git
+Framework • revision 1d9032c7e1 (9 days ago) • 2021-04-29 17:37:58 -0700
+Engine • revision 05e680e202
+Tools • Dart 2.12.3
+```
+
 ## commitのルール
 
 原則日本語体言止めで書く  
