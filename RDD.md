@@ -25,6 +25,7 @@
 
 - 写真をローカルに保存する方法
   - https://qiita.com/takaking216/items/66c7799ef5cd222307d0
+  - https://stackoverflow.com/questions/57737563/adding-dynamic-assets-to-flutter-app-in-runtime
 
 ## level2(5/23~6/26)
 
