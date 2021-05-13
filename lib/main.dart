@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yuwaku_proto/map_page.dart';
 import 'package:yuwaku_proto/camera_page.dart';
 
+
 void main() {
   runApp(MyApp());
 }

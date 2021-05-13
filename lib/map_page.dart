@@ -22,6 +22,7 @@ class _MapPageState extends State<MapPage> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             Text('Map page!'),
+
             TextButton(
               onPressed: () => Navigator.of(context).pushNamed('/camera_page'),
               child: Text('goto camera!'),
