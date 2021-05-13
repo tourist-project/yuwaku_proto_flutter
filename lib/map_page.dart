@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:typed_data';
+import 'package:flutter/services.dart' show rootBundle;
+import 'dart:ui' as ui;
+import 'package:yuwaku_proto/map_painter.dart';
 
 class MapPage extends StatefulWidget {
   MapPage({Key? key, required this.title}) : super(key: key);
@@ -11,24 +16,49 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
 
+  ui.Image? _mapImage;
+
+  Future<ui.Image> loadUiImage(String imageAssetPath) async {
+    final ByteData data = await rootBundle.load(imageAssetPath);
+    final Completer<ui.Image> completer = Completer();
+    ui.decodeImageFromList(Uint8List.view(data.buffer), (ui.Image img) {
+      return completer.complete(img);
+    });
+    return completer.future;
+  }
+
+  void _getAssets() async {
+    final ui.Image img = await loadUiImage('assets/images/map_img.png');
+    setState(() => { _mapImage = img });
+  }
+
+  @override
+  void initState() {
+    super.initState() ;
+    _getAssets();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Text('Map page!'),
+    final Size mediaSize = MediaQuery.of(context).size;
+    final AppBar appBar = AppBar(title: Text(widget.title) );
 
-            TextButton(
-              onPressed: () => Navigator.of(context).pushNamed('/camera_page'),
-              child: Text('goto camera!'),
-            )
-          ],
-        ),
+    return Scaffold(
+      appBar: appBar,
+      body: Center(
+        child: _mapImage == null ?
+          Text('Loading...') :
+          GestureDetector(
+            onPanUpdate: (DragUpdateDetails details) {
+              // https://zenn.dev/welchi/articles/flutter-custom-widget},
+              // https://qiita.com/shinido/items/65399846a5e9eba1aa5e
+            },
+            child: CustomPaint(
+              size: Size(mediaSize.width, mediaSize.height - appBar.preferredSize.height),
+              painter: MapPainter(_mapImage!),
+              child: Center(),
+            ),
+          )
       ),
     );
   }
