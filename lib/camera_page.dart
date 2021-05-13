@@ -17,7 +17,6 @@ class _CameraPageState extends State<CameraPage> {
   File?  _image;
   final picker = ImagePicker();
 
-
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
     setState(() {
@@ -27,10 +26,8 @@ class _CameraPageState extends State<CameraPage> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -38,15 +35,12 @@ class _CameraPageState extends State<CameraPage> {
       body: Center(
         // ignore: unnecessary_null_comparison
         child: _image == null ? Text('No Selected') : Image.file(_image!),
-
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: getImage,
         child: Icon(Icons.add_a_photo),
       ),
-
     );
-
   }
+
 }
