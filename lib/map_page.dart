@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:typed_data';
@@ -17,6 +19,7 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
 
   ui.Image? _mapImage;
+  double _moveX = 0;
 
   Future<ui.Image> loadUiImage(String imageAssetPath) async {
     final ByteData data = await rootBundle.load(imageAssetPath);
@@ -30,6 +33,10 @@ class _MapPageState extends State<MapPage> {
   void _getAssets() async {
     final ui.Image img = await loadUiImage('assets/images/map_img.png');
     setState(() => { _mapImage = img });
+  }
+
+  double _getMoveX() {
+    return _moveX;
   }
 
   @override
@@ -50,12 +57,18 @@ class _MapPageState extends State<MapPage> {
           Text('Loading...') :
           GestureDetector(
             onPanUpdate: (DragUpdateDetails details) {
-              // https://zenn.dev/welchi/articles/flutter-custom-widget},
-              // https://qiita.com/shinido/items/65399846a5e9eba1aa5e
+              setState(() {
+                if (_mapImage != null) {
+                  final next = _moveX - details.delta.dx;
+                  final scale = mediaSize.height / _mapImage!.height.toDouble() ;
+                  _moveX = min(max(next, 0), _mapImage!.width * scale);
+                  debugPrint(_moveX.toString());
+                }
+              });
             },
             child: CustomPaint(
               size: Size(mediaSize.width, mediaSize.height - appBar.preferredSize.height),
-              painter: MapPainter(_mapImage!),
+              painter: MapPainter(_mapImage!, _getMoveX),
               child: Center(),
             ),
           )
