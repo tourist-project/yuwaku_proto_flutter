@@ -61,7 +61,8 @@ class _MapPageState extends State<MapPage> {
                 if (_mapImage != null) {
                   final next = _moveX - details.delta.dx;
                   final scale = mediaSize.height / _mapImage!.height.toDouble() ;
-                  _moveX = min(max(next, 0), _mapImage!.width * scale);
+                  debugPrint((scale).toString());
+                  _moveX = min(max(next, 0), _mapImage!.width*scale-mediaSize.width/scale);
                   debugPrint(_moveX.toString());
                 }
               });
