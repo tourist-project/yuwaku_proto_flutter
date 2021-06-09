@@ -6,6 +6,7 @@ import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:ui' as ui;
 import 'package:yuwaku_proto/map_painter.dart';
+import 'dart:math' as math;
 
 /// アセットのパスからui.Imageをロード
 Future<ui.Image> loadUiImage(String imageAssetPath) async {
@@ -67,6 +68,11 @@ class MapItem {
   }
 
 }
+
+/// 表示するヒントの内容
+List<String> word = ['Gawr Gura','Mori Colliope','Takanashi Kiara',
+    'Ninomae Inanis', 'Watson Amelia'];
+
 
 /// マップページのステートフルウィジェット
 class MapPage extends StatefulWidget {
@@ -135,9 +141,12 @@ class _MapPageState extends State<MapPage> {
     // UI部分
     return Scaffold(
       appBar: appBar,
-      body: Center(
-        child: _mapImage == null ? // マップ画像の読み込みがない場合はTextを表示
+      body: Stack(
+        children: <Widget>[
+          _mapImage == null ? // マップ画像の読み込みがない場合はTextを表示
           Text('Loading...') : // 画像ロード中の際の表示
+
+
           GestureDetector(
             onTapUp: (details) { // タップ時の処理
               // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
@@ -148,6 +157,8 @@ class _MapPageState extends State<MapPage> {
                 item.onTapImage(scale, _getMoveX(), details.localPosition);
               }
             },
+
+
             onPanUpdate: (DragUpdateDetails details) { // スクロール時の処理
               setState(() {
                 // スクロールを適用した場合の遷移先X
@@ -158,12 +169,53 @@ class _MapPageState extends State<MapPage> {
                 _moveX = min(max(next, 0), _mapImage!.width*scale-mediaSize.width/scale);
               });
             },
+
             child: CustomPaint( // キャンバス本体
               size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
               painter: MapPainter(_mapImage!, _getMoveX, _mapItems), // ペインター
-              child: Center(), // あったほうがいいらしい？？ 
+              child: Center(), // あったほうがいいらしい？？
             ),
-          )
+
+
+
+          ),
+          SnackberPage(),
+
+
+        ],
+      ),
+
+
+    );
+  }
+}
+
+
+class SnackberPage extends StatelessWidget{
+  @override
+  Widget build(BuildContext context){
+    return Container(
+      alignment: Alignment.bottomRight,
+      child: ElevatedButton(
+
+        onPressed: (){
+          // 乱数生成
+          var random = math.Random();
+          random.nextInt(5);
+
+          final snackBar = SnackBar(content: Text('show hints'),
+            action: SnackBarAction(
+              label: 'delete',
+              onPressed: (){
+                // write the code for some appropriate process
+
+              },
+            ),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        },
+        child: Text('show hint'),
+
       ),
     );
   }
