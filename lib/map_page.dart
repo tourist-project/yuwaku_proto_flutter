@@ -191,6 +191,9 @@ class _MapPageState extends State<MapPage> {
 }
 
 
+final explainList = ['apple','banana','watermelon','storbary','orange'];
+
+
 class SnackberPage extends StatelessWidget{
   @override
   Widget build(BuildContext context){
@@ -201,9 +204,12 @@ class SnackberPage extends StatelessWidget{
         onPressed: (){
           // 乱数生成
           var random = math.Random();
-          random.nextInt(5);
+          var randomnum = 0;
+          randomnum = random.nextInt(5);
+          print('==========================');
+          print(randomnum);
 
-          final snackBar = SnackBar(content: Text('show hints'),
+          final snackBar = SnackBar(content: Text(explainList[randomnum]),
             action: SnackBarAction(
               label: 'delete',
               onPressed: (){
