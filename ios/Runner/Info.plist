@@ -53,8 +53,17 @@
     <key>NSMicrophoneUsageDescription</key>
     <string>Can I use the mic please?</string>
     <key>NSPhotoLibraryUsageDescription</key>
+    <string>UsingPhoto</string>
 
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app needs access to location when open.</string>
 
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Your location is required for this app</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Your location is required for this app</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>Your location is required for this app</string>
 
 </dict>
 </plist>

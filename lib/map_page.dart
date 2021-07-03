@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -7,6 +8,8 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'dart:ui' as ui;
 import 'package:yuwaku_proto/map_painter.dart';
 import 'dart:math' as math;
+import 'Distance_twoPosition.dart';
+import 'package:geolocator/geolocator.dart';
 
 /// アセットのパスからui.Imageをロード
 Future<ui.Image> loadUiImage(String imageAssetPath) async {
@@ -69,9 +72,6 @@ class MapItem {
 
 }
 
-/// 表示するヒントの内容
-List<String> word = ['Gawr Gura','Mori Colliope','Takanashi Kiara',
-    'Ninomae Inanis', 'Watson Amelia'];
 
 
 /// マップページのステートフルウィジェット
@@ -94,14 +94,21 @@ class _MapPageState extends State<MapPage> {
   ui.Image? _mapImage; /// マップの画像
   double _moveX = 0; /// x軸の移動を保持
 
+
+
+
   /// マップの場所情報の一覧
   final _mapItems = <MapItem>[
     MapItem('湯涌稲荷神社', 36.4859822, 136.7560359,
             Offset(1254, 292), 'assets/images/img1_gray.png',
-            Rect.fromLTWH(650, 182, 300, 300)),
+            Rect.fromLTWH(650, 182, 300, 300)
+    ),
+
     MapItem('総湯', 36.4857904, 136.7575357,
             Offset(1358, 408), 'assets/images/img2_gray.png',
-            Rect.fromLTWH(820, 820, 300, 300)),
+            Rect.fromLTWH(820, 820, 300, 300)
+    ),
+
   ];
 
   /// アセット(画像等)の取得
@@ -137,6 +144,13 @@ class _MapPageState extends State<MapPage> {
       // タップ時に遷移(引数としてMapItemを送る)
       e.tapImageFunc = () => Navigator.of(context).pushNamed('/camera_page', arguments: e);
     });
+
+    // インスタンス生成
+    Distance distance = Distance();
+    // 緯度をprint
+    print(distance.getLocation());
+
+
 
     // UI部分
     return Scaffold(
@@ -181,12 +195,10 @@ class _MapPageState extends State<MapPage> {
           ),
           SnackberPage(),
 
-
         ],
       ),
-
-
     );
+
   }
 }
 
@@ -208,6 +220,8 @@ class SnackberPage extends StatelessWidget{
           randomnum = random.nextInt(5);
           print('==========================');
           print(randomnum);
+
+
 
           final snackBar = SnackBar(content: Text(explainList[randomnum]),
             action: SnackBarAction(

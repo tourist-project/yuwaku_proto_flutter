@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:yuwaku_proto/map_page.dart';
 import 'package:yuwaku_proto/camera_page.dart';
+import 'package:yuwaku_proto/Distance_twoPosition.dart';
 
 
 void main() {
   runApp(MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
