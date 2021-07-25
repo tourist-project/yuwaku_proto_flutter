@@ -5,14 +5,17 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:yuwaku_proto/main.dart';
 import 'dart:ui' as ui;
 import 'package:yuwaku_proto/map_painter.dart';
 import 'dart:math' as math;
 import 'Distance_twoPosition.dart';
 import 'package:geolocator/geolocator.dart';
 
+
 /// アセットのパスからui.Imageをロード
 Future<ui.Image> loadUiImage(String imageAssetPath) async {
+
   final ByteData data = await rootBundle.load(imageAssetPath);
   final Completer<ui.Image> completer = Completer();
   ui.decodeImageFromList(Uint8List.view(data.buffer), (ui.Image img) {
@@ -23,6 +26,7 @@ Future<ui.Image> loadUiImage(String imageAssetPath) async {
 
 /// 場所情報
 class MapItem {
+
   final String name; /// 場所の名前
   final double latitude; /// 緯度
   final double longitude; /// 経度
@@ -60,6 +64,7 @@ class MapItem {
 
   /// タップ判定をしてタップの場合はタップ処理をする
   void onTapImage(double scale, double moveX, Offset tapLoc) {
+
     final tapX = tapLoc.dx;
     final tapY = tapLoc.dy;
     final rect = getPhotoRectForDeviceFit(scale, moveX);
@@ -67,6 +72,7 @@ class MapItem {
         rect.top <= tapY && tapY <= rect.bottom &&
         tapImageFunc != null) {
       tapImageFunc!();
+
     }
   }
 
@@ -82,10 +88,10 @@ class MapPage extends StatefulWidget {
 
   final String title; /// ページタイトル
 
-
   /// 描画
   @override
   _MapPageState createState() => _MapPageState();
+
 }
 
 /// マップのステート
@@ -93,8 +99,6 @@ class _MapPageState extends State<MapPage> {
 
   ui.Image? _mapImage; /// マップの画像
   double _moveX = 0; /// x軸の移動を保持
-
-
 
 
   /// マップの場所情報の一覧
@@ -132,6 +136,9 @@ class _MapPageState extends State<MapPage> {
     _getAssets();
   }
 
+
+
+
   /// 見た目
   @override
   Widget build(BuildContext context) {
@@ -145,10 +152,8 @@ class _MapPageState extends State<MapPage> {
       e.tapImageFunc = () => Navigator.of(context).pushNamed('/camera_page', arguments: e);
     });
 
-    // インスタンス生成
-    Distance distance = Distance();
-    // 緯度をprint
-    print(distance.getLocation());
+
+
 
 
 
@@ -163,6 +168,7 @@ class _MapPageState extends State<MapPage> {
 
           GestureDetector(
             onTapUp: (details) { // タップ時の処理
+
               // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
               final scale = mediaHeight / _mapImage!.height.toDouble();
               for (var item in _mapItems) { // 場所ごとの処理
@@ -175,6 +181,7 @@ class _MapPageState extends State<MapPage> {
 
             onPanUpdate: (DragUpdateDetails details) { // スクロール時の処理
               setState(() {
+
                 // スクロールを適用した場合の遷移先X
                 final next = _moveX - details.delta.dx;
                 // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
@@ -184,10 +191,13 @@ class _MapPageState extends State<MapPage> {
               });
             },
 
+
             child: CustomPaint( // キャンバス本体
+
               size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
               painter: MapPainter(_mapImage!, _getMoveX, _mapItems), // ペインター
               child: Center(), // あったほうがいいらしい？？
+
             ),
 
 

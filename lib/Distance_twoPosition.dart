@@ -2,39 +2,58 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'dart:math';
 import 'package:angles/angles.dart';
+import 'dart:async';
+import 'map_page.dart';
+
 
 class Distance {
 
-  late double lat1;
-  late double lon1;
-  late double lat2;
-  late double lon2;
+  /*
+  late double _lat1;
+  late double _lon1;
+  late double _lat2;
+  late double _lon2;
+   */
 
-  Future<void> getLocation() async {
+  //late double disCal;
+  double Y_Inari = 10000;
+  //late double Y_Souyu;
+
+
+
+  Future<double> getLocation() async {
+
 
     // 現在の位置を返す
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     // 北緯がプラス。南緯がマイナス
-    print("緯度: " + position.latitude.toString());
-    lat1 = position.latitude;
+   //print("緯度: " + position.latitude.toString());
+    //_lat1 = position.latitude;
     // 東経がプラス、西経がマイナス
-    print("経度: " + position.longitude.toString());
-    lon1 = position.longitude;
+    //print("経度: " + position.longitude.toString());
+    //_lon1 = position.longitude;
 
+    /*
     print(
       // 単位はメートル
-      CalculateDisntance(lat1, lon1, 36.4859822, 136.7560359).toString()
+      CalculateDisntance(_lat1, _lon1, 36.4859822, 136.7560359).toString()
     );
+    */
 
+
+   // disCal = CalculateDisntance(_lat1, _lon1, _lat2, _lon2);
 
 
     /// 直線距離を計測(公式ライブラリを使用)
-    double distanceMeters = Geolocator.distanceBetween(position.latitude, position.longitude,
-        36.4859822, 136.7560359);
+    Y_Inari = Geolocator.distanceBetween(position.latitude, position.longitude, 36.4859822, 136.7560359);
+    // Y_Souyu = Geolocator.distanceBetween(position.latitude, position.longitude, 36.4857904, 136.7575357);
+
+    return Y_Inari;
     print('======================================');
     // 単位はメートル
-    print(distanceMeters);
+    print(Y_Inari);
+    //print(Y_Souyu);
   }
 
 }

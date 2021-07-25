@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:yuwaku_proto/map_page.dart';
 import 'package:yuwaku_proto/camera_page.dart';
 import 'package:yuwaku_proto/Distance_twoPosition.dart';
+import 'package:yuwaku_proto/map_painter.dart';
+import 'package:geolocator/geolocator.dart';
 
 
 void main() {
@@ -10,6 +12,9 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+
+
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -25,5 +30,7 @@ class MyApp extends StatelessWidget {
                                                              mapItem: ModalRoute.of(context)!.settings.arguments as MapItem)
       },
     );
+
   }
 }
+
