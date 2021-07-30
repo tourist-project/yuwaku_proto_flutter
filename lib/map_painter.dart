@@ -8,6 +8,7 @@ import 'main.dart';
 import 'map_page.dart';
 import 'package:geolocator/geolocator.dart';
 
+double YInari = 10000000000000;
 
 /// マップの描画
 class MapPainter extends CustomPainter {
@@ -18,6 +19,8 @@ class MapPainter extends CustomPainter {
   List<MapItem> _mapItems; /// マップ上に描画する場所の一覧
 
   Distance distance = new Distance();
+
+
 
 
   /// コンストラクタ
@@ -40,9 +43,6 @@ class MapPainter extends CustomPainter {
     final dst = Rect.fromLTWH(0, 0, size.width, size.height); // 描画場所
     canvas.drawImageRect(_mapImage, src, dst, paint); // マップの描画
 
-    for(int i = 0; i < _mapItems.length; i++){
-
-    }
 
     // 場所ごとの処理
     for (var item in _mapItems) {
@@ -61,31 +61,35 @@ class MapPainter extends CustomPainter {
         Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((position) {
 
-          final YInari = Geolocator.distanceBetween(position.latitude, position.longitude, 36.4856770, 136.7582343);
-
-
-          print("==================================================");
-
+          YInari = Geolocator.distanceBetween(position.latitude, position.longitude, 36.4856770, 136.7582343);
+          // テスト値
+          YInari = 10;
+          print("testes $YInari");
           print(position);
 
-          print("testes $YInari");
-          print(YInari);
-
-          if (YInari < 30) {
-            // 線をひく
-            canvas.drawLine(Offset((item.photoRect.left * scale - _getMoveX()) +
-                item.photoRect.width * scale / 2,
-                (item.photoRect.top * scale) +
-                    item.photoRect.height * scale / 2),
-                Offset((item.position.dx * scale - _getMoveX()),
-                    item.position.dy * scale), paint);
-
-            // 円を書く
-            canvas.drawCircle(Offset(item.position.dx * scale - _getMoveX(),
-                item.position.dy * scale), 10, paint);
-          }
 
         });
+
+        if (YInari < 30 ) {
+          print("==================================================");
+          print(YInari);
+
+          // 線をひく
+          canvas.drawLine(Offset((item.photoRect.left * scale - _getMoveX()) +
+              item.photoRect.width * scale / 2,
+              (item.photoRect.top * scale) +
+                  item.photoRect.height * scale / 2),
+
+              Offset((item.position.dx * scale - _getMoveX()),
+                  item.position.dy * scale), paint);
+
+        }
+
+
+
+        // 円を書く
+        canvas.drawCircle(Offset(item.position.dx * scale - _getMoveX(),
+            item.position.dy * scale), 10, paint);
 
         // 写真(イラストを表示)
         canvas.drawImageRect(img, src, rescaleRect, paint);
