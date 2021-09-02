@@ -1,16 +1,18 @@
 import 'dart:io';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:vector_math/vector_math.dart';
 import 'package:yuwaku_proto/main.dart';
 import 'dart:ui' as ui;
 import 'package:yuwaku_proto/map_painter.dart';
 import 'dart:math' as math;
-import 'Distance_twoPosition.dart';
 import 'package:geolocator/geolocator.dart';
+import '';
+
+
 
 
 /// アセットのパスからui.Imageをロード
@@ -62,6 +64,8 @@ class MapItem {
         photoRect.width * scale, photoRect.height * scale);
   }
 
+
+
   /// タップ判定をしてタップの場合はタップ処理をする
   void onTapImage(double scale, double moveX, Offset tapLoc) {
 
@@ -75,6 +79,37 @@ class MapItem {
 
     }
   }
+
+  // 円のタップ
+  void onTapCircle(double scale, double moveX, Offset tapLoc, BuildContext context){
+    var tapX = tapLoc.dx;
+    var tapY = tapLoc.dy;
+
+
+    // canvas.drawCircle(Offset(item.position.dx * scale - _getMoveX(),
+    //     item.position.dy * scale), 10, paint);
+    final offset = Offset(this.position.dx * scale - moveX , this.position.dy * scale);
+    final circlex = offset.dx; // offset.dx,dyはそれぞれの2次元座標
+    final circley = offset.dy;
+
+    final A = circlex - tapX;
+    final B = circley - tapY;
+    // 二点間距離
+    final dist = math.sqrt(math.pow(A, 2) + math.pow(B, 2));
+
+    if(dist <= 20){
+      ModalWindow(context);
+    }
+    print("距離: " + dist.toString());
+    print("tapX" + tapX.toString());
+    print("tapY" + tapY.toString());
+    print("circleX" + circlex.toString());
+    print("circley" + circley.toString());
+
+
+  }
+
+
 
 }
 
@@ -99,7 +134,6 @@ class _MapPageState extends State<MapPage> {
 
   ui.Image? _mapImage; /// マップの画像
   double _moveX = 0; /// x軸の移動を保持
-
 
   /// マップの場所情報の一覧
   final _mapItems = <MapItem>[
@@ -152,11 +186,6 @@ class _MapPageState extends State<MapPage> {
       e.tapImageFunc = () => Navigator.of(context).pushNamed('/camera_page', arguments: e);
     });
 
-
-
-
-
-
     // UI部分
     return Scaffold(
       appBar: appBar,
@@ -165,31 +194,30 @@ class _MapPageState extends State<MapPage> {
           _mapImage == null ? // マップ画像の読み込みがない場合はTextを表示
           Text('Loading...') : // 画像ロード中の際の表示
 
-
           GestureDetector(
             onTapUp: (details) { // タップ時の処理
-
               // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
               final scale = mediaHeight / _mapImage!.height.toDouble();
               for (var item in _mapItems) { // 場所ごとの処理
                 // FIXME: 画像の当たり判定がややy軸方向にズレている(広がっている)
                 // タップの判定処理(タップ時は遷移)
                 item.onTapImage(scale, _getMoveX(), details.localPosition);
+                item.onTapCircle(scale, _getMoveX(), details.localPosition, context);
               }
-            },
 
+            },
 
             onPanUpdate: (DragUpdateDetails details) { // スクロール時の処理
               setState(() {
-
                 // スクロールを適用した場合の遷移先X
                 final next = _moveX - details.delta.dx;
                 // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-                final scale = mediaHeight / _mapImage!.height.toDouble() ;
+                final scale = mediaHeight / _mapImage!.height.toDouble();
                 // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
                 _moveX = min(max(next, 0), _mapImage!.width*scale-mediaSize.width/scale);
               });
             },
+
 
 
             child: CustomPaint( // キャンバス本体
@@ -197,20 +225,110 @@ class _MapPageState extends State<MapPage> {
               size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
               painter: MapPainter(_mapImage!, _getMoveX, _mapItems), // ペインター
               child: Center(), // あったほうがいいらしい？？
-
             ),
 
-
-
           ),
-          SnackberPage(),
 
+
+
+          // /
+          // ElevatedButton(
+          //   child: const Text(''),
+          //   style: ElevatedButton.styleFrom(
+          //     primary: Colors.red,
+          //     minimumSize: Size(20,20),
+          //     alignment: Alignment.bottomCenter,
+          //     onPrimary: Colors.black,
+          //     shape: const CircleBorder(
+          //       side: BorderSide(
+          //         color: Colors.white,
+          //         width: 3,
+          //         style: BorderStyle.solid,
+          //       ),
+          //     ),
+          //   ),
+          //   onPressed: (){
+          //     ModalWindow(context);}
+          // ),
+
+
+          SnackberPage(),
         ],
+
+
       ),
     );
 
   }
 }
+
+
+
+
+/// モーダルウィンドウ
+void ModalWindow(BuildContext context){
+  showModalBottomSheet(
+    context: context, builder: (BuildContext buildContext){
+      return Scaffold(
+        body: Center(
+          child: Container(
+            height: MediaQuery.of(context).size.height * 50,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.fitHeight,
+                image: AssetImage('assets/images/Modal_Soyu.png'),
+              )
+            ),
+
+            child: Container(
+              child: Column(
+                children: <Widget>[
+
+                  Row(
+                    children: <Widget>[
+
+                      Text("金沢湯涌白鷺の湯",style: TextStyle(
+                        fontSize: 30,fontWeight: FontWeight.bold,
+                          /*color: Colors.white*/),
+                      ),
+                      Spacer(),
+                      IconButton(
+                        icon: Icon(Icons.cancel_outlined, /*color: Colors.yellow,*/ size: 40,),
+                        onPressed: (){
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
+                  Spacer(),
+                  Container(
+                    padding: const EdgeInsets.all(15),
+                    alignment: Alignment.topLeft,
+                    child: Text('大正の初めドイツで開かれた万国鉱 泉博覧会に当時の内務省の推薦により日本の名泉として出展、'
+                        '泉質の良さが認められました。以来、文人墨客の来湯が繁くなり、特異な美人画で知られる大正の 詩人、竹久夢二が愛する女性彦乃を至福の日々を過ごした「ロマンの湯」としても知られています。',
+                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w300, )
+                    ),
+                  ),
+
+                ],
+              ),
+
+              // decoration: BoxDecoration(
+              //   gradient: LinearGradient(
+              //     begin: Alignment.topCenter,
+              //     end: Alignment.bottomCenter,
+              //     stops: [0.5,0.7,0.95],
+              //     colors: [Colors.black12,Colors.black26,Colors.black87],
+              //    ),
+              // ),
+            ),
+          ),
+        ),
+      );
+    });
+}
+
+
 
 
 final explainList = ['apple','banana','watermelon','storbary','orange'];
@@ -250,3 +368,8 @@ class SnackberPage extends StatelessWidget{
     );
   }
 }
+
+
+
+
+

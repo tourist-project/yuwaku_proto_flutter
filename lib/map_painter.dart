@@ -7,8 +7,12 @@ import 'Distance_twoPosition.dart';
 import 'main.dart';
 import 'map_page.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:touchable/touchable.dart';
+
 
 double YInari = 10000000000000;
+
+
 
 /// マップの描画
 class MapPainter extends CustomPainter {
@@ -20,9 +24,6 @@ class MapPainter extends CustomPainter {
 
   Distance distance = new Distance();
 
-
-
-
   /// コンストラクタ
   MapPainter(this._mapImage, this._getMoveX, this._mapItems);
 
@@ -30,14 +31,15 @@ class MapPainter extends CustomPainter {
   /// 描画
   @override
   void paint(Canvas canvas, Size size) async{
-
     // ペイントの作成
     final paint = Paint()
       ..color = Colors.red // 赤色を設定
       ..strokeWidth = 2; // 線の太さを2に設定
 
-    final scale = size.height / _mapImage.height.toDouble(); // 画像を縦方向に引き伸ばした倍率
-    final width = _mapImage.width/(_mapImage.width*scale/size.width); // 一度に描画できる横幅
+    var scale = size.height / _mapImage.height.toDouble()  + 0.015; // 画像を縦方向に引き伸ばした倍率, +0.015で少しずらしている
+    /// 怪しいぞ↑↓
+    //final width = _mapImage.width /(_mapImage.width*scale / size.width); // 一度に描画できる横幅
+    final width = (size.width / scale) * (1.0); // 場所を描画している
 
     final src = Rect.fromLTWH(_getMoveX()/scale, 0, width, _mapImage.height.toDouble()); // 画像中の用いる範囲
     final dst = Rect.fromLTWH(0, 0, size.width, size.height); // 描画場所
@@ -58,17 +60,24 @@ class MapPainter extends CustomPainter {
         final rescaleRect = item.getPhotoRectForDeviceFit(scale, _getMoveX()); // どこに描画するかを設定
 
 
+
         Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((position) {
 
           YInari = Geolocator.distanceBetween(position.latitude, position.longitude, 36.4856770, 136.7582343);
           // テスト値
-          YInari = 10;
+          YInari = 40;
           print("testes $YInari");
           print(position);
 
-
         });
+
+
+        // 円を書く
+        canvas.drawCircle(Offset(item.position.dx * scale - _getMoveX(),
+            item.position.dy * scale), 10, paint);
+        
+
 
         if (YInari < 30 ) {
           print("==================================================");
@@ -84,12 +93,6 @@ class MapPainter extends CustomPainter {
                   item.position.dy * scale), paint);
 
         }
-
-
-
-        // 円を書く
-        canvas.drawCircle(Offset(item.position.dx * scale - _getMoveX(),
-            item.position.dy * scale), 10, paint);
 
         // 写真(イラストを表示)
         canvas.drawImageRect(img, src, rescaleRect, paint);
