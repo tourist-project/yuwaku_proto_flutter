@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:ui' as ui;
 import 'package:image_picker/image_picker.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:yuwaku_proto/map_page.dart';
+import 'package:yuwaku_proto/database.dart';
 
 class CameraPage extends StatefulWidget {
   CameraPage({Key? key, required this.title, required this.mapItem}) : super(key: key);
@@ -22,9 +24,14 @@ class _CameraPageState extends State<CameraPage> {
   final MapItem mapItem;
   File?  _image;
   final picker = ImagePicker();
+  final imageDb = ImageDb();
 
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
+
+    final db = await imageDb.database;
+    print(db);
+
     if (pickedFile != null) {
       var data = await pickedFile.readAsBytes();
       ui.decodeImageFromList(data, (ui.Image img) {
