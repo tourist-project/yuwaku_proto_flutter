@@ -97,7 +97,7 @@ class MapItem {
     // 二点間距離
     final dist = math.sqrt(math.pow(A, 2) + math.pow(B, 2));
 
-    if(dist <= 20){
+    if(dist <= 15){
       ModalWindow(context);
     }
     print("距離: " + dist.toString());

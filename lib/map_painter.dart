@@ -36,7 +36,7 @@ class MapPainter extends CustomPainter {
       ..color = Colors.red // 赤色を設定
       ..strokeWidth = 2; // 線の太さを2に設定
 
-    var scale = size.height / _mapImage.height.toDouble()  + 0.015; // 画像を縦方向に引き伸ばした倍率, +0.015で少しずらしている
+    var scale = size.height / _mapImage.height.toDouble()  + 0.02; // 画像を縦方向に引き伸ばした倍率, +0.015で少しずらしている
     /// 怪しいぞ↑↓
     //final width = _mapImage.width /(_mapImage.width*scale / size.width); // 一度に描画できる横幅
     final width = (size.width / scale) * (1.0); // 場所を描画している
