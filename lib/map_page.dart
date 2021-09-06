@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
@@ -10,7 +11,7 @@ import 'dart:ui' as ui;
 import 'package:yuwaku_proto/map_painter.dart';
 import 'dart:math' as math;
 import 'package:geolocator/geolocator.dart';
-import '';
+import 'package:flutter/material.dart' as prefix; /// Colorsを使う時はprefix.Colors.~と使ってください
 
 
 
@@ -66,6 +67,7 @@ class MapItem {
 
 
 
+
   /// タップ判定をしてタップの場合はタップ処理をする
   void onTapImage(double scale, double moveX, Offset tapLoc) {
 
@@ -80,15 +82,16 @@ class MapItem {
     }
   }
 
+
+
   // 円のタップ
   void onTapCircle(double scale, double moveX, Offset tapLoc, BuildContext context){
     var tapX = tapLoc.dx;
     var tapY = tapLoc.dy;
 
-
     // canvas.drawCircle(Offset(item.position.dx * scale - _getMoveX(),
     //     item.position.dy * scale), 10, paint);
-    final offset = Offset(this.position.dx * scale - moveX , this.position.dy * scale);
+    final offset = Offset(this.position.dx * scale -moveX, this.position.dy * scale);
     final circlex = offset.dx; // offset.dx,dyはそれぞれの2次元座標
     final circley = offset.dy;
 
@@ -97,7 +100,7 @@ class MapItem {
     // 二点間距離
     final dist = math.sqrt(math.pow(A, 2) + math.pow(B, 2));
 
-    if(dist <= 15){
+    if(dist <= 20){
       ModalWindow(context);
     }
     print("距離: " + dist.toString());
@@ -218,8 +221,6 @@ class _MapPageState extends State<MapPage> {
               });
             },
 
-
-
             child: CustomPaint( // キャンバス本体
 
               size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
@@ -228,8 +229,6 @@ class _MapPageState extends State<MapPage> {
             ),
 
           ),
-
-
 
           // /
           // ElevatedButton(
@@ -251,6 +250,12 @@ class _MapPageState extends State<MapPage> {
           //     ModalWindow(context);}
           // ),
 
+          FloatingActionButton(onPressed: () {
+            Navigator.pushNamed(context, '/some_explain');
+            },
+            child: Icon(
+              Icons.share,color: prefix.Colors.white,),
+          ),
 
           SnackberPage(),
         ],
@@ -289,11 +294,11 @@ void ModalWindow(BuildContext context){
 
                       Text("金沢湯涌白鷺の湯",style: TextStyle(
                         fontSize: 30,fontWeight: FontWeight.bold,
-                          /*color: Colors.white*/),
+                          color: prefix.Colors.white),
                       ),
                       Spacer(),
                       IconButton(
-                        icon: Icon(Icons.cancel_outlined, /*color: Colors.yellow,*/ size: 40,),
+                        icon: Icon(Icons.cancel_outlined, color: prefix.Colors.yellow, size: 40,),
                         onPressed: (){
                           Navigator.of(context).pop();
                         },
@@ -306,21 +311,21 @@ void ModalWindow(BuildContext context){
                     alignment: Alignment.topLeft,
                     child: Text('大正の初めドイツで開かれた万国鉱 泉博覧会に当時の内務省の推薦により日本の名泉として出展、'
                         '泉質の良さが認められました。以来、文人墨客の来湯が繁くなり、特異な美人画で知られる大正の 詩人、竹久夢二が愛する女性彦乃を至福の日々を過ごした「ロマンの湯」としても知られています。',
-                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w300, )
+                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w300, color: prefix.Colors.white)
                     ),
                   ),
 
                 ],
               ),
 
-              // decoration: BoxDecoration(
-              //   gradient: LinearGradient(
-              //     begin: Alignment.topCenter,
-              //     end: Alignment.bottomCenter,
-              //     stops: [0.5,0.7,0.95],
-              //     colors: [Colors.black12,Colors.black26,Colors.black87],
-              //    ),
-              // ),
+              decoration: BoxDecoration(
+                 gradient: LinearGradient(
+                   begin: Alignment.topCenter,
+                   end: Alignment.bottomCenter,
+                   stops: [0.5,0.7,0.95],
+                   colors: [prefix.Colors.black12,prefix.Colors.black26,prefix.Colors.black87],
+                  ),
+               ),
             ),
           ),
         ),

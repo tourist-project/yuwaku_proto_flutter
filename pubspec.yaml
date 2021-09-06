@@ -32,6 +32,7 @@ dependencies:
   vector_math: any
   angles: ^2.1.0
   touchable:
+  simple_animations: ^3.1.1
 
 
 
