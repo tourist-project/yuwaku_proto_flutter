@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         '/map_page': (BuildContext context) => MapPage(title: 'Map page'),
         '/camera_page': (BuildContext context) => CameraPage(title: 'Camera page',
                                                              mapItem: ModalRoute.of(context)!.settings.arguments as MapItem),
-        '/some_explain':(BuildContext context) => Explain(title: '場所説明', ),
+        '/some_explain':(BuildContext context) => Explain(title: '場所説明'),
       },
     );
 
