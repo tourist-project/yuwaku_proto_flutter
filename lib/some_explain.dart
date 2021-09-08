@@ -14,11 +14,17 @@ class Explain extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
+    // 各種類の画面サイズ
+    final double deviceHeight = MediaQuery.of(context).size.height;
+    final double deviceWidth = MediaQuery.of(context).size.width;
+
+
     return new Scaffold(
       appBar: AppBar(
         title: Text(title),
       ),
       body: Container(
+        height: deviceHeight,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: FractionalOffset.topLeft,
@@ -32,57 +38,57 @@ class Explain extends StatelessWidget{
 
         child: SingleChildScrollView(
           child: Column(
-
             children: <Widget>[
               Padding(
-                padding:EdgeInsets.all(40),
+                padding:EdgeInsets.all(10),
                 child: Stack(
                   children: <Widget>[
                     ClipOval(
-                      child: Image.network(
-                        'https://www.10wallpaper.com/wallpaper/1366x768/2005/Mountains_Rocks_Lake_2020_Landscape_High_Quality_Photo_1366x768.jpg',
+
+                      child: Material(
+                        elevation: 40.0,
+                        child: Image.network(
+                          'https://www.10wallpaper.com/wallpaper/1366x768/2005/Mountains_Rocks_Lake_2020_Landscape_High_Quality_Photo_1366x768.jpg',
+                        ),
                       ),
                     ),
                     Text('第一ステージ',
                         style:TextStyle(fontSize: 40,fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.underline,)),
-
-                  ],
-                ),
-              ),
-
-              Padding(
-                padding:EdgeInsets.all(40),
-                child: Stack(
-                  children: <Widget>[
-                    ClipOval(
-                      child: Image.network(
-                        'https://www.10wallpaper.com/wallpaper/1366x768/2005/Mountains_Rocks_Lake_2020_Landscape_High_Quality_Photo_1366x768.jpg',
-                      ),
-                    ),
-                    Text('第二ステージ',
-                        style:TextStyle(fontSize: 40,fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.underline,)
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding:EdgeInsets.all(40),
-                child: Stack(
-                  children: <Widget>[
-                    ClipOval(
-                      child: Image.network(
-                        'https://www.10wallpaper.com/wallpaper/1366x768/2005/Mountains_Rocks_Lake_2020_Landscape_High_Quality_Photo_1366x768.jpg',
-                      ),
-                    ),
-                    Text('第三ステージ',
-                        style:TextStyle(fontSize: 40,fontWeight: FontWeight.bold,
                           decoration: TextDecoration.underline,)),
-
                   ],
                 ),
               ),
+
+
+                 Container(
+                   width: deviceWidth*0.7,
+                   decoration: BoxDecoration(
+                     borderRadius: BorderRadius.circular(100),
+                     color: Colors.white,
+                     boxShadow: [
+                       BoxShadow(
+                           color: Colors.black87,
+                           offset: Offset(10.0, 20.0),
+                           blurRadius: 10,
+                           spreadRadius: 3)
+                     ],
+                   ),
+                  child: Stack(
+                    children: <Widget>[
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image.network(
+                          'https://www.10wallpaper.com/wallpaper/1366x768/2005/Mountains_Rocks_Lake_2020_Landscape_High_Quality_Photo_1366x768.jpg',
+                        ),
+                      ),
+
+                      Text('第二ステージ',
+                          style:TextStyle(fontSize: 40,fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline,)
+                      ),
+                    ],
+                  ),
+                ),
 
             ],
           ),
