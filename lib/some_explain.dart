@@ -39,40 +39,21 @@ class Explain extends StatelessWidget{
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              Padding(
-                padding:EdgeInsets.all(10),
-                child: Stack(
-                  children: <Widget>[
-                    ClipOval(
-
-                      child: Material(
-                        elevation: 40.0,
-                        child: Image.network(
-                          'https://www.10wallpaper.com/wallpaper/1366x768/2005/Mountains_Rocks_Lake_2020_Landscape_High_Quality_Photo_1366x768.jpg',
-                        ),
-                      ),
-                    ),
-                    Text('第一ステージ',
-                        style:TextStyle(fontSize: 40,fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.underline,)),
-                  ],
-                ),
-              ),
-
-
-                 Container(
-                   width: deviceWidth*0.7,
-                   decoration: BoxDecoration(
-                     borderRadius: BorderRadius.circular(100),
-                     color: Colors.white,
-                     boxShadow: [
-                       BoxShadow(
-                           color: Colors.black87,
-                           offset: Offset(10.0, 20.0),
-                           blurRadius: 10,
-                           spreadRadius: 3)
-                     ],
-                   ),
+              Align(
+                alignment: Alignment(-0.8, 0.5),
+                child: Container(
+                  width: deviceWidth*0.7,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black87,
+                          offset: Offset(10.0, 20.0),
+                          blurRadius: 10,
+                          spreadRadius: 3)
+                    ],
+                  ),
                   child: Stack(
                     children: <Widget>[
                       ClipRRect(
@@ -82,6 +63,41 @@ class Explain extends StatelessWidget{
                         ),
                       ),
 
+                      Text('第一ステージ',
+                          style:TextStyle(fontSize: 40,fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline,)
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+
+
+              Align(
+                alignment: Alignment(0.5, -0.5),
+
+                child: Container(
+                  width: deviceWidth*0.7,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black87,
+                          offset: Offset(10.0, 20.0),
+                          blurRadius: 10,
+                          spreadRadius: 3)
+                    ],
+                  ),
+                  child: Stack(
+                    children: <Widget>[
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image.network(
+                          'https://www.10wallpaper.com/wallpaper/1366x768/2005/Mountains_Rocks_Lake_2020_Landscape_High_Quality_Photo_1366x768.jpg',
+                        ),
+                      ),
                       Text('第二ステージ',
                           style:TextStyle(fontSize: 40,fontWeight: FontWeight.bold,
                             decoration: TextDecoration.underline,)
@@ -89,10 +105,10 @@ class Explain extends StatelessWidget{
                     ],
                   ),
                 ),
+              ),
 
             ],
           ),
-
 
         ),
       ),
