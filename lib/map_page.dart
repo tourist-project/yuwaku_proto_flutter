@@ -193,6 +193,7 @@ class _MapPageState extends State<MapPage> {
     return Scaffold(
       appBar: appBar,
       body: Stack(
+
         children: <Widget>[
           _mapImage == null ? // マップ画像の読み込みがない場合はTextを表示
           Text('Loading...') : // 画像ロード中の際の表示

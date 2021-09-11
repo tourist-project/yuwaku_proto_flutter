@@ -4,6 +4,7 @@ import 'package:yuwaku_proto/camera_page.dart';
 import 'package:yuwaku_proto/Distance_twoPosition.dart';
 import 'package:yuwaku_proto/map_painter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:yuwaku_proto/plane_explain.dart';
 import 'package:yuwaku_proto/some_explain.dart';
 
 
@@ -29,7 +30,8 @@ class MyApp extends StatelessWidget {
         '/map_page': (BuildContext context) => MapPage(title: 'Map page'),
         '/camera_page': (BuildContext context) => CameraPage(title: 'Camera page',
                                                              mapItem: ModalRoute.of(context)!.settings.arguments as MapItem),
-        '/some_explain':(BuildContext context) => Explain(title: '場所説明'),
+        '/some_explain':(BuildContext context) => Explain(title: 'スタンプ場所'),
+        '/plane_explain':(BuildContext context) => PicExplain(title:'場所説明'),
       },
     );
 
