@@ -20,6 +20,7 @@ class Explain extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
+    /// 以下にカラーアニメーション作成予定
     var tween = MultiTween(
 
     );

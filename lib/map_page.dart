@@ -83,6 +83,7 @@ class MapItem {
   }
 
 
+  /*
 
   // 円のタップ
   void onTapCircle(double scale, double moveX, Offset tapLoc, BuildContext context){
@@ -111,6 +112,8 @@ class MapItem {
 
 
   }
+  */
+
 
 
 
@@ -206,7 +209,7 @@ class _MapPageState extends State<MapPage> {
                 // FIXME: 画像の当たり判定がややy軸方向にズレている(広がっている)
                 // タップの判定処理(タップ時は遷移)
                 item.onTapImage(scale, _getMoveX(), details.localPosition);
-                item.onTapCircle(scale, _getMoveX(), details.localPosition, context);
+                // item.onTapCircle(scale, _getMoveX(), details.localPosition, context);
               }
 
             },
@@ -231,46 +234,16 @@ class _MapPageState extends State<MapPage> {
 
           ),
 
-          // /
-          // ElevatedButton(
-          //   child: const Text(''),
-          //   style: ElevatedButton.styleFrom(
-          //     primary: Colors.red,
-          //     minimumSize: Size(20,20),
-          //     alignment: Alignment.bottomCenter,
-          //     onPrimary: Colors.black,
-          //     shape: const CircleBorder(
-          //       side: BorderSide(
-          //         color: Colors.white,
-          //         width: 3,
-          //         style: BorderStyle.solid,
-          //       ),
-          //     ),
-          //   ),
-          //   onPressed: (){
-          //     ModalWindow(context);}
-          // ),
-
-          FloatingActionButton(onPressed: () {
-            Navigator.pushNamed(context, '/some_explain');
-            },
-            child: Icon(
-              Icons.share,color: prefix.Colors.white,),
-          ),
-
           SnackberPage(),
+
         ],
-
-
       ),
     );
-
   }
 }
 
 
-
-
+/*
 /// モーダルウィンドウ
 void ModalWindow(BuildContext context){
   showModalBottomSheet(
@@ -333,9 +306,7 @@ void ModalWindow(BuildContext context){
       );
     });
 }
-
-
-
+*/
 
 final explainList = ['apple','banana','watermelon','storbary','orange'];
 

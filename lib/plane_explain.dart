@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
-
 import 'package:yuwaku_proto/map_page.dart';
 
+
+/// 場所説明のページ作成予定
 class PlaneExplain{
 
   final String name;
