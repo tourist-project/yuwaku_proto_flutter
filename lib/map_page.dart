@@ -9,7 +9,6 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:yuwaku_proto/main.dart';
 import 'dart:ui' as ui;
 import 'package:yuwaku_proto/map_painter.dart';
-import 'dart:math' as math;
 import 'Distance_twoPosition.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -26,13 +25,7 @@ Future<ui.Image> loadUiImage(String imageAssetPath) async {
 
 /// 場所情報
 class MapItem {
-  final String name; /// 場所の名前
-  final double latitude; /// 緯度
-  final double longitude; /// 経度
-  final Offset position; /// 画像上の座標
-  final String initialImagePath; /// イラストのパス
-  ui.Rect photoRect; /// 画像の四角
-
+  
   /// 追加される写真
 
   void Function()? tapImageFunc;
