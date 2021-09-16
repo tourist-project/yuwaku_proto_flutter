@@ -102,7 +102,7 @@ class MapItem {
     final dist = math.sqrt(math.pow(A, 2) + math.pow(B, 2));
 
     if(dist <= 20){
-      ModalWindow(context);
+      ModalWindow(context).messe;
     }
     print("距離: " + dist.toString());
     print("tapX" + tapX.toString());
@@ -182,6 +182,7 @@ class _MapPageState extends State<MapPage> {
   /// 見た目
   @override
   Widget build(BuildContext context) {
+
     final Size mediaSize = MediaQuery.of(context).size; // 画面の取得
     final AppBar appBar = AppBar(title: Text(widget.title) ); // ヘッダ部分のUIパーツ
     final mediaHeight = mediaSize.height - appBar.preferredSize.height; // キャンバス部分の高さ

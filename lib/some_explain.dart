@@ -4,9 +4,9 @@ import 'dart:ui' as ui;
 import 'package:http/http.dart' as http;
 import 'package:simple_animations/simple_animations.dart';
 import 'package:yuwaku_proto/map_page.dart';
+import 'dart:math';
 
 enum BackColor{
-
   color,
 }
 
@@ -21,13 +21,12 @@ class Explain extends StatelessWidget{
   Widget build(BuildContext context) {
 
     /// 以下にカラーアニメーション作成予定
-    var tween = MultiTween(
-
-    );
 
     // 各種類の画面サイズ
     final double deviceHeight = MediaQuery.of(context).size.height;
     final double deviceWidth = MediaQuery.of(context).size.width;
+
+
 
 
     return new Scaffold(
@@ -59,11 +58,11 @@ class Explain extends StatelessWidget{
                   alignment: Alignment(-0.8, 0.5),
 
                   child: GestureDetector(
+
                     onTap: (){
-
                       Navigator.pushNamed(context, '/plane_explain');
-
                     },
+
                     child: Container(
                       margin: EdgeInsets.only(left: 15,top: 60),
                       width: deviceWidth*0.7,
@@ -122,9 +121,6 @@ class Explain extends StatelessWidget{
 
                     //　ここでInkWell使ってみる
 
-
-
-
                     child: Stack(
 
                       children: <Widget>[
@@ -147,7 +143,6 @@ class Explain extends StatelessWidget{
             ),
 
           ),
-
 
       ),
     );
