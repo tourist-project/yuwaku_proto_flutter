@@ -1,20 +1,17 @@
 import 'dart:math' as math;
-import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:yuwaku_proto/main.dart';
+import 'package:moor/moor.dart';
 import 'dart:ui' as ui;
 import 'package:yuwaku_proto/map_painter.dart';
-import 'Distance_twoPosition.dart';
-import 'package:geolocator/geolocator.dart';
+import "package:bubble/bubble.dart";
 
 /// アセットのパスからui.Imageをロード
 Future<ui.Image> loadUiImage(String imageAssetPath) async {
-
   final ByteData data = await rootBundle.load(imageAssetPath);
   final Completer<ui.Image> completer = Completer();
   ui.decodeImageFromList(Uint8List.view(data.buffer), (ui.Image img) {
@@ -25,7 +22,30 @@ Future<ui.Image> loadUiImage(String imageAssetPath) async {
 
 /// 場所情報
 class MapItem {
-  
+  final String name;
+
+  /// 場所の名前
+  final double latitude;
+
+  /// 緯度
+  final double longitude;
+
+  /// 経度
+  final Offset position;
+
+  /// 画像上の座標
+  final String initialImagePath;
+
+  /// イラストのパス
+  ui.Rect photoRect;
+
+  /// 画像の四角
+
+  ui.Image? initialImage;
+
+  /// 初期化時のイラスト
+  ui.Image? photoImage;
+
   /// 追加される写真
 
   void Function()? tapImageFunc;
@@ -58,7 +78,6 @@ class MapItem {
 
   /// タップ判定をしてタップの場合はタップ処理をする
   void onTapImage(double scale, double moveX, Offset tapLoc) {
-
     final tapX = tapLoc.dx;
     final tapY = tapLoc.dy;
     final rect = getPhotoRectForDeviceFit(scale, moveX);
@@ -68,7 +87,6 @@ class MapItem {
         tapY <= rect.bottom &&
         tapImageFunc != null) {
       tapImageFunc!();
-
     }
   }
 }
@@ -89,10 +107,11 @@ class MapPage extends StatefulWidget {
 
   final String title;
 
+  /// ページタイトル
+
   /// 描画
   @override
   _MapPageState createState() => _MapPageState();
-
 }
 
 /// マップのステート
@@ -104,18 +123,12 @@ class _MapPageState extends State<MapPage> {
 
   /// x軸の移動を保持
 
-
   /// マップの場所情報の一覧
   final _mapItems = <MapItem>[
-    MapItem('湯涌稲荷神社', 36.4859822, 136.7560359,
-            Offset(1254, 292), 'assets/images/img1_gray.png',
-            Rect.fromLTWH(650, 182, 300, 300)
-    ),
-
-    MapItem('総湯', 36.4857904, 136.7575357,
-            Offset(1358, 408), 'assets/images/img2_gray.png',
-            Rect.fromLTWH(820, 820, 300, 300)
-    ),
+    MapItem('湯涌稲荷神社', 36.4859822, 136.7560359, Offset(1254, 292),
+        'assets/images/img1_gray.png', Rect.fromLTWH(650, 182, 300, 300)),
+    MapItem('総湯', 36.4857904, 136.7575357, Offset(1358, 408),
+        'assets/images/img2_gray.png', Rect.fromLTWH(820, 820, 300, 300)),
   ];
 
   /// アセット(画像等)の取得
@@ -139,9 +152,6 @@ class _MapPageState extends State<MapPage> {
     _getAssets();
   }
 
-
-
-
   /// 見た目
   @override
   Widget build(BuildContext context) {
@@ -157,60 +167,53 @@ class _MapPageState extends State<MapPage> {
           () => Navigator.of(context).pushNamed('/camera_page', arguments: e);
     });
 
-
-
-
-
-
     // UI部分
     return Scaffold(
       appBar: appBar,
       body: Stack(
-        children: <Widget>[        
-          _mapImage == null ? // マップ画像の読み込みがない場合はTextを表示
-          Text('Loading...') : // 画像ロード中の際の表示
+        children: <Widget>[
+          _mapImage == null
+              ? // マップ画像の読み込みがない場合はTextを表示
+              Text('Loading...')
+              : // 画像ロード中の際の表示
 
-
-          GestureDetector(
-            onTapUp: (details) { // タップ時の処理
-
-              // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-              final scale = mediaHeight / _mapImage!.height.toDouble();
-              for (var item in _mapItems) { // 場所ごとの処理
-                // FIXME: 画像の当たり判定がややy軸方向にズレている(広がっている)
-                // タップの判定処理(タップ時は遷移)
-                item.onTapImage(scale, _getMoveX(), details.localPosition);
-              }
-            },
-
-
-            onPanUpdate: (DragUpdateDetails details) { // スクロール時の処理
-              setState(() {
-
-                // スクロールを適用した場合の遷移先X
-                final next = _moveX - details.delta.dx;
-                // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-                final scale = mediaHeight / _mapImage!.height.toDouble() ;
-                // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
-                _moveX = min(max(next, 0), _mapImage!.width*scale-mediaSize.width/scale);
-              });
-            },
-
-
-            child: CustomPaint( // キャンバス本体
-
-              size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
-              painter: MapPainter(_mapImage!, _getMoveX, _mapItems), // ペインター
-              child: Center(), // あったほうがいいらしい？？
-
-            ),
-          ),
-          SnackberPage(),
+              GestureDetector(
+                  onTapUp: (details) {
+                    // タップ時の処理
+                    // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
+                    final scale = mediaHeight / _mapImage!.height.toDouble();
+                    for (var item in _mapItems) {
+                      // 場所ごとの処理
+                      // FIXME: 画像の当たり判定がややy軸方向にズレている(広がっている)
+                      // タップの判定処理(タップ時は遷移)
+                      item.onTapImage(
+                          scale, _getMoveX(), details.localPosition);
+                    }
+                  },
+                  onPanUpdate: (DragUpdateDetails details) {
+                    // スクロール時の処理
+                    setState(() {
+                      // スクロールを適用した場合の遷移先X
+                      final next = _moveX - details.delta.dx;
+                      // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
+                      final scale = mediaHeight / _mapImage!.height.toDouble();
+                      // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
+                      _moveX = min(max(next, 0),
+                          _mapImage!.width * scale - mediaSize.width / scale);
+                    });
+                  },
+                  child: CustomPaint(
+                    // キャンバス本体
+                    size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
+                    painter:
+                        MapPainter(_mapImage!, _getMoveX, _mapItems), // ペインター
+                    child: Center(), // あったほうがいいらしい？？
+                  ),
+                ),
           if (hihtrunCheck) _runningHihtbar(),
         ],
       ),
     );
-
   }
 }
 
