@@ -50,7 +50,7 @@ class _PicExplain extends State<PicExplain>{
     return Material(
       child: Scaffold(
         appBar: AppBar(
-          title: Text(_title),
+          title: Text(_title,style: TextStyle(color: Colors.black87)),
         ),
 
         body: Center(

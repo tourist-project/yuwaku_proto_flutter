@@ -26,8 +26,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-
+        appBarTheme: AppBarTheme(
+          color: Color.fromRGBO(240, 233, 208, 100),
+        )
       ),
+
+
       home: BottomTabPage(),
 
       routes: <String, WidgetBuilder> {

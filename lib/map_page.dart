@@ -184,7 +184,7 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
 
     final Size mediaSize = MediaQuery.of(context).size; // 画面の取得
-    final AppBar appBar = AppBar(title: Text(widget.title) ); // ヘッダ部分のUIパーツ
+    final AppBar appBar = AppBar(title: Text(widget.title,style: TextStyle(color: prefix.Colors.black87))); // ヘッダ部分のUIパーツ
     final mediaHeight = mediaSize.height - appBar.preferredSize.height; // キャンバス部分の高さ
 
     // 画面遷移用の初期化
@@ -196,6 +196,7 @@ class _MapPageState extends State<MapPage> {
     // UI部分
     return Scaffold(
       appBar: appBar,
+
       body: Stack(
 
         children: <Widget>[

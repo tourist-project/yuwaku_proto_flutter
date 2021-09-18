@@ -31,8 +31,9 @@ class Explain extends StatelessWidget{
 
     return new Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(title,style: TextStyle(color: Colors.black87)),
       ),
+
       body: Container(
         height: deviceHeight,
 
