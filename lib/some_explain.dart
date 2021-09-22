@@ -6,27 +6,53 @@ import 'package:simple_animations/simple_animations.dart';
 import 'package:yuwaku_proto/map_page.dart';
 import 'dart:math';
 
-enum BackColor{
-  color,
+
+
+class Explain extends StatefulWidget{
+
+  _Explain createState() => _Explain();
+
 }
 
 
-class Explain extends StatelessWidget{
+class _Explain extends State<Explain> with TickerProviderStateMixin{
 
-  Explain({Key? key, required this.title}): super(key: key);
+  final String title = "場所説明";
 
- final String title;
+  // AnimationController _controller;
+  // Animation<Color> _color;
+  //
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   /// 繰り返し
+  //   _controller = AnimationController(
+  //     duration: Duration(milliseconds: 300),
+  //     vsync: this, )
+  //     ..repeat(reverse: true,);
+  //
+  //   _color = ColorTween(
+  //     begin: Colors.red,
+  //     end: Colors.orange,).animate(_controller);
+  // }
+
+ //
+ //
+ //
+ // @override
+ // void dispose() {
+ //   _controller.dispose();
+ //   super.dispose();
+ // }
+
+
 
   @override
   Widget build(BuildContext context) {
 
-    /// 以下にカラーアニメーション作成予定
-
     // 各種類の画面サイズ
     final double deviceHeight = MediaQuery.of(context).size.height;
     final double deviceWidth = MediaQuery.of(context).size.width;
-
-
 
 
     return new Scaffold(
@@ -35,8 +61,10 @@ class Explain extends StatelessWidget{
       ),
 
       body: Container(
+        width: deviceWidth,
         height: deviceHeight,
 
+        
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: FractionalOffset.topLeft,
@@ -50,7 +78,9 @@ class Explain extends StatelessWidget{
           ),
         ),
 
-          child: Container(
+
+
+        child: Container(
             height: deviceHeight,
 
             child: Column(

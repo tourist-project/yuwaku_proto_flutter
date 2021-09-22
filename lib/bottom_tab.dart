@@ -14,8 +14,8 @@ class _BottomTabPageState extends State<BottomTabPage> {
   int _currentIndex = 0;
 
   // ページの種類
-  final _pageWidgets = [
-    Explain(title: '場所説明'),
+  final _pageWidgets = <Widget>[
+    Explain(),
     MapPage(title: '地図'),
   ];
 
