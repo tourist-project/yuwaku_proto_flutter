@@ -24,12 +24,16 @@ class _Explain extends State<Explain> with TickerProviderStateMixin{
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: Duration(seconds: 5),
+      duration: Duration(seconds: 120),
       vsync: this,
     )..repeat(reverse: true);
 
-    _color = ColorTween(begin: Colors.blue, end: Colors.amber).animate(_controller);
+    _color = ColorTween(begin: Color.fromRGBO(240, 233, 208, 1), end: Color.fromRGBO(186, 66, 43, 1)).animate(_controller);
   }
+
+  //R:240,G:233,B:208
+  //R:186,G:66,B:43
+
 
   // 不要になったWidgetの削除
   @override
@@ -51,9 +55,10 @@ class _Explain extends State<Explain> with TickerProviderStateMixin{
         title: Text(title,style: TextStyle(color: Colors.black87)),
       ),
 
-      body: Container(
-        width: deviceWidth,
-        height: deviceHeight,
+      body: SingleChildScrollView(
+        
+        // width: deviceWidth,
+        // height: deviceHeight,
         child: Column(
           children: <Widget>[
             AnimatedBuilder(
