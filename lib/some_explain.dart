@@ -11,7 +11,7 @@ class Explain extends StatefulWidget{
   _Explain createState() => _Explain();
 }
 
-class _Explain extends State<Explain> with TickerProviderStateMixin{
+class _Explain extends State<Explain> with TickerProviderStateMixin {
 
   final String title = "場所説明";
 
@@ -26,9 +26,11 @@ class _Explain extends State<Explain> with TickerProviderStateMixin{
     _controller = AnimationController(
       duration: Duration(seconds: 120),
       vsync: this,
-    )..repeat(reverse: true);
+    )
+      ..repeat(reverse: true);
 
-    _color = ColorTween(begin: Color.fromRGBO(240, 233, 208, 1), end: Color.fromRGBO(186, 66, 43, 1)).animate(_controller);
+    _color = ColorTween(begin: Color.fromRGBO(240, 233, 208, 1),
+        end: Color.fromRGBO(186, 66, 43, 1)).animate(_controller);
   }
 
   //R:240,G:233,B:208
@@ -45,121 +47,123 @@ class _Explain extends State<Explain> with TickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context) {
-
     // 各種類の画面サイズ
-    final double deviceHeight = MediaQuery.of(context).size.height;
-    final double deviceWidth = MediaQuery.of(context).size.width;
+    final double deviceHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
+    final double deviceWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
 
     return new Scaffold(
       appBar: AppBar(
-        title: Text(title,style: TextStyle(color: Colors.black87)),
+        title: Text(title, style: TextStyle(color: Colors.black87)),
       ),
 
-      body: SingleChildScrollView(
-        
-        // width: deviceWidth,
-        // height: deviceHeight,
-        child: Column(
-          children: <Widget>[
-            AnimatedBuilder(
+      body: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, _) {
 
-                animation: _controller,
-                builder: (context, _){
-                  return Container(
-                    decoration: BoxDecoration(color: _color.value),
+          return Container(
+            height: deviceHeight,
+            decoration: BoxDecoration(color: _color.value),
 
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          height: deviceHeight,
-                          child: Column(
+            child: Container(
+                  height: deviceHeight,
+
+                  child: Column(
+                    children: <Widget>[
+
+                      Align(
+                        alignment: Alignment(-0.8, 0.5),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/plane_explain');
+                          },
+
+                          child: Container(
+                            margin: EdgeInsets.only(left: 15, top: 60),
+                            width: deviceWidth * 0.7,
+
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black87,
+                                    offset: Offset(10.0, 20.0),
+                                    blurRadius: 10,
+                                    spreadRadius: 3)
+                              ],
+                            ),
+                            child: Stack(
+                              children: <Widget>[
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: Image.asset(
+                                      'assets/images/KeigoSirayu.png'),
+                                ),
+                                Text('第一ステージ',
+                                    style: TextStyle(fontSize: 40,
+                                        fontWeight: FontWeight.bold,
+                                        decoration: TextDecoration.underline,
+                                        color: Colors.green)
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Spacer(),
+
+                      Align(
+                        alignment: Alignment(0.5, -0.5),
+
+                        child: Container(
+                          margin: EdgeInsets.only(right: 15),
+                          width: deviceWidth * 0.7,
+
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black87,
+                                  offset: Offset(10.0, 20.0),
+                                  blurRadius: 10,
+                                  spreadRadius: 3)
+                            ],
+                          ),
+
+                          child: Stack(
                             children: <Widget>[
-                              Align(
-                                alignment: Alignment(-0.8, 0.5),
-                                child: GestureDetector(
-                                  onTap: (){
-                                    Navigator.pushNamed(context, '/plane_explain');
-                                  },
 
-                                  child: Container(
-                                    margin: EdgeInsets.only(left: 15,top: 60),
-                                    width: deviceWidth*0.7,
-
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(100),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.black87,
-                                            offset: Offset(10.0, 20.0),
-                                            blurRadius: 10,
-                                            spreadRadius: 3)
-                                      ],
-                                    ),
-                                    child: Stack(
-                                      children: <Widget>[
-                                        ClipRRect(
-                                          borderRadius: BorderRadius.circular(100),
-                                          child: Image.asset('assets/images/KeigoSirayu.png'),
-                                        ),
-                                        Text('第一ステージ',
-                                            style:TextStyle(fontSize: 40,fontWeight: FontWeight.bold,
-                                                decoration: TextDecoration.underline,color: Colors.green)
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: Image.asset(
+                                    'assets/images/NotKeigoSirayu.png'),
                               ),
-                              Spacer(),
 
-                              Align(
-                                alignment: Alignment(0.5, -0.5),
-
-                                child: Container(
-                                  margin: EdgeInsets.only(right: 15),
-                                  width: deviceWidth*0.7,
-
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100),
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.black87,
-                                          offset: Offset(10.0, 20.0),
-                                          blurRadius: 10,
-                                          spreadRadius: 3)
-                                    ],
-                                  ),
-
-                                  child: Stack(
-                                    children: <Widget>[
-
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(100),
-                                        child: Image.asset('assets/images/NotKeigoSirayu.png'),
-                                      ),
-
-                                      Text('第二ステージ', style:TextStyle(fontSize: 40,fontWeight: FontWeight.bold,
-                                          decoration: TextDecoration.underline,color: Colors.orangeAccent)
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                              Text('第二ステージ', style: TextStyle(
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.bold,
+                                  decoration: TextDecoration.underline,
+                                  color: Colors.orangeAccent)
                               ),
-                              Spacer(),
                             ],
                           ),
                         ),
-                      ],
-                    ),
-                  );
-                  },
-            ),
-          ],
-        ),
+                      ),
+                      Spacer(),
+                    ],
+                  ),
+                ),
+
+          );
+        },
       ),
     );
   }
 }
-
