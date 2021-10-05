@@ -12,6 +12,7 @@ import 'package:yuwaku_proto/map_painter.dart';
 import 'dart:math' as math;
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart' as prefix;
+import 'package:bubble/bubble.dart';
 
 /// Colorsを使う時はprefix.Colors.~と使ってください
 
@@ -247,6 +248,11 @@ class _MapPageState extends State<MapPage> {
   }
 }
 
+// ヒント内容
+const explainList = ['apple', 'banana', 'watermelon', 'storbary', 'orange'];
+int change = 0;
+// 表示するヒントの変数
+
 class SnackBerPage extends StatefulWidget {
   SnackBerPage() : super();
 
@@ -255,37 +261,48 @@ class SnackBerPage extends StatefulWidget {
 }
 
 class _SnackBarPageState extends State<SnackBerPage> {
-
   final int durationSecond;
   _SnackBarPageState({required this.durationSecond});
 
-  static const explainList = ['apple', 'banana', 'watermelon', 'storbary', 'orange'];
-
   @override
-  void initState(){
+  void initState() {
     Timer.periodic(Duration(seconds: durationSecond), _onTimer);
     super.initState();
   }
 
-  void _onTimer(Timer timer){
+  void _onTimer(Timer timer) {
     final random = math.Random();
     final randomNum = random.nextInt(explainList.length);
-    final snackBar = SnackBar(
-      content: Text(explainList[randomNum]),
-      action: SnackBarAction(
-        label: 'delete',
-        onPressed: () {
-          // write the code for some appropriate process
-        },
-      ),
-    );
     setState(() {
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      // 表示するヒントを決める変数にランダムに数字を代入
+      change = randomNum;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-   return Container();
+    return Container(
+        child: Bubble(
+          // ヒント表示のテキストの空白部分のサイズ
+          padding: BubbleEdges.only(left: 10, right: 10),
+          alignment: Alignment.topCenter,
+          child: Text(
+            explainList[change],
+            style: TextStyle(
+              fontSize: 18,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          // ヒントの位置指定
+          margin: BubbleEdges.only(top: 580),
+          // 出っ張っている所の指定
+          nip: BubbleNip.leftBottom,
+        ),
+    );
   }
+}
+
+@override
+Widget build(BuildContext context) {
+  return Container();
 }
