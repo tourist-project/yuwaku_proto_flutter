@@ -33,6 +33,7 @@ dependencies:
   angles: ^2.1.0
   touchable:
   sqflite: ^2.0.0+4
+  path_provider: ^2.0.4
 
 
 
@@ -48,7 +49,6 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/database/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:ui' as ui;
@@ -24,16 +25,23 @@ class _CameraPageState extends State<CameraPage> {
   final MapItem mapItem;
   File?  _image;
   final picker = ImagePicker();
-  final imageDb = ImageDb();
+  final imageDb = ImageDBProvider.instance;
 
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
-
-    final db = await imageDb.database;
-    print(db);
-
     if (pickedFile != null) {
       var data = await pickedFile.readAsBytes();
+      final saveData = base64.encode(data);
+      if ( await imageDb.isExist(mapItem.name) ) {
+        await imageDb.updateImage(mapItem.name, saveData);
+      } else {
+        await imageDb.insert({
+          'state': mapItem.name,
+          'image': saveData
+        });
+      }
+
+      print( await imageDb.queryRowCount() );
       ui.decodeImageFromList(data, (ui.Image img) {
         mapItem.photoImage = img;
       });
