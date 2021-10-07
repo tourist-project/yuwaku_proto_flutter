@@ -114,7 +114,7 @@ class MapItem {
     final dist = math.sqrt(math.pow(A, 2) + math.pow(B, 2));
 
     if(dist <= 20){
-      ModalWindow(context);
+      ModalWindow(context).messe;
     }
     print("距離: " + dist.toString());
     print("tapX" + tapX.toString());
@@ -183,10 +183,12 @@ class _MapPageState extends State<MapPage> {
   /// 見た目
   @override
   Widget build(BuildContext context) {
+
     final Size mediaSize = MediaQuery.of(context).size; // 画面の取得
-    final AppBar appBar = AppBar(title: Text(widget.title)); // ヘッダ部分のUIパーツ
-    final mediaHeight =
-        mediaSize.height - appBar.preferredSize.height; // キャンバス部分の高さ
+
+    final AppBar appBar = AppBar(title: Text(widget.title,style: TextStyle(color: prefix.Colors.black87))); // ヘッダ部分のUIパーツ
+    final mediaHeight = mediaSize.height - appBar.preferredSize.height; // キャンバス部分の高さ
+
 
     // 画面遷移用の初期化
     _mapItems.forEach((e) {
@@ -198,6 +200,7 @@ class _MapPageState extends State<MapPage> {
     // UI部分
     return Scaffold(
       appBar: appBar,
+
       body: Stack(
         children: <Widget>[
           _mapImage == null
@@ -249,6 +252,7 @@ class _MapPageState extends State<MapPage> {
 
 class SnackBerPage extends StatefulWidget {
   SnackBerPage() : super();
+
 
   @override
   _SnackBarPageState createState() => _SnackBarPageState(durationSecond: 3);

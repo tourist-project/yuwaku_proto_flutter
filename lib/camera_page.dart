@@ -38,17 +38,20 @@ class _CameraPageState extends State<CameraPage> {
     }
   }
 
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+
+        title: Text(widget.title, style: TextStyle(color: Colors.black87)),
         actions: <Widget>[
           IconButton(
             onPressed:  () => _onShare(context),
             icon: Icon(Icons.ios_share),
           ),
         ],
+
       ),
       body: Center(
         // ignore: unnecessary_null_comparison
