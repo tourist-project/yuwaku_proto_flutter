@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'map_page.dart';
 import 'some_explain.dart';
 
+
 class BottomTabPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -14,8 +15,8 @@ class _BottomTabPageState extends State<BottomTabPage> {
   int _currentIndex = 0;
 
   // ページの種類
-  final _pageWidgets = [
-    Explain(title: '場所説明'),
+  final _pageWidgets = <Widget>[
+    Explain(),
     MapPage(title: '地図'),
   ];
 

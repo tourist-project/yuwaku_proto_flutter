@@ -36,11 +36,12 @@ class _CameraPageState extends State<CameraPage> {
     }
   }
 
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.title, style: TextStyle(color: Colors.black87)),
       ),
       body: Center(
         // ignore: unnecessary_null_comparison
