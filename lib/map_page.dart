@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
@@ -11,6 +12,9 @@ import 'dart:ui' as ui;
 import 'package:yuwaku_proto/map_painter.dart';
 import 'dart:math' as math;
 import 'package:geolocator/geolocator.dart';
+
+import 'package:yuwaku_proto/database.dart';
+
 import 'package:flutter/material.dart' as prefix;
 
 /// Colorsを使う時はprefix.Colors.~と使ってください
@@ -48,14 +52,13 @@ class MapItem {
 
   ui.Image? initialImage;
 
+
+  void Function()? tapImageFunc; /// タップ時に動く関数
+  final imageDb = ImageDBProvider.instance;
   /// 初期化時のイラスト
   ui.Image? photoImage;
 
-  /// 追加される写真
 
-  void Function()? tapImageFunc;
-
-  /// タップ時に動く関数
 
   /// イニシャライズ
   MapItem(this.name, this.latitude, this.longitude, this.position,
@@ -65,6 +68,13 @@ class MapItem {
   /// 初期画像のロード
   Future loadInitialImage() async {
     initialImage = await loadUiImage(initialImagePath);
+    if ( await imageDb.isExist(this.name) ) {
+      final rawStr = (await imageDb.querySearchRows(this.name))[0]['image']! as String;
+      Uint8List raw = base64.decode(rawStr);
+      ui.decodeImageFromList(raw, (ui.Image img) => {
+        this.photoImage = img
+      });
+    }
   }
 
   /// 表示すべき画像を返す
