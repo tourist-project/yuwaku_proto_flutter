@@ -24,6 +24,8 @@ class MapPainter extends CustomPainter {
 
   Distance distance = new Distance();
 
+
+
   /// コンストラクタ
   MapPainter(this._mapImage, this._getMoveX, this._mapItems);
 
@@ -36,10 +38,12 @@ class MapPainter extends CustomPainter {
       ..color = Colors.red // 赤色を設定
       ..strokeWidth = 2; // 線の太さを2に設定
 
-    var scale = size.height / _mapImage.height.toDouble()  + 0.02; // 画像を縦方向に引き伸ばした倍率, +0.015で少しずらしている
+    var scale = size.height / _mapImage.height.toDouble() ; // 画像を縦方向に引き伸ばした倍率, +0.02は端末に依存
+
+
     /// 怪しいぞ↑↓
     //final width = _mapImage.width /(_mapImage.width*scale / size.width); // 一度に描画できる横幅
-    final width = (size.width / scale) * (1.0); // 場所を描画している
+    final width = size.width / scale ; // 場所を描画している
 
     final src = Rect.fromLTWH(_getMoveX()/scale, 0, width, _mapImage.height.toDouble()); // 画像中の用いる範囲
     final dst = Rect.fromLTWH(0, 0, size.width, size.height); // 描画場所
@@ -56,7 +60,7 @@ class MapPainter extends CustomPainter {
       if (img != null) {
         final length = min(img.height, img.width).toDouble(); // 縦横のうち最短を取得
         // FIXME: 画像を中央に寄せる
-        final src = Rect.fromLTWH(0, 0, length, length); // 画像中の描画する場所を選択
+        final src = Rect.fromLTWH(100, 0, length, length); // 画像中の描画する場所を選択
         final rescaleRect = item.getPhotoRectForDeviceFit(scale, _getMoveX()); // どこに描画するかを設定
 
 

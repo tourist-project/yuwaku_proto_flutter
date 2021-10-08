@@ -47,3 +47,7 @@ issueに紐付ける場合は`#n(nはissueの番号)`を書く
 
 ## 参考文献
 [emoji-commit-message-guideline](https://gist.github.com/p-chan/2912dc157b53449f7d1b)
+
+## アプリイメージカラー
+[R:240,G:233,B:208](https://color-hex.org/color/f0e9d0)  
+[R:186,G:66,B:43](https://color-hex.org/color/ba422b)
