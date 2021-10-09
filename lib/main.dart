@@ -21,15 +21,21 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        appBarTheme: AppBarTheme(
+          color: Color.fromRGBO(240, 233, 208, 100),
+        )
+
       ),
+
+
       home: BottomTabPage(),
       routes: <String, WidgetBuilder>{
         '/map_page': (BuildContext context) => MapPage(title: 'Map page'),
-        '/camera_page': (BuildContext context) => CameraPage(
-            title: 'Camera page',
-            mapItem: ModalRoute.of(context)!.settings.arguments as MapItem),
-        '/some_explain': (BuildContext context) => Explain(title: 'スタンプ場所'),
-        '/plane_explain': (BuildContext context) => PicExplain(title: '場所説明'),
+
+        '/camera_page': (BuildContext context) => CameraPage(title: 'Camera page',
+                                                             mapItem: ModalRoute.of(context)!.settings.arguments as MapItem),
+        '/some_explain':(BuildContext context) => Explain(),
+        '/plane_explain':(BuildContext context) => PicExplain(title:'場所説明'),
       },
     );
   }

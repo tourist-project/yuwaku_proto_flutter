@@ -24,6 +24,8 @@ class MapPainter extends CustomPainter {
 
   Distance distance = new Distance();
 
+
+
   /// コンストラクタ
   MapPainter(this._mapImage, this._getMoveX, this._mapItems);
 

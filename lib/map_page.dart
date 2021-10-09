@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
@@ -11,6 +12,9 @@ import 'dart:ui' as ui;
 import 'package:yuwaku_proto/map_painter.dart';
 import 'dart:math' as math;
 import 'package:geolocator/geolocator.dart';
+
+import 'package:yuwaku_proto/database.dart';
+
 import 'package:flutter/material.dart' as prefix;
 import 'package:bubble/bubble.dart';
 
@@ -49,14 +53,13 @@ class MapItem {
 
   ui.Image? initialImage;
 
+
+  void Function()? tapImageFunc; /// タップ時に動く関数
+  final imageDb = ImageDBProvider.instance;
   /// 初期化時のイラスト
   ui.Image? photoImage;
 
-  /// 追加される写真
 
-  void Function()? tapImageFunc;
-
-  /// タップ時に動く関数
 
   /// イニシャライズ
   MapItem(this.name, this.latitude, this.longitude, this.position,
@@ -66,6 +69,13 @@ class MapItem {
   /// 初期画像のロード
   Future loadInitialImage() async {
     initialImage = await loadUiImage(initialImagePath);
+    if ( await imageDb.isExist(this.name) ) {
+      final rawStr = (await imageDb.querySearchRows(this.name))[0]['image']! as String;
+      Uint8List raw = base64.decode(rawStr);
+      ui.decodeImageFromList(raw, (ui.Image img) => {
+        this.photoImage = img
+      });
+    }
   }
 
   /// 表示すべき画像を返す
@@ -115,7 +125,7 @@ class MapItem {
     final dist = math.sqrt(math.pow(A, 2) + math.pow(B, 2));
 
     if(dist <= 20){
-      ModalWindow(context);
+      ModalWindow(context).messe;
     }
     print("距離: " + dist.toString());
     print("tapX" + tapX.toString());
@@ -184,10 +194,12 @@ class _MapPageState extends State<MapPage> {
   /// 見た目
   @override
   Widget build(BuildContext context) {
+
     final Size mediaSize = MediaQuery.of(context).size; // 画面の取得
-    final AppBar appBar = AppBar(title: Text(widget.title)); // ヘッダ部分のUIパーツ
-    final mediaHeight =
-        mediaSize.height - appBar.preferredSize.height; // キャンバス部分の高さ
+
+    final AppBar appBar = AppBar(title: Text(widget.title,style: TextStyle(color: prefix.Colors.black87))); // ヘッダ部分のUIパーツ
+    final mediaHeight = mediaSize.height - appBar.preferredSize.height; // キャンバス部分の高さ
+
 
     // 画面遷移用の初期化
     _mapItems.forEach((e) {
@@ -199,6 +211,7 @@ class _MapPageState extends State<MapPage> {
     // UI部分
     return Scaffold(
       appBar: appBar,
+
       body: Stack(
         children: <Widget>[
           _mapImage == null
@@ -255,6 +268,7 @@ int change = 0;
 
 class SnackBerPage extends StatefulWidget {
   SnackBerPage() : super();
+
 
   @override
   _SnackBarPageState createState() => _SnackBarPageState(durationSecond: 3);
