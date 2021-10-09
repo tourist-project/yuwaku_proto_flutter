@@ -273,10 +273,12 @@ class _SnackBarPageState extends State<SnackBerPage> {
   void _onTimer(Timer timer) {
     final random = math.Random();
     final randomNum = random.nextInt(explainList.length);
-    setState(() {
-      // 表示するヒントを決める変数にランダムに数字を代入
-      change = randomNum;
-    });
+    if (mounted) {
+      setState(() {
+        // 表示するヒントを決める変数にランダムに数字を代入
+        change = randomNum;
+      });
+    }
   }
 
   @override
@@ -286,7 +288,7 @@ class _SnackBarPageState extends State<SnackBerPage> {
 
     return Container(
       height: widthsize / 6.5,
-      margin: EdgeInsets.fromLTRB(heightsize / 8, heightsize / 1.38, 0, 0),
+      margin: EdgeInsets.fromLTRB(heightsize / 8, heightsize / 1.50, 0, 0),
       child: Bubble(
         // ヒント表示のテキストの空白部分のサイズ
         padding: BubbleEdges.only(left: 5, right: 5),
