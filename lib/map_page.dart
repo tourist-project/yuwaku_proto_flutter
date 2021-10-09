@@ -249,7 +249,7 @@ class _MapPageState extends State<MapPage> {
 }
 
 // ヒント内容
-const explainList = ['test', 'testtesttesttesttesttesttest'];
+const explainList = ['森に囲まれた長い段差を乗り越えるとそこには', '川にかかった大きな橋、森を見守るような厳かな表情'];
 int change = 0;
 // 表示するヒントの変数
 
@@ -287,8 +287,8 @@ class _SnackBarPageState extends State<SnackBerPage> {
     final heightsize = MediaQuery.of(context).size.height;
 
     return Container(
-      height: widthsize / 6.5,
-      margin: EdgeInsets.fromLTRB(heightsize / 8, heightsize / 1.50, 0, 0),
+      height: widthsize / 6,
+      margin: EdgeInsets.fromLTRB(heightsize / 8, heightsize / 1.5, 0, 0),
       child: Bubble(
         // ヒント表示のテキストの空白部分のサイズ
         padding: BubbleEdges.only(left: 5, right: 5),
@@ -312,4 +312,3 @@ class _SnackBarPageState extends State<SnackBerPage> {
 Widget build(BuildContext context) {
   return Container();
 }
-
