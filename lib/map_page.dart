@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
@@ -12,10 +11,8 @@ import 'dart:ui' as ui;
 import 'package:yuwaku_proto/map_painter.dart';
 import 'dart:math' as math;
 import 'package:geolocator/geolocator.dart';
-
-import 'package:yuwaku_proto/database.dart';
-
 import 'package:flutter/material.dart' as prefix;
+import 'package:bubble/bubble.dart';
 
 /// Colorsを使う時はprefix.Colors.~と使ってください
 
@@ -52,13 +49,14 @@ class MapItem {
 
   ui.Image? initialImage;
 
-
-  void Function()? tapImageFunc; /// タップ時に動く関数
-  final imageDb = ImageDBProvider.instance;
   /// 初期化時のイラスト
   ui.Image? photoImage;
 
+  /// 追加される写真
 
+  void Function()? tapImageFunc;
+
+  /// タップ時に動く関数
 
   /// イニシャライズ
   MapItem(this.name, this.latitude, this.longitude, this.position,
@@ -68,13 +66,6 @@ class MapItem {
   /// 初期画像のロード
   Future loadInitialImage() async {
     initialImage = await loadUiImage(initialImagePath);
-    if ( await imageDb.isExist(this.name) ) {
-      final rawStr = (await imageDb.querySearchRows(this.name))[0]['image']! as String;
-      Uint8List raw = base64.decode(rawStr);
-      ui.decodeImageFromList(raw, (ui.Image img) => {
-        this.photoImage = img
-      });
-    }
   }
 
   /// 表示すべき画像を返す
@@ -124,7 +115,7 @@ class MapItem {
     final dist = math.sqrt(math.pow(A, 2) + math.pow(B, 2));
 
     if(dist <= 20){
-      ModalWindow(context).messe;
+      ModalWindow(context);
     }
     print("距離: " + dist.toString());
     print("tapX" + tapX.toString());
@@ -193,12 +184,10 @@ class _MapPageState extends State<MapPage> {
   /// 見た目
   @override
   Widget build(BuildContext context) {
-
     final Size mediaSize = MediaQuery.of(context).size; // 画面の取得
-
-    final AppBar appBar = AppBar(title: Text(widget.title,style: TextStyle(color: prefix.Colors.black87))); // ヘッダ部分のUIパーツ
-    final mediaHeight = mediaSize.height - appBar.preferredSize.height; // キャンバス部分の高さ
-
+    final AppBar appBar = AppBar(title: Text(widget.title)); // ヘッダ部分のUIパーツ
+    final mediaHeight =
+        mediaSize.height - appBar.preferredSize.height; // キャンバス部分の高さ
 
     // 画面遷移用の初期化
     _mapItems.forEach((e) {
@@ -210,7 +199,6 @@ class _MapPageState extends State<MapPage> {
     // UI部分
     return Scaffold(
       appBar: appBar,
-
       body: Stack(
         children: <Widget>[
           _mapImage == null
@@ -260,46 +248,66 @@ class _MapPageState extends State<MapPage> {
   }
 }
 
+// ヒント内容
+const explainList = ['test', 'testtesttesttesttesttesttest'];
+int change = 0;
+// 表示するヒントの変数
+
 class SnackBerPage extends StatefulWidget {
   SnackBerPage() : super();
-
 
   @override
   _SnackBarPageState createState() => _SnackBarPageState(durationSecond: 3);
 }
 
 class _SnackBarPageState extends State<SnackBerPage> {
-
   final int durationSecond;
   _SnackBarPageState({required this.durationSecond});
 
-  static const explainList = ['apple', 'banana', 'watermelon', 'storbary', 'orange'];
-
   @override
-  void initState(){
+  void initState() {
     Timer.periodic(Duration(seconds: durationSecond), _onTimer);
     super.initState();
   }
 
-  void _onTimer(Timer timer){
+  void _onTimer(Timer timer) {
     final random = math.Random();
     final randomNum = random.nextInt(explainList.length);
-    final snackBar = SnackBar(
-      content: Text(explainList[randomNum]),
-      action: SnackBarAction(
-        label: 'delete',
-        onPressed: () {
-          // write the code for some appropriate process
-        },
-      ),
-    );
     setState(() {
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      // 表示するヒントを決める変数にランダムに数字を代入
+      change = randomNum;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-   return Container();
+    final widthsize = MediaQuery.of(context).size.width;
+    final heightsize = MediaQuery.of(context).size.height;
+
+    return Container(
+      height: widthsize / 6.5,
+      margin: EdgeInsets.fromLTRB(heightsize / 8, heightsize / 1.38, 0, 0),
+      child: Bubble(
+        // ヒント表示のテキストの空白部分のサイズ
+        padding: BubbleEdges.only(left: 5, right: 5),
+        child: Container(
+            alignment: Alignment.center,
+            child: Text(
+              explainList[change],
+              style: TextStyle(
+                fontSize: 18,
+              ),
+              textAlign: TextAlign.center,
+            )),
+        // 出っ張っている所の指定
+        nip: BubbleNip.leftBottom,
+      ),
+    );
   }
 }
+
+@override
+Widget build(BuildContext context) {
+  return Container();
+}
+
