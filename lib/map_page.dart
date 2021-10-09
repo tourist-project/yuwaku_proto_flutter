@@ -249,7 +249,7 @@ class _MapPageState extends State<MapPage> {
 }
 
 // ヒント内容
-const explainList = ['apple', 'banana', 'watermelon', 'storbary', 'orange'];
+const explainList = ['test', 'testtesttesttesttesttesttest'];
 int change = 0;
 // 表示するヒントの変数
 
@@ -281,23 +281,27 @@ class _SnackBarPageState extends State<SnackBerPage> {
 
   @override
   Widget build(BuildContext context) {
+    final widthsize = MediaQuery.of(context).size.width;
+    final heightsize = MediaQuery.of(context).size.height;
+
     return Container(
-        child: Bubble(
-          // ヒント表示のテキストの空白部分のサイズ
-          padding: BubbleEdges.only(left: 10, right: 10),
-          alignment: Alignment.topCenter,
-          child: Text(
-            explainList[change],
-            style: TextStyle(
-              fontSize: 18,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          // ヒントの位置指定
-          margin: BubbleEdges.only(top: 580),
-          // 出っ張っている所の指定
-          nip: BubbleNip.leftBottom,
-        ),
+      height: widthsize / 6.5,
+      margin: EdgeInsets.fromLTRB(heightsize / 8, heightsize / 1.38, 0, 0),
+      child: Bubble(
+        // ヒント表示のテキストの空白部分のサイズ
+        padding: BubbleEdges.only(left: 5, right: 5),
+        child: Container(
+            alignment: Alignment.center,
+            child: Text(
+              explainList[change],
+              style: TextStyle(
+                fontSize: 18,
+              ),
+              textAlign: TextAlign.center,
+            )),
+        // 出っ張っている所の指定
+        nip: BubbleNip.leftBottom,
+      ),
     );
   }
 }
