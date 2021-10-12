@@ -78,12 +78,9 @@ class ImageDBProvider {
     return count > 0;
   }
 
-  Future<int> updateImage(String state, String image) async {
+  Future updateImage(String state, String image) async {
     Database db = await instance.database; //DBにアクセスする
-    final data = <String, dynamic>{
-      'image': image,
-    };
-    return await db.update(tableName, data, where: 'image=?', whereArgs: [state]);
+    return await db.rawQuery('UPDATE $tableName SET image=? WHERE state=?', [image, state]);
   }
 
 
