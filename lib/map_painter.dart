@@ -21,12 +21,12 @@ class MapPainter extends CustomPainter {
   final ui.Image _mapImage; /// マップ自体の画像
   final double Function() _getMoveX; /// 移動したx軸の距離を返す関数
   List<MapItem> _mapItems; /// マップ上に描画する場所の一覧
-  final double scale ;
+  var scale = 0.0;
 
   Distance distance = new Distance();
 
   /// コンストラクタ
-  MapPainter(this._mapImage, this._getMoveX, this._mapItems, this.scale);
+  MapPainter(this._mapImage, this._getMoveX, this._mapItems);
 
 
   /// 描画
@@ -37,7 +37,7 @@ class MapPainter extends CustomPainter {
       ..color = Colors.red // 赤色を設定
       ..strokeWidth = 2; // 線の太さを2に設定
 
-    // final scale = size.height / _mapImage.height.toDouble() ; // 画像を縦方向に引き伸ばした倍率, +0.02は端末に依存
+    this.scale = size.height / _mapImage.height.toDouble() ; // 画像を縦方向に引き伸ばした倍率, +0.02は端末に依存
 
 
     /// 怪しいぞ↑↓
