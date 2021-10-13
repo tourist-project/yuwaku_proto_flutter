@@ -37,7 +37,6 @@ class _BottomTabPageState extends State<BottomTabPage> {
         fixedColor: Colors.blueAccent,
         onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
-
       ),
     );
   }

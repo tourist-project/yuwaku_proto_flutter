@@ -218,28 +218,27 @@ class _MapPageState extends State<MapPage> {
               ? // マップ画像の読み込みがない場合はTextを表示
               Text('Loading...')
               : // 画像ロード中の際の表示
-
               GestureDetector(
                   onTapUp: (details) {
                     // タップ時の処理
                     // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-                    final scale = mediaHeight / _mapImage!.height.toDouble();
                     for (var item in _mapItems) {
                       // 場所ごとの処理
                       // FIXME: 画像の当たり判定がややy軸方向にズレている(広がっている)
                       // タップの判定処理(タップ時は遷移)
+                      final scale = mediaHeight / _mapImage!.height.toDouble();
                       item.onTapImage(
                           scale, _getMoveX(), details.localPosition);
                       // item.onTapCircle(scale, _getMoveX(), details.localPosition, context);
                     }
                   },
                   onPanUpdate: (DragUpdateDetails details) {
+                    final scale = mediaHeight / _mapImage!.height.toDouble();
                     // スクロール時の処理
                     setState(() {
                       // スクロールを適用した場合の遷移先X
                       final next = _moveX - details.delta.dx;
                       // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-                      final scale = mediaHeight / _mapImage!.height.toDouble();
                       // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
                       _moveX = min(max(next, 0),
                           _mapImage!.width * scale - mediaSize.width / scale);
@@ -250,7 +249,7 @@ class _MapPageState extends State<MapPage> {
 
                     size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
                     painter:
-                        MapPainter(_mapImage!, _getMoveX, _mapItems), // ペインター
+                        MapPainter(_mapImage!, _getMoveX, _mapItems, mediaHeight / _mapImage!.height.toDouble()), // ペインター
                     child: Center(), // あったほうがいいらしい？？
                   ),
                 ),
