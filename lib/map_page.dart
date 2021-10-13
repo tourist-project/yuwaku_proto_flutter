@@ -208,6 +208,10 @@ class _MapPageState extends State<MapPage> {
     final AppBar appBar = AppBar(title: Text(widget.title,style: TextStyle(color: prefix.Colors.black87))); // ヘッダ部分のUIパーツ
     final mediaHeight = mediaSize.height - appBar.preferredSize.height; // キャンバス部分の高さ
 
+    if ( _mapImage != null ) {
+      this._mapPainter = MapPainter(_mapImage!, _getMoveX, _mapItems);
+    }
+
     // 画面遷移用の初期化
     _mapItems.forEach((e) {
       // タップ時に遷移(引数としてMapItemを送る)
