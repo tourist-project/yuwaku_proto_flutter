@@ -108,37 +108,6 @@ class MapItem {
     }
   }
 
-  /*
-
-  // 円のタップ
-  void onTapCircle(double scale, double moveX, Offset tapLoc, BuildContext context){
-    var tapX = tapLoc.dx;
-    var tapY = tapLoc.dy;
-
-    // canvas.drawCircle(Offset(item.position.dx * scale - _getMoveX(),
-    //     item.position.dy * scale), 10, paint);
-    final offset = Offset(this.position.dx * scale -moveX, this.position.dy * scale);
-    final circlex = offset.dx; // offset.dx,dyはそれぞれの2次元座標
-    final circley = offset.dy;
-
-    final A = circlex - tapX;
-    final B = circley - tapY;
-    // 二点間距離
-    final dist = math.sqrt(math.pow(A, 2) + math.pow(B, 2));
-
-    if(dist <= 20){
-      ModalWindow(context).messe;
-    }
-    print("距離: " + dist.toString());
-    print("tapX" + tapX.toString());
-    print("tapY" + tapY.toString());
-    print("circleX" + circlex.toString());
-    print("circley" + circley.toString());
-
-
-  }
-  */
-
 }
 
 /// マップページのステートフルウィジェット
@@ -291,10 +260,13 @@ class _SnackBarPageState extends State<SnackBerPage> {
   void _onTimer(Timer timer) {
     final random = math.Random();
     final randomNum = random.nextInt(explainList.length);
-    setState(() {
-      // 表示するヒントを決める変数にランダムに数字を代入
-      change = randomNum;
-    });
+    if(mounted){
+      setState(() {
+        // 表示するヒントを決める変数にランダムに数字を代入
+        change = randomNum;
+      });
+    }
+
   }
 
   @override

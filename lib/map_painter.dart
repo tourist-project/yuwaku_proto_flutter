@@ -11,7 +11,7 @@ import 'package:touchable/touchable.dart';
 
 
 double YInari = 10000000000000;
-
+double Souyu = 10000000000000;
 
 
 /// マップの描画
@@ -69,20 +69,32 @@ class MapPainter extends CustomPainter {
 
           YInari = Geolocator.distanceBetween(position.latitude, position.longitude, 36.4856770, 136.7582343);
           // テスト値
-          YInari = 20;
-          print("testes $YInari");
           print(position);
 
         });
-
+        // Test
+        YInari = 40;
+        Souyu = 20;
 
         // 円を書く
         canvas.drawCircle(Offset(item.position.dx * scale - _getMoveX(),
             item.position.dy * scale), 10, paint);
-        
 
+        if (YInari < 30 && item.name == "湯涌稲荷神社") {
+          print("==================================================");
+          print(YInari);
 
-        if (YInari < 30 ) {
+          // 線をひく
+          canvas.drawLine(Offset((item.photoRect.left * scale - _getMoveX()) +
+              item.photoRect.width * scale / 2,
+              (item.photoRect.top * scale) +
+                  item.photoRect.height * scale / 2),
+
+              Offset((item.position.dx * scale - _getMoveX()),
+                  item.position.dy * scale), paint);
+
+        }
+        if (Souyu < 30 && item.name == "総湯") {
           print("==================================================");
           print(YInari);
 
