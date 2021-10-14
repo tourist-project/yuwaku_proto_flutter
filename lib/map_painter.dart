@@ -21,10 +21,9 @@ class MapPainter extends CustomPainter {
   final ui.Image _mapImage; /// マップ自体の画像
   final double Function() _getMoveX; /// 移動したx軸の距離を返す関数
   List<MapItem> _mapItems; /// マップ上に描画する場所の一覧
+  var scale = 0.0;
 
   Distance distance = new Distance();
-
-
 
   /// コンストラクタ
   MapPainter(this._mapImage, this._getMoveX, this._mapItems);
@@ -38,7 +37,7 @@ class MapPainter extends CustomPainter {
       ..color = Colors.red // 赤色を設定
       ..strokeWidth = 2; // 線の太さを2に設定
 
-    var scale = size.height / _mapImage.height.toDouble() ; // 画像を縦方向に引き伸ばした倍率, +0.02は端末に依存
+    this.scale = size.height / _mapImage.height.toDouble() ; // 画像を縦方向に引き伸ばした倍率, +0.02は端末に依存
 
 
     /// 怪しいぞ↑↓
@@ -60,7 +59,7 @@ class MapPainter extends CustomPainter {
       if (img != null) {
         final length = min(img.height, img.width).toDouble(); // 縦横のうち最短を取得
         // FIXME: 画像を中央に寄せる
-        final src = Rect.fromLTWH(100, 0, length, length); // 画像中の描画する場所を選択
+        final src = Rect.fromLTWH(0, 0, length, length); // 画像中の描画する場所を選択
         final rescaleRect = item.getPhotoRectForDeviceFit(scale, _getMoveX()); // どこに描画するかを設定
 
 
@@ -70,7 +69,7 @@ class MapPainter extends CustomPainter {
 
           YInari = Geolocator.distanceBetween(position.latitude, position.longitude, 36.4856770, 136.7582343);
           // テスト値
-          YInari = 40;
+          YInari = 20;
           print("testes $YInari");
           print(position);
 

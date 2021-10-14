@@ -18,6 +18,8 @@ import 'package:yuwaku_proto/database.dart';
 import 'package:flutter/material.dart' as prefix;
 import 'package:bubble/bubble.dart';
 
+import 'map_painter.dart';
+
 /// Colorsを使う時はprefix.Colors.~と使ってください
 
 /// アセットのパスからui.Imageをロード
@@ -161,6 +163,9 @@ class _MapPageState extends State<MapPage> {
   double _moveX = 0;
 
   /// x軸の移動を保持
+  ///
+
+  MapPainter? _mapPainter = null;
 
   /// マップの場所情報の一覧
   final _mapItems = <MapItem>[
@@ -173,10 +178,13 @@ class _MapPageState extends State<MapPage> {
   /// アセット(画像等)の取得
   void _getAssets() async {
     final ui.Image img = await loadUiImage('assets/images/map_img.png');
+    this._mapPainter = MapPainter(img, _getMoveX, _mapItems);
     for (var item in _mapItems) {
       await item.loadInitialImage();
     }
-    setState(() => {_mapImage = img});
+    setState(() => {
+      _mapImage = img
+    });
   }
 
   /// x軸の移動情報を返す
@@ -200,6 +208,9 @@ class _MapPageState extends State<MapPage> {
     final AppBar appBar = AppBar(title: Text(widget.title,style: TextStyle(color: prefix.Colors.black87))); // ヘッダ部分のUIパーツ
     final mediaHeight = mediaSize.height - appBar.preferredSize.height; // キャンバス部分の高さ
 
+    if ( _mapImage != null ) {
+      this._mapPainter = MapPainter(_mapImage!, _getMoveX, _mapItems);
+    }
 
     // 画面遷移用の初期化
     _mapItems.forEach((e) {
@@ -218,18 +229,15 @@ class _MapPageState extends State<MapPage> {
               ? // マップ画像の読み込みがない場合はTextを表示
               Text('Loading...')
               : // 画像ロード中の際の表示
-
               GestureDetector(
                   onTapUp: (details) {
                     // タップ時の処理
                     // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-                    final scale = mediaHeight / _mapImage!.height.toDouble();
                     for (var item in _mapItems) {
                       // 場所ごとの処理
                       // FIXME: 画像の当たり判定がややy軸方向にズレている(広がっている)
                       // タップの判定処理(タップ時は遷移)
-                      item.onTapImage(
-                          scale, _getMoveX(), details.localPosition);
+                      item.onTapImage(this._mapPainter!.scale, _getMoveX(), details.localPosition);
                       // item.onTapCircle(scale, _getMoveX(), details.localPosition, context);
                     }
                   },
@@ -239,18 +247,14 @@ class _MapPageState extends State<MapPage> {
                       // スクロールを適用した場合の遷移先X
                       final next = _moveX - details.delta.dx;
                       // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-                      final scale = mediaHeight / _mapImage!.height.toDouble();
                       // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
-                      _moveX = min(max(next, 0),
-                          _mapImage!.width * scale - mediaSize.width / scale);
+                      _moveX = min(max(next, 0), _mapImage!.width * this._mapPainter!.scale - mediaSize.width);
                     });
                   },
                   child: CustomPaint(
                     // キャンバス本体
-
                     size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
-                    painter:
-                        MapPainter(_mapImage!, _getMoveX, _mapItems), // ペインター
+                    painter: this._mapPainter!, // ペインター
                     child: Center(), // あったほうがいいらしい？？
                   ),
                 ),
