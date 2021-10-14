@@ -248,8 +248,7 @@ class _MapPageState extends State<MapPage> {
                       final next = _moveX - details.delta.dx;
                       // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
                       // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
-                      _moveX = min(max(next, 0),
-                          _mapImage!.width * this._mapPainter!.scale - mediaSize.width / this._mapPainter!.scale);
+                      _moveX = min(max(next, 0), _mapImage!.width * this._mapPainter!.scale - mediaSize.width);
                     });
                   },
                   child: CustomPaint(
