@@ -12,6 +12,7 @@ import 'package:touchable/touchable.dart';
 
 double YInari = 10000000000000;
 double Souyu = 10000000000000;
+double Himuro = 1000000000000;
 
 
 /// マップの描画
@@ -68,17 +69,23 @@ class MapPainter extends CustomPainter {
         .then((position) {
 
           YInari = Geolocator.distanceBetween(position.latitude, position.longitude, 36.4856770, 136.7582343);
+          Souyu = Geolocator.distanceBetween(position.latitude, position.longitude, 36.48567221199191, 136.75751246063845);
+          Himuro = Geolocator.distanceBetween(position.latitude, position.longitude, 36.48334703105948, 136.75708224329324);
+
           // テスト値
           print(position);
 
         });
         // Test
-        YInari = 40;
-        Souyu = 20;
+
+        /// 足湯(湯の出): Latitude: 36.48907313908926, Longitude: 136.75600363400136
+        /// みどりの里: Latitude: 36.490402927190495, Longitude: 136.75423519148546
 
         // 円を書く
         canvas.drawCircle(Offset(item.position.dx * scale - _getMoveX(),
             item.position.dy * scale), 10, paint);
+
+
 
         if (YInari < 30 && item.name == "湯涌稲荷神社") {
           print("==================================================");
