@@ -15,11 +15,14 @@ class PlaneExplain{
   final String name;
   final String planeExplain;
   final String initialImagePath;
+  final double delay;
+  final Widget child;
 
   ui.Image initialPicture;
 
-  PlaneExplain(this.name,this.planeExplain,this.initialImagePath,this.initialPicture);
-
+  PlaneExplain(
+      this.name,this.planeExplain,this.initialImagePath,this.initialPicture,
+      this.delay,this.child);
 }
 
 class PicExplain extends StatefulWidget{
@@ -40,29 +43,30 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
   static final colorTween2 = ColorTween(begin: Color(0xffA83279), end: Colors.blue.shade600);
 */
 
-  late final AnimationController _controller;
-  late final Animation<double> _animation;
 
+  AnimationController? animationController;
+  Animation<Offset>? animation,animation1;
 
   final Image sun = Image.asset('asetts/image/NotKeigoSirayu.png');
   static const String _title = '第一ステージ';
 
   @override
   void initState(){
-    _controller = AnimationController(
-        vsync: this,
-        duration: Duration(seconds: 3),
-    );
+        animationController = AnimationController(
+            duration: const Duration(milliseconds: 500), vsync: this
+        );
 
-    _animation = Tween(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(_controller);
+        animation = Tween<Offset>(
+            begin: const Offset(0.3,0),end: Offset.zero
+        ).animate(CurvedAnimation(
+            parent: animationController!,
+            curve: Curves.easeIn));
   }
+
 
   @override
   void dispose() {
-    _controller.dispose();
+    animationController?.dispose();
     super.dispose();
   }
 
@@ -71,7 +75,7 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
   Widget build(BuildContext context) {
     final double deviceHeight = MediaQuery.of(context).size.height;
     final double deviceWidth = MediaQuery.of(context).size.width;
-    _controller.forward();
+    animationController!.forward();
 
     return Material(
         child: Scaffold(
@@ -85,13 +89,17 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
                   hoverThickness: 16,
                   radius: Radius.circular(16),
 
+
                   child: SingleChildScrollView(
                       child: Column(
                           children: <Widget>[
                             /// 1つ目の場所
-                            FadeTransition(
-                                opacity: _animation,
+
+                            SlideTransition(
+                              position: animation!,
+
                               child: Card(
+
                                 margin: EdgeInsets.only(left: 20,right: 20, bottom: 15, top: 10),
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -100,6 +108,7 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
                                 child: Column(
                                   children: <Widget>[
                                     Container(
+
                                       child: Image.asset('assets/images/KeigoSirayu.png'),
                                     ),
                                     Container(
@@ -157,6 +166,7 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
                               clipBehavior: Clip.antiAliasWithSaveLayer,
                               elevation: 10,
                               child: InkWell(
+
                                 onTap: (){
                                   print("タップされました");
 
