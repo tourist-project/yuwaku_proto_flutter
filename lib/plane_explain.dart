@@ -15,14 +15,11 @@ class PlaneExplain{
   final String name;
   final String planeExplain;
   final String initialImagePath;
-  final double delay;
-  final Widget child;
+
 
   ui.Image initialPicture;
 
-  PlaneExplain(
-      this.name,this.planeExplain,this.initialImagePath,this.initialPicture,
-      this.delay,this.child);
+  PlaneExplain(this.name,this.planeExplain,this.initialImagePath,this.initialPicture);
 }
 
 class PicExplain extends StatefulWidget{
@@ -39,12 +36,7 @@ class PicExplain extends StatefulWidget{
 
 class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
 
-/*  static final colorTween1 = ColorTween(begin: Color(0xffD38312), end: Colors.lightBlue.shade900);
-  static final colorTween2 = ColorTween(begin: Color(0xffA83279), end: Colors.blue.shade600);
-*/
-
-
-  AnimationController? animationController;
+  AnimationController? animationController,animationController1;
   Animation<Offset>? animation,animation1;
 
   final Image sun = Image.asset('asetts/image/NotKeigoSirayu.png');
@@ -53,14 +45,20 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
   @override
   void initState(){
         animationController = AnimationController(
-            duration: const Duration(milliseconds: 500), vsync: this
+            duration: const Duration(milliseconds: 700), vsync: this
         );
 
         animation = Tween<Offset>(
-            begin: const Offset(0.3,0),end: Offset.zero
+            begin: const Offset(0.5, 0), end: Offset.zero
         ).animate(CurvedAnimation(
             parent: animationController!,
-            curve: Curves.easeIn));
+            curve: Curves.easeInOut));
+
+        animation1 = Tween<Offset>(
+            begin: const Offset(1, 0), end: Offset.zero
+        ).animate(CurvedAnimation(
+            parent: animationController!,
+            curve: Curves.easeInOut));
   }
 
 
@@ -97,9 +95,7 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
 
                             SlideTransition(
                               position: animation!,
-
                               child: Card(
-
                                 margin: EdgeInsets.only(left: 20,right: 20, bottom: 15, top: 10),
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -156,21 +152,17 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
                                   ],
                                 ),
                               ),
-
                             ),
 
+                            SlideTransition(
+                              position: animation1!,
 
-                            Card(
-                              margin: EdgeInsets.only(left: 20,right: 20,bottom: 15),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              elevation: 10,
-                              child: InkWell(
+                              child: Card(
+                                margin: EdgeInsets.only(left: 20,right: 20,bottom: 15),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                elevation: 10,
 
-                                onTap: (){
-                                  print("タップされました");
-
-                                },
                                 child: Column(
                                   children: <Widget>[
                                     Container(
@@ -193,11 +185,11 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
                                               Container(
                                                 margin: EdgeInsets.only(left: 15),
                                                 child: Text("Yuwaku Souyu",
-                                                    style: TextStyle(
-                                                        fontWeight: FontWeight.normal,
-                                                        fontSize: 10,
-                                                        color: Colors.black54
-                                                    )
+                                                  style: TextStyle(
+                                                      fontWeight: FontWeight.normal,
+                                                      fontSize: 10,
+                                                      color: Colors.black54
+                                                  ),
                                                 ),
                                               ),
                                             ],
@@ -209,16 +201,12 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
                                 ),
                               ),
                             ),
-                          ]
+                          ],
                       ),
-
-
                   ),
                 ),
             ),
         ),
     );
   }
-
-
 }
