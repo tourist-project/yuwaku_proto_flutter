@@ -81,130 +81,230 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
               title: Text(_title,style: TextStyle(color: Colors.black87)),
             ),
             body: Center(
-                child: Scrollbar(
-                  isAlwaysShown: true,
-                  thickness: 8,
-                  hoverThickness: 16,
-                  radius: Radius.circular(16),
+              child: Scrollbar(
+                isAlwaysShown: true,
+                thickness: 8,
+                hoverThickness: 16,
+                radius: Radius.circular(16),
 
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      /// 1つ目の場所
+                      SlideTransition(
+                        position: animation!,
+                        child: Card(
+                          margin: EdgeInsets.only(left: 20,right: 20, bottom: 15, top: 10),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          elevation: 10,
 
-                  child: SingleChildScrollView(
-                      child: Column(
-                          children: <Widget>[
-                            /// 1つ目の場所
-
-                            SlideTransition(
-                              position: animation!,
-                              child: Card(
-                                margin: EdgeInsets.only(left: 20,right: 20, bottom: 15, top: 10),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                                clipBehavior: Clip.antiAliasWithSaveLayer,
-                                elevation: 10,
-
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                child: Image.asset('assets/images/KeigoSirayu.png'),
+                              ),
+                              Container(
                                 child: Column(
                                   children: <Widget>[
-                                    Container(
-
-                                      child: Image.asset('assets/images/KeigoSirayu.png'),
-                                    ),
-                                    Container(
-                                      child: Column(
-                                        children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              Container(
-                                                child: Text(" 湯涌総湯",
-                                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0)
-                                                ),
-                                              ),
-                                            ],
+                                    Row(
+                                      children: <Widget>[
+                                        Container(
+                                          child: Text(" 湯涌総湯",
+                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0)
                                           ),
-                                          Row(
-                                            children: <Widget>[
-                                              Container(
-                                                margin: EdgeInsets.only(left: deviceWidth/12),
-                                                child: Text("Yuwaku Souyu",
-                                                    style: TextStyle(
-                                                        fontWeight: FontWeight.normal,
-                                                        fontSize: 10,
-                                                        color: Colors.black54
-                                                    )
-                                                ),
-
-                                              ),
-                                            ],
-                                          ),
-
-                                        ],
-
-                                      ),
+                                        ),
+                                      ],
                                     ),
-
-                                    Container(
-                                      margin: EdgeInsets.all( 10),
-
-                                      child: Text('養老二年（718年）近郷の農夫が泉に身を癒す白鷺をみてこの温泉を発見したと伝えられています。'
-                                          '藩政時代は、加賀藩の歴代藩主を始め一族が常用し、その効能によって治癒本復することがしばしばあり、これを賞され湯宿の主人に名字帯刀が許されたと言われます。'
-                                          '大正の初めドイツで開かれた万国鉱 泉博覧会に当時の内務省の推薦により日本の名泉として出展、泉質の良さが認められました。以来、文人墨客の来湯が繁くなり、特異な美人画で知られる大正の詩人、'
-                                          '竹久夢二が愛する女性彦乃を至福の日々を過ごした「ロマンの湯」としても知られています。'
-                                      ),
+                                    Row(
+                                      children: <Widget>[
+                                        Container(
+                                          margin: EdgeInsets.only(left: deviceWidth/12),
+                                          child: Text("Yuwaku Souyu",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: 10,
+                                                  color: Colors.black54
+                                              ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
                               ),
-                            ),
+                              Container(
+                                margin: EdgeInsets.all( 10),
+                                child: Text('養老二年（718年）近郷の農夫が泉に身を癒す白鷺をみてこの温泉を発見したと伝えられています。'
+                                    '藩政時代は、加賀藩の歴代藩主を始め一族が常用し、その効能によって治癒本復することがしばしばあり、これを賞され湯宿の主人に名字帯刀が許されたと言われます。'
+                                    '大正の初めドイツで開かれた万国鉱 泉博覧会に当時の内務省の推薦により日本の名泉として出展、泉質の良さが認められました。以来、文人墨客の来湯が繁くなり、特異な美人画で知られる大正の詩人、'
+                                    '竹久夢二が愛する女性彦乃を至福の日々を過ごした「ロマンの湯」としても知られています。'
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SlideTransition(
+                        position: animation1!,
+                        child: Card(
+                          margin: EdgeInsets.only(left: 20,right: 20,bottom: 15),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          elevation: 10,
 
-                            SlideTransition(
-                              position: animation1!,
-
-                              child: Card(
-                                margin: EdgeInsets.only(left: 20,right: 20,bottom: 15),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                                clipBehavior: Clip.antiAliasWithSaveLayer,
-                                elevation: 10,
-
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                  child: Image.asset('assets/images/KeigoSirayu.png')
+                              ),
+                              Container(
                                 child: Column(
                                   children: <Widget>[
-                                    Container(
-                                        child: Image.asset('assets/images/KeigoSirayu.png')
+                                    Row(
+                                      children: <Widget>[
+                                        Container(
+                                          child: Text("湯涌総湯",
+                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0)
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    Container(
-                                      child: Column(
-                                        children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              Container(
-                                                child: Text("湯涌総湯",
-                                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0)
-                                                ),
-                                              ),
-                                            ],
+                                    Row(
+                                      children: <Widget>[
+                                        Container(
+                                          margin: EdgeInsets.only(left: 15),
+                                          child: Text("Yuwaku Souyu",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 10,
+                                                color: Colors.black54
+                                            ),
                                           ),
-                                          Row(
-                                            children: <Widget>[
-                                              Container(
-                                                margin: EdgeInsets.only(left: 15),
-                                                child: Text("Yuwaku Souyu",
-                                                  style: TextStyle(
-                                                      fontWeight: FontWeight.normal,
-                                                      fontSize: 10,
-                                                      color: Colors.black54
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.all( 10),
+                                child: Text('養老二年（718年）近郷の農夫が泉に身を癒す白鷺をみてこの温泉を発見したと伝えられています。'
+                                    '藩政時代は、加賀藩の歴代藩主を始め一族が常用し、その効能によって治癒本復することがしばしばあり、これを賞され湯宿の主人に名字帯刀が許されたと言われます。'
+                                    '大正の初めドイツで開かれた万国鉱 泉博覧会に当時の内務省の推薦により日本の名泉として出展、泉質の良さが認められました。以来、文人墨客の来湯が繁くなり、特異な美人画で知られる大正の詩人、'
+                                    '竹久夢二が愛する女性彦乃を至福の日々を過ごした「ロマンの湯」としても知られています。'
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Card(
+                        margin: EdgeInsets.only(left: 20,right: 20,bottom: 15),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        elevation: 10,
+
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                                child: Image.asset('assets/images/KeigoSirayu.png')
+                            ),
+                            Container(
+                              child: Column(
+                                children: <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      Container(
+                                        child: Text("湯涌総湯",
+                                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0)
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      Container(
+                                        margin: EdgeInsets.only(left: 15),
+                                        child: Text("Yuwaku Souyu",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 10,
+                                              color: Colors.black54
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all( 10),
+                              child: Text('養老二年（718年）近郷の農夫が泉に身を癒す白鷺をみてこの温泉を発見したと伝えられています。'
+                                  '藩政時代は、加賀藩の歴代藩主を始め一族が常用し、その効能によって治癒本復することがしばしばあり、これを賞され湯宿の主人に名字帯刀が許されたと言われます。'
+                                  '大正の初めドイツで開かれた万国鉱 泉博覧会に当時の内務省の推薦により日本の名泉として出展、泉質の良さが認められました。以来、文人墨客の来湯が繁くなり、特異な美人画で知られる大正の詩人、'
+                                  '竹久夢二が愛する女性彦乃を至福の日々を過ごした「ロマンの湯」としても知られています。'
                               ),
                             ),
                           ],
+                        ),
                       ),
+                      Card(
+                        margin: EdgeInsets.only(left: 20,right: 20,bottom: 15),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        elevation: 10,
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                                child: Image.asset('assets/images/KeigoSirayu.png')
+                            ),
+                            Container(
+                              child: Column(
+                                children: <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      Container(
+                                        child: Text("湯涌総湯",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold, fontSize: 30.0)
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      Container(
+                                        margin: EdgeInsets.only(left: 15),
+                                        child: Text("Yuwaku Souyu",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 10,
+                                              color: Colors.black54
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all( 10),
+                              child: Text('養老二年（718年）近郷の農夫が泉に身を癒す白鷺をみてこの温泉を発見したと伝えられています。'
+                                  '藩政時代は、加賀藩の歴代藩主を始め一族が常用し、その効能によって治癒本復することがしばしばあり、これを賞され湯宿の主人に名字帯刀が許されたと言われます。'
+                                  '大正の初めドイツで開かれた万国鉱 泉博覧会に当時の内務省の推薦により日本の名泉として出展、泉質の良さが認められました。以来、文人墨客の来湯が繁くなり、特異な美人画で知られる大正の詩人、'
+                                  '竹久夢二が愛する女性彦乃を至福の日々を過ごした「ロマンの湯」としても知られています。'
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+              ),
             ),
         ),
     );
