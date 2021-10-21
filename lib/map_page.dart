@@ -34,34 +34,17 @@ Future<ui.Image> loadUiImage(String imageAssetPath) async {
 
 /// 場所情報
 class MapItem {
-  final String name;
 
-  /// 場所の名前
-  final double latitude;
-
-  /// 緯度
-  final double longitude;
-
-  /// 経度
-  final Offset position;
-
-  /// 画像上の座標
-  final String initialImagePath;
-
-  /// イラストのパス
-  ui.Rect photoRect;
-
-  /// 画像の四角
-
+  final String name;/// 場所の名前
+  final double latitude;/// 緯度
+  final double longitude;/// 経度
+  final Offset position;/// 画像上の座標
+  final String initialImagePath;/// イラストのパス
+  ui.Rect photoRect;/// 画像の四角
   ui.Image? initialImage;
-
-
   void Function()? tapImageFunc; /// タップ時に動く関数
-  final imageDb = ImageDBProvider.instance;
-  /// 初期化時のイラスト
+  final imageDb = ImageDBProvider.instance;/// 初期化時のイラスト
   ui.Image? photoImage;
-
-
 
   /// イニシャライズ
   MapItem(this.name, this.latitude, this.longitude, this.position,
@@ -99,25 +82,18 @@ class MapItem {
     final tapX = tapLoc.dx;
     final tapY = tapLoc.dy;
     final rect = getPhotoRectForDeviceFit(scale, moveX);
-    if (rect.left <= tapX &&
-        tapX <= rect.right &&
-        rect.top <= tapY &&
-        tapY <= rect.bottom &&
-        tapImageFunc != null) {
+    if (rect.left <= tapX && tapX <= rect.right &&
+        rect.top <= tapY && tapY <= rect.bottom && tapImageFunc != null) {
       tapImageFunc!();
     }
   }
-
 }
 
 /// マップページのステートフルウィジェット
 class MapPage extends StatefulWidget {
   /// コンストラクタ
   MapPage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  /// ページタイトル
+  final String title;/// ページタイトル
 
   /// 描画
   @override
@@ -126,13 +102,9 @@ class MapPage extends StatefulWidget {
 
 /// マップのステート
 class _MapPageState extends State<MapPage> {
-  ui.Image? _mapImage;
 
-  /// マップの画像
-  double _moveX = 0;
-
-  /// x軸の移動を保持
-  ///
+  ui.Image? _mapImage;/// マップの画像
+  double _moveX = 0;/// x軸の移動を保持
 
   MapPainter? _mapPainter = null;
 
@@ -173,7 +145,6 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
 
     final Size mediaSize = MediaQuery.of(context).size; // 画面の取得
-
     final AppBar appBar = AppBar(title: Text(widget.title,style: TextStyle(color: prefix.Colors.black87))); // ヘッダ部分のUIパーツ
     final mediaHeight = mediaSize.height - appBar.preferredSize.height; // キャンバス部分の高さ
 
@@ -194,39 +165,38 @@ class _MapPageState extends State<MapPage> {
 
       body: Stack(
         children: <Widget>[
-          _mapImage == null
-              ? // マップ画像の読み込みがない場合はTextを表示
-              Text('Loading...')
-              : // 画像ロード中の際の表示
-              GestureDetector(
-                  onTapUp: (details) {
-                    // タップ時の処理
-                    // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-                    for (var item in _mapItems) {
-                      // 場所ごとの処理
-                      // FIXME: 画像の当たり判定がややy軸方向にズレている(広がっている)
-                      // タップの判定処理(タップ時は遷移)
-                      item.onTapImage(this._mapPainter!.scale, _getMoveX(), details.localPosition);
-                      // item.onTapCircle(scale, _getMoveX(), details.localPosition, context);
-                    }
-                  },
-                  onPanUpdate: (DragUpdateDetails details) {
-                    // スクロール時の処理
-                    setState(() {
-                      // スクロールを適用した場合の遷移先X
-                      final next = _moveX - details.delta.dx;
-                      // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-                      // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
-                      _moveX = min(max(next, 0), _mapImage!.width * this._mapPainter!.scale - mediaSize.width);
-                    });
-                  },
-                  child: CustomPaint(
-                    // キャンバス本体
-                    size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
-                    painter: this._mapPainter!, // ペインター
-                    child: Center(), // あったほうがいいらしい？？
-                  ),
-                ),
+          Center(
+
+            //_mapImage == null ? // マップ画像の読み込みがない場合はTextを表示
+            child: _mapImage == null ? Text('Loading...', style: TextStyle(
+              fontSize: 30, fontWeight: FontWeight.bold
+            )): // ロード画面
+
+            GestureDetector(
+              onTapUp: (details) {// タップ時の処理
+                // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
+                for (var item in _mapItems) {
+                  // 場所ごとのタップの判定処理(タップ時は遷移)
+                  item.onTapImage(this._mapPainter!.scale, _getMoveX(), details.localPosition);
+                }
+              },
+              onPanUpdate: (DragUpdateDetails details) {// スクロール時の処理
+                setState(() {
+                  // スクロールを適用した場合の遷移先X
+                  final next = _moveX - details.delta.dx;
+                  // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
+                  // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
+                  _moveX = min(max(next, 0), _mapImage!.width * this._mapPainter!.scale - mediaSize.width);
+                });
+              },
+              child: CustomPaint(
+                // キャンバス本体
+                size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
+                painter: this._mapPainter!, // ペインター
+                child: Center(), // あったほうがいいらしい？？
+              ),
+            ),
+          ),
           SnackBerPage(),
         ],
       ),
@@ -240,14 +210,15 @@ int change = 0;
 // 表示するヒントの変数
 
 class SnackBerPage extends StatefulWidget {
-  SnackBerPage() : super();
 
+  SnackBerPage() : super();
 
   @override
   _SnackBarPageState createState() => _SnackBarPageState(durationSecond: 3);
 }
 
 class _SnackBarPageState extends State<SnackBerPage> {
+
   final int durationSecond;
   _SnackBarPageState({required this.durationSecond});
 
@@ -267,7 +238,6 @@ class _SnackBarPageState extends State<SnackBerPage> {
         change = randomNum;
       });
     }
-
   }
 
   @override
@@ -289,7 +259,8 @@ class _SnackBarPageState extends State<SnackBerPage> {
                 fontSize: 18,
               ),
               textAlign: TextAlign.center,
-            )),
+            )
+        ),
         // 出っ張っている所の指定
         nip: BubbleNip.leftBottom,
       ),

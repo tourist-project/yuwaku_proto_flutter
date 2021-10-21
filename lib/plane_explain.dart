@@ -15,8 +15,6 @@ class PlaneExplain{
   final String name;
   final String planeExplain;
   final String initialImagePath;
-
-
   ui.Image initialPicture;
 
   PlaneExplain(this.name,this.planeExplain,this.initialImagePath,this.initialPicture);
