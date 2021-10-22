@@ -59,13 +59,10 @@ class MapPainter extends CustomPainter {
 
           YInari = Geolocator.distanceBetween(position.latitude, position.longitude, 36.4856770, 136.7582343);
           Souyu = Geolocator.distanceBetween(position.latitude, position.longitude, 36.48567221199191, 136.75751246063845);
-          Himuro = Geolocator.distanceBetween(position.latitude, position.longitude, 36.48334703105948, 136.75708224329324);
 
           print(position);
         });
 
-        /// 足湯(湯の出): Latitude: 36.48907313908926, Longitude: 136.75600363400136
-        /// みどりの里: Latitude: 36.490402927190495, Longitude: 136.75423519148546
 
         // 円を書く
         canvas.drawCircle(Offset(item.position.dx * scale - _getMoveX(),
