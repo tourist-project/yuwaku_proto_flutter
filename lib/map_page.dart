@@ -11,16 +11,10 @@ import 'package:yuwaku_proto/main.dart';
 import 'dart:ui' as ui;
 import 'package:yuwaku_proto/map_painter.dart';
 import 'dart:math' as math;
-import 'package:geolocator/geolocator.dart';
-
 import 'package:yuwaku_proto/database.dart';
-
 import 'package:flutter/material.dart' as prefix;
 import 'package:bubble/bubble.dart';
-
-import 'map_painter.dart';
-
-/// Colorsを使う時はprefix.Colors.~と使ってください
+import 'map_painter.dart';// Colorsを使う時はprefix.Colors.~と使ってください
 
 /// アセットのパスからui.Imageをロード
 Future<ui.Image> loadUiImage(String imageAssetPath) async {
@@ -197,12 +191,14 @@ class _MapPageState extends State<MapPage> {
               ),
             ),
           ),
-          SnackBerPage(),
+          SnackBerPage()
         ],
       ),
     );
   }
 }
+
+
 
 // ヒント内容
 const explainList = ['森に囲まれた長い段差を乗り越えるとそこには', '川にかかった大きな橋、森を見守るような厳かな表情'];
@@ -210,11 +206,10 @@ int change = 0;
 // 表示するヒントの変数
 
 class SnackBerPage extends StatefulWidget {
-
   SnackBerPage() : super();
 
   @override
-  _SnackBarPageState createState() => _SnackBarPageState(durationSecond: 3);
+  _SnackBarPageState createState() => _SnackBarPageState(durationSecond: 10);
 }
 
 class _SnackBarPageState extends State<SnackBerPage> {
@@ -240,8 +235,11 @@ class _SnackBarPageState extends State<SnackBerPage> {
     }
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+
     final widthsize = MediaQuery.of(context).size.width;
     final heightsize = MediaQuery.of(context).size.height;
 
@@ -270,5 +268,6 @@ class _SnackBarPageState extends State<SnackBerPage> {
 
 @override
 Widget build(BuildContext context) {
+
   return Container();
 }
