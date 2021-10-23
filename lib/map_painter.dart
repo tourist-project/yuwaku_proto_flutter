@@ -12,6 +12,7 @@ import 'package:touchable/touchable.dart';
 
 double YInari = 10000000000000;
 double Souyu = 10000000000000;
+double Himuro = 1000000000000;
 
 
 /// マップの描画
@@ -23,11 +24,8 @@ class MapPainter extends CustomPainter {
   List<MapItem> _mapItems; /// マップ上に描画する場所の一覧
   var scale = 0.0;
 
-  Distance distance = new Distance();
-
   /// コンストラクタ
   MapPainter(this._mapImage, this._getMoveX, this._mapItems);
-
 
   /// 描画
   @override
@@ -37,24 +35,18 @@ class MapPainter extends CustomPainter {
       ..color = Colors.red // 赤色を設定
       ..strokeWidth = 2; // 線の太さを2に設定
 
-    this.scale = size.height / _mapImage.height.toDouble() ; // 画像を縦方向に引き伸ばした倍率, +0.02は端末に依存
-
-
-    /// 怪しいぞ↑↓
-    //final width = _mapImage.width /(_mapImage.width*scale / size.width); // 一度に描画できる横幅
+    this.scale = size.height / _mapImage.height.toDouble() ; // 画像を縦方向に引き伸ばした倍率
     final width = size.width / scale ; // 場所を描画している
 
     final src = Rect.fromLTWH(_getMoveX()/scale, 0, width, _mapImage.height.toDouble()); // 画像中の用いる範囲
     final dst = Rect.fromLTWH(0, 0, size.width, size.height); // 描画場所
-    canvas.drawImageRect(_mapImage, src, dst, paint); // マップの描画
+    canvas.drawImageRect(_mapImage, src, dst, paint); // 背景マップの描画
 
 
     // 場所ごとの処理
     for (var item in _mapItems) {
-
       // 表示する画像の取得
       final img = item.getDisplayImage();
-
       // もし画像がロードできていないなら何もしない
       if (img != null) {
         final length = min(img.height, img.width).toDouble(); // 縦横のうち最短を取得
@@ -63,18 +55,14 @@ class MapPainter extends CustomPainter {
         final rescaleRect = item.getPhotoRectForDeviceFit(scale, _getMoveX()); // どこに描画するかを設定
 
 
-
-        Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((position) {
+        Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then((position) {
 
           YInari = Geolocator.distanceBetween(position.latitude, position.longitude, 36.4856770, 136.7582343);
-          // テスト値
-          print(position);
+          Souyu = Geolocator.distanceBetween(position.latitude, position.longitude, 36.48567221199191, 136.75751246063845);
 
+          print(position);
         });
-        // Test
-        YInari = 40;
-        Souyu = 20;
+
 
         // 円を書く
         canvas.drawCircle(Offset(item.position.dx * scale - _getMoveX(),
@@ -106,9 +94,9 @@ class MapPainter extends CustomPainter {
 
               Offset((item.position.dx * scale - _getMoveX()),
                   item.position.dy * scale), paint);
-
         }
 
+        // canvas.drawShadow(path,Colors.black54, 20,);
         // 写真(イラストを表示)
         canvas.drawImageRect(img, src, rescaleRect, paint);
       }

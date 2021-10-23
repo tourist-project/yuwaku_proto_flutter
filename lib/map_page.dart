@@ -11,16 +11,10 @@ import 'package:yuwaku_proto/main.dart';
 import 'dart:ui' as ui;
 import 'package:yuwaku_proto/map_painter.dart';
 import 'dart:math' as math;
-import 'package:geolocator/geolocator.dart';
-
 import 'package:yuwaku_proto/database.dart';
-
 import 'package:flutter/material.dart' as prefix;
 import 'package:bubble/bubble.dart';
-
-import 'map_painter.dart';
-
-/// Colorsを使う時はprefix.Colors.~と使ってください
+import 'map_painter.dart';// Colorsを使う時はprefix.Colors.~と使ってください
 
 /// アセットのパスからui.Imageをロード
 Future<ui.Image> loadUiImage(String imageAssetPath) async {
@@ -34,34 +28,17 @@ Future<ui.Image> loadUiImage(String imageAssetPath) async {
 
 /// 場所情報
 class MapItem {
-  final String name;
 
-  /// 場所の名前
-  final double latitude;
-
-  /// 緯度
-  final double longitude;
-
-  /// 経度
-  final Offset position;
-
-  /// 画像上の座標
-  final String initialImagePath;
-
-  /// イラストのパス
-  ui.Rect photoRect;
-
-  /// 画像の四角
-
+  final String name;/// 場所の名前
+  final double latitude;/// 緯度
+  final double longitude;/// 経度
+  final Offset position;/// 画像上の座標
+  final String initialImagePath;/// イラストのパス
+  ui.Rect photoRect;/// 画像の四角
   ui.Image? initialImage;
-
-
   void Function()? tapImageFunc; /// タップ時に動く関数
-  final imageDb = ImageDBProvider.instance;
-  /// 初期化時のイラスト
+  final imageDb = ImageDBProvider.instance;/// 初期化時のイラスト
   ui.Image? photoImage;
-
-
 
   /// イニシャライズ
   MapItem(this.name, this.latitude, this.longitude, this.position,
@@ -99,25 +76,18 @@ class MapItem {
     final tapX = tapLoc.dx;
     final tapY = tapLoc.dy;
     final rect = getPhotoRectForDeviceFit(scale, moveX);
-    if (rect.left <= tapX &&
-        tapX <= rect.right &&
-        rect.top <= tapY &&
-        tapY <= rect.bottom &&
-        tapImageFunc != null) {
+    if (rect.left <= tapX && tapX <= rect.right &&
+        rect.top <= tapY && tapY <= rect.bottom && tapImageFunc != null) {
       tapImageFunc!();
     }
   }
-
 }
 
 /// マップページのステートフルウィジェット
 class MapPage extends StatefulWidget {
   /// コンストラクタ
   MapPage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  /// ページタイトル
+  final String title;/// ページタイトル
 
   /// 描画
   @override
@@ -126,15 +96,11 @@ class MapPage extends StatefulWidget {
 
 /// マップのステート
 class _MapPageState extends State<MapPage> {
-  ui.Image? _mapImage;
   final imageDb = ImageDBProvider.instance;
   var is_clear = false;
 
-  /// マップの画像
-  double _moveX = 0;
-
-  /// x軸の移動を保持
-  ///
+  ui.Image? _mapImage;/// マップの画像
+  double _moveX = 0;/// x軸の移動を保持
 
   MapPainter? _mapPainter = null;
 
@@ -182,7 +148,6 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
 
     final Size mediaSize = MediaQuery.of(context).size; // 画面の取得
-
     final AppBar appBar = AppBar(title: Text(widget.title,style: TextStyle(color: prefix.Colors.black87))); // ヘッダ部分のUIパーツ
     final mediaHeight = mediaSize.height - appBar.preferredSize.height; // キャンバス部分の高さ
 
@@ -198,7 +163,7 @@ class _MapPageState extends State<MapPage> {
       e.tapImageFunc =
           () => Navigator.of(context).pushNamed('/camera_page', arguments: e);
     });
-
+    
     if (this.is_clear) {
 
       return Scaffold(
@@ -259,34 +224,30 @@ class _MapPageState extends State<MapPage> {
                 child: Center(), // あったほうがいいらしい？？
               ),
             ),
-            SnackBerPage(),
-          ],
-        ),
-      );
-
-    }
-  }
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<bool>('is_clear', is_clear));
+          ),
+          SnackBerPage()
+        ],
+      ),
+    );
   }
 }
 
+
+
 // ヒント内容
-const explainList = ['test', 'testtesttesttesttesttesttest'];
+const explainList = ['森に囲まれた長い段差を乗り越えるとそこには', '川にかかった大きな橋、森を見守るような厳かな表情'];
 int change = 0;
 // 表示するヒントの変数
 
 class SnackBerPage extends StatefulWidget {
   SnackBerPage() : super();
 
-
   @override
-  _SnackBarPageState createState() => _SnackBarPageState(durationSecond: 3);
+  _SnackBarPageState createState() => _SnackBarPageState(durationSecond: 10);
 }
 
 class _SnackBarPageState extends State<SnackBerPage> {
+
   final int durationSecond;
   _SnackBarPageState({required this.durationSecond});
 
@@ -299,23 +260,26 @@ class _SnackBarPageState extends State<SnackBerPage> {
   void _onTimer(Timer timer) {
     final random = math.Random();
     final randomNum = random.nextInt(explainList.length);
+
     if(mounted){
       setState(() {
         // 表示するヒントを決める変数にランダムに数字を代入
         change = randomNum;
       });
     }
-
   }
+
+
 
   @override
   Widget build(BuildContext context) {
+
     final widthsize = MediaQuery.of(context).size.width;
     final heightsize = MediaQuery.of(context).size.height;
 
     return Container(
-      height: widthsize / 6.5,
-      margin: EdgeInsets.fromLTRB(heightsize / 8, heightsize / 1.38, 0, 0),
+      height: widthsize / 6,
+      margin: EdgeInsets.fromLTRB(heightsize / 8, heightsize / 1.5, 0, 0),
       child: Bubble(
         // ヒント表示のテキストの空白部分のサイズ
         padding: BubbleEdges.only(left: 5, right: 5),
@@ -327,7 +291,8 @@ class _SnackBarPageState extends State<SnackBerPage> {
                 fontSize: 18,
               ),
               textAlign: TextAlign.center,
-            )),
+            )
+        ),
         // 出っ張っている所の指定
         nip: BubbleNip.leftBottom,
       ),
@@ -337,5 +302,6 @@ class _SnackBarPageState extends State<SnackBerPage> {
 
 @override
 Widget build(BuildContext context) {
+
   return Container();
 }
