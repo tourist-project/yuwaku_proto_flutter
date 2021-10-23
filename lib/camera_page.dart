@@ -30,6 +30,7 @@ class _CameraPageState extends State<CameraPage> {
   final imageDb = ImageDBProvider.instance;
 
   Future getImage() async {
+
     final pickedFile = await picker.getImage(source: ImageSource.camera);
     if (pickedFile != null) {
       var data = await pickedFile.readAsBytes();
@@ -70,9 +71,7 @@ class _CameraPageState extends State<CameraPage> {
       ),
       body: Center(
         // ignore: unnecessary_null_comparison
-        child: _image == null
-            ? Text('No Selected ${mapItem.name}\'s image')
-            : Image.file(_image!),
+        child: _image == null ? Text('No Selected ${mapItem.name}\'s image') : Image.file(_image!),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: getImage,
