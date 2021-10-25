@@ -1,17 +1,11 @@
-import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:vector_math/vector_math.dart';
-import 'package:yuwaku_proto/main.dart';
 import 'dart:ui' as ui;
 import 'package:yuwaku_proto/map_painter.dart';
-import 'dart:math' as math;
-import 'package:geolocator/geolocator.dart';
-import 'package:flutter/material.dart' as prefix;
 import 'package:bubble/bubble.dart';
 
 /// Colorsを使う時はprefix.Colors.~と使ってください
@@ -132,6 +126,7 @@ class MapItem {
 /// マップページのステートフルウィジェット
 class MapPage extends StatefulWidget {
   /// コンストラクタ
+
   MapPage({Key? key, required this.title}) : super(key: key);
 
   final String title;
@@ -248,14 +243,17 @@ class _MapPageState extends State<MapPage> {
   }
 }
 
+String hintText = randomHint();
+
+String randomHint() => explainList[Random().nextInt(explainList.length)];
+
 // ヒント内容
 const explainList = ['森に囲まれた長い段差を乗り越えるとそこには', '川にかかった大きな橋、森を見守るような厳かな表情'];
 int change = 0;
-// 表示するヒントの変数
 
 class SnackBerPage extends StatefulWidget {
   SnackBerPage() : super();
-
+// 表示するヒントの変数
   @override
   _SnackBarPageState createState() => _SnackBarPageState(durationSecond: 3);
 }
@@ -271,20 +269,16 @@ class _SnackBarPageState extends State<SnackBerPage> {
   }
 
   void _onTimer(Timer timer) {
-    final random = math.Random();
-    final randomNum = random.nextInt(explainList.length);
     if (mounted) {
-      setState(() {
-        // 表示するヒントを決める変数にランダムに数字を代入
-        change = randomNum;
-      });
+      // 表示するヒントを決める変数にランダムに数字を代入
+      hintText = randomHint();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final widthsize = MediaQuery.of(context).size.width;
-    final heightsize = MediaQuery.of(context).size.height;
+    final widthsize = MediaQuery.of(context).size.width; // 横のスマホサイズの取得
+    final heightsize = MediaQuery.of(context).size.height; // 縦のスマホサイズの取得
 
     return Container(
       height: widthsize / 6,
@@ -294,11 +288,7 @@ class _SnackBarPageState extends State<SnackBerPage> {
         padding: BubbleEdges.only(left: 5, right: 5),
         child: Container(
             alignment: Alignment.center,
-            child: Text(
-              explainList[change],
-              style: TextStyle(
-                fontSize: 18,
-              ),
+            child: Text(hintText,style: TextStyle(fontSize: 18),
               textAlign: TextAlign.center,
             )),
         // 出っ張っている所の指定
