@@ -6,18 +6,13 @@ import 'dart:ui' as ui;
 import 'package:flutter/animation.dart';
 import 'package:simple_animations/simple_animations.dart';
 
-/// FadeTransition使ってみる？
-
-
 /// 場所説明のページ作成予定
 class PlaneExplain{
 
   final String name;
   final String planeExplain;
-  final String initialImagePath;
-  ui.Image initialPicture;
 
-  PlaneExplain(this.name,this.planeExplain,this.initialImagePath,this.initialPicture);
+  PlaneExplain(this.name,this.planeExplain);
 }
 
 class PicExplain extends StatefulWidget{
