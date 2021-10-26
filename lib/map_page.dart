@@ -224,11 +224,11 @@ class _MapPageState extends State<MapPage> {
                 child: Center(), // あったほうがいいらしい？？
               ),
             ),
-          ),
-          SnackBerPage()
+          SnackBerPage(),
         ],
       ),
     );
+  }
   }
 }
 
