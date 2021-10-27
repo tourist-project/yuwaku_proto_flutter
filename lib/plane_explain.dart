@@ -38,11 +38,12 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
   @override
   void initState(){
         animationController = AnimationController(
-            duration: const Duration(milliseconds: 700), vsync: this
+            duration: const Duration(milliseconds: 1000),
+            vsync: this
         );
 
         animation = Tween<Offset>(
-            begin: const Offset(0.5, 0), end: Offset.zero
+            begin: const Offset(0.4, 0), end: Offset.zero
         ).animate(CurvedAnimation(
             parent: animationController!,
             curve: Curves.easeInOut));
@@ -127,7 +128,7 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.all( 10),
+                                margin: EdgeInsets.all(10),
                                 child: Text('養老二年（718年）近郷の農夫が泉に身を癒す白鷺をみてこの温泉を発見したと伝えられています。'
                                     '藩政時代は、加賀藩の歴代藩主を始め一族が常用し、その効能によって治癒本復することがしばしばあり、これを賞され湯宿の主人に名字帯刀が許されたと言われます。'
                                     '大正の初めドイツで開かれた万国鉱 泉博覧会に当時の内務省の推薦により日本の名泉として出展、泉質の良さが認められました。以来、文人墨客の来湯が繁くなり、特異な美人画で知られる大正の詩人、'
