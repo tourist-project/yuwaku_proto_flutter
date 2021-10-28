@@ -216,6 +216,7 @@ class _SnackBarPageState extends State<SnackBerPage> {
 
   final int durationSecond;
   _SnackBarPageState({required this.durationSecond});
+  var _myOpacity = 0.5;
 
   @override
   void initState() {
@@ -235,33 +236,38 @@ class _SnackBarPageState extends State<SnackBerPage> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-
     final widthsize = MediaQuery.of(context).size.width;
     final heightsize = MediaQuery.of(context).size.height;
 
     return Container(
       height: widthsize / 6,
       margin: EdgeInsets.fromLTRB(heightsize / 8, heightsize / 1.5, 0, 0),
-      child: Bubble(
-        // ヒント表示のテキストの空白部分のサイズ
-        padding: BubbleEdges.only(left: 5, right: 5),
-        child: Container(
-            alignment: Alignment.center,
-            child: Text(
-              explainList[change],
-              style: TextStyle(
-                fontSize: 18,
-              ),
-              textAlign: TextAlign.center,
-            )
+
+      child: AnimatedOpacity(
+        duration: Duration(milliseconds: 1000),
+        opacity: _myOpacity,
+        child: Bubble(
+
+          // ヒント表示のテキストの空白部分のサイズ
+          padding: BubbleEdges.only(left: 5, right: 5),
+          child: Container(
+              alignment: Alignment.center,
+
+              child: Text(
+                explainList[change],
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+                textAlign: TextAlign.center,
+              )
+          ),
+          // 出っ張っている所の指定
+          nip: BubbleNip.leftBottom,
         ),
-        // 出っ張っている所の指定
-        nip: BubbleNip.leftBottom,
       ),
+
     );
   }
 }
