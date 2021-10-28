@@ -60,45 +60,43 @@ class _DevelopmentPage extends State<DevelopmentPage> with TickerProviderStateMi
     return AnimatedBuilder(
       animation: _animationController,
       builder: (BuildContext context, Widget? child) {
-        return Column(
-
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                FadeTransition(
-                  opacity: animation,
-                  child: Transform(
-                    transform: _generateMatrix(animation),
-                    child: Container(
-                      width: mediaSize.width,
-                      height: mediaSize.height / 2,
-
-                      child: Text(
-                        '開発中です',style: TextStyle(
-                        fontSize: 36,
-                      ),),
-
-                      color: Colors.red,
-                    ),
+        return Container(
+          alignment: Alignment.center,
+          width: mediaSize.width,
+          height: mediaSize.height,
+          child: FadeTransition(
+            opacity: animation,
+            child: Transform(
+              transform: _generateMatrix(animation),
+              child: Container(
+                child: RichText(
+                  text: TextSpan(
+                    style: Theme.of(context).textTheme.body1,
+                    children: [
+                      TextSpan(text: '開発中です',style: TextStyle(fontSize: 36)),
+                      WidgetSpan(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                          child: Icon(Icons.build_outlined),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            )
-          ],
+              ),
+            ),
+          ),
         );
       },
     );
   }
 
+  // Translateする時の値を行列で返す
   Matrix4 _generateMatrix(Animation animation)
   {
     final value = lerpDouble(50.0, 0, animation.value);
     return Matrix4.translationValues(0.0, value!, 0.0);
   }
-
-
 
 }
 
