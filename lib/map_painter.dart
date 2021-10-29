@@ -20,6 +20,8 @@ class MapPainter extends CustomPainter {
   List<MapItem> _mapItems; /// マップ上に描画する場所の一覧
   var scale = 0.0;
 
+
+
   /// コンストラクタ
   MapPainter(this._mapImage, this._getMoveX, this._mapItems);
 
@@ -39,7 +41,8 @@ class MapPainter extends CustomPainter {
     canvas.drawImageRect(_mapImage, src, dst, paint); // 背景マップの描画
 
     /// 位置情報の取得
-    Position currentLocation = await _getLocationInformation();
+    Position currentLocation = await getLocationInformation();
+
 
     // 場所ごとの処理
     for (var item in _mapItems) {
@@ -92,6 +95,8 @@ class MapPainter extends CustomPainter {
         canvas.drawImageRect(img, src, rescaleRect, paint);
       }
     }
+
+
   }
 
   @override
@@ -104,8 +109,12 @@ class MapPainter extends CustomPainter {
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   }
 
+  static Future<void> openAppSettings() async {
+    /// 設定画面に遷移
+    await Geolocator.openAppSettings();
+  }
 
-  Future<Position> _getLocationInformation() async {
+  static Future<Position> getLocationInformation() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -130,10 +139,10 @@ class MapPainter extends CustomPainter {
 
     // 設定から変更するまで、アクセス許可を永遠に拒否
     if (permission == LocationPermission.deniedForever) {
-      /// 設定画面に遷移
-      await Geolocator.openAppSettings();
       return Future.error('Location permissions are permanently denied, we cannot request permissions.');
     }
     return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
   }
 }
+
+
