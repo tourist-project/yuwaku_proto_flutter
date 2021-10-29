@@ -96,6 +96,8 @@ class MapPage extends StatefulWidget {
 
 /// マップのステート
 class _MapPageState extends State<MapPage> {
+  final imageDb = ImageDBProvider.instance;
+  var is_clear = false;
 
   ui.Image? _mapImage;/// マップの画像
   double _moveX = 0;/// x軸の移動を保持
@@ -134,6 +136,13 @@ class _MapPageState extends State<MapPage> {
     _getAssets();
   }
 
+  Future clearUpdate() async {
+    final count = await imageDb.countImage();
+    setState(() => {
+      this.is_clear = count >= _mapItems.length
+    });
+  }
+
   /// 見た目
   @override
   Widget build(BuildContext context) {
@@ -141,6 +150,8 @@ class _MapPageState extends State<MapPage> {
     final Size mediaSize = MediaQuery.of(context).size; // 画面の取得
     final AppBar appBar = AppBar(title: Text(widget.title,style: TextStyle(color: prefix.Colors.black87))); // ヘッダ部分のUIパーツ
     final mediaHeight = mediaSize.height - appBar.preferredSize.height; // キャンバス部分の高さ
+
+    clearUpdate();
 
     if ( _mapImage != null ) {
       this._mapPainter = MapPainter(_mapImage!, _getMoveX, _mapItems);
@@ -152,29 +163,52 @@ class _MapPageState extends State<MapPage> {
       e.tapImageFunc =
           () => Navigator.of(context).pushNamed('/camera_page', arguments: e);
     });
+    
+    if (this.is_clear) {
 
-    // UI部分
-    return Scaffold(
-      appBar: appBar,
-
-      body: Stack(
-        children: <Widget>[
-          Center(
-
-            //_mapImage == null ? // マップ画像の読み込みがない場合はTextを表示
-            child: _mapImage == null ? Text('Loading...', style: TextStyle(
-              fontSize: 30, fontWeight: FontWeight.bold
-            )): // ロード画面
-
-            GestureDetector(
-              onTapUp: (details) {// タップ時の処理
-                // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
+      return Scaffold(
+        appBar: appBar,
+        body: Stack(
+          alignment: Alignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                imageDb.deleteAll();
                 for (var item in _mapItems) {
-                  // 場所ごとのタップの判定処理(タップ時は遷移)
-                  item.onTapImage(this._mapPainter!.scale, _getMoveX(), details.localPosition);
+                  item.photoImage = null;
                 }
               },
-              onPanUpdate: (DragUpdateDetails details) {// スクロール時の処理
+              child: const Text('くりあ\n全てを無に帰す。'),
+            ),
+          ],
+        )
+      );
+
+    } else {
+
+      // UI部分
+      return Scaffold(
+        appBar: appBar,
+        body: Stack(
+          children: <Widget>[
+            _mapImage == null
+                ? // マップ画像の読み込みがない場合はTextを表示
+            Text('Loading...')
+                : // 画像ロード中の際の表示
+            GestureDetector(
+              onTapUp: (details) {
+                // タップ時の処理
+                // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
+                for (var item in _mapItems) {
+                  // 場所ごとの処理
+                  // FIXME: 画像の当たり判定がややy軸方向にズレている(広がっている)
+                  // タップの判定処理(タップ時は遷移)
+                  item.onTapImage(this._mapPainter!.scale, _getMoveX(), details.localPosition);
+                  // item.onTapCircle(scale, _getMoveX(), details.localPosition, context);
+                }
+              },
+              onPanUpdate: (DragUpdateDetails details) {
+                // スクロール時の処理
                 setState(() {
                   // スクロールを適用した場合の遷移先X
                   final next = _moveX - details.delta.dx;
@@ -190,11 +224,11 @@ class _MapPageState extends State<MapPage> {
                 child: Center(), // あったほうがいいらしい？？
               ),
             ),
-          ),
-          SnackBerPage()
+          SnackBerPage(),
         ],
       ),
     );
+  }
   }
 }
 
