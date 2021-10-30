@@ -245,6 +245,7 @@ class _SnackBarPageState extends State<SnackBerPage> {
       height: widthsize / 6,
       margin: EdgeInsets.fromLTRB(heightsize / 8, heightsize / 1.5, 0, 0),
 
+      // 透過処理
       child: AnimatedOpacity(
         duration: Duration(milliseconds: 1000),
         opacity: _myOpacity,
