@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:yuwaku_proto/map_page.dart';
 import 'package:yuwaku_proto/camera_page.dart';
+import 'package:yuwaku_proto/Distance_twoPosition.dart';
 import 'package:yuwaku_proto/map_painter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:yuwaku_proto/plane_explain.dart';
 import 'package:yuwaku_proto/some_explain.dart';
 import 'package:yuwaku_proto/bottom_tab.dart';
-import 'development_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,7 +36,6 @@ class MyApp extends StatelessWidget {
                                                              mapItem: ModalRoute.of(context)!.settings.arguments as MapItem),
         '/some_explain':(BuildContext context) => Explain(),
         '/plane_explain':(BuildContext context) => PicExplain(title:'場所説明'),
-        '/development_page':(BuildContext context) => DevelopmentPage(title: '開発中'),
       },
     );
   }

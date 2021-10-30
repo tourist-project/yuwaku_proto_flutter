@@ -83,15 +83,5 @@ class ImageDBProvider {
     return await db.rawQuery('UPDATE $tableName SET image=? WHERE state=?', [image, state]);
   }
 
-  Future<int> countImage() async {
-    Database db = await instance.database;
-    return Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(image) FROM $tableName'))!;
-  }
-
-  Future deleteAll() async {
-    Database db = await instance.database;
-    return await db.rawQuery('DELETE FROM $tableName');
-  }
-
 
 }
