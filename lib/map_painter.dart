@@ -40,6 +40,8 @@ class MapPainter extends CustomPainter {
     final dst = Rect.fromLTWH(0, 0, size.width, size.height); // 描画場所
     canvas.drawImageRect(_mapImage, src, dst, paint); // 背景マップの描画
 
+    // getLocationInformation();
+
 
     // 場所ごとの処理
     for (var item in _mapItems) {
@@ -55,10 +57,16 @@ class MapPainter extends CustomPainter {
       canvas.drawCircle(Offset(item.position.dx * scale - _getMoveX(), item.position.dy * scale), 10, paint);
 
       /// 現在地とスポットの距離を計測する
-      Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation).then((currentLocation) {
+      // Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation).then((currentLocation) {
+      //   YInari = Geolocator.distanceBetween(currentLocation.latitude, currentLocation.longitude, 36.4856770, 136.7582343);
+      //   Souyu = Geolocator.distanceBetween(currentLocation.latitude, currentLocation.longitude, 36.48567221199191, 136.75751246063845);
+      // });
+
+      getLocationInformation().then((currentLocation) {
         YInari = Geolocator.distanceBetween(currentLocation.latitude, currentLocation.longitude, 36.4856770, 136.7582343);
         Souyu = Geolocator.distanceBetween(currentLocation.latitude, currentLocation.longitude, 36.48567221199191, 136.75751246063845);
-      });
+      }).catchError((e) => print(e));
+
 
       final length = min(img.height, img.width).toDouble(); // 縦横のうち最短を取得
       // FIXME: 画像を中央に寄せる

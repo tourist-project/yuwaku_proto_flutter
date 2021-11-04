@@ -16,6 +16,7 @@ import 'package:flutter/material.dart' as prefix;
 import 'package:bubble/bubble.dart';
 import 'map_painter.dart';// Colorsを使う時はprefix.Colors.~と使ってください
 
+
 /// アセットのパスからui.Imageをロード
 Future<ui.Image> loadUiImage(String imageAssetPath) async {
   final ByteData data = await rootBundle.load(imageAssetPath);
@@ -150,22 +151,26 @@ class _MapPageState extends State<MapPage> {
           () => Navigator.of(context).pushNamed('/camera_page', arguments: e);
     });
 
-    // UI部分
     return Scaffold(
       appBar: appBar,
-      body: FutureBuilder(
-        future: MapPainter.getLocationInformation(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return _drawEventMap();
-          } else if (snapshot.hasError) {
-            return _errorNotAllowedLocation();
-          } else {
-            return _loadMapImage();
-          }
-        },
-      ),
+      body: _drawEventMap(),
     );
+    // // UI部分
+    // return Scaffold(
+    //   appBar: appBar,
+    //   body: FutureBuilder(
+    //     future: MapPainter.getLocationInformation(),
+    //     builder: (context, snapshot) {
+    //       if (snapshot.hasData) {
+    //         return _drawEventMap();
+    //       } else if (snapshot.hasError) {
+    //         return _errorNotAllowedLocation();
+    //       } else {
+    //         return _loadMapImage();
+    //       }
+    //     },
+    //   ),
+    // );
   }
 
   // 位置情報がOnの時、イベントマップを描画
@@ -186,24 +191,57 @@ class _MapPageState extends State<MapPage> {
               }
             },
             onPanUpdate: (DragUpdateDetails details) {// スクロール時の処理
-              setState(() {
-                // スクロールを適用した場合の遷移先X
-                final next = _moveX - details.delta.dx;
-                // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-                // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
-                _moveX = min(max(next, 0), _mapImage!.width * this._mapPainter!.scale - mediaSize.width);
+              MapPainter.getLocationInformation().then((value) {
+                // 成功
+                print('ok');
+                setState(() {
+                  // スクロールを適用した場合の遷移先X
+                  final next = _moveX - details.delta.dx;
+                  // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
+                  // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
+                  _moveX = min(max(next, 0), _mapImage!.width * this._mapPainter!.scale - mediaSize.width);
+                });
+              }).catchError((err) {
+                // 失敗
+                print('out');
+                locationDialog();
               });
+
             },
             child: CustomPaint(
               // キャンバス本体
               size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
-              painter: this._mapPainter!, // ペインター
+              painter: this._mapPainter, // ペインター
               child: Center(), // あったほうがいいらしい？？
             ),
           ),
           SnackBerPage()
         ]
     );
+  }
+
+  Future<void> locationDialog() async {
+    var result = await showDialog<int>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('確認'),
+          content: Text('確認のダイアログです。'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Cancel'),
+              onPressed: () => Navigator.of(context).pop(0),
+            ),
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () => Navigator.of(context).pop(1),
+            ),
+          ],
+        );
+      },
+    );
+    print(result);
   }
 
   // 位置情報がOffの時、設定画面を勧める
