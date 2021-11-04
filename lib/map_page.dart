@@ -192,6 +192,7 @@ class _MapPageState extends State<MapPage> {
             ),
           ),
           SnackBerPage()
+
         ],
       ),
     );
@@ -216,7 +217,7 @@ class _SnackBarPageState extends State<SnackBerPage> {
 
   final int durationSecond;
   _SnackBarPageState({required this.durationSecond});
-  var _myOpacity = 0.5;
+  var _myOpacity = 0.5; // 透過値
 
   @override
   void initState() {
