@@ -11,7 +11,13 @@ class clearpage extends StatelessWidget {
     final heightsize = MediaQuery.of(context).size.height; // 縦のスマホサイズの取得
     width = widthsize;
     height = heightsize;
-    double top = heightsize / 7.8, texttop = heightsize / 6.8, phototop = heightsize / 4.9;
+    // 表示する写真を入れる
+    var imagephoto = [
+      'assets/images/img1_gray.png',
+      'assets/images/img2_gray.png',
+      'assets/images/KeigoSirayu.png',
+      'assets/images/map_img.png'
+    ];
     return Scaffold(
       body: Scrollbar(
         // Scrollbarの表示
@@ -62,9 +68,9 @@ class clearpage extends StatelessWidget {
               ),
 
               // imageの表示
-              for (int i = 0; i <= 6; i++) redgoal(top + (275 * i)),
-              for (int i = 0; i <= 6; i++) textgoal(texttop + (275 * i), '場所'),
-              for (int i = 0; i <= 6; i++) photogoal(phototop + (275 * i), 'assets/images/img1_gray.png'),
+              for (int i = 0; i < imagephoto.length; i++) redgoal(heightsize / 7.8 + (275 * i)),
+              for (int i = 0; i < imagephoto.length; i++) textgoal(heightsize / 6.8 + (275 * i), '場所'),
+              for (int i = 0; i < imagephoto.length; i++) photogoal(heightsize / 4.9 + (275 * i), imagephoto[i]),
             ],
           ),
         ),
