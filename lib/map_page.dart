@@ -28,7 +28,7 @@ Future<ui.Image> loadUiImage(String imageAssetPath) async {
 
 /// 場所情報
 class MapItem {
-
+  final int index; /// スポットの管理番号
   final String name;/// 場所の名前
   final double latitude;/// 緯度
   final double longitude;/// 経度
@@ -36,14 +36,12 @@ class MapItem {
   final String initialImagePath;/// イラストのパス
   ui.Rect photoRect;/// 画像の四角
   ui.Image? initialImage;
-  void Function()? tapImageFunc; /// タップ時に動く関数
   final imageDb = ImageDBProvider.instance;/// 初期化時のイラスト
   ui.Image? photoImage;
 
   /// イニシャライズ
-  MapItem(this.name, this.latitude, this.longitude, this.position,
-      this.initialImagePath, this.photoRect,
-      {tapImageFunc});
+  MapItem(this.index, this.name, this.latitude, this.longitude, this.position,
+      this.initialImagePath, this.photoRect);
 
   /// 初期画像のロード
   Future loadInitialImage() async {
@@ -72,14 +70,15 @@ class MapItem {
   }
 
   /// タップ判定をしてタップの場合はタップ処理をする
-  void onTapImage(double scale, double moveX, Offset tapLoc) {
+  bool didTappedImageTransition(double scale, double moveX, Offset tapLoc) {
     final tapX = tapLoc.dx;
     final tapY = tapLoc.dy;
     final rect = getPhotoRectForDeviceFit(scale, moveX);
-    if (rect.left <= tapX && tapX <= rect.right &&
-        rect.top <= tapY && tapY <= rect.bottom && tapImageFunc != null) {
-      tapImageFunc!();
+
+    if (rect.left <= tapX && tapX <= rect.right && rect.top <= tapY && tapY <= rect.bottom) {
+      return true;
     }
+    return false;
   }
 }
 
@@ -104,14 +103,14 @@ class _MapPageState extends State<MapPage> {
 
   /// マップの場所情報の一覧
   final _mapItems = <MapItem>[
-    MapItem('湯涌稲荷神社', 36.4859822, 136.7560359, Offset(1254, 292),
+    MapItem(0, '湯涌稲荷神社', 36.4859822, 136.7560359, Offset(1254, 292),
         'assets/images/img1_gray.png', Rect.fromLTWH(650, 182, 300, 300)),
-    MapItem('総湯', 36.4857904, 136.7575357, Offset(1358, 408),
+    MapItem(1, '総湯', 36.4857904, 136.7575357, Offset(1358, 408),
         'assets/images/img2_gray.png', Rect.fromLTWH(820, 820, 300, 300)),
   ];
 
   /// アセット(画像等)の取得
-  void _getAssets() async {
+  Future<void> _getAssets() async {
     final ui.Image img = await loadUiImage('assets/images/map_img.png');
     this._mapPainter = MapPainter(img, _getMoveX, _mapItems);
     for (var item in _mapItems) {
@@ -146,21 +145,12 @@ class _MapPageState extends State<MapPage> {
       this._mapPainter = MapPainter(_mapImage!, _getMoveX, _mapItems);
     }
 
-    // 画面遷移用の初期化
-    _mapItems.forEach((e) {
-      // タップ時に遷移(引数としてMapItemを送る)
-      e.tapImageFunc =
-          () => Navigator.of(context).pushNamed('/camera_page', arguments: e);
-    });
-
     // UI部分
     return Scaffold(
       appBar: appBar,
-
       body: Stack(
         children: <Widget>[
           Center(
-
             //_mapImage == null ? // マップ画像の読み込みがない場合はTextを表示
             child: _mapImage == null ? Text('Loading...', style: TextStyle(
               fontSize: 30, fontWeight: FontWeight.bold
@@ -171,7 +161,10 @@ class _MapPageState extends State<MapPage> {
                 // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
                 for (var item in _mapItems) {
                   // 場所ごとのタップの判定処理(タップ時は遷移)
-                  item.onTapImage(this._mapPainter!.scale, _getMoveX(), details.localPosition);
+                  if(item.didTappedImageTransition(this._mapPainter!.scale, _getMoveX(), details.localPosition)) {
+                    Navigator.of(context).pushNamed('/camera_page', arguments: item);
+                    break;
+                  }
                 }
               },
               onPanUpdate: (DragUpdateDetails details) {// スクロール時の処理
