@@ -15,6 +15,7 @@ import 'package:yuwaku_proto/database.dart';
 import 'package:flutter/material.dart' as prefix;
 import 'package:bubble/bubble.dart';
 import 'map_painter.dart';// Colorsを使う時はprefix.Colors.~と使ってください
+import 'package:geolocator/geolocator.dart';
 
 /// アセットのパスからui.Imageをロード
 Future<ui.Image> loadUiImage(String imageAssetPath) async {
@@ -34,6 +35,7 @@ class MapItem {
   final double longitude;/// 経度
   final Offset position;/// 画像上の座標
   final String initialImagePath;/// イラストのパス
+  double? distance; /// 距離
   ui.Rect photoRect;/// 画像の四角
   ui.Image? initialImage;
   void Function()? tapImageFunc; /// タップ時に動く関数
@@ -79,6 +81,20 @@ class MapItem {
     if (rect.left <= tapX && tapX <= rect.right &&
         rect.top <= tapY && tapY <= rect.bottom && tapImageFunc != null) {
       tapImageFunc!();
+    }
+  }
+
+  /// 距離を図る
+  void setDistance(Position position) {
+    this.distance = Geolocator.distanceBetween(position.latitude, position.longitude, this.latitude, this.longitude);
+  }
+
+  /// 近接判定
+  bool isProximity(double range) {
+    if (this.distance == null) {
+      return false;
+    } else {
+      return this.distance! <= range;
     }
   }
 }
@@ -203,7 +219,10 @@ class _MapPageState extends State<MapPage> {
                   // 場所ごとの処理
                   // FIXME: 画像の当たり判定がややy軸方向にズレている(広がっている)
                   // タップの判定処理(タップ時は遷移)
-                  item.onTapImage(this._mapPainter!.scale, _getMoveX(), details.localPosition);
+                  if (item.isProximity(30)) {
+                    item.onTapImage(this._mapPainter!.scale, _getMoveX(),
+                        details.localPosition);
+                  }
                   // item.onTapCircle(scale, _getMoveX(), details.localPosition, context);
                 }
               },
