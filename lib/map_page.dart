@@ -28,7 +28,6 @@ Future<ui.Image> loadUiImage(String imageAssetPath) async {
 
 /// 場所情報
 class MapItem {
-  final int index; /// スポットの管理番号
   final String name;/// 場所の名前
   final double latitude;/// 緯度
   final double longitude;/// 経度
@@ -40,7 +39,7 @@ class MapItem {
   ui.Image? photoImage;
 
   /// イニシャライズ
-  MapItem(this.index, this.name, this.latitude, this.longitude, this.position,
+  MapItem(this.name, this.latitude, this.longitude, this.position,
       this.initialImagePath, this.photoRect);
 
   /// 初期画像のロード
@@ -103,9 +102,9 @@ class _MapPageState extends State<MapPage> {
 
   /// マップの場所情報の一覧
   final _mapItems = <MapItem>[
-    MapItem(0, '湯涌稲荷神社', 36.4859822, 136.7560359, Offset(1254, 292),
+    MapItem('湯涌稲荷神社', 36.4859822, 136.7560359, Offset(1254, 292),
         'assets/images/img1_gray.png', Rect.fromLTWH(650, 182, 300, 300)),
-    MapItem(1, '総湯', 36.4857904, 136.7575357, Offset(1358, 408),
+    MapItem('総湯', 36.4857904, 136.7575357, Offset(1358, 408),
         'assets/images/img2_gray.png', Rect.fromLTWH(820, 820, 300, 300)),
   ];
 

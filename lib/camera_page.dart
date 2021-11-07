@@ -10,6 +10,9 @@ import 'package:yuwaku_proto/database.dart';
 
 import 'package:share_plus/share_plus.dart';
 
+import 'package:path_provider/path_provider.dart';
+import 'dart:typed_data';
+
 
 class CameraPage extends StatefulWidget {
   CameraPage({Key? key, required this.title, required this.mapItem}) : super(key: key);
@@ -26,10 +29,8 @@ class _CameraPageState extends State<CameraPage> {
   _CameraPageState(this.mapItem);
 
   final MapItem mapItem;
-  File?  _image;
   final picker = ImagePicker();
   final imageDb = ImageDBProvider.instance;
-
   Image? _dstStampImage;
 
   void initState() {
@@ -67,7 +68,8 @@ class _CameraPageState extends State<CameraPage> {
     for (var num = 0; num < listDB.length; num++) {
       // SQLに画像が保存されている
       if(listDB[num]['state'] == mapItem.name) {
-        _srcStampImage = Image.memory(base64.decode(listDB[mapItem.index]['image']));
+        _srcStampImage = Image.memory(base64.decode(listDB[num]['image']));
+        await _writeLocalImage(ByteData.view(base64.decode(listDB[num]['image']).buffer));
         break;
       }
     }
@@ -77,6 +79,7 @@ class _CameraPageState extends State<CameraPage> {
     });
   }
 
+  /// カメラで写真撮影時の処理
   Future<void> getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
     if (pickedFile != null) {
@@ -100,23 +103,38 @@ class _CameraPageState extends State<CameraPage> {
     }
   }
 
+  /// スポット名や画像の共有処理
   Future<void> _onShare(BuildContext context) async {
     final box = context.findRenderObject() as RenderBox?;
+    final stampPath = await _fetchLocalImage();
 
-    if (_image != null) {
-      List<String> list = [_image!.path];
-      await Share.shareFiles(
-          list,
-          text: '${mapItem.name}',
-          sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
-    } else {
-      await Share.share(
-          '${mapItem.name}',
-          sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
-    }
+    List<String> list = [stampPath.path];
+    await Share.shareFiles(
+        list,
+        text: '${mapItem.name}',
+        sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
+  }
+
+  /// 端末のパスを取得
+  Future<String> get _getLocalPath async {
+    final directory = await getApplicationDocumentsDirectory();
+    return directory.path;
+  }
+
+  /// 端末に画像を保存する
+  Future<void> _writeLocalImage(ByteData data) async {
+    final path = await _getLocalPath;
+    final imagePath = '$path/image.png';
+    File imageFile = File(imagePath);
+
+    final buffer = data.buffer;
+    await imageFile.writeAsBytes(buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+  }
+
+  /// 端末に保存した画像を取得する。
+  Future<File> _fetchLocalImage() async {
+    final path = await _getLocalPath;
+    final imagePath = '$path/image.png';
+    return File(imagePath);
   }
 }
-
-
-
-
