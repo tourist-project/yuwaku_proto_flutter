@@ -75,85 +75,93 @@ class _Explain extends State<Explain> with TickerProviderStateMixin {
                   Column(
                       children: <Widget>[
                         Align(
-                          alignment: Alignment(-0.8, 0.5), child: GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/plane_explain');},
+                          alignment: Alignment(-0.8, 0.5),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/plane_explain');
+                              },
 
-                          child: Container(
-                            margin: EdgeInsets.only(left: 15, top: 60),
-                            width: deviceWidth * 0.7,
+                            child: Container(
+                              margin: EdgeInsets.only(left: 15, top: 60),
+                              width: deviceWidth * 0.7,
 
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black,
-                                    offset: Offset(10.0, 15.0),
-                                    blurRadius: 10,
-                                    spreadRadius: 2.5)
-                              ],
-                            ),
-                            child: Stack(
-                              children: <Widget>[
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: Image.asset(
-                                      'assets/images/KeigoSirayu.png'),
-                                ),
-                                Text('第一ステージ',
-                                    style: TextStyle(fontSize: 40,
-                                        fontWeight: FontWeight.bold,
-                                        decoration: TextDecoration.underline,
-                                        color: Colors.green)
-                                ),
-                              ],
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black,
+                                      offset: Offset(10.0, 15.0),
+                                      blurRadius: 10,
+                                      spreadRadius: 2.5)
+                                ],
+                              ),
+                              child: Stack(
+                                children: <Widget>[
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: Image.asset(
+                                        'assets/images/KeigoSirayu.png'),
+                                  ),
+                                  Text('第一ステージ',
+                                      style: TextStyle(fontSize: 40,
+                                          fontWeight: FontWeight.bold,
+                                          decoration: TextDecoration.underline,
+                                          color: Colors.green)
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
                         ),
                         Spacer(),
 
                         Align(
                           alignment: Alignment(0.5, -0.5),
-                          child: Container(
-                            margin: EdgeInsets.only(right: 15),
-                            width: deviceWidth * 0.7,
+                          child:GestureDetector(
+                            onTap:() {
+                              Navigator.pushNamed(context, '/development_page');
+                              },
 
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black,
-                                    offset: Offset(10.0, 15.0),
-                                    blurRadius: 10,
-                                    spreadRadius: 2.5)
-                              ],
-                            ),
+                            child: Container(
+                              margin: EdgeInsets.only(right: 15),
+                              width: deviceWidth * 0.7,
 
-                            child: Stack(
-                              children: <Widget>[
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black,
+                                      offset: Offset(10.0, 15.0),
+                                      blurRadius: 10,
+                                      spreadRadius: 2.5)
+                                ],
+                              ),
 
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: Image.asset(
-                                      'assets/images/NotKeigoSirayu.png'),
-                                ),
+                              child: Stack(
+                                children: <Widget>[
 
-                                Text('第二ステージ', style: TextStyle(
-                                    fontSize: 40,
-                                    fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.underline,
-                                    color: Colors.orangeAccent)
-                                ),
-                              ],
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: Image.asset(
+                                        'assets/images/NotKeigoSirayu.png'),
+                                  ),
+
+                                  Text('第二ステージ', style: TextStyle(
+                                      fontSize: 40,
+                                      fontWeight: FontWeight.bold,
+                                      decoration: TextDecoration.underline,
+                                      color: Colors.orangeAccent)
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
                         Spacer(),
                       ],
-                    ),
+                  ),
                 ],
               ),
             );
