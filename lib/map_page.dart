@@ -87,6 +87,7 @@ class MapItem {
   /// 距離を図る
   void setDistance(Position position) {
     this.distance = Geolocator.distanceBetween(position.latitude, position.longitude, this.latitude, this.longitude);
+
   }
 
   /// 近接判定
@@ -154,9 +155,12 @@ class _MapPageState extends State<MapPage> {
 
   Future clearUpdate() async {
     final count = await imageDb.countImage();
-    setState(() => {
-      this.is_clear = count >= _mapItems.length
-    });
+    if(mounted) {
+      setState(() => {
+        this.is_clear = count >= _mapItems.length
+      });
+    }
+
   }
 
   /// 見た目
