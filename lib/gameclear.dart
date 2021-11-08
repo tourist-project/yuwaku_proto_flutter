@@ -18,6 +18,7 @@ class clearpage extends StatelessWidget {
       'assets/images/KeigoSirayu.png',
       'assets/images/map_img.png'
     ];
+    List<String> posName = ["稲荷神社","湯涌総湯中","湯涌総湯外", "湯涌全体図"];
     return Scaffold(
       body: Scrollbar(
         // Scrollbarの表示
@@ -47,7 +48,7 @@ class clearpage extends StatelessWidget {
                 child: Container(
                   alignment: Alignment.center,
                   height: heightsize / 22.3,
-                  width: widthsize / 1.12,
+                  width: widthsize / 1.1,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -69,7 +70,7 @@ class clearpage extends StatelessWidget {
 
               // imageの表示
               for (int i = 0; i < imagephoto.length; i++) redgoal(heightsize / 7.8 + (275 * i)),
-              for (int i = 0; i < imagephoto.length; i++) textgoal(heightsize / 6.8 + (275 * i), '場所'),
+              for (int i = 0; i < imagephoto.length; i++) textgoal(heightsize / 6.8 + (275 * i), posName[i]),
               for (int i = 0; i < imagephoto.length; i++) photogoal(heightsize / 4.9 + (275 * i), imagephoto[i]),
             ],
           ),
@@ -97,7 +98,7 @@ Widget redgoal(double top) {
 }
 
 // テキストを表示する
-Widget textgoal(double top, var text) {
+Widget textgoal(double top, String text) {
   return Card(
     margin: EdgeInsets.only(top: top, left: width! / 17),
     child: Container(
