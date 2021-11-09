@@ -68,8 +68,8 @@ class _CameraPageState extends State<CameraPage> {
     for (var num = 0; num < listDB.length; num++) {
       // SQLに画像が保存されている
       if(listDB[num]['state'] == mapItem.name) {
-        _srcStampImage = Image.memory(base64.decode(listDB[num]['image']));
-        await _writeLocalImage(ByteData.view(base64.decode(listDB[num]['image']).buffer));
+        final sqlImageFile = await _writeLocalImage(base64.decode(listDB[num]['image']));
+        _srcStampImage = Image.file(sqlImageFile);
         break;
       }
     }
@@ -96,9 +96,11 @@ class _CameraPageState extends State<CameraPage> {
 
       ui.decodeImageFromList(data, (ui.Image img) {
         mapItem.photoImage = img;
-        setState((){
-          _dstStampImage = Image.memory(data);
-        });
+      });
+
+      await _writeLocalImage(data);
+      setState((){
+        _dstStampImage = Image.memory(data);
       });
     }
   }
@@ -122,13 +124,15 @@ class _CameraPageState extends State<CameraPage> {
   }
 
   /// 端末に画像を保存する
-  Future<void> _writeLocalImage(ByteData data) async {
+  Future<File> _writeLocalImage(Uint8List data) async {
     final path = await _getLocalPath;
     final imagePath = '$path/image.png';
     File imageFile = File(imagePath);
 
-    final buffer = data.buffer;
-    await imageFile.writeAsBytes(buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+    final byte = ByteData.view(data.buffer);
+    final buffer = byte.buffer;
+    final localFile = await imageFile.writeAsBytes(buffer.asUint8List(byte.offsetInBytes, byte.lengthInBytes));
+    return localFile;
   }
 
   /// 端末に保存した画像を取得する。
