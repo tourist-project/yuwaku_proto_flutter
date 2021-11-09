@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:async';
@@ -138,7 +139,9 @@ class _MapPageState extends State<MapPage> {
   /// 見た目
   @override
   Widget build(BuildContext context) {
+    final Size mediaSize = MediaQuery.of(context).size; // 画面の取得
     final AppBar appBar = AppBar(title: Text(widget.title,style: TextStyle(color: prefix.Colors.black87))); // ヘッダ部分のUIパーツ
+    final double mediaHeight = mediaSize.height - appBar.preferredSize.height; // キャンバス部分の高さ
 
     if ( _mapImage != null ) {
       this._mapPainter = MapPainter(_mapImage!, _getMoveX, _mapItems);
@@ -153,146 +156,99 @@ class _MapPageState extends State<MapPage> {
 
     return Scaffold(
       appBar: appBar,
-      body: _drawEventMap(),
-    );
-    // // UI部分
-    // return Scaffold(
-    //   appBar: appBar,
-    //   body: FutureBuilder(
-    //     future: MapPainter.getLocationInformation(),
-    //     builder: (context, snapshot) {
-    //       if (snapshot.hasData) {
-    //         return _drawEventMap();
-    //       } else if (snapshot.hasError) {
-    //         return _errorNotAllowedLocation();
-    //       } else {
-    //         return _loadMapImage();
-    //       }
-    //     },
-    //   ),
-    // );
-  }
-
-  // 位置情報がOnの時、イベントマップを描画
-  Widget _drawEventMap() {
-    final Size mediaSize = MediaQuery.of(context).size; // 画面の取得
-    final AppBar appBar = AppBar(title: Text(widget.title,style: TextStyle(color: prefix.Colors.black87))); // ヘッダ部分のUIパーツ
-    final double mediaHeight = mediaSize.height - appBar.preferredSize.height; // キャンバス部分の高さ
-
-    return Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          GestureDetector(
-            onTapUp: (details) {// タップ時の処理
-              // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-              for (var item in _mapItems) {
-                // 場所ごとのタップの判定処理(タップ時は遷移)
-                item.onTapImage(this._mapPainter!.scale, _getMoveX(), details.localPosition);
-              }
-            },
-            onPanUpdate: (DragUpdateDetails details) {// スクロール時の処理
-              MapPainter.getLocationInformation().then((value) {
-                // 成功
-                print('ok');
-                setState(() {
-                  // スクロールを適用した場合の遷移先X
-                  final next = _moveX - details.delta.dx;
-                  // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-                  // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
-                  _moveX = min(max(next, 0), _mapImage!.width * this._mapPainter!.scale - mediaSize.width);
+      body: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            GestureDetector(
+              onTapUp: (details) {// タップ時の処理
+                // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
+                for (var item in _mapItems) {
+                  // 場所ごとのタップの判定処理(タップ時は遷移)
+                  item.onTapImage(this._mapPainter!.scale, _getMoveX(), details.localPosition);
+                }
+              },
+              onPanUpdate: (DragUpdateDetails details) {// スクロール時の処理
+                /* 位置情報が
+                - 許可 : マップのスクロール処理
+                - 拒否 : AlertDialog(Android) or CupertinoAlertDialog(iOS)で使用許可を求める
+               */
+                MapPainter.getLocationInformation().then((value) {
+                  // 位置情報が許可されている
+                  setState(() {
+                    // スクロールを適用した場合の遷移先X
+                    final next = _moveX - details.delta.dx;
+                    // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
+                    // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
+                    _moveX = min(max(next, 0), _mapImage!.width * this._mapPainter!.scale - mediaSize.width);
+                  });
+                }).catchError((error) {
+                  // 位置情報が拒否されている
+                  _dialogLocationLicense();
                 });
-              }).catchError((err) {
-                // 失敗
-                print('out');
-                locationDialog();
-              });
 
-            },
-            child: CustomPaint(
-              // キャンバス本体
-              size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
-              painter: this._mapPainter, // ペインター
-              child: Center(), // あったほうがいいらしい？？
+              },
+              child: CustomPaint(
+                // キャンバス本体
+                size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
+                painter: this._mapPainter, // ペインター
+                child: Center(), // あったほうがいいらしい？？
+              ),
             ),
-          ),
-          SnackBerPage()
-        ]
+            SnackBerPage()
+          ]
+      ),
     );
   }
 
-  Future<void> locationDialog() async {
-    var result = await showDialog<int>(
+  /// 位置情報が拒否されている時、「位置情報を許可する」ダイアログを表示する
+  Future<void> _dialogLocationLicense() async {
+    var result = await showDialog<bool>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('確認'),
-          content: Text('確認のダイアログです。'),
+        if(Platform.isAndroid) {
+          return AlertDialog(
+            title: Text('位置情報を許可する'),
+            content: Text('設定でアプリに位置情報を許可します。'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Cancel'),
+                onPressed: () => Navigator.of(context).pop(false),
+              ),
+              TextButton(
+                child: Text('OK'),
+                onPressed: () => Navigator.of(context).pop(true),
+              ),
+            ],
+          );
+        }
+        // iOS側の動作
+        return CupertinoAlertDialog(
+          title: Text('位置情報を許可する'),
+          content: Text('設定でアプリに位置情報を許可します。'),
           actions: <Widget>[
-            FlatButton(
+            CupertinoDialogAction(
               child: Text('Cancel'),
-              onPressed: () => Navigator.of(context).pop(0),
+              isDestructiveAction: true,
+              onPressed: () => Navigator.of(context).pop(false),
             ),
-            FlatButton(
+            CupertinoDialogAction(
               child: Text('OK'),
-              onPressed: () => Navigator.of(context).pop(1),
+              onPressed: () => Navigator.of(context).pop(true),
             ),
           ],
         );
       },
     );
-    print(result);
-  }
 
-  // 位置情報がOffの時、設定画面を勧める
-  Widget _errorNotAllowedLocation() {
-    // デバイスの横幅を取得する
-    double screenWidth = MediaQuery.of(context).size.width;
+    // unwrap
+    if(result == null) {
+      return;
+    }
 
-    return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text("位置情報を許可してください",
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold
-              ),
-            ),
-            Text("「アプリ名」にあなたの位置情報を許可してください"),
-            SizedBox(
-              width: screenWidth * 0.9,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  primary: prefix.Colors.black, // background
-                  onPrimary: prefix.Colors.white, // foreground
-                ),
-                onPressed: () => MapPainter.openAppSettings(),
-                child: Text('設定を開く'),
-              ),
-            ),
-          ],
-        )
-    );
-  }
-
-  // 位置情報や画像の取得中画面
-  Widget _loadMapImage() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text('Loading...', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-          CircularProgressIndicator(
-            semanticsLabel: 'Linear progress indicator',
-          ),
-        ],
-      ),
-    );
+    if(result) {
+      MapPainter.openAppSettings();
+    }
   }
 }
 
