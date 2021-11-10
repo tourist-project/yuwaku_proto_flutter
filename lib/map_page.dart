@@ -115,9 +115,13 @@ class _MapPageState extends State<MapPage> {
     for (var item in _mapItems) {
       await item.loadInitialImage();
     }
-    setState(() => {
-      _mapImage = img
-    });
+
+    if(mounted){
+      setState(() => {
+        _mapImage = img
+      });
+    }
+    
   }
 
   /// x軸の移動情報を返す
