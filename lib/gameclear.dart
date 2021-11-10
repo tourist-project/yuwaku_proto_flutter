@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-double? width, height;
+import 'package:yuwaku_proto/map_page.dart';
 
 class clearpage extends StatelessWidget {
+
+  double width, height;
+
+  clearpage(this.width, this.height);
+
   // marginなどのサイズの指定
   @override
   Widget build(BuildContext context) {
-    final widthsize = MediaQuery.of(context).size.width; // 横のスマホサイズの取得
-    final heightsize = MediaQuery.of(context).size.height; // 縦のスマホサイズの取得
-    width = widthsize;
-    height = heightsize;
     // 表示する写真を入れる
     var imagephoto = [
       'assets/images/img1_gray.png',
@@ -19,6 +19,7 @@ class clearpage extends StatelessWidget {
       'assets/images/map_img.png'
     ];
     List<String> posName = ["稲荷神社", "湯涌総湯中", "湯涌総湯外", "湯涌全体図"];
+
     return Scaffold(
       body: Scrollbar(
         // Scrollbarの表示
@@ -29,10 +30,10 @@ class clearpage extends StatelessWidget {
             children: <Widget>[
               Card(
                 margin: EdgeInsets.symmetric(
-                    vertical: heightsize / 52.0, horizontal: widthsize / 7.85),
+                    vertical: height / 52.0, horizontal: width / 7.85),
                 child: Container(
-                  width: widthsize / 1.31,
-                  height: heightsize / 11.1,
+                  width: width / 1.31,
+                  height: height / 11.1,
                   decoration: BoxDecoration(
                     color: Colors.blue,
                     borderRadius: BorderRadius.circular(10),
@@ -42,11 +43,11 @@ class clearpage extends StatelessWidget {
 
               Card(
                 margin: EdgeInsets.symmetric(
-                    vertical: heightsize / 22.3, horizontal: widthsize / 7.85),
+                    vertical: height / 22.3, horizontal: width / 7.85),
                 child: Container(
                   alignment: Alignment.center,
-                  height: heightsize / 22.3,
-                  width: widthsize / 1.1,
+                  height: height / 22.3,
+                  width: width / 1.1,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -58,7 +59,7 @@ class clearpage extends StatelessWidget {
                     'ゴール!!!',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: heightsize / 31.2,
+                      fontSize: height / 31.2,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
@@ -68,11 +69,11 @@ class clearpage extends StatelessWidget {
 
               // imageの表示
               for (int i = 0; i < imagephoto.length; i++)
-                redgoal(heightsize / 7.8 + (275 * i)),
+                redgoal(height / 7.8 + (275 * i), height, width),
               for (int i = 0; i < imagephoto.length; i++)
-                textgoal(heightsize / 6.7 + (280 * i), posName[i]),
+                textgoal(height / 6.7 + (280 * i), posName[i],width, height),
               for (int i = 0; i < imagephoto.length; i++)
-                photogoal(heightsize / 4.8 + (280 * i), imagephoto[i]),
+                photogoal(height / 4.8 + (280 * i), imagephoto[i], width, height),
             ],
           ),
         ),
@@ -82,13 +83,13 @@ class clearpage extends StatelessWidget {
 }
 
 // 下地を表示する
-Widget redgoal(double top) {
+Widget redgoal(double top,double height, double width) {
   return Card(
     margin: EdgeInsets.only(top: top),
     child: Center(
       child: Container(
-        width: width! / 1.33,
-        height: height! / 3.3,
+        width: width / 1.33,
+        height: height / 3.3,
         decoration: BoxDecoration(
           color: Colors.red,
           borderRadius: BorderRadius.circular(30),
@@ -99,13 +100,13 @@ Widget redgoal(double top) {
 }
 
 // テキストを表示する
-Widget textgoal(double top, String text) {
+Widget textgoal(double top, String text, double width, double height) {
   return Card(
-    margin: EdgeInsets.only(top: top, left: width! / 8.0),
+    margin: EdgeInsets.only(top: top, left: width/ 8.0),
     child: Container(
       alignment: Alignment.center,
-      width: width! / 1.5,
-      height: height! / 23,
+      width: width / 1.5,
+      height: height / 23,
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border(),
@@ -119,7 +120,7 @@ Widget textgoal(double top, String text) {
         child: Text(
           text,
           style: TextStyle(
-            fontSize: height! / 39,
+            fontSize: height / 39,
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
@@ -130,13 +131,13 @@ Widget textgoal(double top, String text) {
 }
 
 // 写真を表示する
-Widget photogoal(double top, var image) {
+Widget photogoal(double top, var image, double width, double height) {
   return Center(
     child: Container(
       alignment: Alignment.center,
       margin: EdgeInsets.only(top: top),
       child: Image(
-          width: width! / 1.7, height: height! / 5.5, image: AssetImage(image)),
+          width: width / 1.7, height: height / 5.5, image: AssetImage(image)),
     ),
   );
 }

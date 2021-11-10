@@ -143,7 +143,12 @@ class _MapPageState extends State<MapPage> {
     for (var item in _mapItems) {
       await item.loadInitialImage();
     }
-    setState(() => {_mapImage = img});
+    if(mounted){
+      setState(() => {
+        _mapImage = img
+      });
+    }
+
   }
 
   /// x軸の移動情報を返す
@@ -167,6 +172,9 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     final Size mediaSize = MediaQuery.of(context).size; // 画面の取得
+    final width = mediaSize.width;
+    final height = mediaSize.height;
+
     final AppBar appBar = AppBar(
         title: Text(widget.title,
             style: TextStyle(color: prefix.Colors.black87))); // ヘッダ部分のUIパーツ
@@ -199,7 +207,7 @@ class _MapPageState extends State<MapPage> {
                     item.photoImage = null;
                   }
                 },
-                child: clearpage(),
+                child: clearpage(width, height),
               ),
             ],
           ));
