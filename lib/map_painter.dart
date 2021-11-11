@@ -19,17 +19,21 @@ double Himuro = 1000000000000;
 class MapPainter extends CustomPainter {
 
 
-  final ui.Image _mapImage; /// マップ自体の画像
-  final double Function() _getMoveX; /// 移動したx軸の距離を返す関数
-  List<MapItem> _mapItems; /// マップ上に描画する場所の一覧
+  late ui.Image _mapImage; /// マップ自体の画像
+  late double Function() _getMoveX; /// 移動したx軸の距離を返す関数
+  late List<MapItem> _mapItems; /// マップ上に描画する場所の一覧
   var scale = 0.0;
 
   /// コンストラクタ
-  MapPainter(this._mapImage, this._getMoveX, this._mapItems);
+  MapPainter(ui.Image _mapImage, double Function() _getMoveX, List<MapItem> _mapItems) {
+    this._mapImage = _mapImage;
+    this._getMoveX = _getMoveX;
+    this._mapItems = _mapItems;
+  }
 
   /// 描画
   @override
-  void paint(Canvas canvas, Size size) async{
+  void paint(Canvas canvas, Size size) {
     // ペイントの作成
     final paint = Paint()
       ..color = Colors.red // 赤色を設定
@@ -54,51 +58,29 @@ class MapPainter extends CustomPainter {
         final src = Rect.fromLTWH(0, 0, length, length); // 画像中の描画する場所を選択
         final rescaleRect = item.getPhotoRectForDeviceFit(scale, _getMoveX()); // どこに描画するかを設定
 
-
-        Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then((position) {
-
-          YInari = Geolocator.distanceBetween(position.latitude, position.longitude, 36.4856770, 136.7582343);
-          Souyu = Geolocator.distanceBetween(position.latitude, position.longitude, 36.48567221199191, 136.75751246063845);
-
-          print(position);
+        Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then( (pos) => {
+          item.setDistance(pos)
         });
 
-
-        // 円を書く
-        canvas.drawCircle(Offset(item.position.dx * scale - _getMoveX(),
-            item.position.dy * scale), 10, paint);
-
-        if (YInari < 30 && item.name == "湯涌稲荷神社") {
-          print("==================================================");
-          print(YInari);
+        if (item.isProximity(30)) {
+          // 円を書く
+          canvas.drawCircle(Offset(item.position.dx * scale - _getMoveX(), item.position.dy * scale), 10, paint);
 
           // 線をひく
-          canvas.drawLine(Offset((item.photoRect.left * scale - _getMoveX()) +
-              item.photoRect.width * scale / 2,
-              (item.photoRect.top * scale) +
-                  item.photoRect.height * scale / 2),
-
-              Offset((item.position.dx * scale - _getMoveX()),
-                  item.position.dy * scale), paint);
-
+          canvas.drawLine(Offset((item.photoRect.left * scale - _getMoveX()) + item.photoRect.width * scale / 2,
+                                 (item.photoRect.top * scale) + item.photoRect.height * scale / 2),
+                          Offset((item.position.dx * scale - _getMoveX()),
+                                 item.position.dy * scale), paint);
+          canvas.drawImageRect(img, src, rescaleRect, paint);
+          // 範囲内だと青くなる
+          paint.color = Color.fromARGB(100, 0, 0, 255);
+          canvas.drawRect(rescaleRect, paint);
+        } else {
+          canvas.drawImageRect(img, src, rescaleRect, paint);
+          // 範囲外だと赤くなる
+          paint.color = Color.fromARGB(100, 255, 0, 0);
+          canvas.drawRect(rescaleRect, paint);
         }
-        if (Souyu < 30 && item.name == "総湯") {
-          print("==================================================");
-          print(YInari);
-
-          // 線をひく
-          canvas.drawLine(Offset((item.photoRect.left * scale - _getMoveX()) +
-              item.photoRect.width * scale / 2,
-              (item.photoRect.top * scale) +
-                  item.photoRect.height * scale / 2),
-
-              Offset((item.position.dx * scale - _getMoveX()),
-                  item.position.dy * scale), paint);
-        }
-
-        // canvas.drawShadow(path,Colors.black54, 20,);
-        // 写真(イラストを表示)
-        canvas.drawImageRect(img, src, rescaleRect, paint);
       }
     }
   }

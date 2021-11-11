@@ -15,7 +15,8 @@ import 'package:yuwaku_proto/database.dart';
 import 'package:yuwaku_proto/gameclear.dart';
 import 'package:flutter/material.dart' as prefix;
 import 'package:bubble/bubble.dart';
-import 'map_painter.dart'; // Colorsを使う時はprefix.Colors.~と使ってください
+import 'map_painter.dart';// Colorsを使う時はprefix.Colors.~と使ってください
+import 'package:geolocator/geolocator.dart';
 
 /// アセットのパスからui.Imageをロード
 Future<ui.Image> loadUiImage(String imageAssetPath) async {
@@ -35,6 +36,7 @@ class MapItem {
   final double longitude;/// 経度
   final Offset position;/// 画像上の座標
   final String initialImagePath;/// イラストのパス
+  double? distance; /// 距離
   ui.Rect photoRect;/// 画像の四角
   ui.Image? initialImage;
 
@@ -81,6 +83,21 @@ class MapItem {
       return true;
     }
     return false;
+  }
+
+  /// 距離を図る
+  void setDistance(Position position) {
+    this.distance = Geolocator.distanceBetween(position.latitude, position.longitude, this.latitude, this.longitude);
+
+  }
+
+  /// 近接判定
+  bool isProximity(double range) {
+    if (this.distance == null) {
+      return false;
+    } else {
+      return this.distance! <= range;
+    }
   }
 }
 
@@ -144,6 +161,11 @@ class _MapPageState extends State<MapPage> {
 
   Future clearUpdate() async {
     final count = await imageDb.countImage();
+    if(mounted) {
+      setState(() => {
+        this.is_clear = count >= _mapItems.length
+      });
+    }
   }
 
 
@@ -180,10 +202,13 @@ class _MapPageState extends State<MapPage> {
               onTapUp: (details) {// タップ時の処理
                 // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
                 for (var item in _mapItems) {
-                  // 場所ごとのタップの判定処理(タップ時は遷移)
-                  if(item.didTappedImageTransition(this._mapPainter!.scale, _getMoveX(), details.localPosition)) {
-                    Navigator.of(context).pushNamed('/camera_page', arguments: item);
-                    break;
+                  // TODO: 実際に現地で検証して
+                  if (item.isProximity(30)) {
+                    // 場所ごとのタップの判定処理(タップ時は遷移)
+                    if(item.didTappedImageTransition(this._mapPainter!.scale, _getMoveX(), details.localPosition)) {
+                      Navigator.of(context).pushNamed('/camera_page', arguments: item);
+                      break;
+                    }
                   }
                 }
               },
