@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:yuwaku_proto/map_page.dart';
 
 class clearpage extends StatelessWidget {
-
   double width, height;
 
   clearpage(this.width, this.height);
@@ -30,9 +29,9 @@ class clearpage extends StatelessWidget {
             children: <Widget>[
               Card(
                 margin: EdgeInsets.symmetric(
-                    vertical: height / 52.0, horizontal: width / 7.85),
+                    vertical: height / 52.0, horizontal: width / 11),
                 child: Container(
-                  width: width / 1.31,
+                  width: width / 1.0,
                   height: height / 11.1,
                   decoration: BoxDecoration(
                     color: Colors.blue,
@@ -43,11 +42,11 @@ class clearpage extends StatelessWidget {
 
               Card(
                 margin: EdgeInsets.symmetric(
-                    vertical: height / 22.3, horizontal: width / 7.85),
+                    vertical: height / 22.3, horizontal: width / 11),
                 child: Container(
                   alignment: Alignment.center,
                   height: height / 22.3,
-                  width: width / 1.1,
+                  width: width,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -71,8 +70,8 @@ class clearpage extends StatelessWidget {
               for (int i = 0; i < imagephoto.length; i++)
                 redgoal(height / 7.8 + (275 * i), height, width),
               for (int i = 0; i < imagephoto.length; i++)
-                textgoal(height / 6.7 + (280 * i), posName[i],width, height),
-              for (int i = 0; i < imagephoto.length; i++)
+                textgoal(height / 6.7 + (280 * i), posName[i], width, height),
+              for (int i = 0; i < imagephoto.length; i++) 
                 photogoal(height / 4.8 + (280 * i), imagephoto[i], width, height),
             ],
           ),
@@ -83,7 +82,7 @@ class clearpage extends StatelessWidget {
 }
 
 // 下地を表示する
-Widget redgoal(double top,double height, double width) {
+Widget redgoal(double top, double height, double width) {
   return Card(
     margin: EdgeInsets.only(top: top),
     child: Center(
@@ -102,7 +101,7 @@ Widget redgoal(double top,double height, double width) {
 // テキストを表示する
 Widget textgoal(double top, String text, double width, double height) {
   return Card(
-    margin: EdgeInsets.only(top: top, left: width/ 8.0),
+    margin: EdgeInsets.only(top: top, left: width / 12.0),
     child: Container(
       alignment: Alignment.center,
       width: width / 1.5,
