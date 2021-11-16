@@ -31,6 +31,7 @@ class MapPainter extends CustomPainter {
     this._mapItems = _mapItems;
   }
 
+
   /// 描画
   @override
   void paint(Canvas canvas, Size size) {

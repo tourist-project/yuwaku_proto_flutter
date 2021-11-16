@@ -105,9 +105,7 @@ class MapItem {
 class MapPage extends StatefulWidget {
   /// コンストラクタ
   MapPage({Key? key, required this.title}) : super(key: key);
-  final String title;
-
-  /// ページタイトル
+  final String title; /// ページタイトル
 
   /// 描画
   @override
@@ -140,7 +138,7 @@ class _MapPageState extends State<MapPage> {
       await item.loadInitialImage();
     }
 
-    if(mounted){
+    if(mounted){ /// WidgetTreeにWidgetが存在するかの判断
       setState(() => {
         _mapImage = img
       });
@@ -173,8 +171,6 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     final Size mediaSize = MediaQuery.of(context).size; // 画面の取得
-    final width = mediaSize.width;
-    final height = mediaSize.height;
 
     final AppBar appBar = AppBar(
         title: Text(widget.title,
@@ -247,12 +243,12 @@ int change = 0;
 
 class SnackBerPage extends StatefulWidget {
   SnackBerPage() : super();
-// 表示するヒントの変数
   @override
   _SnackBarPageState createState() => _SnackBarPageState(durationSecond: 3);
 }
 
 class _SnackBarPageState extends State<SnackBerPage> {
+
   final int durationSecond;
   _SnackBarPageState({required this.durationSecond});
   var _myOpacity = 0.5; // 透過値
@@ -301,9 +297,7 @@ class _SnackBarPageState extends State<SnackBerPage> {
           // 出っ張っている所の指定
           nip: BubbleNip.leftBottom,
         ),
-
       ),
-
     );
   }
 }
