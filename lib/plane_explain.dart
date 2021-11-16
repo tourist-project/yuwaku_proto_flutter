@@ -64,6 +64,11 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
 
   List<String> posName = [" 金沢夢二館", " 湯涌みどりの里", " 氷室小屋", " あし湯"];
   List<String> posExplain = [
+    '湯涌温泉の日帰り温泉。浴室はガラス窓であり、内湯でも開放的な気分になります。'
+        '観光客だけでなく地元の方々にも日々利用されている名湯になります。',
+    '白鷲の湯と夢二館に挟まれた扇形の階段のさらに先にある神社です。アニメ「花咲くいろは」に'
+        '登場した名所となっております。自然豊かの中にあるひっそりと佇む神社という風情あふれる風景を一度'
+        'ご体験ください。',
     '大正時代を代表する詩人画家の竹下夢二の記念館です。旅、女性、信仰心の3つのテーマから、'
         '遺品や作品を通して夢二の芸術性や人間性を紹介しています。',
     'みどりの里では、蕎麦打ち体験や梨の収穫体験などの様々なイベントが`1年を通して'
@@ -75,6 +80,10 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
         'ぜひ足湯を体験してみていかかでしょう。'
   ];
 
+  var imagePhoto = ['assets/images/Yumezikan.png',
+    'assets/images/MidorinoSato.png',
+    'assets/images/HimuroGoya.png',
+    'assets/images/Asiyu(temp).png'];
 
   @override
   Widget build(BuildContext context) {
@@ -161,7 +170,7 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
                           child: Column(
                             children: <Widget>[
                               Container(
-                                  child: Image.asset('assets/images/KeigoSirayu.png')
+                                  child: Image.asset('assets/images/InariZinja.png'),
                               ),
                               Container(
                                 child: Column(
@@ -204,7 +213,7 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
                         ),
                       ),
                       for(int i = 0; i < posName.length; i++)
-                        planeExplain(posName[i], posExplain[i]),
+                        planeExplain(posName[i], posExplain[i], imagePhoto[i]),
 
                     ],
                   ),
@@ -217,7 +226,10 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
 }
 
 
-Widget planeExplain(String posName, String posExplain){
+
+
+Widget planeExplain(String posName, String posExplain, var image){
+
   return Card(
     margin: EdgeInsets.only(left: 20,right: 20,bottom: 15),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -226,7 +238,7 @@ Widget planeExplain(String posName, String posExplain){
     child: Column(
       children: <Widget>[
         Container(
-            child: Image.asset('assets/images/KeigoSirayu.png')
+            child: Image(image: AssetImage(image))
         ),
         Container(
           child: Column(
