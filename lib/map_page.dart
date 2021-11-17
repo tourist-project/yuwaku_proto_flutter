@@ -182,52 +182,78 @@ class _MapPageState extends State<MapPage> {
     if ( _mapImage != null ) {
       this._mapPainter = MapPainter(_mapImage!, _getMoveX, _mapItems);
     }
-    // UI部分
-    return Scaffold(
-      appBar: appBar,
-      body: Stack(
-        children: <Widget>[
-          Center(
-            //_mapImage == null ? // マップ画像の読み込みがない場合はTextを表示
-            child: _mapImage == null ? Text('Loading...', style: TextStyle(
-              fontSize: 30, fontWeight: FontWeight.bold
-            )): // ロード画面
 
-            GestureDetector(
-              onTapUp: (details) {// タップ時の処理
-                // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-                for (var item in _mapItems) {
-                  // TODO: 実際に現地で検証して
-                  if (item.isProximity(30)) {
-                    // 場所ごとのタップの判定処理(タップ時は遷移)
-                    if(item.didTappedImageTransition(this._mapPainter!.scale, _getMoveX(), details.localPosition)) {
-                      Navigator.of(context).pushNamed('/camera_page', arguments: item);
-                      break;
+    if (this.is_clear) {
+      return Scaffold(
+          appBar: appBar,
+          body: Stack(
+            alignment: Alignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  imageDb.deleteAll();
+                  for (var item in _mapItems) {
+                    item.photoImage = null;
+                  }
+                },
+                child: const Text('くりあ\n全てを無に帰す。'),
+              ),
+            ],
+          )
+      );
+    }else{
+      // UI部分
+      return Scaffold(
+        appBar: appBar,
+        body: Stack(
+          children: <Widget>[
+            Center(
+              //_mapImage == null ? // マップ画像の読み込みがない場合はTextを表示
+              child: _mapImage == null ? Text('Loading...', style: TextStyle(
+                  fontSize: 30, fontWeight: FontWeight.bold
+              )) : // ロード画面
+
+              GestureDetector(
+                onTapUp: (details) { // タップ時の処理
+                  // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
+                  for (var item in _mapItems) {
+                    // TODO: 実際に現地で検証して
+                    if (item.isProximity(30)) {
+                      // 場所ごとのタップの判定処理(タップ時は遷移)
+                      if (item.didTappedImageTransition(
+                          this._mapPainter!.scale, _getMoveX(),
+                          details.localPosition)) {
+                        Navigator.of(context).pushNamed(
+                            '/camera_page', arguments: item);
+                        break;
+                      }
                     }
                   }
-                }
-              },
-              onPanUpdate: (DragUpdateDetails details) {// スクロール時の処理
-                setState(() {
-                  // スクロールを適用した場合の遷移先X
-                  final next = _moveX - details.delta.dx;
-                  // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-                  // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
-                  _moveX = min(max(next, 0), _mapImage!.width * this._mapPainter!.scale - mediaSize.width);
-                });
-              },
-              child: CustomPaint(
-                // キャンバス本体
-                size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
-                painter: this._mapPainter!, // ペインター
-                child: Center(), // あったほうがいいらしい？？
+                },
+                onPanUpdate: (DragUpdateDetails details) { // スクロール時の処理
+                  setState(() {
+                    // スクロールを適用した場合の遷移先X
+                    final next = _moveX - details.delta.dx;
+                    // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
+                    // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
+                    _moveX = min(max(next, 0),
+                        _mapImage!.width * this._mapPainter!.scale -
+                            mediaSize.width);
+                  });
+                },
+                child: CustomPaint(
+                  // キャンバス本体
+                  size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
+                  painter: this._mapPainter!, // ペインター
+                  child: Center(), // あったほうがいいらしい？？
+                ),
               ),
             ),
-          ),
-          SnackBerPage(),
-        ],
-      ),
-    );
+            SnackBerPage(),
+          ],
+        ),
+      );
+    }
   }
 }
 
