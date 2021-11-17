@@ -63,6 +63,7 @@ class MapPainter extends CustomPainter {
           item.setDistance(pos)
         });
 
+
         if (item.isProximity(30)) {
           // 円を書く
           canvas.drawCircle(Offset(item.position.dx * scale - _getMoveX(), item.position.dy * scale), 10, paint);
@@ -91,12 +92,6 @@ class MapPainter extends CustomPainter {
     return true;
   }
 
-
-  getLocation() async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-
-  }
 
 }
 
