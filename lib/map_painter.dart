@@ -9,12 +9,6 @@ import 'map_page.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:touchable/touchable.dart';
 
-
-double YInari = 10000000000000;
-double Souyu = 10000000000000;
-double Himuro = 1000000000000;
-
-
 /// マップの描画
 class MapPainter extends CustomPainter {
 
@@ -47,7 +41,6 @@ class MapPainter extends CustomPainter {
     final dst = Rect.fromLTWH(0, 0, size.width, size.height); // 描画場所
     canvas.drawImageRect(_mapImage, src, dst, paint); // 背景マップの描画
 
-
     // 場所ごとの処理
     for (var item in _mapItems) {
       // 表示する画像の取得
@@ -56,7 +49,9 @@ class MapPainter extends CustomPainter {
       if (img != null) {
         final length = min(img.height, img.width).toDouble(); // 縦横のうち最短を取得
         // FIXME: 画像を中央に寄せる
-        final src = Rect.fromLTWH(0, 0, length, length); // 画像中の描画する場所を選択
+        final ox = (img.width.toDouble() - length)/2;
+        final oy = (img.height.toDouble() - length)/2;
+        final src = Rect.fromLTWH(ox, oy, length, length); // 画像中の描画する場所を選択
         final rescaleRect = item.getPhotoRectForDeviceFit(scale, _getMoveX()); // どこに描画するかを設定
 
         Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then( (pos) => {
