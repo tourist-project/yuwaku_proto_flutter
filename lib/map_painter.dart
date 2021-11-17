@@ -31,6 +31,7 @@ class MapPainter extends CustomPainter {
     this._mapItems = _mapItems;
   }
 
+
   /// 描画
   @override
   void paint(Canvas canvas, Size size) {
@@ -62,6 +63,7 @@ class MapPainter extends CustomPainter {
           item.setDistance(pos)
         });
 
+
         if (item.isProximity(30)) {
           paint.color = Color.fromARGB(255, 255, 0, 0);
           // 円を書く
@@ -91,12 +93,6 @@ class MapPainter extends CustomPainter {
     return true;
   }
 
-
-  getLocation() async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-
-  }
 
 }
 

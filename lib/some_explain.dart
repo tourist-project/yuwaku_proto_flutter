@@ -140,15 +140,16 @@ class _Explain extends State<Explain> with TickerProviderStateMixin {
                               ),
 
                               child: Stack(
+
                                 children: <Widget>[
 
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(100),
                                     child: Image.asset(
-                                        'assets/images/NotKeigoSirayu.png'),
+                                        'assets/images/DeveloperPage.png'),
                                   ),
 
-                                  Text('第二ステージ', style: TextStyle(
+                                  Text('開発中', style: TextStyle(
                                       fontSize: 40,
                                       fontWeight: FontWeight.bold,
                                       decoration: TextDecoration.underline,
