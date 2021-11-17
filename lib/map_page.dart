@@ -198,7 +198,7 @@ class _MapPageState extends State<MapPage> {
                     item.photoImage = null;
                   }
                 },
-                child: const Text('くりあ\n全てを無に帰す。'),
+                child: const Text('もう一度'),
               ),
             ],
           ),
