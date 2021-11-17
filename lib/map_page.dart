@@ -121,6 +121,7 @@ class _MapPageState extends State<MapPage> {
 
   MapPainter? _mapPainter = null;
 
+
   /// マップの場所情報の一覧
   final _mapItems = <MapItem>[
     MapItem('湯涌稲荷神社', 36.4859822, 136.7560359, Offset(1254, 292),
@@ -170,6 +171,7 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     final Size mediaSize = MediaQuery.of(context).size; // 画面の取得
+    clearpage pageClear = new clearpage(mediaSize.width, mediaSize.height);
 
     final AppBar appBar = AppBar(
         title: Text(widget.title,
@@ -187,8 +189,8 @@ class _MapPageState extends State<MapPage> {
       return Scaffold(
           appBar: appBar,
           body: Stack(
-            alignment: Alignment.center,
             children: [
+              pageClear,
               ElevatedButton(
                 onPressed: () {
                   imageDb.deleteAll();
@@ -199,7 +201,7 @@ class _MapPageState extends State<MapPage> {
                 child: const Text('くりあ\n全てを無に帰す。'),
               ),
             ],
-          )
+          ),
       );
     }else{
       // UI部分
