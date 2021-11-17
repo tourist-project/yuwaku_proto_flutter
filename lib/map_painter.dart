@@ -63,6 +63,7 @@ class MapPainter extends CustomPainter {
         });
 
         if (item.isProximity(30)) {
+          paint.color = Color.fromARGB(255, 255, 0, 0);
           // 円を書く
           canvas.drawCircle(Offset(item.position.dx * scale - _getMoveX(), item.position.dy * scale), 10, paint);
 
