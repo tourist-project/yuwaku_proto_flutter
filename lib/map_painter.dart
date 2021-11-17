@@ -62,8 +62,6 @@ class MapPainter extends CustomPainter {
           item.setDistance(pos)
         });
 
-        item.distance = 15;
-
         if (item.isProximity(30)) {
           paint.color = Color.fromARGB(255, 255, 0, 0);
           // 円を書く
