@@ -25,7 +25,6 @@ class CameraPage extends StatefulWidget {
 }
 
 class _CameraPageState extends State<CameraPage> {
-
   _CameraPageState(this.mapItem);
 
   final MapItem mapItem;

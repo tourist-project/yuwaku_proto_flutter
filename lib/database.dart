@@ -9,7 +9,6 @@ import 'dart:async' as asyncio ;
 // TODO: DB作れるか確認
 
 class ImageDBProvider {
-
   final _databaseName = "yuwaku_database.db";
   final _databaseVersion = 1;
 
@@ -22,10 +21,12 @@ class ImageDBProvider {
   asyncio.Future<Database> get database async {
     if (_database != null) return _database as Database;
     _database = await _initDatabase();
+    print(_database.runtimeType);
     return _database as Database;
   }
 
-  void _createTableV1(Batch batch) {
+  /// TABLE を作成
+   void _createTableV1(Batch batch) {
     batch.execute('''
     CREATE TABLE $tableName(
       state TEXT NOT NULL UNIQUE,
@@ -34,7 +35,8 @@ class ImageDBProvider {
     ''');
   }
 
-  _initDatabase() async {
+  /// Database を初期化
+  Future<Database> _initDatabase() async {
     final Directory documentsDirectory = await getApplicationDocumentsDirectory();
     final String path = join(documentsDirectory.path, _databaseName);
     return await openDatabase(
@@ -49,13 +51,13 @@ class ImageDBProvider {
     );
   }
 
-  // 挿入
+  /// 挿入
   asyncio.Future<int> insert(Map<String, dynamic> row) async {
     Database db = await instance.database; //DBにアクセスする
     return await db.insert(tableName, row); //テーブルにマップ型のものを挿入。追加時のrowIDを返り値にする
   }
 
-  // 全件取得
+  /// 全件取得
   asyncio.Future<List<Map<String, dynamic>>> queryAllRows() async {
     Database db = await instance.database; //DBにアクセスする
     return await db.query(tableName); //全件取得
@@ -92,6 +94,4 @@ class ImageDBProvider {
     Database db = await instance.database;
     return await db.rawQuery('DELETE FROM $tableName');
   }
-
-
 }

@@ -11,7 +11,6 @@ class BottomTabPage extends StatefulWidget {
 }
 
 class _BottomTabPageState extends State<BottomTabPage> {
-
   int _currentIndex = 0;
 
   // ページの種類
@@ -24,13 +23,18 @@ class _BottomTabPageState extends State<BottomTabPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pageWidgets.elementAt(_currentIndex),
-
       bottomNavigationBar: BottomNavigationBar(
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
         items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.add_comment_sharp),
-            title: Text(''),),
-          BottomNavigationBarItem(icon: Icon(Icons.add_location_alt_sharp),
-              title: Text('')),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.add_comment_sharp),
+              label: 'event select'
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.add_location_alt_sharp),
+              label: 'map'
+          ),
         ],
 
         currentIndex: _currentIndex,

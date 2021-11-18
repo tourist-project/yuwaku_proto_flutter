@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'main.dart';
@@ -19,14 +18,15 @@ class DevelopmentPage extends StatefulWidget{
 
 class _DevelopmentPage extends State<DevelopmentPage> with TickerProviderStateMixin {
 
-  static const String title = '開発中';
+  // static const String title = '開発中';
   late AnimationController _animationController;
 
   @override
   void initState() {
     _animationController = AnimationController(
         duration: const Duration(milliseconds: 2000),
-        vsync: this);
+        vsync: this
+    );
 
     _animationController.forward(from: 0.0);
     super.initState();
@@ -42,20 +42,23 @@ class _DevelopmentPage extends State<DevelopmentPage> with TickerProviderStateMi
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Text(title, style: TextStyle(color: Colors.black87)),
+        // title: Text(title, style: TextStyle(color: Colors.black87)),
+        title: Text('開発中', style: TextStyle(color: Colors.black87)),
       ),
-      body: buildAnimation(),
+      body: floatAnimationLabel(),
     );
   }
 
-  Widget buildAnimation(){
-    final animation = Tween<double>(
-        begin: 0.0, end: 1.0).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.fastOutSlowIn,
-    ));
+  /// Labelが画面下部からフローティングするアニメーション
+  Widget floatAnimationLabel(){
+    final animation = Tween<double>(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(
+          parent: _animationController,
+          curve: Curves.fastOutSlowIn,
+        )
+    );
 
-    final Size mediaSize = MediaQuery.of(context).size; // 画面の取得
+    final Size mediaSize = MediaQuery.of(context).size; // 画面サイズの取得
 
     return AnimatedBuilder(
       animation: _animationController,
@@ -71,7 +74,7 @@ class _DevelopmentPage extends State<DevelopmentPage> with TickerProviderStateMi
               child: Container(
                 child: RichText(
                   text: TextSpan(
-                    style: Theme.of(context).textTheme.body1,
+                    style: Theme.of(context).textTheme.bodyText1,
                     children: [
                       TextSpan(text: '開発中です',style: TextStyle(fontSize: 36)),
                       WidgetSpan(
@@ -91,12 +94,10 @@ class _DevelopmentPage extends State<DevelopmentPage> with TickerProviderStateMi
     );
   }
 
-  // Translateする時の値を行列で返す
-  Matrix4 _generateMatrix(Animation animation)
-  {
+  /// Translateする時の値を行列で返す
+  Matrix4 _generateMatrix(Animation animation) {
     final value = lerpDouble(50.0, 0, animation.value);
     return Matrix4.translationValues(0.0, value!, 0.0);
   }
-
 }
 
