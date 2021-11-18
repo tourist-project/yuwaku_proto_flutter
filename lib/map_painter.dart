@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 import 'package:yuwaku_proto/map_page.dart';
-import 'Distance_twoPosition.dart';
+import 'distance_between_points.dart';
 import 'main.dart';
 import 'map_page.dart';
 import 'package:geolocator/geolocator.dart';
