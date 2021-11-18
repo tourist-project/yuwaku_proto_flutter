@@ -74,6 +74,7 @@ class clearpage extends StatelessWidget {
               for (int i = 0; i < imagephoto.length; i++) 
                 photogoal(height / 4.8 + (280 * i), imagephoto[i], width, height),
             ],
+
           ),
         ),
       ),

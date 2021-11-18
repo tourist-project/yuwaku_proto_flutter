@@ -185,25 +185,7 @@ class _MapPageState extends State<MapPage> {
       this._mapPainter = MapPainter(_mapImage!, _getMoveX, _mapItems);
     }
 
-    if (this.is_clear) {
-      return Scaffold(
-          appBar: appBar,
-          body: Stack(
-            children: [
-              pageClear,
-              ElevatedButton(
-                onPressed: () {
-                  imageDb.deleteAll();
-                  for (var item in _mapItems) {
-                    item.photoImage = null;
-                  }
-                },
-                child: const Text('もう一度'),
-              ),
-            ],
-          ),
-      );
-    }else{
+    if (!this.is_clear) {
       // UI部分
       return Scaffold(
         appBar: appBar,
@@ -252,6 +234,29 @@ class _MapPageState extends State<MapPage> {
               ),
             ),
             SnackBerPage(),
+          ],
+        ),
+      );
+    }else{
+      return Scaffold(
+        appBar: appBar,
+        body: Stack(
+          children: [
+            _mapImage == null ? Center(
+                child: Text('Loading...',
+                    style: TextStyle(
+                    fontSize: 30, fontWeight: FontWeight.bold))
+            ):
+            pageClear,
+            ElevatedButton(
+              onPressed: () {
+                imageDb.deleteAll();
+                for (var item in _mapItems) {
+                  item.photoImage = null;
+                }
+              },
+              child: const Text('もう一度'),
+            ),
           ],
         ),
       );
