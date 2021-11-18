@@ -52,7 +52,7 @@ class MapItem {
     initialImage = await loadUiImage(initialImagePath);
     if (await imageDb.isExist(this.name)) {
       final rawStr =
-          (await imageDb.querySearchRows(this.name))[0]['image']! as String;
+      (await imageDb.querySearchRows(this.name))[0]['image']! as String;
       Uint8List raw = base64.decode(rawStr);
       ui.decodeImageFromList(raw, (ui.Image img) => {this.photoImage = img});
     }
@@ -105,7 +105,6 @@ class MapPage extends StatefulWidget {
   /// コンストラクタ
   MapPage({Key? key, required this.title}) : super(key: key);
   final String title; /// ページタイトル
-
   /// 描画
   @override
   _MapPageState createState() => _MapPageState();
@@ -118,7 +117,6 @@ class _MapPageState extends State<MapPage> {
   bool is_clear = true;
   ui.Image? _mapImage;/// マップの画像
   double _moveX = 0;/// x軸の移動を保持
-
   MapPainter? _mapPainter = null;
 
   /// マップの場所情報の一覧
@@ -127,6 +125,12 @@ class _MapPageState extends State<MapPage> {
         'assets/images/img1_gray.png', Rect.fromLTWH(650, 182, 300, 300)),
     MapItem('総湯', 36.4857904, 136.7575357, Offset(1358, 408),
         'assets/images/img2_gray.png', Rect.fromLTWH(820, 820, 300, 300)),
+    MapItem('氷室', 36.4833470, 136.7570822, Offset(200, 370),
+        'assets/images/HimuroGoya.png', Rect.fromLTWH(1720, 620, 300, 300)),
+    MapItem('足湯(湯の出)', 36.4890731, 136.7560036, Offset(1860, 320),
+        'assets/images/Asiyu(temp).png', Rect.fromLTWH(530, 230, 300, 300)),
+    MapItem('みどりの里', 36.49040292, 36.7560035, Offset(2250, 450),
+        'assets/images/MidorinoSato.png', Rect.fromLTWH(280, 850, 280, 280))
   ];
 
   /// アセット(画像等)の取得
@@ -190,7 +194,7 @@ class _MapPageState extends State<MapPage> {
           Center(
             //_mapImage == null ? // マップ画像の読み込みがない場合はTextを表示
             child: _mapImage == null ? Text('Loading...', style: TextStyle(
-              fontSize: 30, fontWeight: FontWeight.bold
+                fontSize: 30, fontWeight: FontWeight.bold
             )): // ロード画面
 
             GestureDetector(
