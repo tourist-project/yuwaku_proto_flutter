@@ -128,7 +128,7 @@ class _MapPageState extends State<MapPage> {
         'assets/images/HimuroGoya.png', Rect.fromLTWH(1720, 620, 300, 300)),
     MapItem('足湯(湯の出)', 36.4890731, 136.7560036, Offset(1860, 320),
         'assets/images/Asiyu(temp).png', Rect.fromLTWH(530, 230, 300, 300)),
-    MapItem('みどりの里', 36.49040292, 36.7560035, Offset(2250, 450),
+    MapItem('みどりの里', 36.49040292, 136.7542351, Offset(2250, 450),
         'assets/images/MidorinoSato.png', Rect.fromLTWH(280, 850, 280, 280))
   ];
 
