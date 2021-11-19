@@ -51,8 +51,7 @@ class MapItem {
   Future loadInitialImage() async {
     initialImage = await loadUiImage(initialImagePath);
     if (await imageDb.isExist(this.name)) {
-      final rawStr =
-      (await imageDb.querySearchRows(this.name))[0]['image']! as String;
+      final rawStr = (await imageDb.querySearchRows(this.name))[0]['image']! as String;
       Uint8List raw = base64.decode(rawStr);
       ui.decodeImageFromList(raw, (ui.Image img) => {this.photoImage = img});
     }
@@ -193,9 +192,13 @@ class _MapPageState extends State<MapPage> {
         children: <Widget>[
           Center(
             //_mapImage == null ? // マップ画像の読み込みがない場合はTextを表示
-            child: _mapImage == null ? Text('Loading...', style: TextStyle(
-                fontSize: 30, fontWeight: FontWeight.bold
-            )): // ロード画面
+            child: _mapImage == null 
+              ? Text('Loading...',
+                     style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold
+                      )
+                    ): // ロード画面
 
             GestureDetector(
               onTapUp: (details) {// タップ時の処理
