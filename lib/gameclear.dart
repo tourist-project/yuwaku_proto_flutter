@@ -7,17 +7,19 @@ class clearpage extends StatelessWidget {
 
   clearpage(this.width, this.height);
 
-  // marginなどのサイズの指定
+  // 表示する写真を入れる
+  var imagephoto = [
+    'assets/images/img1_gray.png',
+    'assets/images/img2_gray.png',
+    'assets/images/KeigoSirayu.png',
+    'assets/images/map_img.png'
+  ];
+  List<String> posName = ["稲荷神社", "湯涌総湯中", "湯涌総湯外", "湯涌全体図"];
+
+
   @override
   Widget build(BuildContext context) {
-    // 表示する写真を入れる
-    var imagephoto = [
-      'assets/images/img1_gray.png',
-      'assets/images/img2_gray.png',
-      'assets/images/KeigoSirayu.png',
-      'assets/images/map_img.png'
-    ];
-    List<String> posName = ["稲荷神社", "湯涌総湯中", "湯涌総湯外", "湯涌全体図"];
+
 
     return Scaffold(
       body: Scrollbar(
@@ -68,7 +70,7 @@ class clearpage extends StatelessWidget {
 
               // imageの表示
               for (int i = 0; i < imagephoto.length; i++)
-                drawIndexPosition(i, posName, imagephoto) // imageの表示
+                drawIndexPosition(i) // imageの表示
             ],
 
           ),
@@ -77,12 +79,12 @@ class clearpage extends StatelessWidget {
     );
   }
 
-  Widget drawIndexPosition(int currentIndex, posName, imagePhoto) {
+  Widget drawIndexPosition(int currentIndex) {
     return Stack(
       children: <Widget>[
         redgoal(height / 7.8 + (275 * currentIndex), height, width),
         textgoal(height / 6.7 + (280 * currentIndex), posName[currentIndex], width, height),
-        photogoal(height / 4.8 + (280 * currentIndex), imagePhoto[currentIndex], width, height)
+        photogoal(height / 4.8 + (280 * currentIndex), imagephoto[currentIndex], width, height)
       ],
     );
   }
