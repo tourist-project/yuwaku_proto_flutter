@@ -13,15 +13,13 @@ class DevelopmentPage extends StatefulWidget {
   _DevelopmentPage createState() => _DevelopmentPage();
 }
 
-class _DevelopmentPage extends State<DevelopmentPage>
-    with TickerProviderStateMixin {
+class _DevelopmentPage extends State<DevelopmentPage> with TickerProviderStateMixin {
   static const String title = '開発中';
   late AnimationController _animationController;
 
   @override
   void initState() {
-    _animationController = AnimationController(
-        duration: const Duration(milliseconds: 2000), vsync: this);
+    _animationController = AnimationController(duration: const Duration(milliseconds: 2000), vsync: this);
 
     _animationController.forward(from: 0.0);
     super.initState();
@@ -44,8 +42,7 @@ class _DevelopmentPage extends State<DevelopmentPage>
   }
 
   Widget buildAnimation() {
-    final animation =
-        Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+    final animation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
       parent: _animationController,
       curve: Curves.fastOutSlowIn,
     ));
@@ -66,7 +63,7 @@ class _DevelopmentPage extends State<DevelopmentPage>
               child: Container(
                 child: RichText(
                   text: TextSpan(
-                    // style: Theme.of(context).textTheme.body1,
+                    style: Theme.of(context).textTheme.body1,
                     children: [
                       TextSpan(text: '開発中です', style: TextStyle(fontSize: 36)),
                       WidgetSpan(
