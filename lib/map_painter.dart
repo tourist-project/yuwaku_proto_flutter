@@ -48,7 +48,6 @@ class MapPainter extends CustomPainter {
       // もし画像がロードできていないなら何もしない
       if (img != null) {
         final length = min(img.height, img.width).toDouble(); // 縦横のうち最短を取得
-        // FIXME: 画像を中央に寄せる
         final ox = (img.width.toDouble() - length)/2;
         final oy = (img.height.toDouble() - length)/2;
         final src = Rect.fromLTWH(ox, oy, length, length); // 画像中の描画する場所を選択
@@ -57,6 +56,7 @@ class MapPainter extends CustomPainter {
         Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then( (pos) => {
           item.setDistance(pos)
         });
+        item.distance = 15;
 
 
         if (item.isProximity(30)) {
