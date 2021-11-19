@@ -120,15 +120,15 @@ class _MapPageState extends State<MapPage> {
 
   /// マップの場所情報の一覧
   final _mapItems = <MapItem>[
-    MapItem('湯涌稲荷神社', 36.4859822, 136.7560359, Offset(1254, 292),
+    MapItem('湯涌稲荷神社', 36.4856770,136.7582343, Offset(1254, 292),
         'assets/images/img1_gray.png', Rect.fromLTWH(650, 182, 300, 300)),
-    MapItem('総湯', 36.4857904, 136.7575357, Offset(1358, 408),
+    MapItem('総湯', 36.48567221199191,  136.75751246063845, Offset(1358, 408),
         'assets/images/img2_gray.png', Rect.fromLTWH(820, 820, 300, 300)),
-    MapItem('氷室', 36.4833470, 136.7570822, Offset(200, 370),
+    MapItem('氷室', 36.48334703105948, 136.75708224329324, Offset(200, 370),
         'assets/images/HimuroGoya.png', Rect.fromLTWH(1720, 620, 300, 300)),
-    MapItem('足湯(湯の出)', 36.4890731, 136.7560036, Offset(1860, 320),
+    MapItem('足湯(湯の出)', 36.48907313908926, 136.75600363400136, Offset(1860, 320),
         'assets/images/Asiyu(temp).png', Rect.fromLTWH(530, 230, 300, 300)),
-    MapItem('みどりの里', 36.49040292, 136.7542351, Offset(2250, 450),
+    MapItem('みどりの里', 36.490402927190495, 136.75423519148546, Offset(2250, 450),
         'assets/images/MidorinoSato.png', Rect.fromLTWH(280, 850, 280, 280))
   ];
 
