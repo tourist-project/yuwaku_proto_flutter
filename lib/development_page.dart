@@ -63,7 +63,7 @@ class _DevelopmentPage extends State<DevelopmentPage> with TickerProviderStateMi
               child: Container(
                 child: RichText(
                   text: TextSpan(
-                    style: Theme.of(context).textTheme.body1,
+                    style: Theme.of(context).textTheme.bodyText1,
                     children: [
                       TextSpan(text: '開発中です', style: TextStyle(fontSize: 36)),
                       WidgetSpan(
