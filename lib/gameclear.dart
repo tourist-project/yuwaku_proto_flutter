@@ -6,7 +6,7 @@ class clearpage extends StatelessWidget {
   clearpage(this.width, this.height);
 
   // 表示する写真
-  final List<String> posImagePath = [
+  final List<String> imagephoto = [
     'assets/images/img1_gray.png',
     'assets/images/img2_gray.png',
     'assets/images/KeigoSirayu.png',
@@ -56,27 +56,18 @@ class clearpage extends StatelessWidget {
                   ),
                 ),
               ),
-              for (int i = 0; i < posImagePath.length; i++)
+
+              // imageの表示
+              for (int i = 0; i < imagephoto.length; i++)
                 drawIndexPosition(i) // imageの表示
             ],
+
           ),
         ),
       ),
     );
   }
 
-  /// スポットを表示
-  Widget drawIndexPosition(int currentIndex) {
-    return Stack(
-      children: <Widget>[
-        redgoal(height / 7.8 + (275 * currentIndex), height, width),
-        textgoal(height / 6.7 + (280 * currentIndex), posName[currentIndex], width, height),
-        photogoal(height / 4.8 + (280 * currentIndex), posImagePath[currentIndex], width, height)
-      ],
-    );
-  }
-
-  /// 下地を表示する
   Widget redgoal(double top, double height, double width) {
     return Card(
       margin: EdgeInsets.only(top: top),
@@ -93,7 +84,8 @@ class clearpage extends StatelessWidget {
     );
   }
 
-  /// テキストを表示する
+
+// テキストを表示する
   Widget textgoal(double top, String text, double width, double height) {
     return Card(
       margin: EdgeInsets.only(top: top, left: width / 12.0),
@@ -124,18 +116,16 @@ class clearpage extends StatelessWidget {
     );
   }
 
-  /// 写真を表示する
+// 写真を表示する
   Widget photogoal(double top, var image, double width, double height) {
     return Center(
       child: Container(
         alignment: Alignment.center,
         margin: EdgeInsets.only(top: top),
         child: Image(
-            width: width / 1.7,
-            height: height / 5.5,
-            image: AssetImage(image)
-        ),
+            width: width / 1.7, height: height / 5.5, image: AssetImage(image)),
       ),
     );
   }
+
 }

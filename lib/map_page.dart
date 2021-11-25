@@ -51,8 +51,7 @@ class MapItem {
   Future loadInitialImage() async {
     initialImage = await loadUiImage(initialImagePath);
     if (await imageDb.isExist(this.name)) {
-      final rawStr =
-          (await imageDb.querySearchRows(this.name))[0]['image']! as String;
+      final rawStr = (await imageDb.querySearchRows(this.name))[0]['image']! as String;
       Uint8List raw = base64.decode(rawStr);
       ui.decodeImageFromList(raw, (ui.Image img) => {this.photoImage = img});
     }
@@ -105,7 +104,6 @@ class MapPage extends StatefulWidget {
   /// コンストラクタ
   MapPage({Key? key, required this.title}) : super(key: key);
   final String title; /// ページタイトル
-
   /// 描画
   @override
   _MapPageState createState() => _MapPageState();
@@ -118,15 +116,21 @@ class _MapPageState extends State<MapPage> {
   bool is_clear = true;
   ui.Image? _mapImage;/// マップの画像
   double _moveX = 0;/// x軸の移動を保持
-
   MapPainter? _mapPainter = null;
+
 
   /// マップの場所情報の一覧
   final _mapItems = <MapItem>[
-    MapItem('湯涌稲荷神社', 36.4859822, 136.7560359, Offset(1254, 292),
-        'assets/images/img1_gray.png', Rect.fromLTWH(650, 182, 300, 300)),
-    MapItem('総湯', 36.4857904, 136.7575357, Offset(1358, 408),
-        'assets/images/img2_gray.png', Rect.fromLTWH(820, 820, 300, 300)),
+    MapItem('湯涌稲荷神社', 36.4856770,136.7582343, Offset(1254, 292),
+        'assets/images/img1_gray.png', Rect.fromLTWH(650, 182, 280, 280)),
+    MapItem('総湯', 36.485860467436346,  136.75822950005136, Offset(1358, 408),
+        'assets/images/img2_gray.png', Rect.fromLTWH(820, 820, 280, 280)),
+    MapItem('氷室', 36.48346516395541, 136.75701193508996, Offset(1881, 512),
+        'assets/images/HimuroGoya.png', Rect.fromLTWH(1720, 620, 280, 280)),
+    MapItem('足湯(湯の出)', 36.48919374904115, 136.75588850463596, Offset(1280, 340),
+        'assets/images/Asiyu(temp).png', Rect.fromLTWH(1500, 50, 280, 280)),
+    MapItem('みどりの里', 36.49050881078798, 136.75404574490975, Offset(239, 928),
+        'assets/images/MidorinoSato.png', Rect.fromLTWH(280, 850, 280, 280))
   ];
 
   /// アセット(画像等)の取得
@@ -170,6 +174,7 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     final Size mediaSize = MediaQuery.of(context).size; // 画面の取得
+    clearpage pageClear = new clearpage(mediaSize.width, mediaSize.height);
 
     final AppBar appBar = AppBar(
         title: Text(widget.title,
@@ -182,52 +187,83 @@ class _MapPageState extends State<MapPage> {
     if ( _mapImage != null ) {
       this._mapPainter = MapPainter(_mapImage!, _getMoveX, _mapItems);
     }
-    // UI部分
-    return Scaffold(
-      appBar: appBar,
-      body: Stack(
-        children: <Widget>[
-          Center(
-            //_mapImage == null ? // マップ画像の読み込みがない場合はTextを表示
-            child: _mapImage == null ? Text('Loading...', style: TextStyle(
-              fontSize: 30, fontWeight: FontWeight.bold
-            )): // ロード画面
 
-            GestureDetector(
-              onTapUp: (details) {// タップ時の処理
-                // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-                for (var item in _mapItems) {
-                  // TODO: 実際に現地で検証して
-                  if (item.isProximity(30)) {
-                    // 場所ごとのタップの判定処理(タップ時は遷移)
-                    if(item.didTappedImageTransition(this._mapPainter!.scale, _getMoveX(), details.localPosition)) {
-                      Navigator.of(context).pushNamed('/camera_page', arguments: item);
-                      break;
+    if (!this.is_clear) {
+      // UI部分
+      return Scaffold(
+        appBar: appBar,
+        body: Stack(
+          children: <Widget>[
+            Center(
+              //_mapImage == null ? // マップ画像の読み込みがない場合はTextを表示
+              child: _mapImage == null ? Text('Loading...', style: TextStyle(
+                  fontSize: 30, fontWeight: FontWeight.bold
+              )) : // ロード画面
+
+              GestureDetector(
+                onTapUp: (details) { // タップ時の処理
+                  // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
+                  for (var item in _mapItems) {
+                    // TODO: 実際に現地で検証して
+                    if (item.isProximity(30)) {
+                      // 場所ごとのタップの判定処理(タップ時は遷移)
+                      if (item.didTappedImageTransition(
+                          this._mapPainter!.scale, _getMoveX(),
+                          details.localPosition)) {
+                        Navigator.of(context).pushNamed(
+                            '/camera_page', arguments: item);
+                        break;
+                      }
                     }
                   }
-                }
-              },
-              onPanUpdate: (DragUpdateDetails details) {// スクロール時の処理
-                setState(() {
-                  // スクロールを適用した場合の遷移先X
-                  final next = _moveX - details.delta.dx;
-                  // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-                  // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
-                  _moveX = min(max(next, 0), _mapImage!.width * this._mapPainter!.scale - mediaSize.width);
-                });
-              },
-              child: CustomPaint(
-                // キャンバス本体
-                size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
-                painter: this._mapPainter!, // ペインター
-                child: Center(), // あったほうがいいらしい？？
+                },
+                onPanUpdate: (DragUpdateDetails details) { // スクロール時の処理
+                  setState(() {
+                    // スクロールを適用した場合の遷移先X
+                    final next = _moveX - details.delta.dx;
+                    // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
+                    // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
+                    _moveX = min(max(next, 0),
+                        _mapImage!.width * this._mapPainter!.scale -
+                            mediaSize.width);
+                  });
+                },
+                child: CustomPaint(
+                  // キャンバス本体
+                  size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
+                  painter: this._mapPainter!, // ペインター
+                  child: Center(), // あったほうがいいらしい？？
+                ),
               ),
             ),
-          ),
-          SnackBerPage(),
-        ],
-      ),
-    );
+            SnackBerPage(),
+          ],
+        ),
+      );
+    }else{
+      return Scaffold(
+        appBar: appBar,
+        body: Stack(
+          children: [
+            _mapImage == null ? Center(
+                child: Text('Loading...',
+                    style: TextStyle(
+                    fontSize: 30, fontWeight: FontWeight.bold))
+            ):
+            pageClear,
+            ElevatedButton(
+              onPressed: () {
+                imageDb.deleteAll();
+                for (var item in _mapItems) {
+                  item.photoImage = null;
+                }
+              },
+              child: const Text('もう一度'),
+            ),
+          ],
+        ),
+      );
+    }
   }
 }
 
