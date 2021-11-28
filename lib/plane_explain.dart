@@ -18,7 +18,6 @@ class PicExplain extends StatefulWidget{
 
   PicExplain({Key? key, required this.title}) : super(key: key);
   final String title; /// ページタイトル
-
   /// 描画
   @override
   _PicExplain createState() => _PicExplain();
