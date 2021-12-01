@@ -62,21 +62,18 @@ class _CameraPageState extends State<CameraPage> {
 
   /// CameraPageを開いた時の初期画像を呼び出す
   Future<void> _loadStampImage() async {
-    Image _srcStampImage = Image.asset(mapItem.initialImagePath);
-    final listDB = await imageDb.queryAllRows();
-
-    for (var num = 0; num < listDB.length; num++) {
-      // SQLに画像が保存されている
-      if(listDB[num]['state'] == mapItem.name) {
-        final sqlImageFile = await _writeLocalImage(base64.decode(listDB[num]['image']));
-        _srcStampImage = Image.file(sqlImageFile);
-        break;
-      }
+    final dblow = await imageDb.querySearchRows(mapItem.name);
+    if ( dblow.length > 0 ) {
+      final byte = base64.decode(dblow[0]['image'] as String);
+      await _writeLocalImage(byte);
+      setState((){
+        _dstStampImage = Image.memory(byte);
+      });
+    } else {
+      setState((){
+        _dstStampImage = Image.asset(mapItem.initialImagePath);
+      });
     }
-
-    setState((){
-      _dstStampImage = _srcStampImage;
-    });
   }
 
   /// カメラで写真撮影時の処理
