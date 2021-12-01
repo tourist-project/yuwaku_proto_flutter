@@ -13,6 +13,8 @@ import 'package:share_plus/share_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:typed_data';
 
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+
 
 class CameraPage extends StatefulWidget {
   CameraPage({Key? key, required this.title, required this.mapItem}) : super(key: key);
@@ -94,6 +96,9 @@ class _CameraPageState extends State<CameraPage> {
       ui.decodeImageFromList(data, (ui.Image img) {
         mapItem.photoImage = img;
       });
+
+      final result_image = await ImageGallerySaver.saveImage(data);
+      print(result_image);
 
       await _writeLocalImage(data);
       setState((){
