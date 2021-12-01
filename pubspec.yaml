@@ -43,6 +43,7 @@ dependencies:
   sa_v1_migration: ^1.1.2
 
   image_gallery_saver: ^1.7.1
+  image: ^3.1.0
 
 
 
