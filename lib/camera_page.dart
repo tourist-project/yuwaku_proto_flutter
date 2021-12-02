@@ -40,7 +40,7 @@ class _CameraPageState extends State<CameraPage> {
 
   void initState() {
     super.initState();
-    _loadInitAsync()
+    _loadInitAsync();
     _loadStampImage();
   }
 
@@ -96,9 +96,9 @@ class _CameraPageState extends State<CameraPage> {
       List<int> values = data.buffer.asUint8List();
       img.Image? photo = img.decodeImage(values);
       if (photo != null && logo != null) {
-        for (var i = 0; i < logo.width; i++) {
-          for (var j = 0; j < logo.height; j++) {
-            final px = logo.getPixelSafe(i, j);
+        for (var i = 0; i < logo!.width; i++) {
+          for (var j = 0; j < logo!.height; j++) {
+            final px = logo!.getPixelSafe(i, j);
             if ( img.getAlpha(px) != 0 ) {
               photo.setPixelSafe(i, j, px);
             }
