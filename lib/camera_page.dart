@@ -13,6 +13,10 @@ import 'package:share_plus/share_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:typed_data';
 
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:image/image.dart' as img;
+
+import 'package:flutter/services.dart';
 
 class CameraPage extends StatefulWidget {
   CameraPage({Key? key, required this.title, required this.mapItem}) : super(key: key);
@@ -32,9 +36,11 @@ class _CameraPageState extends State<CameraPage> {
   final picker = ImagePicker();
   final imageDb = ImageDBProvider.instance;
   Image? _dstStampImage;
+  img.Image? logo;
 
   void initState() {
     super.initState();
+    _loadInitAsync();
     _loadStampImage();
   }
 
@@ -60,32 +66,50 @@ class _CameraPageState extends State<CameraPage> {
     );
   }
 
+  Future<void> _loadInitAsync() async {
+    ByteData imageData = await rootBundle.load('assets/images/camera.png');
+    logo = img.decodeImage(Uint8List.view(imageData.buffer));
+  }
+
   /// CameraPageを開いた時の初期画像を呼び出す
   Future<void> _loadStampImage() async {
-    Image _srcStampImage = Image.asset(mapItem.initialImagePath);
-    final listDB = await imageDb.queryAllRows();
-
-    for (var num = 0; num < listDB.length; num++) {
-      // SQLに画像が保存されている
-      if(listDB[num]['state'] == mapItem.name) {
-        final sqlImageFile = await _writeLocalImage(base64.decode(listDB[num]['image']));
-        _srcStampImage = Image.file(sqlImageFile);
-        break;
-      }
+    final dblow = await imageDb.querySearchRows(mapItem.name);
+    if ( dblow.length > 0 ) {
+      final byte = base64.decode(dblow[0]['image'] as String);
+      await _writeLocalImage(byte);
+      setState((){
+        _dstStampImage = Image.memory(byte);
+      });
+    } else {
+      setState((){
+        _dstStampImage = Image.asset(mapItem.initialImagePath);
+      });
     }
-
-    setState((){
-      _dstStampImage = _srcStampImage;
-    });
   }
 
   /// カメラで写真撮影時の処理
   Future<void> getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
     if (pickedFile != null) {
-      var data = await pickedFile.readAsBytes();
-      final saveData = base64.encode(data);
-      if ( await imageDb.isExist(mapItem.name) ) {
+      Uint8List data = await pickedFile.readAsBytes();
+
+      List<int> values = data.buffer.asUint8List();
+      img.Image? photo = img.decodeImage(values);
+      if (photo != null && logo != null) {
+        for (var i = 0; i < logo!.width; i++) {
+          for (var j = 0; j < logo!.height; j++) {
+            final px = logo!.getPixelSafe(i, j);
+            if ( img.getAlpha(px) != 0 ) {
+              photo.setPixelSafe(i, j, px);
+            }
+          }
+        }
+        data = Uint8List.fromList(img.encodePng(photo));
+      }
+
+
+      final saveData = base64.encode(img.encodePng(photo!));
+      if (await imageDb.isExist(mapItem.name)) {
         await imageDb.updateImage(mapItem.name, saveData);
       } else {
         await imageDb.insert({
@@ -98,8 +122,11 @@ class _CameraPageState extends State<CameraPage> {
         mapItem.photoImage = img;
       });
 
+      final result_image = await ImageGallerySaver.saveImage(data);
+      print(result_image);
+
       await _writeLocalImage(data);
-      setState((){
+      setState(() {
         _dstStampImage = Image.memory(data);
       });
     }
