@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:yuwaku_proto/tutorial_page.dart';
 
 class TutorialStepPage extends StatelessWidget {
 
-  final String title, description, imagePath;
+  final PageData data;
 
-
-  TutorialStepPage(this.title, this.description, this.imagePath);
+  TutorialStepPage(this.data);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class TutorialStepPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Text(
-                  title ,
+                  data.typeName['title']!,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
@@ -30,12 +30,12 @@ class TutorialStepPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 child: Image(
                   height: 400,
-                  image: AssetImage(imagePath),
+                  image: AssetImage(data.typeName['imagePath']!),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Text(description),
+                child: Text( data.typeName['description']!),
               )
             ],
           ),
