@@ -42,8 +42,12 @@ dependencies:
   share_plus: ^3.0.1
   sa_v1_migration: ^1.1.2
 
+
+  smooth_page_indicator: any
+
   image_gallery_saver: ^1.7.1
   image: ^3.1.0
+
 
 
 

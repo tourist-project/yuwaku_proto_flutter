@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yuwaku_proto/tutorial_page.dart';
 import 'map_page.dart';
 import 'some_explain.dart';
 
@@ -18,6 +19,7 @@ class _BottomTabPageState extends State<BottomTabPage> {
   final _pageWidgets = <Widget>[
     Explain(),
     MapPage(title: '地図'),
+    TutorialPage(),
   ];
 
   @override
@@ -30,6 +32,8 @@ class _BottomTabPageState extends State<BottomTabPage> {
           BottomNavigationBarItem(icon: Icon(Icons.add_comment_sharp),
             title: Text(''),),
           BottomNavigationBarItem(icon: Icon(Icons.add_location_alt_sharp),
+              title: Text('')),
+          BottomNavigationBarItem(icon: Icon(Icons.help),
               title: Text('')),
         ],
 
