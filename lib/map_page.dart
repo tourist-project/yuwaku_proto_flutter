@@ -150,6 +150,8 @@ class _MapPageState extends State<MapPage> {
   @override
   void initState() {
     super.initState();
+    print('initState');
+    MapPainter.determinePosition().catchError((_) => _dialogLocationLicense());
     _getAssets();
   }
 
@@ -205,17 +207,15 @@ class _MapPageState extends State<MapPage> {
                   }
                 },
                 onPanUpdate: (DragUpdateDetails details) { // スクロール時の処理
-                  MapPainter.determinePosition().then((_) {
-                    setState(() {
-                      // スクロールを適用した場合の遷移先X
-                      final next = _moveX - details.delta.dx;
-                      // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-                      // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
-                      _moveX = min(max(next, 0),
-                          _mapImage!.width * this._mapPainter!.scale -
-                              mediaSize.width);
-                    });
-                  }).catchError((_) => _dialogLocationLicense());
+                  setState(() {
+                    // スクロールを適用した場合の遷移先X
+                    final next = _moveX - details.delta.dx;
+                    // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
+                    // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
+                    _moveX = min(max(next, 0),
+                        _mapImage!.width * this._mapPainter!.scale -
+                            mediaSize.width);
+                  });
                 },
                 child: CustomPaint(
                   // キャンバス本体
