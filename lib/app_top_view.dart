@@ -28,10 +28,14 @@ class topPageView extends StatelessWidget{
 
       appBar: AppBar(
         title: Text(name,
-            style: TextStyle(color: prefix.Colors.black),
+            style: TextStyle(
+              color: prefix.Colors.black,
+              fontStyle: FontStyle.normal
+            ),
           ),
         centerTitle: true,
         backgroundColor: Color.fromRGBO(249,234,205,50),
+
       ),
 
       body: Container(
@@ -54,7 +58,6 @@ class topPageView extends StatelessWidget{
                 child: SizedBox(
                   width: mediaWidth/2,
                   child: FittedBox(
-                    fit: BoxFit.fill,
                     child: Text("2022年1月30日",
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -66,10 +69,36 @@ class topPageView extends StatelessWidget{
                 ),
               ),
             ),
+            Spacer(),
             Container(
               width: mediaWidth,
               height: mediaHeight/3,
-              color: prefix.Colors.red,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    child: Text("湯涌\nフォトラリー",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: prefix.Colors.white,
+                        fontSize: mediaWidth/7,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Spacer(),
+                  Container(
+                    child: Text("写真を撮ってスタンプラリー",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: prefix.Colors.white,
+                        fontSize: mediaWidth/25,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Spacer(),
+                ],
+              ),
             ),
 
             Container(
@@ -77,22 +106,27 @@ class topPageView extends StatelessWidget{
                 children: <Widget>[
                   Spacer(),
                   FloatingActionButton(
-                    backgroundColor: prefix.Colors.redAccent,
+                    heroTag: "hero1", //Heroタグの設定
+                    backgroundColor: prefix.Colors.lightBlueAccent,
                     onPressed: () {
                       print("遊び方");
                     },
                   ),
                   Spacer(),
                   FloatingActionButton(
+                    heroTag: "hero2",
                     backgroundColor: prefix.Colors.redAccent,
                     onPressed: () {
+                      Navigator.of(context).pushNamed('/map_page');
                       print("START");
                     },
                   ),
                   Spacer(),
                   FloatingActionButton(
-                    backgroundColor: prefix.Colors.redAccent,
+                    heroTag: "hero3",
+                    backgroundColor: prefix.Colors.orange,
                     onPressed: () {
+                      Navigator.of(context).pushNamed('/plane_explain');
                       print("スポット");
                     },
                   ),
@@ -100,32 +134,30 @@ class topPageView extends StatelessWidget{
                 ],
               ),
             ),
-            Spacer(),
-            Container(
-              width: mediaWidth/1.5,
 
-            ),
             Spacer(),
+
             Container(
               width: mediaWidth/1.3,
               height: mediaHeight/11,
+              alignment: Alignment.center,
               decoration: const BoxDecoration( // 背景
                   image: DecorationImage(
                     image: AssetImage('assets/images/photoConPage.png'),
                     fit: BoxFit.cover,
-                  )
+                  ),
               ),
-
               child: Text("フォトコンテスト",
-                textAlign: TextAlign.center,
                 style: TextStyle(
                   color: prefix.Colors.white,
                   fontWeight: FontWeight.bold,
-
+                  fontSize: mediaWidth/16
                 ),
               ),
             ),
+
             Spacer(),
+
             SizedBox(
               width: mediaWidth/1.2,
               height: mediaHeight/15,
@@ -144,9 +176,7 @@ class topPageView extends StatelessWidget{
             Spacer(),
           ],
         ),
-
-      )
+      ),
     );
   }
-
 }

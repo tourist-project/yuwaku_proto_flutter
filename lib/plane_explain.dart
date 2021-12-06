@@ -76,7 +76,8 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
   var imagePhoto = ['assets/images/Yumezikan.png',
     'assets/images/MidorinoSato.png',
     'assets/images/HimuroGoya.png',
-    'assets/images/Asiyu(temp).png'];
+    'assets/images/Asiyu(temp).png'
+  ];
 
 
   @override
