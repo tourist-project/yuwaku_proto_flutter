@@ -55,7 +55,6 @@ class topPageView extends StatelessWidget{
         height: mediaHeight,
         width: mediaWidth,
 
-
         child: Column(
 
           children: <Widget>[
@@ -115,48 +114,72 @@ class topPageView extends StatelessWidget{
               child: Row(
                 children: <Widget>[
                   Spacer(),
-                  FloatingActionButton(
-                      heroTag: "hero1", //Heroタグの設定
-                      backgroundColor: prefix.Colors.lightBlueAccent,
+                  RawMaterialButton(
+                    onPressed: () {
+                      print("遊び方");
+                    },
+                    shape: CircleBorder(),
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: mediaWidth/5, // CircleAvatarのradiusの2倍
+                      height: mediaHeight/8,
+                      decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: prefix.Colors.lightBlueAccent,
+                      ),
                       child:const Text("遊び方",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: prefix.Colors.white
+                            color: prefix.Colors.white
                         ),
                       ),
-                      onPressed: () {
-                        print("遊び方");
-                      },
                     ),
+                  ),
                   Spacer(),
-                  FloatingActionButton(
-                    heroTag: "hero2",
-                    backgroundColor: prefix.Colors.redAccent,
-                    child:const Text("start",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: prefix.Colors.white
-                        )
-                    ),
+                  RawMaterialButton(
                     onPressed: () {
                       Navigator.of(context).pushNamed('/map_page');
                       print("START");
                     },
+                    shape: CircleBorder(),
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: mediaWidth/5, // CircleAvatarのradiusの2倍
+                      height: mediaHeight/8,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: prefix.Colors.redAccent
+                      ),
+                      child: const Text("スタート",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: prefix.Colors.white
+                          ),
+                      ),
+                    ),
                   ),
                   Spacer(),
-                  FloatingActionButton(
-                    heroTag: "hero3",
-                    backgroundColor: prefix.Colors.orange,
-                    child: const Text("Spots",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: prefix.Colors.white
-                      )
-                    ),
+                  RawMaterialButton(
                     onPressed: () {
                       Navigator.of(context).pushNamed('/plane_explain');
                       print("スポット");
                     },
+                    shape: CircleBorder(),
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: mediaWidth/5, // CircleAvatarのradiusの2倍
+                      height: mediaHeight/8,
+                      decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: prefix.Colors.orange
+                      ),
+                      child: const Text("スポット",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: prefix.Colors.white
+                        ),
+                      ),
+                    ),
                   ),
                   Spacer(),
                 ],
