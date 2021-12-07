@@ -12,13 +12,20 @@ import 'dart:ui' as ui;
 import 'package:yuwaku_proto/map_painter.dart';
 import 'dart:math' as math;
 import 'package:flutter/material.dart' as prefix;
-import 'package:bubble/bubble.dart';
-import 'map_painter.dart';// Colorsを使う時はprefix.Colors.~と使ってください
-
+import 'package:url_launcher/url_launcher.dart';
 
 class topPageView extends StatelessWidget{
 
   final String name = "撮っテク!";
+
+  _launchURLtoWebSite() async{
+    const url = "https://totteku.tourism-project.com/";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not Launch $url';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +42,10 @@ class topPageView extends StatelessWidget{
           ),
         centerTitle: true,
         backgroundColor: Color.fromRGBO(249,234,205,50),
-
       ),
 
       body: Container(
+
         decoration: const BoxDecoration( // 背景
             image: DecorationImage(
               image: AssetImage('assets/images/TopView.png'),
@@ -48,7 +55,9 @@ class topPageView extends StatelessWidget{
         height: mediaHeight,
         width: mediaWidth,
 
+
         child: Column(
+
           children: <Widget>[
             Opacity(opacity: 0.6,
               child: Container(
@@ -70,6 +79,7 @@ class topPageView extends StatelessWidget{
               ),
             ),
             Spacer(),
+
             Container(
               width: mediaWidth,
               height: mediaHeight/3,
@@ -106,16 +116,28 @@ class topPageView extends StatelessWidget{
                 children: <Widget>[
                   Spacer(),
                   FloatingActionButton(
-                    heroTag: "hero1", //Heroタグの設定
-                    backgroundColor: prefix.Colors.lightBlueAccent,
-                    onPressed: () {
-                      print("遊び方");
-                    },
-                  ),
+                      heroTag: "hero1", //Heroタグの設定
+                      backgroundColor: prefix.Colors.lightBlueAccent,
+                      child:const Text("遊び方",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: prefix.Colors.white
+                        ),
+                      ),
+                      onPressed: () {
+                        print("遊び方");
+                      },
+                    ),
                   Spacer(),
                   FloatingActionButton(
                     heroTag: "hero2",
                     backgroundColor: prefix.Colors.redAccent,
+                    child:const Text("start",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: prefix.Colors.white
+                        )
+                    ),
                     onPressed: () {
                       Navigator.of(context).pushNamed('/map_page');
                       print("START");
@@ -125,6 +147,12 @@ class topPageView extends StatelessWidget{
                   FloatingActionButton(
                     heroTag: "hero3",
                     backgroundColor: prefix.Colors.orange,
+                    child: const Text("Spots",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: prefix.Colors.white
+                      )
+                    ),
                     onPressed: () {
                       Navigator.of(context).pushNamed('/plane_explain');
                       print("スポット");
@@ -167,7 +195,9 @@ class topPageView extends StatelessWidget{
                   onPrimary: prefix.Colors.white,
                   shape: const StadiumBorder(),
                 ),
-                onPressed: () {},
+                onPressed: () { // ここにWebサイトに飛ぶ処理
+                  _launchURLtoWebSite();
+                },
                 child: Text(
                   "Webサイトへ",
                 ),
@@ -176,7 +206,10 @@ class topPageView extends StatelessWidget{
             Spacer(),
           ],
         ),
+
       ),
+
     );
   }
+
 }
