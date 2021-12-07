@@ -67,7 +67,7 @@ class _CameraPageState extends State<CameraPage> {
   }
 
   Future<void> _loadInitAsync() async {
-    ByteData imageData = await rootBundle.load('assets/images/camera.png');
+    ByteData imageData = await rootBundle.load('assets/images/text_logo.png');
     logo = img.decodeImage(Uint8List.view(imageData.buffer));
   }
 
@@ -96,11 +96,11 @@ class _CameraPageState extends State<CameraPage> {
       List<int> values = data.buffer.asUint8List();
       img.Image? photo = img.decodeImage(values);
       if (photo != null && logo != null) {
-        for (var i = 0; i < logo!.width; i++) {
-          for (var j = 0; j < logo!.height; j++) {
+        for (var i = 0; i < logo!.width-1; i++) {
+          for (var j = 0; j < logo!.height-1; j++) {
             final px = logo!.getPixelSafe(i, j);
             if ( img.getAlpha(px) != 0 ) {
-              photo.setPixelSafe(i, j, px);
+              photo.setPixelSafe(photo.width-logo!.width-30+i, photo.height-logo!.height-30+j, px);
             }
           }
         }
