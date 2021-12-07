@@ -1,16 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:vector_math/vector_math.dart';
-import 'package:yuwaku_proto/main.dart';
 import 'dart:ui' as ui;
 import 'package:yuwaku_proto/map_painter.dart';
-import 'dart:math' as math;
 import 'package:yuwaku_proto/database.dart';
 import 'package:yuwaku_proto/gameclear.dart';
 import 'package:flutter/material.dart' as prefix;
@@ -18,19 +16,9 @@ import 'package:bubble/bubble.dart';
 import 'map_painter.dart';// Colorsを使う時はprefix.Colors.~と使ってください
 import 'package:geolocator/geolocator.dart';
 
-/// アセットのパスからui.Imageをロード
-Future<ui.Image> loadUiImage(String imageAssetPath) async {
-  final ByteData data = await rootBundle.load(imageAssetPath);
-  final Completer<ui.Image> completer = Completer();
-  ui.decodeImageFromList(Uint8List.view(data.buffer), (ui.Image img) {
-    return completer.complete(img);
-  });
-  return completer.future;
-}
 
 /// 場所情報
 class MapItem {
-
   final String name;/// 場所の名前
   final double latitude;/// 緯度
   final double longitude;/// 経度
@@ -97,25 +85,33 @@ class MapItem {
       return this.distance! <= range;
     }
   }
+
+  /// アセットのパスからui.Imageをロード
+  static Future<ui.Image> loadUiImage(String imageAssetPath) async {
+    final ByteData data = await rootBundle.load(imageAssetPath);
+    final Completer<ui.Image> completer = Completer();
+    ui.decodeImageFromList(Uint8List.view(data.buffer), (ui.Image img) {
+      return completer.complete(img);
+    });
+    return completer.future;
+  }
 }
 
 /// マップページのステートフルウィジェット
 class MapPage extends StatefulWidget {
-  /// コンストラクタ
   MapPage({Key? key, required this.title}) : super(key: key);
   final String title; /// ページタイトル
-  /// 描画
+
   @override
   _MapPageState createState() => _MapPageState();
 }
 
 /// マップのステート
 class _MapPageState extends State<MapPage> {
-
   final imageDb = ImageDBProvider.instance;
   bool is_clear = true;
-  ui.Image? _mapImage;/// マップの画像
-  double _moveX = 0;/// x軸の移動を保持
+  ui.Image? _mapImage; // マップの画像
+  double _moveX = 0; // x軸の移動を保持
   MapPainter? _mapPainter = null;
 
 
@@ -135,7 +131,7 @@ class _MapPageState extends State<MapPage> {
 
   /// アセット(画像等)の取得
   Future<void> _getAssets() async {
-    final ui.Image img = await loadUiImage('assets/images/map_img.png');
+    final ui.Image img = await MapItem.loadUiImage('assets/images/map_img.png');
     this._mapPainter = MapPainter(img, _getMoveX, _mapItems);
     for (var item in _mapItems) {
       await item.loadInitialImage();
@@ -149,18 +145,17 @@ class _MapPageState extends State<MapPage> {
   }
 
   /// x軸の移動情報を返す
-  double _getMoveX() {
-    return _moveX;
-  }
+  double _getMoveX() => _moveX;
 
-  /// asyncの初期化用
   @override
   void initState() {
     super.initState();
+    print('initState');
+    MapPainter.determinePosition().catchError((_) => _dialogLocationLicense());
     _getAssets();
   }
 
-  Future clearUpdate() async {
+  Future<void> clearUpdate() async {
     final count = await imageDb.countImage();
     if(mounted) {
       setState(() => {
@@ -169,22 +164,17 @@ class _MapPageState extends State<MapPage> {
     }
   }
 
-
-  /// 見た目
   @override
   Widget build(BuildContext context) {
     final Size mediaSize = MediaQuery.of(context).size; // 画面の取得
     clearpage pageClear = new clearpage(mediaSize.width, mediaSize.height);
 
-    final AppBar appBar = AppBar(
-        title: Text(widget.title,
-            style: TextStyle(color: prefix.Colors.black87))); // ヘッダ部分のUIパーツ
-
+    final AppBar appBar = AppBar(title: Text(widget.title, style: TextStyle(color: prefix.Colors.black87)));
     final mediaHeight = mediaSize.height - appBar.preferredSize.height; // キャンバス部分の高さ
 
     clearUpdate();
 
-    if ( _mapImage != null ) {
+    if (_mapImage != null) {
       this._mapPainter = MapPainter(_mapImage!, _getMoveX, _mapItems);
     }
 
@@ -195,10 +185,9 @@ class _MapPageState extends State<MapPage> {
         body: Stack(
           children: <Widget>[
             Center(
-              //_mapImage == null ? // マップ画像の読み込みがない場合はTextを表示
-              child: _mapImage == null ? Text('Loading...', style: TextStyle(
-                  fontSize: 30, fontWeight: FontWeight.bold
-              )) : // ロード画面
+              child: _mapImage == null
+                  ? Text('Loading...', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
+                  : // ロード画面
 
               GestureDetector(
                 onTapUp: (details) { // タップ時の処理
@@ -245,11 +234,13 @@ class _MapPageState extends State<MapPage> {
         appBar: appBar,
         body: Stack(
           children: [
-            _mapImage == null ? Center(
-                child: Text('Loading...',
-                    style: TextStyle(
-                    fontSize: 30, fontWeight: FontWeight.bold))
-            ):
+            _mapImage == null
+                ? Text('Loading...', style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center
+            )
+            :
             pageClear,
             ElevatedButton(
               onPressed: () {
@@ -264,6 +255,47 @@ class _MapPageState extends State<MapPage> {
         ),
       );
     }
+  }
+
+  /// 位置情報が拒否されている時、「位置情報を許可する」ダイアログを表示する
+  Future<void> _dialogLocationLicense() async {
+    var result = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        if (Platform.isAndroid) {
+          return AlertDialog(
+            title: Text('位置情報を許可する'),
+            content: Text('設定でアプリに位置情報を許可します。'),
+            actions: <Widget>[
+              TextButton(
+                  child: Text('Cancel'),
+                  onPressed: () => Navigator.of(context).pop(false)),
+              TextButton(
+                  child: Text('OK'),
+                  onPressed: () => Navigator.of(context).pop(true)),
+            ],
+          );
+        }
+        // iOS側の動作
+        return CupertinoAlertDialog(
+          title: Text('位置情報を許可する'),
+          content: Text('設定でアプリに位置情報を許可します。'),
+          actions: <Widget>[
+            CupertinoDialogAction(
+                child: Text('Cancel'),
+                isDestructiveAction: true,
+                onPressed: () => Navigator.of(context).pop(false)),
+            CupertinoDialogAction(
+                child: Text('OK'),
+                onPressed: () => Navigator.of(context).pop(true))
+          ],
+        );
+      },
+    );
+
+    if (result == null) return; // unwrap
+    if (result) await Geolocator.openAppSettings(); // 'OK'を選択した時、設定画面を開く
   }
 }
 
@@ -303,24 +335,20 @@ class _SnackBarPageState extends State<SnackBerPage> {
 
   @override
   Widget build(BuildContext context) {
-    final widthsize = MediaQuery.of(context).size.width; // 横のスマホサイズの取得
-    final heightsize = MediaQuery.of(context).size.height; // 縦のスマホサイズの取得
+    final screenWidth = MediaQuery.of(context).size.width; // スマホの横幅
+    final screenHeight = MediaQuery.of(context).size.height; // スマホの縦幅
 
+    // 透過処理
     return Container(
-      height: widthsize / 6,
-      margin: EdgeInsets.fromLTRB(heightsize / 8, heightsize / 1.5, 0, 0),
-
-      // 透過処理
+      height: screenWidth / 6,
+      margin: EdgeInsets.fromLTRB(screenHeight / 8, screenHeight / 1.5, 0, 0),
       child: AnimatedOpacity(
         duration: Duration(milliseconds: 1000),
         opacity: _myOpacity,
         child: Bubble(
-
-          // ヒント表示のテキストの空白部分のサイズ
-          padding: BubbleEdges.only(left: 5, right: 5),
+          padding: BubbleEdges.only(left: 5, right: 5), // ヒントの空白部分
           child: Container(
               alignment: Alignment.center,
-
               child: Text(
                 explainList[change],
                 style: TextStyle(
@@ -329,8 +357,7 @@ class _SnackBarPageState extends State<SnackBerPage> {
                 textAlign: TextAlign.center,
               )
           ),
-          // 出っ張っている所の指定
-          nip: BubbleNip.leftBottom,
+          nip: BubbleNip.leftBottom, // 出っ張っている所の指定
         ),
       ),
     );

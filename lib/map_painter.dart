@@ -53,9 +53,8 @@ class MapPainter extends CustomPainter {
         final src = Rect.fromLTWH(ox, oy, length, length); // 画像中の描画する場所を選択
         final rescaleRect = item.getPhotoRectForDeviceFit(scale, _getMoveX()); // どこに描画するかを設定
 
-        Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then( (pos) => {
-          item.setDistance(pos)
-        });
+        determinePosition().then((pos) => item.setDistance(pos)).catchError((error) => print(error));
+
         item.distance = 15;
 
 
@@ -88,7 +87,31 @@ class MapPainter extends CustomPainter {
     return true;
   }
 
+  /// 位置情報を取得（不可の場合、どうしてダメなのかを返す）
+  static Future<Position> determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+    
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
 
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    
+    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+  }
 }
 
 
