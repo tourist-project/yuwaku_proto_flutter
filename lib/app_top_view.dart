@@ -121,7 +121,7 @@ class topPageView extends StatelessWidget{
                     shape: CircleBorder(),
                     child: Container(
                       alignment: Alignment.center,
-                      width: mediaWidth/5, // CircleAvatarのradiusの2倍
+                      width: mediaWidth/5,
                       height: mediaHeight/8,
                       decoration: const BoxDecoration(
                           shape: BoxShape.circle,
@@ -144,7 +144,7 @@ class topPageView extends StatelessWidget{
                     shape: CircleBorder(),
                     child: Container(
                       alignment: Alignment.center,
-                      width: mediaWidth/5, // CircleAvatarのradiusの2倍
+                      width: mediaWidth/5,
                       height: mediaHeight/8,
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
@@ -167,7 +167,7 @@ class topPageView extends StatelessWidget{
                     shape: CircleBorder(),
                     child: Container(
                       alignment: Alignment.center,
-                      width: mediaWidth/5, // CircleAvatarのradiusの2倍
+                      width: mediaWidth/5,
                       height: mediaHeight/8,
                       decoration: const BoxDecoration(
                           shape: BoxShape.circle,
