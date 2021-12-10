@@ -9,6 +9,7 @@ class TutorialStepPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
         color: Color.fromRGBO(240, 233, 208, 100),
@@ -29,7 +30,7 @@ class TutorialStepPage extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Image(
-                  height: 400,
+                  height: deviceHeight * 0.5,
                   image: AssetImage(data.typeName['imagePath']!),
                 ),
               ),
