@@ -41,6 +41,7 @@ dependencies:
 
   share_plus: ^3.0.1
   sa_v1_migration: ^1.1.2
+  url_launcher: ^6.0.10
 
 
   smooth_page_indicator: any

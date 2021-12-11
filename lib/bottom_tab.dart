@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
 import 'map_page.dart';
 import 'some_explain.dart';
-
+import 'package:yuwaku_proto/app_top_view.dart';
 
 class BottomTabPage extends StatefulWidget {
   @override
@@ -17,7 +17,7 @@ class _BottomTabPageState extends State<BottomTabPage> {
 
   // ページの種類
   final _pageWidgets = <Widget>[
-    Explain(),
+    topPageView(),
     MapPage(title: '地図'),
     TutorialPage(),
   ];
