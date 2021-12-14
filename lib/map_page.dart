@@ -178,7 +178,7 @@ class _MapPageState extends State<MapPage> {
       this._mapPainter = MapPainter(_mapImage!, _getMoveX, _mapItems);
     }
 
-    if (!this.is_clear) {
+    if (this.is_clear) {
       // UI部分
       return Scaffold(
         appBar: appBar,

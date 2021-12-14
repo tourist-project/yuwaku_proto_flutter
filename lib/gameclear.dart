@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:yuwaku_proto/map_page.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class clearpage extends StatelessWidget {
   double width, height;
@@ -14,141 +14,88 @@ class clearpage extends StatelessWidget {
     'assets/images/KeigoSirayu.png',
     'assets/images/map_img.png'
   ];
+  
   List<String> posName = ["稲荷神社", "湯涌総湯中", "湯涌総湯外", "湯涌全体図"];
+  
+   _launchURL() async {
+    const url = "https://totteku.tourism-project.com/";
+    if (await canLaunch(url)) {
+      await launch(url);
+    }
+  }
 
+    // 写真を表示する
+    Widget photogoal(double top, double left, var image) {
+      return Container(
+        width: width / 2.125,
+        height: height / 5.8,
+        margin: EdgeInsets.only(top: top, left: left),
+        child: Image(image: AssetImage(image),
+        fit: BoxFit.cover),
+      );
+    }
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
-      body: Scrollbar(
-        // Scrollbarの表示
-        isAlwaysShown: true,
-
-        child: SingleChildScrollView(
-          child: Stack(
+      appBar: AppBar(
+        title: const Text('Test'),
+      ),
+      body: Container(
+        color: Color.fromRGBO(240, 233, 208, 1),
+        child:  Column(
+        children: [
+          Row(
             children: <Widget>[
-              Card(
-                margin: EdgeInsets.symmetric(
-                    vertical: height / 52.0, horizontal: width / 11),
-                child: Container(
-                  width: width / 1.0,
-                  height: height / 11.1,
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
-
-              Card(
-                margin: EdgeInsets.symmetric(
-                    vertical: height / 22.3, horizontal: width / 11),
-                child: Container(
-                  alignment: Alignment.center,
-                  height: height / 22.3,
-                  width: width,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(50),
-                      bottomRight: Radius.circular(50),
-                    ),
-                  ),
-                  child: Text(
-                    'ゴール!!!',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: height / 31.2,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ),
-
-              // imageの表示
-              for (int i = 0; i < imagephoto.length; i++)
-                drawIndexPosition(i) // imageの表示
+              photogoal(height / 100, width/70, imagephoto[0]),
+              photogoal(height / 100, width/30, imagephoto[1]),
             ],
-
           ),
-        ),
-      ),
-    );
-  }
+          Row(children: <Widget>[
+            photogoal(height / 100, width / 70, imagephoto[2]),
+            photogoal(height / 100, width / 30, imagephoto[3]),
+          ]),
+          Container(
+            margin: EdgeInsets.only(top: height / 100),
+            height: height / 3.5,
+            width: width / 1.02,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Color.fromRGBO(186, 66, 43, 1), width: 2),
+            ),
+            padding: const EdgeInsets.all(8),
 
-  Widget drawIndexPosition(int currentIndex) {
-    return Stack(
-      children: <Widget>[
-        redgoal(height / 7.8 + (275 * currentIndex), height, width),
-        textgoal(height / 6.7 + (280 * currentIndex), posName[currentIndex], width, height),
-        photogoal(height / 4.8 + (280 * currentIndex), imagephoto[currentIndex], width, height)
-      ],
-    );
-  }
-
-
-// 下地を表示する
-  Widget redgoal(double top, double height, double width) {
-    return Card(
-      margin: EdgeInsets.only(top: top),
-      child: Center(
-        child: Container(
-          width: width / 1.33,
-          height: height / 3.3,
-          decoration: BoxDecoration(
-            color: Colors.red,
-            borderRadius: BorderRadius.circular(30),
-          ),
-        ),
-      ),
-    );
-  }
-
-// テキストを表示する
-  Widget textgoal(double top, String text, double width, double height) {
-    return Card(
-      margin: EdgeInsets.only(top: top, left: width / 12.0),
-      child: Container(
-        alignment: Alignment.center,
-        width: width / 1.5,
-        height: height / 23,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(),
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(50),
-            bottomRight: Radius.circular(50),
-          ),
-        ),
-        child: Align(
-          alignment: Alignment(0.2, 0.0),
-          child: Text(
-            text,
-            style: TextStyle(
-              fontSize: height / 39,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
+            child:  Scrollbar(
+              child: SingleChildScrollView(
+                child: Text(
+                  ('TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest'),
+                  style: TextStyle(fontSize: height / 40),
+                ),
+              ),
             ),
           ),
-        ),
+          Container(
+            height: height / 15,
+            width: width / 1.02,
+            margin: EdgeInsets.only(top: 10),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Color.fromRGBO(186, 66, 43, 1), width: 2),
+            ),
+            child: TextButton(
+              child: Text(
+                'フォトコンページに行く',
+                style: TextStyle(fontSize: height / 30, color: Colors.black),
+              ),
+              onPressed: () {
+                _launchURL();
+              },
+            ),
+          )
+        ],
       ),
+    ),
     );
   }
-
-// 写真を表示する
-  Widget photogoal(double top, var image, double width, double height) {
-    return Center(
-      child: Container(
-        alignment: Alignment.center,
-        margin: EdgeInsets.only(top: top),
-        child: Image(
-            width: width / 1.7, height: height / 5.5, image: AssetImage(image)),
-      ),
-    );
-  }
-
 }
 
