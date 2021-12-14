@@ -13,6 +13,7 @@ import 'package:yuwaku_proto/map_painter.dart';
 import 'dart:math' as math;
 import 'package:flutter/material.dart' as prefix;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:yuwaku_proto/tutorial_page.dart';
 
 class topPageView extends StatelessWidget{
 
@@ -116,6 +117,7 @@ class topPageView extends StatelessWidget{
                   Spacer(),
                   RawMaterialButton(
                     onPressed: () {
+                      Navigator.of(context).pushNamed('/tutorial_page');
                       print("遊び方");
                     },
                     shape: CircleBorder(),
