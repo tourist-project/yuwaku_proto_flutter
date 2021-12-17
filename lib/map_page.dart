@@ -167,7 +167,7 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     final Size mediaSize = MediaQuery.of(context).size; // 画面の取得
-    clearpage pageClear = new clearpage(mediaSize.width, mediaSize.height);
+    clearpage pageClear = clearpage(mediaSize.width, mediaSize.height);
 
     final AppBar appBar = AppBar(title: Text(widget.title, style: TextStyle(color: prefix.Colors.black87)));
     final mediaHeight = mediaSize.height - appBar.preferredSize.height; // キャンバス部分の高さ
