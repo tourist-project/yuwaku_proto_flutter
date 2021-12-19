@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
 import 'map_page.dart';
@@ -24,24 +25,58 @@ class _BottomTabPageState extends State<BottomTabPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _pageWidgets.elementAt(_currentIndex),
-
-      bottomNavigationBar: BottomNavigationBar(
+    return CupertinoTabScaffold(
+      tabBar: CupertinoTabBar(
         items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.add_comment_sharp),
-            title: Text(''),),
-          BottomNavigationBarItem(icon: Icon(Icons.add_location_alt_sharp),
-              title: Text('')),
-          BottomNavigationBarItem(icon: Icon(Icons.help),
-              title: Text('')),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_comment_sharp),
+            activeIcon: Icon(Icons.add_comment_sharp,
+              color: Colors.blue,
+            ),
+            label: "始まり",
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.add_location_alt_sharp),
+              activeIcon: Icon(Icons.add_location_alt_sharp,
+              color: Colors.blue,
+              ),
+              label: '地図'
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.help),
+              activeIcon: Icon(Icons.help,
+              color: Colors.blue,
+              ),
+              label: '助けて〜'
+          ),
         ],
-
-        currentIndex: _currentIndex,
-        fixedColor: Colors.blueAccent,
-        onTap: _onItemTapped,
-        type: BottomNavigationBarType.fixed,
       ),
+        tabBuilder: (BuildContext context, int index) {
+        switch(index){
+          case 0:
+            return CupertinoTabView(builder: (context){
+              return CupertinoPageScaffold(
+                child: topPageView(),
+              );
+            }
+            );
+          case 1:
+            return CupertinoTabView(builder: (context){
+              return CupertinoPageScaffold(
+                child: MapPage(title: '地図'),
+              );
+            }
+            );
+          case 2:
+            return CupertinoTabView(builder: (context){
+              return CupertinoPageScaffold(
+                child: TutorialPage(),
+              );
+            }
+            );
+            default: return SizedBox.shrink(); // 何もないからのWidget
+        }
+      }
     );
   }
 

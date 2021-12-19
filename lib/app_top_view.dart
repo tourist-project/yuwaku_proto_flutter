@@ -8,16 +8,20 @@ import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:vector_math/vector_math.dart';
 import 'package:yuwaku_proto/main.dart';
+import 'package:yuwaku_proto/map_page.dart';
 import 'dart:ui' as ui;
 import 'package:yuwaku_proto/map_painter.dart';
 import 'dart:math' as math;
 import 'package:flutter/material.dart' as prefix;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:yuwaku_proto/plane_explain.dart';
+import 'package:yuwaku_proto/some_explain.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
 
 class topPageView extends StatelessWidget{
 
   final String name = "撮っテク!";
+ // TutorialPage tutorialPage = new TutorialPage();
 
   _launchURLtoWebSite() async{
     const url = "https://totteku.tourism-project.com/";
@@ -117,8 +121,13 @@ class topPageView extends StatelessWidget{
                   Spacer(),
                   RawMaterialButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed('/tutorial_page');
-                      print("遊び方");
+                      Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return TutorialPage();
+                            },
+                          ),
+                      );
                     },
                     shape: CircleBorder(),
                     child: Container(
@@ -140,8 +149,13 @@ class topPageView extends StatelessWidget{
                   Spacer(),
                   RawMaterialButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed('/map_page');
-                      print("START");
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return MapPage(title: '地図');
+                          },
+                        ),
+                      );
                     },
                     shape: CircleBorder(),
                     child: Container(
@@ -163,8 +177,13 @@ class topPageView extends StatelessWidget{
                   Spacer(),
                   RawMaterialButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed('/plane_explain');
-                      print("スポット");
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return PicExplain(title: '場所説明');
+                          },
+                        ),
+                      );
                     },
                     shape: CircleBorder(),
                     child: Container(
@@ -187,9 +206,7 @@ class topPageView extends StatelessWidget{
                 ],
               ),
             ),
-
             Spacer(),
-
             Container(
               width: mediaWidth/1.3,
               height: mediaHeight/11,
@@ -208,9 +225,7 @@ class topPageView extends StatelessWidget{
                 ),
               ),
             ),
-
             Spacer(),
-
             SizedBox(
               width: mediaWidth/1.2,
               height: mediaHeight/15,
@@ -228,6 +243,7 @@ class topPageView extends StatelessWidget{
                 ),
               ),
             ),
+            Spacer(),
             Spacer(),
           ],
         ),
