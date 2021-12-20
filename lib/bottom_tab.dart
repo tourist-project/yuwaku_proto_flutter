@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
 import 'map_page.dart';
-import 'some_explain.dart';
 import 'package:yuwaku_proto/app_top_view.dart';
 
 class BottomTabPage extends StatefulWidget {
@@ -14,15 +13,6 @@ class BottomTabPage extends StatefulWidget {
 
 class _BottomTabPageState extends State<BottomTabPage> {
 
-  int _currentIndex = 0;
-
-  // ページの種類
-  final _pageWidgets = <Widget>[
-    topPageView(),
-    MapPage(title: '地図'),
-    TutorialPage(),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return CupertinoTabScaffold(
@@ -33,7 +23,7 @@ class _BottomTabPageState extends State<BottomTabPage> {
             activeIcon: Icon(Icons.add_comment_sharp,
               color: Colors.blue,
             ),
-            label: "始まり",
+            label: "ホーム画面",
           ),
           BottomNavigationBarItem(
               icon: Icon(Icons.add_location_alt_sharp),
@@ -47,7 +37,7 @@ class _BottomTabPageState extends State<BottomTabPage> {
               activeIcon: Icon(Icons.help,
               color: Colors.blue,
               ),
-              label: '助けて〜'
+              label: '遊び方'
           ),
         ],
       ),
@@ -60,25 +50,23 @@ class _BottomTabPageState extends State<BottomTabPage> {
               );
             }
             );
-          case 1:
-            return CupertinoTabView(builder: (context){
-              return CupertinoPageScaffold(
-                child: MapPage(title: '地図'),
-              );
-            }
+            case 1:
+              return CupertinoTabView(builder: (context){
+                return CupertinoPageScaffold(
+                  child: MapPage(title: '地図'),
+                );
+              }
             );
-          case 2:
-            return CupertinoTabView(builder: (context){
-              return CupertinoPageScaffold(
-                child: TutorialPage(),
-              );
-            }
-            );
-            default: return SizedBox.shrink(); // 何もないからのWidget
+              case 2:
+                return CupertinoTabView(builder: (context){
+                  return CupertinoPageScaffold(
+                    child: TutorialPage(),
+                  );
+                }
+                );
+                default: return SizedBox.shrink(); // 何もない空のWidget←これがないとエラー出ます
         }
       }
     );
   }
-
-  void _onItemTapped(int index) => setState(() => _currentIndex = index );
 }
