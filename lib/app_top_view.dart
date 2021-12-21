@@ -1,27 +1,14 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'dart:async';
-import 'dart:typed_data';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:vector_math/vector_math.dart';
-import 'package:yuwaku_proto/main.dart';
 import 'package:yuwaku_proto/map_page.dart';
-import 'dart:ui' as ui;
-import 'package:yuwaku_proto/map_painter.dart';
-import 'dart:math' as math;
 import 'package:flutter/material.dart' as prefix;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yuwaku_proto/plane_explain.dart';
-import 'package:yuwaku_proto/some_explain.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
 
 class topPageView extends StatelessWidget{
 
   final String name = "撮っテク!";
- // TutorialPage tutorialPage = new TutorialPage();
 
   _launchURLtoWebSite() async{
     const url = "https://totteku.tourism-project.com/";
@@ -37,31 +24,29 @@ class topPageView extends StatelessWidget{
     final mediaHeight = MediaQuery.of(context).size.height; // 画面の取得
     final mediaWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-
       appBar: AppBar(
         title: Text(name,
-            style: TextStyle(
+          style: TextStyle(
               color: prefix.Colors.black,
               fontStyle: FontStyle.normal
-            ),
+
           ),
+        ),
         centerTitle: true,
         backgroundColor: Color.fromRGBO(249,234,205,50),
       ),
 
       body: Container(
-
         decoration: const BoxDecoration( // 背景
             image: DecorationImage(
               image: AssetImage('assets/images/TopView.png'),
               fit: BoxFit.cover,
-            )
+            ),
         ),
         height: mediaHeight,
         width: mediaWidth,
 
         child: Column(
-
           children: <Widget>[
             Opacity(opacity: 0.6,
               child: Container(
