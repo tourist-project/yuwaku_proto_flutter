@@ -206,7 +206,13 @@ class topPageView extends StatelessWidget{
                 ],
               ),
             ),
-            Spacer(),
+            Expanded( // 無理矢理した
+              flex: 1,
+              child: Container(
+                height: mediaHeight/25,
+                color: prefix.Colors.blue, //デバッグ
+              ),
+            ),
             Container(
               width: mediaWidth/1.3,
               height: mediaHeight/11,
@@ -225,7 +231,13 @@ class topPageView extends StatelessWidget{
                 ),
               ),
             ),
-            Spacer(),
+            Expanded( // 無理矢理した
+              flex: 1,
+              child: Container(
+                height: mediaHeight/20,
+                color: prefix.Colors.blue, //デバッグ
+              ),
+            ),
             SizedBox(
               width: mediaWidth/1.2,
               height: mediaHeight/15,
@@ -243,14 +255,16 @@ class topPageView extends StatelessWidget{
                 ),
               ),
             ),
-            Spacer(),
-            Spacer(),
+            Expanded( // 無理矢理した
+              flex: 3,
+                child: Container(
+                  height: mediaHeight/8,
+                  color: prefix.Colors.blue, //デバッグ
+                ),
+            ),
           ],
         ),
-
       ),
-
     );
   }
-
 }
