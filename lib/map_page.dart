@@ -117,16 +117,18 @@ class _MapPageState extends State<MapPage> {
 
   /// マップの場所情報の一覧
   final _mapItems = <MapItem>[
-    MapItem('湯涌稲荷神社', 36.4856770,136.7582343, Offset(1254, 292),
-        'assets/images/img1_gray.png', Rect.fromLTWH(650, 182, 280, 280)),
+    /*MapItem('湯涌稲荷神社', 36.4856770,136.7582343, Offset(1254, 292),
+        'assets/images/img1_gray.png', Rect.fromLTWH(650, 182, 280, 280)),*/
     MapItem('総湯', 36.485860467436346,  136.75822950005136, Offset(1358, 408),
-        'assets/images/img2_gray.png', Rect.fromLTWH(820, 820, 280, 280)),
+        'assets/images/img2_gray.png', Rect.fromLTWH(1000, 820, 280, 280)),
     MapItem('氷室', 36.48346516395541, 136.75701193508996, Offset(1881, 512),
         'assets/images/HimuroGoya.png', Rect.fromLTWH(1720, 620, 280, 280)),
-    MapItem('足湯(湯の出)', 36.48919374904115, 136.75588850463596, Offset(1280, 340),
-        'assets/images/Asiyu(temp).png', Rect.fromLTWH(1500, 50, 280, 280)),
-    MapItem('みどりの里', 36.49050881078798, 136.75404574490975, Offset(239, 928),
-        'assets/images/MidorinoSato.png', Rect.fromLTWH(280, 850, 280, 280))
+    MapItem('足湯(湯の出)', 36.48919374904115, 136.75588850463596, Offset(505, 690),
+        'assets/images/Asiyu(temp).png', Rect.fromLTWH(750, 80, 280, 280)),
+    /*MapItem('みどりの里', 36.49050881078798, 136.75404574490975, Offset(239, 928),
+        'assets/images/MidorinoSato.png', Rect.fromLTWH(280, 850, 280, 280))*/
+    MapItem('湯涌夢二館', 36.4850544186964, 136.75743580648322, Offset(1250, 425),
+        'assets/images/Yumezikan.png', Rect.fromLTWH(1500, 60, 280, 280)),
   ];
 
   /// アセット(画像等)の取得
