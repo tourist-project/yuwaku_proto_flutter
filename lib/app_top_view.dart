@@ -10,7 +10,7 @@ class topPageView extends StatelessWidget{
 
   final String name = "撮っテク!";
 
-  _launchURLtoWebSite() async{
+  Future<void> _launchURLtoWebSite() async{
     const url = "https://totteku.tourism-project.com/";
     if (await canLaunch(url)) {
       await launch(url);
@@ -47,34 +47,31 @@ class topPageView extends StatelessWidget{
         width: mediaWidth,
 
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Expanded( // 日付
+            Flexible( // 日付
               flex: 4,
-              child: Opacity(opacity: 0.6,
+              child: Opacity(
+                opacity: 0.6,
                 child: Container(
-                  height: mediaHeight/12,
-                  width: mediaWidth,
+                  width: double.infinity,
                   color: prefix.Colors.black,
-                  child: SizedBox(
-                    width: mediaWidth/2,
-                    child: FittedBox(
-                      child: Text("2022年1月30日",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                          color: prefix.Colors.white,
-                        ),
+                  child: const FittedBox(
+                    child: Text("2022年1月30日",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        color: prefix.Colors.white,
                       ),
                     ),
                   ),
                 ),
               ),
             ),
-
-            Expanded( //フォトラリーWidget
+            Flexible( //フォトラリーWidget
               flex: 12,
               child: Container(
-                width: mediaWidth,
+                width: double.infinity,
                 height: mediaHeight/3,
                 child: Column(
                   children: <Widget>[
@@ -104,106 +101,101 @@ class topPageView extends StatelessWidget{
                 ),
               ),
             ),
-
-            Expanded( // ボタン配置
+            Flexible( // ボタン配置
               flex: 8,
-              child: Container(
-                child: Row(
-                  children: <Widget>[
-                    Spacer(),
-                    RawMaterialButton(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return TutorialPage();
-                              },
-                          ),
-                        );
-                        },
-                      shape: CircleBorder(),
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: mediaWidth/5,
-                        height: mediaHeight/8,
-                        decoration: const BoxDecoration(
+              child: Row(
+                children: <Widget>[
+                  Spacer(),
+                  RawMaterialButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => TutorialPage()),
+                      );
+                    },
+                    shape: CircleBorder(),
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: mediaWidth/5,
+                      height: mediaHeight/8,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: prefix.Colors.lightBlueAccent,
+                      ),
+                      child:const Text("遊び方",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: prefix.Colors.white
+                        ),
+                      ),
+                    ),
+                  ),
+                  Spacer(),
+                  RawMaterialButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return MapPage(title: '地図');
+                          },
+                        ),
+                      );
+                    },
+                    shape: CircleBorder(),
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: mediaWidth/5,
+                      height: mediaHeight/8,
+                      decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          color: prefix.Colors.lightBlueAccent,
-                        ),
-                        child:const Text("遊び方",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: prefix.Colors.white
-                          ),
+                          color: prefix.Colors.redAccent
+                      ),
+                      child: const Text("スタート",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: prefix.Colors.white
                         ),
                       ),
                     ),
-                    Spacer(),
-                    RawMaterialButton(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return MapPage(title: '地図');
-                              },
-                          ),
-                        );
-                        },
-                      shape: CircleBorder(),
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: mediaWidth/5,
-                        height: mediaHeight/8,
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: prefix.Colors.redAccent
+                  ),
+                  Spacer(),
+                  RawMaterialButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return PicExplain(title: '場所説明');
+                          },
                         ),
-                        child: const Text("スタート",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: prefix.Colors.white
-                          ),
+                      );
+                    },
+                    shape: CircleBorder(),
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: mediaWidth/5,
+                      height: mediaHeight/8,
+                      decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: prefix.Colors.orange
+                      ),
+                      child: const Text("スポット",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: prefix.Colors.white
                         ),
                       ),
                     ),
-                    Spacer(),
-                    RawMaterialButton(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return PicExplain(title: '場所説明');
-                              },
-                          ),
-                        );
-                        },
-                      shape: CircleBorder(),
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: mediaWidth/5,
-                        height: mediaHeight/8,
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: prefix.Colors.orange
-                        ),
-                        child: const Text("スポット",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: prefix.Colors.white
-                          ),
-                        ),
-                      ),
-                    ),
-                    Spacer(),
-                  ],
-                ),
+                  ),
+                  Spacer(),
+                ],
               ),
             ),
-            Expanded(
+            Flexible(
               flex: 4,
+              child: Padding(
+                padding: EdgeInsets.all(10),
                 child: Container( // フォトコン
-                  width: mediaWidth/1.3,
-                  height: mediaHeight/11,
+                  width: mediaWidth/1.2,
+                  height: mediaHeight/8,
                   alignment: Alignment.center,
                   decoration: const BoxDecoration( // 背景
                     image: DecorationImage(
@@ -219,41 +211,24 @@ class topPageView extends StatelessWidget{
                     ),
                   ),
                 ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                color: Colors.red,
               ),
             ),
-
-            Expanded( //webサイトに飛ぶ
-                flex: 3,
-                child: SizedBox(
-                  width: mediaWidth/1.2,
-                  height: mediaHeight/15,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: prefix.Colors.red[300],
-                      onPrimary: prefix.Colors.white,
-                      shape: const StadiumBorder(),
-                    ),
-                    onPressed: () { // ここにWebサイトに飛ぶ処理
-                      _launchURLtoWebSite();
-                    },
-                    child: Text(
-                      "Webサイトへ",
-                    ),
+            Flexible( //webサイトに飛ぶ
+              flex: 3,
+              child: SizedBox(
+                width: mediaWidth/1.2,
+                height: mediaHeight/15,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: prefix.Colors.red[300],
+                    onPrimary: prefix.Colors.white,
+                    shape: const StadiumBorder(),
                   ),
+                  onPressed: () => _launchURLtoWebSite(), // Webサイトに飛ぶ
+                  child: Text("Webサイトへ"),
                 ),
+              ),
             ),
-            Expanded( // 下タブバーの裏にある空間
-              flex: 4,
-                child: Container(
-                  color: Colors.red,
-                ),
-            ),
-
           ],
         ),
       ),
