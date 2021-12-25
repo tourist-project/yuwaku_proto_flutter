@@ -106,10 +106,15 @@ class clearpage extends StatelessWidget {
                 padding: const EdgeInsets.all(8),
                 child: Scrollbar(
                   child: SingleChildScrollView(
-                    child: Text(
-                      'ゲームクリア！今日はありがとう！また湯涌にきてね！',
-                      style: TextStyle(fontSize: height / 40),
+                    child: Container(
+                      child: Text(
+                        ' ゲームクリア！本日はユーザーテストにご協力いただきありがとうございます。\n'
+                            ' 端末の返却のほどよろしくお願いいたします。\n'
+                            ' 返却後にお礼の品などをお渡ししたいとと考えております。',
+                        style: TextStyle(fontSize: height / 40),
+                      ),
                     ),
+
                   ),
                 ),
               ),
