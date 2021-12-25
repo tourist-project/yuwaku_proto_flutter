@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:ui' as ui;
+
+import 'map_page.dart';
 
 class clearpage extends StatelessWidget {
-  double width, height;
-  clearpage(this.width, this.height);
+  double width = 0, height = 0;
+  var imagephotos = <Expanded>[];
+  List<MapItem> mapItems = [];
+  bool is_init = false;
 
-  // 表示する写真を入れる
-  var imagephoto = [
-    'assets/images/img1_gray.png',
-    'assets/images/img2_gray.png',
-    'assets/images/KeigoSirayu.png',
-    'assets/images/map_img.png'
-  ];
+  clearpage(double width, double height, List<MapItem> mapItems) {
+    this.width = width;
+    this.height = height;
+    this.mapItems = mapItems;
+  }
 
   Future<void> _launchURL() async {
     const url = "https://totteku.tourism-project.com/";
@@ -20,20 +23,45 @@ class clearpage extends StatelessWidget {
       await launch(url);
     }
   }
-
-  // 写真を表示する
-  Widget photogoal(final image) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(5),
-        child: Image(image: AssetImage(image), fit: BoxFit.cover),
-      ),
-    );
-  }
   
 
   @override
   Widget build(BuildContext context) {
+
+    if (!is_init) {
+      print(this.mapItems.length);
+      this.mapItems.map((e) async {
+        if (e.photoImage == null) {
+          await e.loadInitialImage();
+        }
+        final img = await e.getDisplayImageToImageWidget();
+        return img;
+      }).forEach((e) {
+        this.imagephotos.add(
+            Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(5),
+                  child: FutureBuilder(
+                      future: e,
+                      builder: (BuildContext context,
+                          AsyncSnapshot<Image?> snapshot) {
+                        if (snapshot.hasData) {
+                          if (snapshot.data != null) {
+                            return snapshot.data!;
+                          }
+                        }
+                        return Container(
+                          child: Text('画像ロード中...'),
+                        );
+                      }
+                  ),
+                )
+            )
+        );
+      });
+      this.is_init = true;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Test'),
@@ -42,21 +70,29 @@ class clearpage extends StatelessWidget {
         color: Color.fromRGBO(240, 233, 208, 1),
         child: Column(
           children: [
-            Expanded(
-              flex: 2,
-              child: Row(
-                children: <Widget>[
-                  photogoal(imagephoto[0]),
-                  photogoal(imagephoto[1]),
-                ],
-              ),
+            (
+              this.imagephotos.length >= 2 ?
+                Expanded(
+                  flex: 2,
+                  child: Row(
+                    children: <Widget>[
+                      this.imagephotos[0],
+                      this.imagephotos[1],
+                    ],
+                  ),
+                ) : Container()
             ),
-            Expanded(
-              flex: 2,
-              child: Row(children: <Widget>[
-                photogoal(imagephoto[2]),
-                photogoal(imagephoto[3]),
-              ]),
+            (
+                this.imagephotos.length >= 4 ?
+                Expanded(
+                  flex: 2,
+                  child: Row(
+                    children: <Widget>[
+                      this.imagephotos[2],
+                      this.imagephotos[3],
+                    ],
+                  ),
+                ) : Container()
             ),
             Expanded(
               flex: 5,
@@ -71,7 +107,7 @@ class clearpage extends StatelessWidget {
                 child: Scrollbar(
                   child: SingleChildScrollView(
                     child: Text(
-                      ('TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest'),
+                      'ゲームクリア！今日はありがとう！また湯涌にきてね！',
                       style: TextStyle(fontSize: height / 40),
                     ),
                   ),
