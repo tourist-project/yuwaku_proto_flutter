@@ -79,7 +79,7 @@ extension PageDataExtension on PageData {
     },
     PageData.second: {
       'title': 'スポットを見つけたら写真を撮影',
-      'description': 'スポットに近づいたら画像が青くなるよ！！',
+      'description': 'スポットに近づいたらカメラマークがでるよ！！',
       'imagePath': 'assets/images/tutorial_image_step2.png'
     }
   };
