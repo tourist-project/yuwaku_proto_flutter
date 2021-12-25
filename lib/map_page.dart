@@ -248,7 +248,7 @@ class _MapPageState extends State<MapPage> {
                 ),
               ),
             ),
-            SnackBerPage(),
+            // SnackBerPage(),
           ],
         ),
       );
