@@ -8,6 +8,7 @@ import 'package:yuwaku_proto/bottom_tab.dart';
 import 'development_page.dart';
 import 'package:yuwaku_proto/gameclear.dart';
 import 'package:yuwaku_proto/app_top_view.dart';
+import 'package:yuwaku_proto/tutorial_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         '/development_page': (BuildContext context) =>
             DevelopmentPage(title: '開発中'),
         '/app_top_view':(BuildContext context) => topPageView(),
+        '/tutorial_page':(BuildContext context) => TutorialPage(),
       },
     );
   }
