@@ -60,21 +60,21 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
   }
 
   // 各地点の名前と説明文
-  List<String> posName = [" 金沢夢二館", " 湯涌みどりの里", " 氷室小屋", " あし湯"];
-  List<String> posEnglishName = [" KanazawaYumezikan", "YuwakuMidorinoSato", "HimuroGoya", "Ashiyu"];
+  List<String> posName = [/*" 金沢夢二館", " 湯涌みどりの里",*/ " 氷室小屋", " あし湯"];
+  List<String> posEnglishName = [/*" KanazawaYumezikan", "YuwakuMidorinoSato" ,*/ "HimuroGoya", "Ashiyu"];
   List<String> posExplain = [
-    '大正時代を代表する詩人画家の竹下夢二の記念館です。旅、女性、信仰心の3つのテーマから、'
-        '遺品や作品を通して夢二の芸術性や人間性を紹介しています。',
-    'みどりの里では、蕎麦打ち体験や梨の収穫体験などの様々なイベントが`1年を通して'
-        '行われます。毎週日曜日と水曜日(4月中旬〜12月中旬)には湯涌朝市が開催され、非常に賑わって'
-        'おります。湯涌の新鮮な農作物や加工品などをお買い求めいただけます。',
+    //'大正時代を代表する詩人画家の竹下夢二の記念館です。旅、女性、信仰心の3つのテーマから、'
+      //  '遺品や作品を通して夢二の芸術性や人間性を紹介しています。',
+    //'みどりの里では、蕎麦打ち体験や梨の収穫体験などの様々なイベントが`1年を通して'
+      //  '行われます。毎週日曜日と水曜日(4月中旬〜12月中旬)には湯涌朝市が開催され、非常に賑わって'
+        //'おります。湯涌の新鮮な農作物や加工品などをお買い求めいただけます。',
     '氷室小屋は冷蔵施設がなく氷が大変貴重であった江戸時代に、大寒の雪を詰め天然の雪氷を夏まで長期保存'
         'するために作られた小屋です。湯涌ではこの雪詰めを体験できるイベントが開催されます。',
     '湯涌に2つある足湯の1つです。足だけの入浴なので無理なく体をしんから温めることができます。無料なので'
         'ぜひ足湯を体験してみていかかでしょう。'
   ];
-  var imagePhoto = ['assets/images/Yumezikan.png',
-    'assets/images/MidorinoSato.png',
+  var imagePhoto = [
+    //'assets/images/MidorinoSato.png',
     'assets/images/HimuroGoya.png',
     'assets/images/Asiyu(temp).png'
   ];
@@ -165,7 +165,7 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
                           child: Column(
                             children: <Widget>[
                               Container(
-                                  child: Image.asset('assets/images/InariZinja.png'),
+                                  child: Image.asset('assets/images/Yumezikan.png'),
                               ),
                               Container(
                                 child: Column(
@@ -173,7 +173,7 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
                                     Row(
                                       children: <Widget>[
                                         Container(
-                                          child: Text(" 湯涌稲荷神社",
+                                          child: Text(" 金沢夢二館",
                                               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0)
                                           ),
                                         ),
@@ -183,7 +183,7 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
                                       children: <Widget>[
                                         Container(
                                           margin: EdgeInsets.only(left: 15),
-                                          child: Text(" YuwkuinariZinzya",
+                                          child: Text(" Kanazawa Yumezikan",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.normal,
                                                 fontSize: 10,
@@ -198,9 +198,8 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
                               ),
                               Container(
                                 margin: EdgeInsets.all( 10),
-                                child: Text('白鷲の湯と夢二館に挟まれた扇形の階段のさらに先にある神社です。アニメ「花咲くいろは」に'
-                                    '登場した名所となっております。自然豊かの中にあるひっそりと佇む神社という風情あふれる風景を一度'
-                                    'ご体験ください。'
+                                child: Text('大正時代を代表する詩人画家の竹下夢二の記念館です。旅、女性、信仰心の3つのテーマから、'
+                                    '遺品や作品を通して夢二の芸術性や人間性を紹介しています。'
                                 ),
                               ),
                             ],
