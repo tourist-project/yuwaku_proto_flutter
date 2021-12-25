@@ -8,6 +8,8 @@ import 'main.dart';
 import 'map_page.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:touchable/touchable.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'dart:typed_data';
 
 /// マップの描画
 class MapPainter extends CustomPainter {
@@ -16,13 +18,25 @@ class MapPainter extends CustomPainter {
   late ui.Image _mapImage; /// マップ自体の画像
   late double Function() _getMoveX; /// 移動したx軸の距離を返す関数
   late List<MapItem> _mapItems; /// マップ上に描画する場所の一覧
+  late ui.Image cameraIconImage;
   var scale = 0.0;
+
+  final cameraIconImg = loadUiImage('assets/images/camera.png');
 
   /// コンストラクタ
   MapPainter(ui.Image _mapImage, double Function() _getMoveX, List<MapItem> _mapItems) {
     this._mapImage = _mapImage;
     this._getMoveX = _getMoveX;
     this._mapItems = _mapItems;
+  }
+
+  static Future<ui.Image> loadUiImage(String imageAssetPath) async {
+    final ByteData data = await rootBundle.load(imageAssetPath);
+    final Completer<ui.Image> completer = Completer();
+    ui.decodeImageFromList(Uint8List.view(data.buffer), (ui.Image img) {
+      return completer.complete(img);
+    });
+    return completer.future;
   }
 
 
@@ -47,6 +61,7 @@ class MapPainter extends CustomPainter {
         ..strokeWidth = 2; // 線の太さを2に設定
       // 表示する画像の取得
       final img = item.getDisplayImage();
+
       // もし画像がロードできていないなら何もしない
       if (img != null) {
         final length = min(img.height, img.width).toDouble(); // 縦横のうち最短を取得
@@ -56,7 +71,7 @@ class MapPainter extends CustomPainter {
         final rescaleRect = item.getPhotoRectForDeviceFit(scale, _getMoveX()); // どこに描画するかを設定
 
         determinePosition().then((pos) => item.setDistance(pos)).catchError((error) => print(error));
-        item.distance = 15;
+        //item.distance = 15;
 
 
 
@@ -75,6 +90,7 @@ class MapPainter extends CustomPainter {
           canvas.drawImageRect(img, src, rescaleRect, imagePaint);
         } else {
           canvas.drawImageRect(img, src, rescaleRect, imagePaint);
+          cameraIconImg.then((value) => canvas.drawImageRect(value, src, rescaleRect, imagePaint));
         }
       }
     }
