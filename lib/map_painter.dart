@@ -61,8 +61,7 @@ class MapPainter extends CustomPainter {
 
         determinePosition().then((pos) => item.setDistance(pos)).catchError((error) => print(error));
 
-
-
+        item.distance = 15;
 
         if (item.isProximity(30)) {
           circlePaint.color = Color.fromARGB(255, 255, 0, 0);

@@ -150,6 +150,7 @@ class _MapPageState extends State<MapPage> {
         'assets/images/yumejikan_gray.png', Rect.fromLTWH(1500, 60, 280, 280)),
   ];
 
+
   /// アセット(画像等)の取得
   Future<void> _getAssets() async {
     final ui.Image img = await MapItem.loadUiImage('assets/images/map_img.png');
