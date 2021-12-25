@@ -53,6 +53,19 @@ class MapItem {
     return photoImage;
   }
 
+  /// image ウィジェットとして画像を返す
+  Future<Image?> getDisplayImageToImageWidget() async {
+    try {
+      final img = this.getDisplayImage();
+      if (img == null) return null;
+      ByteData byteData = (await img.toByteData(format: ui.ImageByteFormat.png))!;
+      final pngBytes = byteData.buffer.asUint8List();
+      return Image.memory(pngBytes, fit: BoxFit.cover);
+    } catch (e) {
+      return null;
+    }
+  }
+
   /// 座標系をマップ画像上からデバイス上へ変換
   ui.Rect getPhotoRectForDeviceFit(double scale, double moveX) {
     return Rect.fromLTWH(photoRect.left * scale - moveX, photoRect.top * scale,
@@ -113,6 +126,8 @@ class _MapPageState extends State<MapPage> {
   ui.Image? _mapImage; // マップの画像
   double _moveX = 0; // x軸の移動を保持
   MapPainter? _mapPainter = null;
+  clearpage? pageClear = null;
+  bool is_reset_images = false;
 
 
   /// マップの場所情報の一覧
@@ -132,7 +147,6 @@ class _MapPageState extends State<MapPage> {
         'assets/images/MidorinoSato.png', Rect.fromLTWH(280, 850, 280, 280))*/
     MapItem('湯涌夢二館', 36.48584951599308, 136.75738876226737, Offset(1250, 425),
         'assets/images/yumejikan_gray.png', Rect.fromLTWH(1500, 60, 280, 280)),
-
   ];
 
   /// アセット(画像等)の取得
@@ -148,6 +162,8 @@ class _MapPageState extends State<MapPage> {
         _mapImage = img
       });
     }
+
+    this.pageClear = clearpage(0, 0, _mapItems);
   }
 
   /// x軸の移動情報を返す
@@ -173,7 +189,6 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     final Size mediaSize = MediaQuery.of(context).size; // 画面の取得
-    clearpage pageClear = new clearpage(mediaSize.width, mediaSize.height);
 
     final AppBar appBar = AppBar(title: Text(widget.title, style: TextStyle(color: prefix.Colors.black87)));
     final mediaHeight = mediaSize.height - appBar.preferredSize.height; // キャンバス部分の高さ
@@ -236,18 +251,23 @@ class _MapPageState extends State<MapPage> {
         ),
       );
     }else{
+      if (!is_reset_images && pageClear != null) {
+        this.pageClear!.width = mediaSize.width;
+        this.pageClear!.height = mediaSize.height;
+        this.is_reset_images = true;
+      }
       return Scaffold(
         appBar: appBar,
         body: Stack(
           children: [
-            _mapImage == null
+            _mapImage == null || pageClear == null
                 ? Text('Loading...', style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold),
               textAlign: TextAlign.center
             )
             :
-            pageClear,
+            pageClear!,
             ElevatedButton(
               onPressed: () {
                 imageDb.deleteAll();

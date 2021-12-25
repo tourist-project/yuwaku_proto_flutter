@@ -71,7 +71,7 @@ class MapPainter extends CustomPainter {
         final rescaleRect = item.getPhotoRectForDeviceFit(scale, _getMoveX()); // どこに描画するかを設定
 
         determinePosition().then((pos) => item.setDistance(pos)).catchError((error) => print(error));
-        //item.distance = 15;
+        item.distance = 15;
 
 
 
