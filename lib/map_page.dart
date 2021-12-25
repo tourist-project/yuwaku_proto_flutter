@@ -124,6 +124,7 @@ class _MapPageState extends State<MapPage> {
   final imageDb = ImageDBProvider.instance;
   bool is_clear = true;
   ui.Image? _mapImage; // マップの画像
+  ui.Image? _cameraIconImg;
   double _moveX = 0; // x軸の移動を保持
   MapPainter? _mapPainter = null;
   clearpage? pageClear = null;
@@ -152,14 +153,16 @@ class _MapPageState extends State<MapPage> {
   /// アセット(画像等)の取得
   Future<void> _getAssets() async {
     final ui.Image img = await MapItem.loadUiImage('assets/images/map_img.png');
-    this._mapPainter = MapPainter(img, _getMoveX, _mapItems);
+    final ui.Image cameraIconImg = await MapItem.loadUiImage('assets/images/camera_red.png');
+    this._mapPainter = MapPainter(img, cameraIconImg, _getMoveX, _mapItems);
     for (var item in _mapItems) {
       await item.loadInitialImage();
     }
 
     if(mounted){ /// WidgetTreeにWidgetが存在するかの判断
       setState(() => {
-        _mapImage = img
+        _mapImage = img,
+        _cameraIconImg = cameraIconImg
       });
     }
 
@@ -196,7 +199,7 @@ class _MapPageState extends State<MapPage> {
     clearUpdate();
 
     if (_mapImage != null) {
-      this._mapPainter = MapPainter(_mapImage!, _getMoveX, _mapItems);
+      this._mapPainter = MapPainter(_mapImage!,_cameraIconImg!, _getMoveX, _mapItems);
     }
 
     if (!this.is_clear) {

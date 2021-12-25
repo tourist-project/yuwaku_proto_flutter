@@ -16,29 +16,18 @@ class MapPainter extends CustomPainter {
 
 
   late ui.Image _mapImage; /// マップ自体の画像
+  late ui.Image _cameraIconImg;
   late double Function() _getMoveX; /// 移動したx軸の距離を返す関数
   late List<MapItem> _mapItems; /// マップ上に描画する場所の一覧
-  late ui.Image cameraIconImage;
   var scale = 0.0;
 
-  final cameraIconImg = loadUiImage('assets/images/camera.png');
-
   /// コンストラクタ
-  MapPainter(ui.Image _mapImage, double Function() _getMoveX, List<MapItem> _mapItems) {
+  MapPainter(ui.Image _mapImage,ui.Image _cameraIconImg, double Function() _getMoveX, List<MapItem> _mapItems) {
     this._mapImage = _mapImage;
+    this._cameraIconImg = _cameraIconImg;
     this._getMoveX = _getMoveX;
     this._mapItems = _mapItems;
   }
-
-  static Future<ui.Image> loadUiImage(String imageAssetPath) async {
-    final ByteData data = await rootBundle.load(imageAssetPath);
-    final Completer<ui.Image> completer = Completer();
-    ui.decodeImageFromList(Uint8List.view(data.buffer), (ui.Image img) {
-      return completer.complete(img);
-    });
-    return completer.future;
-  }
-
 
   /// 描画
   @override
@@ -71,7 +60,6 @@ class MapPainter extends CustomPainter {
         final rescaleRect = item.getPhotoRectForDeviceFit(scale, _getMoveX()); // どこに描画するかを設定
 
         determinePosition().then((pos) => item.setDistance(pos)).catchError((error) => print(error));
-        item.distance = 15;
 
 
 
@@ -88,9 +76,12 @@ class MapPainter extends CustomPainter {
                           Offset((item.position.dx * scale - _getMoveX()),
                                  item.position.dy * scale), linePaint);
           canvas.drawImageRect(img, src, rescaleRect, imagePaint);
+          canvas.drawImageRect(_cameraIconImg, Rect.fromLTWH(0, 0, 256, 256),
+              Rect.fromLTWH(item.photoRect.left * scale - _getMoveX() + 5, item.photoRect.top * scale + 5, 50, 50)
+              , imagePaint);
         } else {
           canvas.drawImageRect(img, src, rescaleRect, imagePaint);
-          cameraIconImg.then((value) => canvas.drawImageRect(value, src, rescaleRect, imagePaint));
+
         }
       }
     }
