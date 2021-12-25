@@ -21,21 +21,22 @@ class topPageView extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    final mediaHeight = MediaQuery.of(context).size.height; // 画面の取得
+
+    final Size mediaSize = MediaQuery.of(context).size;
     final mediaWidth = MediaQuery.of(context).size.width;
+    final AppBar appBar = AppBar(
+      title: Text(name,
+        style: TextStyle(
+            color: prefix.Colors.black,
+            fontStyle: FontStyle.normal)),
+      centerTitle: true,
+      backgroundColor: Color.fromRGBO(249,234,205,50),
+    );
+
+    final mediaHeight = mediaSize.height - appBar.preferredSize.height; // Appbarを除いた画面の大きさ
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(name,
-          style: TextStyle(
-              color: prefix.Colors.black,
-              fontStyle: FontStyle.normal
-
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Color.fromRGBO(249,234,205,50),
-      ),
-
+      appBar: appBar,
       body: Container(
         decoration: const BoxDecoration( // 背景
             image: DecorationImage(
@@ -45,7 +46,6 @@ class topPageView extends StatelessWidget{
         ),
         height: mediaHeight,
         width: mediaWidth,
-
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
