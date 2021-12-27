@@ -27,35 +27,35 @@ class PicExplain extends StatefulWidget{
 
 class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
 
-  AnimationController? animationController,animationController1;
+  late AnimationController animationController;
   Animation<Offset>? animation,animation1;
-
-  static const String _title = '第一ステージ';
 
   @override
   void initState(){
-        animationController = AnimationController(
-            duration: const Duration(milliseconds: 1000),
-            vsync: this
-        );
+    super.initState();
+    animationController = AnimationController(
+        duration: const Duration(milliseconds: 1000),
+        vsync: this
+    );
 
-        animation = Tween<Offset>(
-            begin: const Offset(0.4, 0), end: Offset.zero
-        ).animate(CurvedAnimation(
-            parent: animationController!,
-            curve: Curves.easeInOut));
+    animation = Tween<Offset>(
+        begin: const Offset(0.4, 0),
+        end: Offset.zero
+    ).animate(CurvedAnimation(
+        parent: animationController,
+        curve: Curves.easeInOut));
 
-        animation1 = Tween<Offset>(
-            begin: const Offset(1, 0), end: Offset.zero
-        ).animate(CurvedAnimation(
-            parent: animationController!,
-            curve: Curves.easeInOut));
+    animation1 = Tween<Offset>(
+        begin: const Offset(1, 0),
+        end: Offset.zero
+    ).animate(CurvedAnimation(
+        parent: animationController,
+        curve: Curves.easeInOut));
   }
-
 
   @override
   void dispose() {
-    animationController?.dispose();
+    animationController.dispose();
     super.dispose();
   }
 
@@ -82,15 +82,12 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context) {
-    final double deviceHeight = MediaQuery.of(context).size.height;
     final double deviceWidth = MediaQuery.of(context).size.width;
-    animationController!.forward();
+    animationController.forward();
 
     return Material(
         child: Scaffold(
-            appBar: AppBar(
-              title: Text(_title,style: TextStyle(color: Colors.black87)),
-            ),
+            appBar: AppBar(title: Text('第一ステージ',style: TextStyle(color: Colors.black87)),),
             body: Center(
               child: Scrollbar(
                 isAlwaysShown: true,
@@ -112,36 +109,16 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
 
                           child: Column(
                             children: <Widget>[
+                              Image.asset('assets/images/KeigoSirayu.png'),
+                              Text(" 総湯 白鷲の湯", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0)),
                               Container(
-                                child: Image.asset('assets/images/KeigoSirayu.png'),
-                              ),
-                              Container(
-                                child: Column(
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        Container(
-                                          child: Text(" 総湯 白鷲の湯",
-                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0)
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Container(
-                                          margin: EdgeInsets.only(left: deviceWidth/12),
-                                          child: Text(" Souyu Sirawasinoyu",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 10,
-                                                  color: Colors.black54
-                                              ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                margin: EdgeInsets.only(left: deviceWidth/12),
+                                child: Text(" Souyu Sirawasinoyu",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 10,
+                                      color: Colors.black54
+                                  ),
                                 ),
                               ),
                               Container(
@@ -164,36 +141,16 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
 
                           child: Column(
                             children: <Widget>[
+                              Image.asset('assets/images/InariZinja.png'),
+                              Text(" 湯涌稲荷神社", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0)),
                               Container(
-                                  child: Image.asset('assets/images/InariZinja.png'),
-                              ),
-                              Container(
-                                child: Column(
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        Container(
-                                          child: Text(" 湯涌稲荷神社",
-                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0)
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Container(
-                                          margin: EdgeInsets.only(left: 15),
-                                          child: Text(" YuwkuinariZinzya",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.normal,
-                                                fontSize: 10,
-                                                color: Colors.black54
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                margin: EdgeInsets.only(left: 15),
+                                child: Text(" YuwkuinariZinzya",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 10,
+                                      color: Colors.black54
+                                  ),
                                 ),
                               ),
                               Container(
@@ -209,7 +166,6 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
                       ),
                       for(int i = 0; i < posName.length; i++)
                         planeExplain(posName[i],posEnglishName[i], posExplain[i], imagePhoto[i]),
-
                     ],
                   ),
                 ),

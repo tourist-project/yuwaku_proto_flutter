@@ -6,9 +6,20 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:yuwaku_proto/plane_explain.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
 
-class topPageView extends StatelessWidget{
+class TopPageView extends StatelessWidget{
+  final ValueChanged<int> selectItem;
 
-  final String name = "撮っテク!";
+  TopPageView({required this.selectItem});
+
+
+  final AppBar appBar = AppBar(
+    title: Text('撮っテク!',
+        style: TextStyle(
+            color: prefix.Colors.black,
+            fontStyle: FontStyle.normal)),
+    centerTitle: true,
+    backgroundColor: Color.fromRGBO(249,234,205,50),
+  );
 
   Future<void> _launchURLtoWebSite() async{
     const url = "https://totteku.tourism-project.com/";
@@ -21,19 +32,8 @@ class topPageView extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-
-    final Size mediaSize = MediaQuery.of(context).size;
     final mediaWidth = MediaQuery.of(context).size.width;
-    final AppBar appBar = AppBar(
-      title: Text(name,
-        style: TextStyle(
-            color: prefix.Colors.black,
-            fontStyle: FontStyle.normal)),
-      centerTitle: true,
-      backgroundColor: Color.fromRGBO(249,234,205,50),
-    );
-
-    final mediaHeight = mediaSize.height - appBar.preferredSize.height; // Appbarを除いた画面の大きさ
+    final mediaHeight = MediaQuery.of(context).size.height - appBar.preferredSize.height; // Appbarを除いた画面の大きさ
 
     return Scaffold(
       appBar: appBar,
@@ -107,11 +107,7 @@ class topPageView extends StatelessWidget{
                 children: <Widget>[
                   Spacer(),
                   RawMaterialButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => TutorialPage()),
-                      );
-                    },
+                    onPressed: () => selectItem(2),
                     shape: CircleBorder(),
                     child: Container(
                       alignment: Alignment.center,
@@ -131,15 +127,7 @@ class topPageView extends StatelessWidget{
                   ),
                   Spacer(),
                   RawMaterialButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return MapPage(title: '地図');
-                          },
-                        ),
-                      );
-                    },
+                    onPressed: () => selectItem(1),
                     shape: CircleBorder(),
                     child: Container(
                       alignment: Alignment.center,
@@ -159,15 +147,7 @@ class topPageView extends StatelessWidget{
                   ),
                   Spacer(),
                   RawMaterialButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return PicExplain(title: '場所説明');
-                          },
-                        ),
-                      );
-                    },
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PicExplain(title: '場所説明'))),
                     shape: CircleBorder(),
                     child: Container(
                       alignment: Alignment.center,
