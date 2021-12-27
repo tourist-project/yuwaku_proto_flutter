@@ -151,8 +151,9 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
                                       fontSize: 10,
                                       color: Colors.black54
                                   ),
-                                  child: Image.asset('assets/images/Yumezikan.png'),
+                                ),
                               ),
+                              Image.asset('assets/images/Yumezikan.png'),
                               Container(
                                 child: Column(
                                   children: <Widget>[
