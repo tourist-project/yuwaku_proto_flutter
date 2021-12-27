@@ -29,13 +29,21 @@ class _BottomTabPageState extends State<BottomTabPage> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.add_comment_sharp),
-            title: Text(''),
+            icon: Icon(
+              Icons.add_comment_sharp,
+            ),
+            label: 'ホーム',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.add_location_alt_sharp),
-              title: Text('')),
-          BottomNavigationBarItem(icon: Icon(Icons.help),
-              title: Text('')),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.add_location_alt_sharp,
+              ),
+              label: '地図'),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.help,
+              ),
+              label: '遊び方'),
         ],
         currentIndex: _currentIndex,
         fixedColor: Colors.blueAccent,
