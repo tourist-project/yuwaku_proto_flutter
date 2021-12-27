@@ -87,7 +87,7 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
 
     return Material(
         child: Scaffold(
-            appBar: AppBar(title: Text('第一ステージ',style: TextStyle(color: Colors.black87)),),
+            appBar: AppBar(title: Text('スポット説明',style: TextStyle(color: Colors.black87)),),
             body: Center(
               child: Scrollbar(
                 isAlwaysShown: true,
@@ -109,20 +109,40 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
 
                           child: Column(
                             children: <Widget>[
-                              Image.asset('assets/images/KeigoSirayu.png'),
-                              Text(" 総湯 白鷲の湯", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0)),
                               Container(
-                                margin: EdgeInsets.only(left: deviceWidth/12),
-                                child: Text(" Souyu Sirawasinoyu",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 10,
-                                      color: Colors.black54
-                                  ),
+                                child: Image.asset('assets/images/KeigoSirayu.png'),
+                              ),
+                              Container(
+                                child: Column(
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Container(
+                                          child: Text(" 湯涌総湯",
+                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0)
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Container(
+                                          margin: EdgeInsets.only(left: deviceWidth/12),
+                                          child: Text("Yuwaku Souyu",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 10,
+                                                color: Colors.black54
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.all(10),
+                                margin: EdgeInsets.all( 10),
                                 child: Text('湯涌温泉の日帰り温泉。浴室はガラス窓であり、内湯でも開放的な気分になります。'
                                     '観光客だけでなく地元の方々にも日々利用されている名湯になります。'
                                 ),
@@ -141,26 +161,16 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
 
                           child: Column(
                             children: <Widget>[
-                              Image.asset('assets/images/InariZinja.png'),
-                              Text(" 湯涌稲荷神社", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0)),
                               Container(
-                                margin: EdgeInsets.only(left: 15),
-                                child: Text(" YuwkuinariZinzya",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 10,
-                                      color: Colors.black54
-                                  ),
-                                ),
+                                  child: Image.asset('assets/images/Yumezikan.png')
                               ),
-                              Image.asset('assets/images/Yumezikan.png'),
                               Container(
                                 child: Column(
                                   children: <Widget>[
                                     Row(
                                       children: <Widget>[
                                         Container(
-                                          child: Text(" 金沢夢二館",
+                                          child: Text("金沢夢二館",
                                               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0)
                                           ),
                                         ),
@@ -170,7 +180,7 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
                                       children: <Widget>[
                                         Container(
                                           margin: EdgeInsets.only(left: 15),
-                                          child: Text(" Kanazawa Yumezikan",
+                                          child: Text("KanazawaYumejikan",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.normal,
                                                 fontSize: 10,
@@ -193,6 +203,7 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
                           ),
                         ),
                       ),
+
                       for(int i = 0; i < posName.length; i++)
                         planeExplain(posName[i],posEnglishName[i], posExplain[i], imagePhoto[i]),
                     ],
