@@ -13,6 +13,7 @@ import 'package:yuwaku_proto/database.dart';
 import 'package:yuwaku_proto/gameclear.dart';
 import 'package:flutter/material.dart' as prefix;
 import 'package:bubble/bubble.dart';
+import 'camera_page.dart';
 import 'map_painter.dart';// Colorsを使う時はprefix.Colors.~と使ってください
 import 'package:geolocator/geolocator.dart';
 
@@ -201,6 +202,7 @@ class _MapPageState extends State<MapPage> {
                       if (item.didTappedImageTransition(
                           this._mapPainter!.scale, _getMoveX(),
                           details.localPosition)) {
+
                         Navigator.of(context).pushNamed(
                             '/camera_page', arguments: item);
                         break;

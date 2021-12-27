@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
             color: Color.fromRGBO(240, 233, 208, 100),
           )),
       home: BottomTabPage(),
-      /*routes: <String, WidgetBuilder>{
+      routes: <String, WidgetBuilder>{
         '/map_page': (BuildContext context) => MapPage(title: '地図'),
         '/camera_page': (BuildContext context) => CameraPage(
             title: 'Camera page',
@@ -36,9 +36,9 @@ class MyApp extends StatelessWidget {
         '/plane_explain': (BuildContext context) => PicExplain(title: '場所説明'),
         '/development_page': (BuildContext context) =>
             DevelopmentPage(title: '開発中'),
-        '/app_top_view':(BuildContext context) => topPageView(),
+        // '/app_top_view':(BuildContext context) => TopPageView(),
         '/tutorial_page':(BuildContext context) => TutorialPage(),
-      },*/
+      },
     );
   }
 }
