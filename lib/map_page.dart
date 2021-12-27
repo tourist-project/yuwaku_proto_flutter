@@ -54,6 +54,19 @@ class MapItem {
     return photoImage;
   }
 
+  /// image ウィジェットとして画像を返す
+  Future<Image?> getDisplayImageToImageWidget() async {
+    try {
+      final img = this.getDisplayImage();
+      if (img == null) return null;
+      ByteData byteData = (await img.toByteData(format: ui.ImageByteFormat.png))!;
+      final pngBytes = byteData.buffer.asUint8List();
+      return Image.memory(pngBytes, fit: BoxFit.cover);
+    } catch (e) {
+      return null;
+    }
+  }
+
   /// 座標系をマップ画像上からデバイス上へ変換
   ui.Rect getPhotoRectForDeviceFit(double scale, double moveX) {
     return Rect.fromLTWH(photoRect.left * scale - moveX, photoRect.top * scale,
@@ -112,39 +125,50 @@ class _MapPageState extends State<MapPage> {
   final imageDb = ImageDBProvider.instance;
   bool is_clear = true;
   ui.Image? _mapImage; // マップの画像
+  ui.Image? _cameraIconImg;
   double _moveX = 0; // x軸の移動を保持
   MapPainter? _mapPainter = null;
+  clearpage? pageClear = null;
+  bool is_reset_images = false;
 
 
   /// マップの場所情報の一覧
   final _mapItems = <MapItem>[
     /*MapItem('湯涌稲荷神社', 36.4856770,136.7582343, Offset(1254, 292),
         'assets/images/img1_gray.png', Rect.fromLTWH(650, 182, 280, 280)),*/
-    MapItem('総湯', 36.485860467436346,  136.75822950005136, Offset(1358, 408),
+    MapItem('総湯', 36.485425901995455,  136.75758738535384, Offset(1358, 408),
         'assets/images/img2_gray.png', Rect.fromLTWH(1000, 820, 280, 280)),
     MapItem('氷室', 36.48346516395541, 136.75701193508996, Offset(1881, 512),
-        'assets/images/HimuroGoya.png', Rect.fromLTWH(1720, 620, 280, 280)),
-    MapItem('足湯(湯の出)', 36.48919374904115, 136.75588850463596, Offset(505, 690),
+        'assets/images/himurogoya_gray.png', Rect.fromLTWH(1720, 620, 280, 280)),
+    MapItem('足湯(立派な方)', 36.48582537854954, 136.7574341842218, Offset(505, 690),
+        'assets/images/asiyu(temp)_gray.png', Rect.fromLTWH(750, 80, 280, 280)),
+   /* MapItem('足湯(湯の出)', 36.48919374904115, 136.75588850463596, Offset(505, 690),
         'assets/images/Asiyu(temp).png', Rect.fromLTWH(750, 80, 280, 280)),
+        */
     /*MapItem('みどりの里', 36.49050881078798, 136.75404574490975, Offset(239, 928),
         'assets/images/MidorinoSato.png', Rect.fromLTWH(280, 850, 280, 280))*/
-    MapItem('湯涌夢二館', 36.4850544186964, 136.75743580648322, Offset(1250, 425),
-        'assets/images/Yumezikan.png', Rect.fromLTWH(1500, 60, 280, 280)),
+    MapItem('湯涌夢二館', 36.48584951599308, 136.75738876226737, Offset(1250, 425),
+        'assets/images/yumejikan_gray.png', Rect.fromLTWH(1500, 60, 280, 280)),
   ];
+
 
   /// アセット(画像等)の取得
   Future<void> _getAssets() async {
     final ui.Image img = await MapItem.loadUiImage('assets/images/map_img.png');
-    this._mapPainter = MapPainter(img, _getMoveX, _mapItems);
+    final ui.Image cameraIconImg = await MapItem.loadUiImage('assets/images/camera_red.png');
+    this._mapPainter = MapPainter(img, cameraIconImg, _getMoveX, _mapItems);
     for (var item in _mapItems) {
       await item.loadInitialImage();
     }
 
     if(mounted){ /// WidgetTreeにWidgetが存在するかの判断
       setState(() => {
-        _mapImage = img
+        _mapImage = img,
+        _cameraIconImg = cameraIconImg
       });
     }
+
+    this.pageClear = clearpage(0, 0, _mapItems);
   }
 
   /// x軸の移動情報を返す
@@ -170,7 +194,6 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     final Size mediaSize = MediaQuery.of(context).size; // 画面の取得
-    clearpage pageClear = new clearpage(mediaSize.width, mediaSize.height);
 
     final AppBar appBar = AppBar(title: Text(widget.title, style: TextStyle(color: prefix.Colors.black87)));
     final mediaHeight = mediaSize.height - appBar.preferredSize.height; // キャンバス部分の高さ
@@ -178,7 +201,7 @@ class _MapPageState extends State<MapPage> {
     clearUpdate();
 
     if (_mapImage != null) {
-      this._mapPainter = MapPainter(_mapImage!, _getMoveX, _mapItems);
+      this._mapPainter = MapPainter(_mapImage!,_cameraIconImg!, _getMoveX, _mapItems);
     }
 
     if (!this.is_clear) {
@@ -229,23 +252,28 @@ class _MapPageState extends State<MapPage> {
                 ),
               ),
             ),
-            SnackBerPage(),
+            // SnackBerPage(),
           ],
         ),
       );
     }else{
+      if (!is_reset_images && pageClear != null) {
+        this.pageClear!.width = mediaSize.width;
+        this.pageClear!.height = mediaSize.height;
+        this.is_reset_images = true;
+      }
       return Scaffold(
         appBar: appBar,
         body: Stack(
           children: [
-            _mapImage == null
+            _mapImage == null || pageClear == null
                 ? Text('Loading...', style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold),
               textAlign: TextAlign.center
             )
             :
-            pageClear,
+            pageClear!,
             ElevatedButton(
               onPressed: () {
                 imageDb.deleteAll();

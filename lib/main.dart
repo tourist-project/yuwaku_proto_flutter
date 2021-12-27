@@ -9,8 +9,15 @@ import 'development_page.dart';
 import 'package:yuwaku_proto/gameclear.dart';
 import 'package:yuwaku_proto/app_top_view.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
+import 'package:flutter/services.dart';
 
 void main() {
+
+  WidgetsFlutterBinding.ensureInitialized();
+  // 画面の向きを固定
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   runApp(MyApp());
 }
 
