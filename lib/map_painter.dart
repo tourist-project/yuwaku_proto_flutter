@@ -8,43 +8,49 @@ import 'main.dart';
 import 'map_page.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:touchable/touchable.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'dart:typed_data';
 
 /// マップの描画
 class MapPainter extends CustomPainter {
 
 
   late ui.Image _mapImage; /// マップ自体の画像
+  late ui.Image _cameraIconImg;
   late double Function() _getMoveX; /// 移動したx軸の距離を返す関数
   late List<MapItem> _mapItems; /// マップ上に描画する場所の一覧
   var scale = 0.0;
 
   /// コンストラクタ
-  MapPainter(ui.Image _mapImage, double Function() _getMoveX, List<MapItem> _mapItems) {
+  MapPainter(ui.Image _mapImage,ui.Image _cameraIconImg, double Function() _getMoveX, List<MapItem> _mapItems) {
     this._mapImage = _mapImage;
+    this._cameraIconImg = _cameraIconImg;
     this._getMoveX = _getMoveX;
     this._mapItems = _mapItems;
   }
-
 
   /// 描画
   @override
   void paint(Canvas canvas, Size size) {
     // ペイントの作成
-    final paint = Paint()
-      ..color = Colors.red // 赤色を設定
-      ..strokeWidth = 2; // 線の太さを2に設定
+    final mapPaint = Paint();
 
     this.scale = size.height / _mapImage.height.toDouble() ; // 画像を縦方向に引き伸ばした倍率
     final width = size.width / scale ; // 場所を描画している
 
     final src = Rect.fromLTWH(_getMoveX()/scale, 0, width, _mapImage.height.toDouble()); // 画像中の用いる範囲
     final dst = Rect.fromLTWH(0, 0, size.width, size.height); // 描画場所
-    canvas.drawImageRect(_mapImage, src, dst, paint); // 背景マップの描画
+    canvas.drawImageRect(_mapImage, src, dst, mapPaint); // 背景マップの描画
 
     // 場所ごとの処理
     for (var item in _mapItems) {
+      final imagePaint = Paint();
+      final circlePaint = Paint();
+      final linePaint = Paint()
+        ..strokeWidth = 2; // 線の太さを2に設定
       // 表示する画像の取得
       final img = item.getDisplayImage();
+
       // もし画像がロードできていないなら何もしない
       if (img != null) {
         final length = min(img.height, img.width).toDouble(); // 縦横のうち最短を取得
@@ -55,28 +61,24 @@ class MapPainter extends CustomPainter {
 
         determinePosition().then((pos) => item.setDistance(pos)).catchError((error) => print(error));
 
-        item.distance = 15;
-
-
         if (item.isProximity(30)) {
-          paint.color = Color.fromARGB(255, 255, 0, 0);
+          circlePaint.color = Color.fromARGB(255, 255, 0, 0);
           // 円を書く
-          canvas.drawCircle(Offset(item.position.dx * scale - _getMoveX(), item.position.dy * scale), 10, paint);
+          canvas.drawCircle(Offset(item.position.dx * scale - _getMoveX(), item.position.dy * scale), 10, circlePaint);
 
           // 線をひく
+          linePaint.color = Color.fromARGB(255, 255, 0, 0);
           canvas.drawLine(Offset((item.photoRect.left * scale - _getMoveX()) + item.photoRect.width * scale / 2,
                                  (item.photoRect.top * scale) + item.photoRect.height * scale / 2),
                           Offset((item.position.dx * scale - _getMoveX()),
-                                 item.position.dy * scale), paint);
-          canvas.drawImageRect(img, src, rescaleRect, paint);
-          // 範囲内だと青くなる
-          paint.color = Color.fromARGB(100, 0, 0, 255);
-          canvas.drawRect(rescaleRect, paint);
+                                 item.position.dy * scale), linePaint);
+          canvas.drawImageRect(img, src, rescaleRect, imagePaint);
+          canvas.drawImageRect(_cameraIconImg, Rect.fromLTWH(0, 0, 256, 256),
+              Rect.fromLTWH(item.photoRect.left * scale - _getMoveX() + 5, item.photoRect.top * scale + 5, 50, 50)
+              , imagePaint);
         } else {
-          canvas.drawImageRect(img, src, rescaleRect, paint);
-          // 範囲外だと赤くなる
-          paint.color = Color.fromARGB(100, 255, 0, 0);
-          canvas.drawRect(rescaleRect, paint);
+          canvas.drawImageRect(img, src, rescaleRect, imagePaint);
+
         }
       }
     }
