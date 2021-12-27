@@ -140,15 +140,15 @@ class _MapPageState extends State<MapPage> {
         'assets/images/img2_gray.png', Rect.fromLTWH(1000, 820, 280, 280)),
     MapItem('氷室', 36.48346516395541, 136.75701193508996, Offset(1881, 512),
         'assets/images/himurogoya_gray.png', Rect.fromLTWH(1720, 620, 280, 280)),
-    MapItem('足湯(立派な方)', 36.48582537854954, 136.7574341842218, Offset(505, 690),
-        'assets/images/asiyu(temp)_gray.png', Rect.fromLTWH(750, 80, 280, 280)),
+    MapItem('足湯(立派な方)', 36.48582537854954, 136.7574341842218, Offset(1275, 385),
+        'assets/images/asiyu(temp)_gray.png', Rect.fromLTWH(1500, 60, 280, 280)),
    /* MapItem('足湯(湯の出)', 36.48919374904115, 136.75588850463596, Offset(505, 690),
         'assets/images/Asiyu(temp).png', Rect.fromLTWH(750, 80, 280, 280)),
         */
     /*MapItem('みどりの里', 36.49050881078798, 136.75404574490975, Offset(239, 928),
         'assets/images/MidorinoSato.png', Rect.fromLTWH(280, 850, 280, 280))*/
     MapItem('湯涌夢二館', 36.48584951599308, 136.75738876226737, Offset(1250, 425),
-        'assets/images/yumejikan_gray.png', Rect.fromLTWH(1500, 60, 280, 280)),
+        'assets/images/yumejikan_gray.png', Rect.fromLTWH(580, 80, 280, 280)),
   ];
 
 
@@ -220,7 +220,7 @@ class _MapPageState extends State<MapPage> {
                   // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
                   for (var item in _mapItems) {
                     // TODO: 実際に現地で検証して
-                    // if (item.isProximity(30)) {
+                    if (item.isProximity(30)) {
                       // 場所ごとのタップの判定処理(タップ時は遷移)
                       if (item.didTappedImageTransition(this._mapPainter!.scale, _getMoveX(), details.localPosition)) {
 
@@ -228,7 +228,7 @@ class _MapPageState extends State<MapPage> {
                             '/camera_page', arguments: item);
                         break;
                       }
-                    // }
+                    }
                   }
                 },
                 onPanUpdate: (DragUpdateDetails details) { // スクロール時の処理
