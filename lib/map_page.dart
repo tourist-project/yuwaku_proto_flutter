@@ -13,6 +13,7 @@ import 'package:yuwaku_proto/database.dart';
 import 'package:yuwaku_proto/gameclear.dart';
 import 'package:flutter/material.dart' as prefix;
 import 'package:bubble/bubble.dart';
+import 'camera_page.dart';
 import 'map_painter.dart';// Colorsを使う時はprefix.Colors.~と使ってください
 import 'package:geolocator/geolocator.dart';
 
@@ -219,16 +220,15 @@ class _MapPageState extends State<MapPage> {
                   // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
                   for (var item in _mapItems) {
                     // TODO: 実際に現地で検証して
-                    if (item.isProximity(30)) {
+                    // if (item.isProximity(30)) {
                       // 場所ごとのタップの判定処理(タップ時は遷移)
-                      if (item.didTappedImageTransition(
-                          this._mapPainter!.scale, _getMoveX(),
-                          details.localPosition)) {
+                      if (item.didTappedImageTransition(this._mapPainter!.scale, _getMoveX(), details.localPosition)) {
+
                         Navigator.of(context).pushNamed(
                             '/camera_page', arguments: item);
                         break;
                       }
-                    }
+                    // }
                   }
                 },
                 onPanUpdate: (DragUpdateDetails details) { // スクロール時の処理

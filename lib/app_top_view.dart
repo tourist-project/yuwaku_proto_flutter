@@ -1,25 +1,27 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'dart:async';
-import 'dart:typed_data';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:vector_math/vector_math.dart';
-import 'package:yuwaku_proto/main.dart';
-import 'dart:ui' as ui;
-import 'package:yuwaku_proto/map_painter.dart';
-import 'dart:math' as math;
+import 'package:yuwaku_proto/map_page.dart';
 import 'package:flutter/material.dart' as prefix;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:yuwaku_proto/plane_explain.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
 
-class topPageView extends StatelessWidget{
+class TopPageView extends StatelessWidget{
+  final ValueChanged<int> selectItem;
 
-  final String name = "撮っテク!";
+  TopPageView({required this.selectItem});
 
-  _launchURLtoWebSite() async{
+
+  final AppBar appBar = AppBar(
+    title: Text('撮っテク!',
+        style: TextStyle(
+            color: prefix.Colors.black,
+            fontStyle: FontStyle.normal)),
+    centerTitle: true,
+    backgroundColor: Color.fromRGBO(249,234,205,50),
+  );
+
+  Future<void> _launchURLtoWebSite() async{
     const url = "https://totteku.tourism-project.com/";
     if (await canLaunch(url)) {
       await launch(url);
@@ -30,43 +32,31 @@ class topPageView extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    final mediaHeight = MediaQuery.of(context).size.height; // 画面の取得
     final mediaWidth = MediaQuery.of(context).size.width;
+    final mediaHeight = MediaQuery.of(context).size.height - appBar.preferredSize.height; // Appbarを除いた画面の大きさ
+
     return Scaffold(
-
-      appBar: AppBar(
-        title: Text(name,
-            style: TextStyle(
-              color: prefix.Colors.black,
-              fontStyle: FontStyle.normal
-            ),
-          ),
-        centerTitle: true,
-        backgroundColor: Color.fromRGBO(249,234,205,50),
-      ),
-
+      appBar: appBar,
       body: Container(
-
         decoration: const BoxDecoration( // 背景
             image: DecorationImage(
               image: AssetImage('assets/images/TopView.png'),
               fit: BoxFit.cover,
-            )
+            ),
         ),
         height: mediaHeight,
         width: mediaWidth,
-
         child: Column(
-
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Opacity(opacity: 0.6,
-              child: Container(
-                height: mediaHeight/12,
-                width: mediaWidth,
-                color: prefix.Colors.black,
-                child: SizedBox(
-                  width: mediaWidth/2,
-                  child: FittedBox(
+            Flexible( // 日付
+              flex: 4,
+              child: Opacity(
+                opacity: 0.6,
+                child: Container(
+                  width: double.infinity,
+                  color: prefix.Colors.black,
+                  child: const FittedBox(
                     child: Text("2022年1月30日",
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -78,56 +68,54 @@ class topPageView extends StatelessWidget{
                 ),
               ),
             ),
-            Spacer(),
-
-            Container(
-              width: mediaWidth,
-              height: mediaHeight/3,
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    child: Text("湯涌\nフォトラリー",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: prefix.Colors.white,
-                        fontSize: mediaWidth/7,
-                        fontWeight: FontWeight.bold,
+            Flexible( //フォトラリーWidget
+              flex: 12,
+              child: Container(
+                width: double.infinity,
+                height: mediaHeight/3,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      child: Text("湯涌\nフォトラリー",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: prefix.Colors.white,
+                          fontSize: mediaWidth/7,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  Spacer(),
-                  Container(
-                    child: Text("写真を撮ってスタンプラリー",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: prefix.Colors.white,
-                        fontSize: mediaWidth/25,
-                        fontWeight: FontWeight.bold,
+                    Spacer(),
+                    Container(
+                      child: Text("写真を撮ってスタンプラリー",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: prefix.Colors.white,
+                          fontSize: mediaWidth/25,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  Spacer(),
-                ],
+                    Spacer(),
+                  ],
+                ),
               ),
             ),
-
-            Container(
+            Flexible( // ボタン配置
+              flex: 8,
               child: Row(
                 children: <Widget>[
                   Spacer(),
                   RawMaterialButton(
-                    onPressed: () {
-                      Navigator.of(context).pushNamed('/tutorial_page');
-                      print("遊び方");
-                    },
+                    onPressed: () => selectItem(2),
                     shape: CircleBorder(),
                     child: Container(
                       alignment: Alignment.center,
                       width: mediaWidth/5,
                       height: mediaHeight/8,
                       decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: prefix.Colors.lightBlueAccent,
+                        shape: BoxShape.circle,
+                        color: prefix.Colors.lightBlueAccent,
                       ),
                       child:const Text("遊び方",
                         textAlign: TextAlign.center,
@@ -139,33 +127,27 @@ class topPageView extends StatelessWidget{
                   ),
                   Spacer(),
                   RawMaterialButton(
-                    onPressed: () {
-                      Navigator.of(context).pushNamed('/map_page');
-                      print("START");
-                    },
+                    onPressed: () => selectItem(1),
                     shape: CircleBorder(),
                     child: Container(
                       alignment: Alignment.center,
                       width: mediaWidth/5,
                       height: mediaHeight/8,
                       decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: prefix.Colors.redAccent
+                          shape: BoxShape.circle,
+                          color: prefix.Colors.redAccent
                       ),
                       child: const Text("スタート",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: prefix.Colors.white
-                          ),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: prefix.Colors.white
+                        ),
                       ),
                     ),
                   ),
                   Spacer(),
                   RawMaterialButton(
-                    onPressed: () {
-                      Navigator.of(context).pushNamed('/plane_explain');
-                      print("スポット");
-                    },
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PicExplain(title: '場所説明'))),
                     shape: CircleBorder(),
                     child: Container(
                       alignment: Alignment.center,
@@ -187,54 +169,49 @@ class topPageView extends StatelessWidget{
                 ],
               ),
             ),
-
-            Spacer(),
-
-            Container(
-              width: mediaWidth/1.3,
-              height: mediaHeight/11,
-              alignment: Alignment.center,
-              decoration: const BoxDecoration( // 背景
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/photoConPage.png'),
-                    fit: BoxFit.cover,
+            Flexible(
+              flex: 4,
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Container( // フォトコン
+                  width: mediaWidth/1.2,
+                  height: mediaHeight/8,
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration( // 背景
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/photoConPage.png'),
+                      fit: BoxFit.cover,
+                    ),
                   ),
-              ),
-              child: Text("フォトコンテスト",
-                style: TextStyle(
-                  color: prefix.Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: mediaWidth/16
+                  child: Text("フォトコンテスト",
+                    style: TextStyle(
+                        color: prefix.Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: mediaWidth/16
+                    ),
+                  ),
                 ),
               ),
             ),
-
-            Spacer(),
-
-            SizedBox(
-              width: mediaWidth/1.2,
-              height: mediaHeight/15,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: prefix.Colors.red[300],
-                  onPrimary: prefix.Colors.white,
-                  shape: const StadiumBorder(),
-                ),
-                onPressed: () { // ここにWebサイトに飛ぶ処理
-                  _launchURLtoWebSite();
-                },
-                child: Text(
-                  "Webサイトへ",
+            Flexible( //webサイトに飛ぶ
+              flex: 3,
+              child: SizedBox(
+                width: mediaWidth/1.2,
+                height: mediaHeight/15,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: prefix.Colors.red[300],
+                    onPrimary: prefix.Colors.white,
+                    shape: const StadiumBorder(),
+                  ),
+                  onPressed: () => _launchURLtoWebSite(), // Webサイトに飛ぶ
+                  child: Text("Webサイトへ"),
                 ),
               ),
             ),
-            Spacer(),
           ],
         ),
-
       ),
-
     );
   }
-
 }

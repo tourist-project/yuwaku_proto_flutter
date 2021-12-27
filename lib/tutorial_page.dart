@@ -1,65 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as prefix;
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:yuwaku_proto/tutorial_step_page.dart';
 
 class TutorialPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return _TutorialPageState();
-  }
+  State<StatefulWidget> createState() => _TutorialPageState();
 }
 
 class _TutorialPageState extends State<TutorialPage> {
+  late PageController pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    pageController = PageController(initialPage: 0);
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final PageController controller = PageController(initialPage: 0);
-
     return Scaffold(
-      backgroundColor: Color.fromRGBO(240, 233, 208, 100),
-      appBar: AppBar(
-        title: Text("使い方ガイド",
-            style: TextStyle(color: prefix.Colors.black87)
-        ),
-      ),
-      body: Center(
-        child: Stack(
-          children: [
-            PageView(
-              scrollDirection: Axis.horizontal,
-              controller: controller,
-              children: <Widget>[
-                Center(
-                  child: TutorialStepPage(PageData.first),
-                ),
-                Center(
-                  child: TutorialStepPage(PageData.second),
-                ),
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Container(
-                    child: Center(
-                      child: SmoothPageIndicator(
-                        controller: controller,
-                        count: 2,
-                        effect: WormEffect(
-                          dotColor: Colors.grey,
-                          activeDotColor: Color.fromRGBO(186, 66, 43, 100)
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+      backgroundColor: const Color.fromRGBO(240, 233, 208, 100),
+      appBar: AppBar(title: const Text("使い方ガイド", style: TextStyle(color: prefix.Colors.black87))),
+      body: PageView(
+        scrollDirection: Axis.horizontal,
+        controller: pageController,
+        children: <Widget>[
+          TutorialStepPage(PageData.first, pageController),
+          TutorialStepPage(PageData.second, pageController)
+        ],
       ),
     );
   }
@@ -71,7 +45,7 @@ enum PageData {
 }
 
 extension PageDataExtension on PageData {
-  static final typeNames = {
+  static const typeNames = {
     PageData.first: {
       'title': '観光スポットを探索',
       'description': '画像とヒントを頼りに観光スポットを探そう！！',
@@ -85,4 +59,53 @@ extension PageDataExtension on PageData {
   };
 
   Map<String, String> get typeName => typeNames[this]!;
+}
+
+class TutorialStepPage extends StatelessWidget {
+  final PageData data;
+  final PageController controller;
+  TutorialStepPage(this.data, this.controller);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Text(
+            data.typeName['title']!,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              color: const Color.fromRGBO(186, 66, 43, 100),
+            ),
+          ),
+        ),
+        Flexible(
+          flex: 7,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.asset(data.typeName['imagePath']!, fit:BoxFit.contain),
+          )
+        ),
+        Flexible(
+          flex: 1,
+          child: Text( data.typeName['description']!),
+        ),
+        const Padding(padding: EdgeInsets.all(20.0)),
+        Flexible(
+            flex: 1,
+            child: SmoothPageIndicator(
+              controller: controller,
+              count: 2,
+              effect: const WormEffect(
+                  dotColor: Colors.grey,
+                  activeDotColor: Color.fromRGBO(186, 66, 43, 100)
+              ),
+            ),
+        ),
+      ],
+    );
+  }
 }
