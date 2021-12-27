@@ -110,7 +110,7 @@ class clearpage extends StatelessWidget {
                       child: Text(
                         ' ゲームクリア！本日はユーザーテストにご協力いただきありがとうございます。\n'
                             ' 端末の返却のほどよろしくお願いいたします。\n'
-                            ' 返却後にお礼の品などをお渡ししたいとと考えております。',
+                            ' 返却後にお礼の品などをお渡ししたいと考えております。',
                         style: TextStyle(fontSize: height / 40),
                       ),
                     ),
