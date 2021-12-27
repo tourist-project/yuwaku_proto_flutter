@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:yuwaku_proto/map_page.dart';
 import 'package:flutter/material.dart' as prefix;
 import 'package:url_launcher/url_launcher.dart';
@@ -101,6 +102,13 @@ class TopPageView extends StatelessWidget{
                 ),
               ),
             ),
+            Spacer(),
+            Expanded(
+              flex: 2,
+              child: Container(
+
+              ),
+            ),
             Flexible( // ボタン配置
               flex: 8,
               child: Row(
@@ -169,6 +177,7 @@ class TopPageView extends StatelessWidget{
                 ],
               ),
             ),
+            /*
             Flexible(
               flex: 4,
               child: Padding(
@@ -192,7 +201,8 @@ class TopPageView extends StatelessWidget{
                   ),
                 ),
               ),
-            ),
+            ),*/
+            Spacer(),
             Flexible( //webサイトに飛ぶ
               flex: 3,
               child: SizedBox(
@@ -209,6 +219,7 @@ class TopPageView extends StatelessWidget{
                 ),
               ),
             ),
+            Spacer()
           ],
         ),
       ),
