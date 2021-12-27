@@ -62,90 +62,85 @@ class clearpage extends StatelessWidget {
       this.is_init = true;
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Test'),
-      ),
-      body: Container(
-        color: Color.fromRGBO(240, 233, 208, 1),
-        child: Column(
-          children: [
-            (
+    return Container(
+      color: Color.fromRGBO(240, 233, 208, 1),
+      child: Column(
+        children: [
+          (
               this.imagephotos.length >= 2 ?
-                Expanded(
-                  flex: 2,
-                  child: Row(
-                    children: <Widget>[
-                      this.imagephotos[0],
-                      this.imagephotos[1],
-                    ],
-                  ),
-                ) : Container()
-            ),
-            (
-                this.imagephotos.length >= 4 ?
-                Expanded(
-                  flex: 2,
-                  child: Row(
-                    children: <Widget>[
-                      this.imagephotos[2],
-                      this.imagephotos[3],
-                    ],
-                  ),
-                ) : Container()
-            ),
-            Expanded(
-              flex: 5,
-              child: Container(
-                margin: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(
-                      color: Color.fromRGBO(186, 66, 43, 1), width: 2),
+              Expanded(
+                flex: 2,
+                child: Row(
+                  children: <Widget>[
+                    this.imagephotos[0],
+                    this.imagephotos[1],
+                  ],
                 ),
-                padding: const EdgeInsets.all(8),
-                child: Scrollbar(
-                  child: SingleChildScrollView(
-                    child: Container(
-                      child: Text(
-                        ' ゲームクリア！本日はユーザーテストにご協力いただきありがとうございます。\n'
-                            ' 端末の返却のほどよろしくお願いいたします。\n'
-                            ' 返却後にお礼の品などをお渡ししたいと考えております。',
-                        style: TextStyle(fontSize: height / 40),
-                      ),
-                    ),
-
-                  ),
+              ) : Container()
+          ),
+          (
+              this.imagephotos.length >= 4 ?
+              Expanded(
+                flex: 2,
+                child: Row(
+                  children: <Widget>[
+                    this.imagephotos[2],
+                    this.imagephotos[3],
+                  ],
                 ),
+              ) : Container()
+          ),
+          Expanded(
+            flex: 5,
+            child: Container(
+              margin: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                    color: Color.fromRGBO(186, 66, 43, 1), width: 2),
               ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                margin: EdgeInsets.all(5),
-                width: 400,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(
-                      color: Color.fromRGBO(186, 66, 43, 1), width: 2),
-                ),
-                child: TextButton(
-                  child: FittedBox(
-                    fit: BoxFit.fitWidth,
+              padding: const EdgeInsets.all(8),
+              child: Scrollbar(
+                child: SingleChildScrollView(
+                  child: Container(
                     child: Text(
-                      'フォトコンページに行く',
-                      style:
-                          TextStyle(fontSize: height / 30, color: Colors.black),
+                      ' ゲームクリア！本日はユーザーテストにご協力いただきありがとうございます。\n'
+                          ' 端末の返却のほどよろしくお願いいたします。\n'
+                          ' 返却後にお礼の品などをお渡ししたいと考えております。',
+                      style: TextStyle(fontSize: height / 40),
                     ),
                   ),
-                  onPressed: () {
-                     _launchURL();
-                  },
+
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Container(
+              margin: EdgeInsets.all(5),
+              width: 400,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                    color: Color.fromRGBO(186, 66, 43, 1), width: 2),
+              ),
+              child: TextButton(
+                child: FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: Text(
+                    'フォトコンページに行く',
+                    style:
+                    TextStyle(fontSize: height / 30, color: Colors.black),
+                  ),
+                ),
+                onPressed: () {
+                  _launchURL();
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
