@@ -19,7 +19,8 @@ import 'package:image/image.dart' as img;
 import 'package:flutter/services.dart';
 
 class CameraPage extends StatefulWidget {
-  CameraPage({Key? key, required this.title, required this.mapItem}) : super(key: key);
+  CameraPage({Key? key, required this.title, required this.mapItem})
+      : super(key: key);
 
   final String title;
   final MapItem mapItem;
@@ -29,7 +30,6 @@ class CameraPage extends StatefulWidget {
 }
 
 class _CameraPageState extends State<CameraPage> {
-
   _CameraPageState(this.mapItem);
 
   final MapItem mapItem;
@@ -44,6 +44,7 @@ class _CameraPageState extends State<CameraPage> {
     _loadStampImage();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,13 +52,30 @@ class _CameraPageState extends State<CameraPage> {
         title: Text(widget.title, style: TextStyle(color: Colors.black87)),
         actions: <Widget>[
           IconButton(
-            onPressed:  () => _onShare(context),
+            onPressed: () => _onShare(context),
             icon: Icon(Icons.ios_share),
           ),
         ],
       ),
       body: Center(
-        child: _dstStampImage,
+        child: FutureBuilder(
+
+          future: _fetchLocalImage(), /// 非同期を行う関数
+          builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
+
+            if (!snapshot.hasData) {
+              print('データが取れていない');
+              return Center(
+                  child: CircularProgressIndicator()
+              );
+            }
+            print('データが取れた');
+            return Center(
+
+              child: _dstStampImage,
+            );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: getImage,
@@ -74,14 +92,14 @@ class _CameraPageState extends State<CameraPage> {
   /// CameraPageを開いた時の初期画像を呼び出す
   Future<void> _loadStampImage() async {
     final dblow = await imageDb.querySearchRows(mapItem.name);
-    if ( dblow.length > 0 ) {
+    if (dblow.length > 0) {
       final byte = base64.decode(dblow[0]['image'] as String);
       await _writeLocalImage(byte);
-      setState((){
+      setState(() {
         _dstStampImage = Image.memory(byte);
       });
     } else {
-      setState((){
+      setState(() {
         _dstStampImage = Image.asset(mapItem.initialImagePath);
       });
     }
@@ -96,26 +114,23 @@ class _CameraPageState extends State<CameraPage> {
       List<int> values = data.buffer.asUint8List();
       img.Image? photo = img.decodeImage(values);
       if (photo != null && logo != null) {
-        for (var i = 0; i < logo!.width-1; i++) {
-          for (var j = 0; j < logo!.height-1; j++) {
+        for (var i = 0; i < logo!.width - 1; i++) {
+          for (var j = 0; j < logo!.height - 1; j++) {
             final px = logo!.getPixelSafe(i, j);
-            if ( img.getAlpha(px) != 0 ) {
-              photo.setPixelSafe(photo.width-logo!.width-30+i, photo.height-logo!.height-30+j, px);
+            if (img.getAlpha(px) != 0) {
+              photo.setPixelSafe(photo.width - logo!.width - 30 + i,
+                  photo.height - logo!.height - 30 + j, px);
             }
           }
         }
         data = Uint8List.fromList(img.encodePng(photo));
       }
 
-
       final saveData = base64.encode(img.encodePng(photo!));
       if (await imageDb.isExist(mapItem.name)) {
         await imageDb.updateImage(mapItem.name, saveData);
       } else {
-        await imageDb.insert({
-          'state': mapItem.name,
-          'image': saveData
-        });
+        await imageDb.insert({'state': mapItem.name, 'image': saveData});
       }
 
       ui.decodeImageFromList(data, (ui.Image img) {
@@ -138,8 +153,7 @@ class _CameraPageState extends State<CameraPage> {
     final stampPath = await _fetchLocalImage();
 
     List<String> list = [stampPath.path];
-    await Share.shareFiles(
-        list,
+    await Share.shareFiles(list,
         text: '${mapItem.name}',
         sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
   }
@@ -158,7 +172,8 @@ class _CameraPageState extends State<CameraPage> {
 
     final byte = ByteData.view(data.buffer);
     final buffer = byte.buffer;
-    final localFile = await imageFile.writeAsBytes(buffer.asUint8List(byte.offsetInBytes, byte.lengthInBytes));
+    final localFile = await imageFile.writeAsBytes(
+        buffer.asUint8List(byte.offsetInBytes, byte.lengthInBytes));
     return localFile;
   }
 
