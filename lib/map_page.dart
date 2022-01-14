@@ -174,12 +174,14 @@ class _MapPageState extends State<MapPage> {
   /// x軸の移動情報を返す
   double _getMoveX() => _moveX;
 
+  late Future<void> _initializeCheckPointFuture;  // CheckPointの画像を読み込み完了を検知する
+
   @override
   void initState() {
     super.initState();
     print('initState');
     MapPainter.determinePosition().catchError((_) => _dialogLocationLicense());
-    _getAssets();
+    _initializeCheckPointFuture = _getAssets();
   }
 
   Future<void> clearUpdate() async {
@@ -204,18 +206,14 @@ class _MapPageState extends State<MapPage> {
       this._mapPainter = MapPainter(_mapImage!,_cameraIconImg!, _getMoveX, _mapItems);
     }
 
-    if (!this.is_clear) {
-      // UI部分
-      return Scaffold(
-        appBar: appBar,
-        body: Stack(
-          children: <Widget>[
-            Center(
-              child: _mapImage == null
-                  ? Text('Loading...', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
-                  : // ロード画面
-
-              GestureDetector(
+    return Scaffold(
+      appBar: appBar,
+      body: FutureBuilder<void>(
+        future: _initializeCheckPointFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (!this.is_clear) {
+              return GestureDetector(
                 onTapUp: (details) { // タップ時の処理
                   // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
                   for (var item in _mapItems) {
@@ -224,8 +222,7 @@ class _MapPageState extends State<MapPage> {
                       // 場所ごとのタップの判定処理(タップ時は遷移)
                       if (item.didTappedImageTransition(this._mapPainter!.scale, _getMoveX(), details.localPosition)) {
 
-                        Navigator.of(context).pushNamed(
-                            '/camera_page', arguments: item);
+                        Navigator.of(context).pushNamed('/camera_page', arguments: item);
                         break;
                       }
                     }
@@ -248,43 +245,34 @@ class _MapPageState extends State<MapPage> {
                   painter: this._mapPainter!, // ペインター
                   child: Center(), // あったほうがいいらしい？？
                 ),
-              ),
-            ),
-            // SnackBerPage(),
-          ],
-        ),
-      );
-    }else{
-      if (!is_reset_images && pageClear != null) {
-        this.pageClear!.width = mediaSize.width;
-        this.pageClear!.height = mediaSize.height;
-        this.is_reset_images = true;
-      }
-      return Scaffold(
-        appBar: appBar,
-        body: Stack(
-          children: [
-            _mapImage == null || pageClear == null
-                ? Text('Loading...', style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center
-            )
-            :
-            pageClear!,
-            ElevatedButton(
-              onPressed: () {
-                imageDb.deleteAll();
-                for (var item in _mapItems) {
-                  item.photoImage = null;
-                }
-              },
-              child: const Text('もう一度'),
-            ),
-          ],
-        ),
-      );
-    }
+              );
+            } else {
+              if (!is_reset_images && pageClear != null) {
+                this.pageClear!.width = mediaSize.width;
+                this.pageClear!.height = mediaSize.height;
+                this.is_reset_images = true;
+              }
+              return Stack(
+                children: [
+                  pageClear!,
+                  ElevatedButton(
+                    onPressed: () {
+                      imageDb.deleteAll();
+                      for (var item in _mapItems) {
+                        item.photoImage = null;
+                      }
+                    },
+                    child: const Text('もう一度'),
+                  ),
+                ],
+              );
+            }
+          } else {
+            return Center(child: Text('Loading...', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)));
+          }
+        },
+      ),
+    );
   }
 
   /// 位置情報が拒否されている時、「位置情報を許可する」ダイアログを表示する
