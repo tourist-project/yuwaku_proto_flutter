@@ -34,7 +34,7 @@ class _CameraPageState extends State<CameraPage> {
   final imageDb = ImageDBProvider.instance;
   Image? _dstStampImage;
   img.Image? logo;
-  bool flag = false;
+  bool loadingFlag = false;
 
   void initState() {
     super.initState();
@@ -72,19 +72,19 @@ class _CameraPageState extends State<CameraPage> {
 
   /// CameraPageを開いた時の初期画像を呼び出す
   Future<void> _loadStampImage() async {
-    flag = true;
+    loadingFlag = true;
     final dblow = await imageDb.querySearchRows(mapItem.name);
     if (dblow.length > 0) {
       final byte = base64.decode(dblow[0]['image'] as String);
       await _writeLocalImage(byte);
       setState(() {
         _dstStampImage = Image.memory(byte);
-        flag = false;
+        loadingFlag = false;
       });
     } else {
       setState(() {
         _dstStampImage = Image.asset(mapItem.initialImagePath);
-        flag = false;
+        loadingFlag = false;
       });
     }
 
@@ -94,7 +94,7 @@ class _CameraPageState extends State<CameraPage> {
   Future<void> getImage() async {
 
     setState(() {
-      flag = true;
+      loadingFlag = true;
     });
 
     final pickedFile = await picker.getImage(source: ImageSource.camera);
@@ -135,7 +135,7 @@ class _CameraPageState extends State<CameraPage> {
       await _writeLocalImage(data);
 
       setState(() {
-        flag = false;
+        loadingFlag = false;
         _dstStampImage = Image.memory(data);
       });
     }
@@ -190,7 +190,7 @@ class _CameraPageState extends State<CameraPage> {
           image: AssetImage('assets/images/Loading.gif'),
         ),
       );
-    }else if(_dstStampImage != null && flag == true){
+    }else if(_dstStampImage != null && loadingFlag == true){
       print('データ更新中');
 
       return Center(
