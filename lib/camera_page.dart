@@ -34,7 +34,6 @@ class _CameraPageState extends State<CameraPage> {
   final imageDb = ImageDBProvider.instance;
   Image? _dstStampImage;
   img.Image? logo;
-  bool flag = false;
 
   void initState() {
     super.initState();
@@ -77,12 +76,12 @@ class _CameraPageState extends State<CameraPage> {
       final byte = base64.decode(dblow[0]['image'] as String);
       await _writeLocalImage(byte);
       setState(() {
-        flag = !flag;
+
         _dstStampImage = Image.memory(byte);
       });
     } else {
       setState(() {
-        flag = !flag;
+
         _dstStampImage = Image.asset(mapItem.initialImagePath);
       });
     }
@@ -128,7 +127,7 @@ class _CameraPageState extends State<CameraPage> {
         _dstStampImage = Image.memory(data);
       });
     }
-    flag = !flag;
+
   }
 
   /// スポット名や画像の共有処理
@@ -170,24 +169,19 @@ class _CameraPageState extends State<CameraPage> {
 
 
   Widget selectedImage(){ /// 写真取った後の画面処理
-    print(flag);
+
     if(_dstStampImage == null)
     {
       print('データの取得中');
       return Center(
-        child: Text('データ取得中です'),
-      );
-    }
-    else if(_dstStampImage != null && flag == false){ //画像が保存されてあり、更新されていない
-      print('データ更新中');
-      return Center(
-        child: Text('データ更新中'),
+        child: Image(
+          image: AssetImage('assets/images/Loading.gif'),
+        ),
       );
     }
     else
       {
-        flag = !flag;
-        print(flag);
+
         print('取得完了');
         return Center(
           child: _dstStampImage,
