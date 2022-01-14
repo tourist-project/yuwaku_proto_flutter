@@ -34,6 +34,7 @@ class _CameraPageState extends State<CameraPage> {
   final imageDb = ImageDBProvider.instance;
   Image? _dstStampImage;
   img.Image? logo;
+  bool flag = false;
 
   void initState() {
     super.initState();
@@ -71,30 +72,37 @@ class _CameraPageState extends State<CameraPage> {
 
   /// CameraPageを開いた時の初期画像を呼び出す
   Future<void> _loadStampImage() async {
+    flag = true;
     final dblow = await imageDb.querySearchRows(mapItem.name);
     if (dblow.length > 0) {
       final byte = base64.decode(dblow[0]['image'] as String);
       await _writeLocalImage(byte);
       setState(() {
-
         _dstStampImage = Image.memory(byte);
+        flag = false;
       });
     } else {
       setState(() {
-
         _dstStampImage = Image.asset(mapItem.initialImagePath);
+        flag = false;
       });
     }
+
   }
 
   /// カメラで写真撮影時の処理
   Future<void> getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
 
+    setState(() {
+      flag = true;
+    });
+
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
     if (pickedFile != null) {
       Uint8List data = await pickedFile.readAsBytes();
       List<int> values = data.buffer.asUint8List();
       img.Image? photo = img.decodeImage(values);
+
       if (photo != null && logo != null) {
         for (var i = 0; i < logo!.width - 1; i++) {
           for (var j = 0; j < logo!.height - 1; j++) {
@@ -110,8 +118,10 @@ class _CameraPageState extends State<CameraPage> {
 
       final saveData = base64.encode(img.encodePng(photo!));
       if (await imageDb.isExist(mapItem.name)) {
+
         await imageDb.updateImage(mapItem.name, saveData);
       } else {
+
         await imageDb.insert({'state': mapItem.name, 'image': saveData});
       }
 
@@ -123,7 +133,9 @@ class _CameraPageState extends State<CameraPage> {
       print(result_image);
 
       await _writeLocalImage(data);
+
       setState(() {
+        flag = false;
         _dstStampImage = Image.memory(data);
       });
     }
@@ -149,10 +161,11 @@ class _CameraPageState extends State<CameraPage> {
 
   /// 端末に画像を保存する
   Future<File> _writeLocalImage(Uint8List data) async {
+
     final path = await _getLocalPath;
     final imagePath = '$path/image.png';
     File imageFile = File(imagePath);
-
+    print('_writeLocalImage');
     final byte = ByteData.view(data.buffer);
     final buffer = byte.buffer;
     final localFile = await imageFile.writeAsBytes(
@@ -162,31 +175,35 @@ class _CameraPageState extends State<CameraPage> {
 
   /// 端末に保存した画像を取得する。
   Future<File> _fetchLocalImage() async {
+
     final path = await _getLocalPath;
     final imagePath = '$path/image.png';
     return File(imagePath);
   }
 
-
-  Widget selectedImage(){ /// 写真取った後の画面処理
-
-    if(_dstStampImage == null)
-    {
-      print('データの取得中');
+  /// 写真取った後の画面処理
+  Widget selectedImage(){
+    if(_dstStampImage == null){
+      print('取得中ｘ');
       return Center(
         child: Image(
           image: AssetImage('assets/images/Loading.gif'),
         ),
       );
-    }
-    else
-      {
+    }else if(_dstStampImage != null && flag == true){
+      print('データ更新中');
 
-        print('取得完了');
-        return Center(
-          child: _dstStampImage,
-        );
-      }
+      return Center(
+          child: Image(
+          image: AssetImage('assets/images/Loading.gif'),
+          ),
+      );
+    }else{
+      print('取得完了');
+      return Center(
+        child: _dstStampImage,
+      );
+    }
 
   }
 }

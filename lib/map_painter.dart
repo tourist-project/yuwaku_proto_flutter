@@ -12,20 +12,12 @@ import 'dart:typed_data';
 
 /// マップの描画
 class MapPainter extends CustomPainter {
-  late ui.Image _mapImage;
 
-
-  /// マップ自体の画像
+  late ui.Image _mapImage; /// マップ自体の画像
   late ui.Image _cameraIconImg;
-  late double Function() _getMoveX;
-
-  /// 移動したx軸の距離を返す関数
-  late List<MapItem> _mapItems;
-
-  /// マップ上に描画する場所の一覧
+  late double Function() _getMoveX; /// 移動したx軸の距離を返す関数
+  late List<MapItem> _mapItems; /// マップ上に描画する場所の一覧
   var scale = 0.0;
-
-  late Timer _timer;
 
   /// コンストラクタ
   MapPainter(ui.Image _mapImage, ui.Image _cameraIconImg,
@@ -73,8 +65,8 @@ class MapPainter extends CustomPainter {
             .then((pos) => item.setDistance(pos))
             .catchError((error) => print(error));
 
-        item.distance = 15;
         /// !!!:debug時はコメント外す
+        item.distance = 15;
 
         if (item.isProximity(30)) {
           circlePaint.color = Color.fromARGB(255, 255, 0, 0);
