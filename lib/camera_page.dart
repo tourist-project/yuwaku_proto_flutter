@@ -7,16 +7,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:yuwaku_proto/map_page.dart';
 import 'package:yuwaku_proto/database.dart';
-
 import 'package:share_plus/share_plus.dart';
-
 import 'package:path_provider/path_provider.dart';
 import 'dart:typed_data';
-
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image/image.dart' as img;
-
 import 'package:flutter/services.dart';
+
 
 class CameraPage extends StatefulWidget {
   CameraPage({Key? key, required this.title, required this.mapItem})
@@ -37,6 +34,7 @@ class _CameraPageState extends State<CameraPage> {
   final imageDb = ImageDBProvider.instance;
   Image? _dstStampImage;
   img.Image? logo;
+  bool flag = false;
 
   void initState() {
     super.initState();
@@ -58,24 +56,7 @@ class _CameraPageState extends State<CameraPage> {
         ],
       ),
       body: Center(
-        child: FutureBuilder(
-
-          future: _fetchLocalImage(), /// 非同期を行う関数
-          builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
-
-            if (!snapshot.hasData) {
-              print('データが取れていない');
-              return Center(
-                  child: CircularProgressIndicator()
-              );
-            }
-            print('データが取れた');
-            return Center(
-
-              child: _dstStampImage,
-            );
-          },
-        ),
+        child: selectedImage(),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: getImage,
@@ -96,10 +77,12 @@ class _CameraPageState extends State<CameraPage> {
       final byte = base64.decode(dblow[0]['image'] as String);
       await _writeLocalImage(byte);
       setState(() {
+        flag = !flag;
         _dstStampImage = Image.memory(byte);
       });
     } else {
       setState(() {
+        flag = !flag;
         _dstStampImage = Image.asset(mapItem.initialImagePath);
       });
     }
@@ -108,9 +91,9 @@ class _CameraPageState extends State<CameraPage> {
   /// カメラで写真撮影時の処理
   Future<void> getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
+
     if (pickedFile != null) {
       Uint8List data = await pickedFile.readAsBytes();
-
       List<int> values = data.buffer.asUint8List();
       img.Image? photo = img.decodeImage(values);
       if (photo != null && logo != null) {
@@ -145,6 +128,7 @@ class _CameraPageState extends State<CameraPage> {
         _dstStampImage = Image.memory(data);
       });
     }
+    flag = !flag;
   }
 
   /// スポット名や画像の共有処理
@@ -182,5 +166,33 @@ class _CameraPageState extends State<CameraPage> {
     final path = await _getLocalPath;
     final imagePath = '$path/image.png';
     return File(imagePath);
+  }
+
+
+  Widget selectedImage(){ /// 写真取った後の画面処理
+    print(flag);
+    if(_dstStampImage == null)
+    {
+      print('データの取得中');
+      return Center(
+        child: Text('データ取得中です'),
+      );
+    }
+    else if(_dstStampImage != null && flag == false){ //画像が保存されてあり、更新されていない
+      print('データ更新中');
+      return Center(
+        child: Text('データ更新中'),
+      );
+    }
+    else
+      {
+        flag = !flag;
+        print(flag);
+        print('取得完了');
+        return Center(
+          child: _dstStampImage,
+        );
+      }
+
   }
 }
