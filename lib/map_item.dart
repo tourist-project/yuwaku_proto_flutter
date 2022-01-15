@@ -115,4 +115,6 @@ class MapItemList extends StateNotifier<List<MapItem>> {
           spot,
     ];
   }
+
+
 }

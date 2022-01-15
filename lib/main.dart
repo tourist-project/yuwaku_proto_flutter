@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           )),
       home: BottomTabPage(),
       routes: <String, WidgetBuilder>{
-        '/map_page': (BuildContext context) => MapPage(title: '地図'),
+        // '/map_page': (BuildContext context) => MapPage(title: '地図'),
         // '/camera_page': (BuildContext context) => CameraPage(
         //     title: 'Camera page',
         //     mapItem: ModalRoute.of(context)!.settings.arguments as MapItem),

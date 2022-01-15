@@ -62,7 +62,7 @@ class CameraPageState extends ConsumerWidget {
         title: Text('Camera page', style: TextStyle(color: Colors.black87)),
         actions: <Widget>[
           IconButton(
-            onPressed:  () => _onShare(context),
+            onPressed: () => _onShare(context),
             icon: Icon(Icons.ios_share),
           ),
         ],

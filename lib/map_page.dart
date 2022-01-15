@@ -19,6 +19,7 @@ import 'package:geolocator/geolocator.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'map_item.dart';
+import 'bottom_tab.dart';
 
 
 final mapItemListProvider = StateNotifierProvider<MapItemList, List<MapItem>>((ref) {
@@ -35,17 +36,22 @@ final mapItemListProvider = StateNotifierProvider<MapItemList, List<MapItem>>((r
   ]);
 });
 
-/// マップページのステートフルウィジェット
-class MapPage extends StatefulWidget {
-  MapPage({Key? key, required this.title}) : super(key: key);
-  final String title; /// ページタイトル
+final indexedSelectorProvider = StateProvider((ref) => 0);
 
-  @override
-  _MapPageState createState() => _MapPageState();
-}
+// /// マップページのステートフルウィジェット
+// class MapPage extends StatefulWidget {
+//   MapPage({Key? key, required this.title}) : super(key: key);
+//   final String title; /// ページタイトル
+//
+//   @override
+//   _MapPageState createState() => _MapPageState();
+// }
+//
+// /// マップのステート
+// class _MapPageState extends State<MapPage> {
 
-/// マップのステート
-class _MapPageState extends State<MapPage> {
+class MapPageState extends ConsumerWidget {
+
   final imageDb = ImageDBProvider.instance;
   bool is_clear = true;
   ui.Image? _mapImage; // マップの画像
@@ -76,24 +82,24 @@ class _MapPageState extends State<MapPage> {
   ];
 
 
-  /// アセット(画像等)の取得
-  Future<void> _getAssets() async {
-    final ui.Image img = await MapItem.loadUiImage('assets/images/map_img.png');
-    final ui.Image cameraIconImg = await MapItem.loadUiImage('assets/images/camera_red.png');
-    // this._mapPainter = MapPainter(img, cameraIconImg, _getMoveX, _mapItems);
-    for (var item in _mapItems) {
-      await item.loadInitialImage();
-    }
-
-    if(mounted){ /// WidgetTreeにWidgetが存在するかの判断
-      setState(() => {
-        _mapImage = img,
-        _cameraIconImg = cameraIconImg
-      });
-    }
-
-    this.pageClear = clearpage(0, 0, _mapItems);
-  }
+  // /// アセット(画像等)の取得
+  // Future<void> _getAssets() async {
+  //   final ui.Image img = await MapItem.loadUiImage('assets/images/map_img.png');
+  //   final ui.Image cameraIconImg = await MapItem.loadUiImage('assets/images/camera_red.png');
+  //   // this._mapPainter = MapPainter(img, cameraIconImg, _getMoveX, _mapItems);
+  //   for (var item in _mapItems) {
+  //     await item.loadInitialImage();
+  //   }
+  //
+  //   if(mounted){ /// WidgetTreeにWidgetが存在するかの判断
+  //     setState(() => {
+  //       _mapImage = img,
+  //       _cameraIconImg = cameraIconImg
+  //     });
+  //   }
+  //
+  //   this.pageClear = clearpage(0, 0, _mapItems);
+  // }
 
   /// x軸の移動情報を返す
   double _getMoveX() => _moveX;
@@ -102,155 +108,230 @@ class _MapPageState extends State<MapPage> {
 
   Image sample = Image.asset('assets/images/img2_gray.png', width: 200, fit: BoxFit.fitWidth);
 
-  @override
-  void initState() {
-    super.initState();
-    print('initState');
-    // MapPainter.determinePosition().catchError((_) => _dialogLocationLicense());
-    _initializeCheckPointFuture = _getAssets();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   print('initState');
+  //   // MapPainter.determinePosition().catchError((_) => _dialogLocationLicense());
+  //   _initializeCheckPointFuture = _getAssets();
+  // }
 
-  Future<void> clearUpdate() async {
-    final count = await imageDb.countImage();
-    if(mounted) {
-      setState(() => {
-        this.is_clear = count >= _mapItems.length
-      });
-    }
-  }
+  // Future<void> clearUpdate() async {
+  //   final count = await imageDb.countImage();
+  //   if(mounted) {
+  //     setState(() => {
+  //       this.is_clear = count >= _mapItems.length
+  //     });
+  //   }
+  // }
 
   @override
-  Widget build(BuildContext context) {
+  // Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final Size mediaSize = MediaQuery.of(context).size; // 画面の取得
 
-    final AppBar appBar = AppBar(title: Text(widget.title, style: TextStyle(color: prefix.Colors.black87)));
-    final mediaHeight = mediaSize.height - appBar.preferredSize.height; // キャンバス部分の高さ
+    final AppBar appBar = AppBar(title: Text('地図', style: TextStyle(color: prefix.Colors.black87)));
+    final mapImageHeight = mediaSize.height - kToolbarHeight - kBottomNavigationBarHeight - kTextTabBarHeight;
 
-    clearUpdate();
+    // clearUpdate();
 
     // if (_mapImage != null) {
     //   this._mapPainter = MapPainter(_mapImage!,_cameraIconImg!, _getMoveX, _mapItems);
     // }
 
+    final spot = ref.watch(mapItemListProvider);
+    final index = ref.watch(indexedSelectorProvider.state).state;
+
     return Scaffold(
       appBar: appBar,
-      body: FutureBuilder<void>(
-        future: _initializeCheckPointFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (!this.is_clear) {
-              return SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Consumer(
-                  builder: (context, spots, child) {
-                    final spot = spots.watch(mapItemListProvider);
-                    return Stack(
-                      children: <Widget>[
-                        Image.asset('assets/images/map_img.png', fit: BoxFit.cover, height: double.infinity,),
-                        Positioned(
-                            top: 50,
-                            left: 200,
-                            child: OutlinedButton(
-                              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CameraPageState(_mapItems[0], 0))),
-                              child: Image.asset(spot.first.initialImagePath, width: 200, height: 100, fit: BoxFit.cover),
-                            ),
-                        ),
-                        Positioned(
-                          top: 50,
-                          right: 200,
-                          child: OutlinedButton(
-                            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CameraPageState(_mapItems[1], 1))),
-                            child: Image.asset(spot[1].initialImagePath, width: 200, height: 100, fit: BoxFit.cover),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 50,
-                          left: 200,
-                          child: OutlinedButton(
-                            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CameraPageState(_mapItems[2], 2))),
-                            child: Image.asset(spot[2].initialImagePath, width: 200, height: 100, fit: BoxFit.cover),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 50,
-                          right: 200,
-                          child: OutlinedButton(
-                            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CameraPageState(_mapItems[3], 3))),
-                            child: Image.asset(spot[3].initialImagePath, width: 200, height: 100, fit: BoxFit.cover),
-                          ),
-                        ),
-                      ],
-                    );
-                  }
-                )
-              );
-
-              // return GestureDetector(
-              //   onTapUp: (details) { // タップ時の処理
-              //     // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-              //     for (var item in _mapItems) {
-              //       // TODO: 実際に現地で検証して
-              //       if (item.isProximity(30)) {
-              //         // 場所ごとのタップの判定処理(タップ時は遷移)
-              //         if (item.didTappedImageTransition(this._mapPainter!.scale, _getMoveX(), details.localPosition)) {
-              //
-              //           Navigator.of(context).pushNamed('/camera_page', arguments: item);
-              //           break;
-              //         }
-              //       }
-              //     }
-              //   },
-              //   onPanUpdate: (DragUpdateDetails details) { // スクロール時の処理
-              //     setState(() {
-              //       // スクロールを適用した場合の遷移先X
-              //       final next = _moveX - details.delta.dx;
-              //       // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-              //       // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
-              //       _moveX = min(max(next, 0),
-              //           _mapImage!.width * this._mapPainter!.scale -
-              //               mediaSize.width);
-              //     });
-              //   },
-              //   child: CustomPaint(
-              //     // キャンバス本体
-              //     size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
-              //     painter: this._mapPainter!, // ペインター
-              //     child: Center(), // あったほうがいいらしい？？
-              //   ),
-              // );
-            } else {
-              if (!is_reset_images && pageClear != null) {
-                this.pageClear!.width = mediaSize.width;
-                this.pageClear!.height = mediaSize.height;
-                this.is_reset_images = true;
-              }
-              return Stack(
-                children: [
-                  pageClear!,
-                  ElevatedButton(
-                    onPressed: () {
-                      imageDb.deleteAll();
-                      for (var item in _mapItems) {
-                        item.photoImage = null;
-                      }
-                    },
-                    child: const Text('もう一度'),
+      body: IndexedStack(
+        index: index,
+        children: [
+          InteractiveViewer(
+            constrained: false,
+            scaleEnabled: false,
+            child: Stack(
+              children: <Widget>[
+                Image.asset('assets/images/map_img.png', fit: BoxFit.cover, height: mapImageHeight),
+                Positioned(
+                  top: 50,
+                  left: 200,
+                  child: OutlinedButton(
+                    onPressed: () => seguePageSwitcher(context, ref, _mapItems[0], 0),
+                    child: Image.asset(spot.first.initialImagePath, width: 200, height: 100, fit: BoxFit.cover),
                   ),
-                ],
-              );
-            }
-          } else {
-            return Center(child: Text('Loading...', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)));
-          }
-        },
-      ),
+                ),
+                Positioned(
+                  top: 50,
+                  right: 200,
+                  child: OutlinedButton(
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CameraPageState(_mapItems[1], 1))),
+                    child: Image.asset(spot[1].initialImagePath, width: 200, height: 100, fit: BoxFit.cover),
+                  ),
+                ),
+                Positioned(
+                  bottom: 50,
+                  left: 200,
+                  child: OutlinedButton(
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CameraPageState(_mapItems[2], 2))),
+                    child: Image.asset(spot[2].initialImagePath, width: 200, height: 100, fit: BoxFit.cover),
+                  ),
+                ),
+                Positioned(
+                  bottom: 50,
+                  right: 200,
+                  child: OutlinedButton(
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CameraPageState(_mapItems[3], 3))),
+                    child: Image.asset(spot[3].initialImagePath, width: 200, height: 100, fit: BoxFit.cover),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Center(child: Text('OK')),
+
+          // Stack(
+          //   children: [
+          //     pageClear!,
+          //     ElevatedButton(
+          //       onPressed: () {
+          //         imageDb.deleteAll();
+          //         for (var item in _mapItems) {
+          //           item.photoImage = null;
+          //         }
+          //       },
+          //       child: const Text('もう一度'),
+          //     ),
+          //   ],
+          // ),
+        ],
+      )
+      // body: FutureBuilder<void>(
+      //   future: _initializeCheckPointFuture,
+      //   builder: (context, snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.done) {
+      //       if (!this.is_clear) {
+      //         return SingleChildScrollView(
+      //           scrollDirection: Axis.horizontal,
+      //           child: Stack(
+      //             children: <Widget>[
+      //               Image.asset('assets/images/map_img.png', fit: BoxFit.cover, height: double.infinity,),
+      //               Positioned(
+      //                 top: 50,
+      //                 left: 200,
+      //                 child: OutlinedButton(
+      //                   onPressed: () => seguePageSwitcher(context, _mapItems[0], 0),
+      //                   child: Image.asset(spot.first.initialImagePath, width: 200, height: 100, fit: BoxFit.cover),
+      //                 ),
+      //               ),
+      //               Positioned(
+      //                 top: 50,
+      //                 right: 200,
+      //                 child: OutlinedButton(
+      //                   onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CameraPageState(_mapItems[1], 1))),
+      //                   child: Image.asset(spot[1].initialImagePath, width: 200, height: 100, fit: BoxFit.cover),
+      //                 ),
+      //               ),
+      //               Positioned(
+      //                 bottom: 50,
+      //                 left: 200,
+      //                 child: OutlinedButton(
+      //                   onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CameraPageState(_mapItems[2], 2))),
+      //                   child: Image.asset(spot[2].initialImagePath, width: 200, height: 100, fit: BoxFit.cover),
+      //                 ),
+      //               ),
+      //               Positioned(
+      //                 bottom: 50,
+      //                 right: 200,
+      //                 child: OutlinedButton(
+      //                   onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CameraPageState(_mapItems[3], 3))),
+      //                   child: Image.asset(spot[3].initialImagePath, width: 200, height: 100, fit: BoxFit.cover),
+      //                 ),
+      //               ),
+      //             ],
+      //           ),
+      //         );
+      //
+      //         // return GestureDetector(
+      //         //   onTapUp: (details) { // タップ時の処理
+      //         //     // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
+      //         //     for (var item in _mapItems) {
+      //         //       // TODO: 実際に現地で検証して
+      //         //       if (item.isProximity(30)) {
+      //         //         // 場所ごとのタップの判定処理(タップ時は遷移)
+      //         //         if (item.didTappedImageTransition(this._mapPainter!.scale, _getMoveX(), details.localPosition)) {
+      //         //
+      //         //           Navigator.of(context).pushNamed('/camera_page', arguments: item);
+      //         //           break;
+      //         //         }
+      //         //       }
+      //         //     }
+      //         //   },
+      //         //   onPanUpdate: (DragUpdateDetails details) { // スクロール時の処理
+      //         //     setState(() {
+      //         //       // スクロールを適用した場合の遷移先X
+      //         //       final next = _moveX - details.delta.dx;
+      //         //       // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
+      //         //       // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
+      //         //       _moveX = min(max(next, 0),
+      //         //           _mapImage!.width * this._mapPainter!.scale -
+      //         //               mediaSize.width);
+      //         //     });
+      //         //   },
+      //         //   child: CustomPaint(
+      //         //     // キャンバス本体
+      //         //     size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
+      //         //     painter: this._mapPainter!, // ペインター
+      //         //     child: Center(), // あったほうがいいらしい？？
+      //         //   ),
+      //         // );
+      //       } else {
+      //         if (!is_reset_images && pageClear != null) {
+      //           this.pageClear!.width = mediaSize.width;
+      //           this.pageClear!.height = mediaSize.height;
+      //           this.is_reset_images = true;
+      //         }
+      //         return Stack(
+      //           children: [
+      //             pageClear!,
+      //             ElevatedButton(
+      //               onPressed: () {
+      //                 imageDb.deleteAll();
+      //                 for (var item in _mapItems) {
+      //                   item.photoImage = null;
+      //                 }
+      //               },
+      //               child: const Text('もう一度'),
+      //             ),
+      //           ],
+      //         );
+      //       }
+      //     } else {
+      //       return Center(child: Text('Loading...', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)));
+      //     }
+      //   },
+      // ),
     );
   }
 
+  void seguePageSwitcher(BuildContext ctx, WidgetRef ref, MapItem item, int spot) {
+    Navigator.push(ctx, MaterialPageRoute(builder: (context) => CameraPageState(item, spot)))
+        .then((result) {
+          print(result);
+          final count = ref.watch(mapItemListProvider.notifier).state.where((element) => element.initialImagePath.length < 50).length;
+          print(count);
+          if(count == 0) {
+            ref.read(indexedSelectorProvider.notifier).state = 1;
+          }
+        }).catchError((_) {
+          print('error');
+    });
+  }
+
   /// 位置情報が拒否されている時、「位置情報を許可する」ダイアログを表示する
-  Future<void> _dialogLocationLicense() async {
+  Future<void> _dialogLocationLicense(BuildContext ctx) async {
     var result = await showDialog<bool>(
-      context: context,
+      context: ctx,
       barrierDismissible: false,
       builder: (BuildContext context) {
         if (Platform.isAndroid) {
