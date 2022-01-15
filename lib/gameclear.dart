@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:ui' as ui;
 
+import 'map_item.dart';
 import 'map_page.dart';
 
 class clearpage extends StatelessWidget {
@@ -31,9 +32,9 @@ class clearpage extends StatelessWidget {
     if (!is_init) {
       print(this.mapItems.length);
       this.mapItems.map((e) async {
-        if (e.photoImage == null) {
-          await e.loadInitialImage();
-        }
+        // if (e.photoImage == null) {
+        //   await e.loadInitialImage();
+        // }
         final img = await e.getDisplayImageToImageWidget();
         return img;
       }).forEach((e) {

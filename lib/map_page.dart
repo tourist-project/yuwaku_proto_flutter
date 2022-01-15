@@ -17,99 +17,23 @@ import 'camera_page.dart';
 import 'map_painter.dart';// Colorsを使う時はprefix.Colors.~と使ってください
 import 'package:geolocator/geolocator.dart';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'map_item.dart';
 
-/// 場所情報
-class MapItem {
-  final String name;/// 場所の名前
-  final double latitude;/// 緯度
-  final double longitude;/// 経度
-  final Offset position;/// 画像上の座標
-  final String initialImagePath;/// イラストのパス
-  double? distance; /// 距離
-  ui.Rect photoRect;/// 画像の四角
-  ui.Image? initialImage;
 
-  final imageDb = ImageDBProvider.instance;/// 初期化時のイラスト
-  ui.Image? photoImage;
-
-  /// イニシャライズ
-  MapItem(this.name, this.latitude, this.longitude, this.position,
-      this.initialImagePath, this.photoRect);
-
-  /// 初期画像のロード
-  Future loadInitialImage() async {
-    initialImage = await loadUiImage(initialImagePath);
-    if (await imageDb.isExist(this.name)) {
-      final rawStr = (await imageDb.querySearchRows(this.name))[0]['image']! as String;
-      Uint8List raw = base64.decode(rawStr);
-      ui.decodeImageFromList(raw, (ui.Image img) => {this.photoImage = img});
-    }
-  }
-
-  /// 表示すべき画像を返す
-  ui.Image? getDisplayImage() {
-    if (photoImage == null) {
-      return initialImage;
-    }
-    return photoImage;
-  }
-
-  /// image ウィジェットとして画像を返す
-  Future<Image?> getDisplayImageToImageWidget() async {
-    try {
-      final img = this.getDisplayImage();
-      if (img == null) return null;
-      ByteData byteData = (await img.toByteData(format: ui.ImageByteFormat.png))!;
-      final pngBytes = byteData.buffer.asUint8List();
-      return Image.memory(pngBytes, fit: BoxFit.cover);
-    } catch (e) {
-      return null;
-    }
-  }
-
-  /// 座標系をマップ画像上からデバイス上へ変換
-  ui.Rect getPhotoRectForDeviceFit(double scale, double moveX) {
-    return Rect.fromLTWH(photoRect.left * scale - moveX, photoRect.top * scale,
-        photoRect.width * scale, photoRect.height * scale);
-  }
-
-  /// タップ判定をしてタップの場合はタップ処理をする
-  bool didTappedImageTransition(double scale, double moveX, Offset tapLoc) {
-    final tapX = tapLoc.dx;
-    final tapY = tapLoc.dy;
-    final rect = getPhotoRectForDeviceFit(scale, moveX);
-
-    if (rect.left <= tapX && tapX <= rect.right &&
-        rect.top <= tapY && tapY <= rect.bottom) {
-      return true;
-    }
-    return false;
-  }
-
-  /// 距離を図る
-  void setDistance(Position position) {
-    this.distance = Geolocator.distanceBetween(position.latitude, position.longitude, this.latitude, this.longitude);
-  }
-
-  /// 近接判定
-  bool isProximity(double range) {
-    if (this.distance == null) {
-      return false;
-    } else {
-      return this.distance! <= range;
-    }
-  }
-
-  /// アセットのパスからui.Imageをロード
-  static Future<ui.Image> loadUiImage(String imageAssetPath) async {
-    final ByteData data = await rootBundle.load(imageAssetPath);
-    final Completer<ui.Image> completer = Completer();
-    ui.decodeImageFromList(Uint8List.view(data.buffer), (ui.Image img) {
-      return completer.complete(img);
-    });
-    return completer.future;
-  }
-}
+final mapItemListProvider = StateNotifierProvider<MapItemList, List<MapItem>>((ref) {
+  /// TODO: DBにデータがある場合、if文でpathの入れ用のreturnを追記
+  return MapItemList([
+    MapItem('総湯', 36.485425901995455,  136.75758738535384, Offset(1358, 408),
+        'assets/images/img2_gray.png', Rect.fromLTWH(1000, 820, 280, 280)),
+    MapItem('氷室', 36.48346516395541, 136.75701193508996, Offset(1881, 512),
+        'assets/images/himurogoya_gray.png', Rect.fromLTWH(1720, 620, 280, 280)),
+    MapItem('足湯(立派な方)', 36.48582537854954, 136.7574341842218, Offset(1275, 385),
+        'assets/images/asiyu(temp)_gray.png', Rect.fromLTWH(1500, 60, 280, 280)),
+    MapItem('湯涌夢二館', 36.48584951599308, 136.75738876226737, Offset(1250, 425),
+        'assets/images/yumejikan_gray.png', Rect.fromLTWH(580, 80, 280, 280)),
+  ]);
+});
 
 /// マップページのステートフルウィジェット
 class MapPage extends StatefulWidget {
@@ -127,7 +51,7 @@ class _MapPageState extends State<MapPage> {
   ui.Image? _mapImage; // マップの画像
   ui.Image? _cameraIconImg;
   double _moveX = 0; // x軸の移動を保持
-  MapPainter? _mapPainter = null;
+  // MapPainter? _mapPainter = null;
   clearpage? pageClear = null;
   bool is_reset_images = false;
 
@@ -156,7 +80,7 @@ class _MapPageState extends State<MapPage> {
   Future<void> _getAssets() async {
     final ui.Image img = await MapItem.loadUiImage('assets/images/map_img.png');
     final ui.Image cameraIconImg = await MapItem.loadUiImage('assets/images/camera_red.png');
-    this._mapPainter = MapPainter(img, cameraIconImg, _getMoveX, _mapItems);
+    // this._mapPainter = MapPainter(img, cameraIconImg, _getMoveX, _mapItems);
     for (var item in _mapItems) {
       await item.loadInitialImage();
     }
@@ -176,11 +100,13 @@ class _MapPageState extends State<MapPage> {
 
   late Future<void> _initializeCheckPointFuture;  // CheckPointの画像を読み込み完了を検知する
 
+  Image sample = Image.asset('assets/images/img2_gray.png', width: 200, fit: BoxFit.fitWidth);
+
   @override
   void initState() {
     super.initState();
     print('initState');
-    MapPainter.determinePosition().catchError((_) => _dialogLocationLicense());
+    // MapPainter.determinePosition().catchError((_) => _dialogLocationLicense());
     _initializeCheckPointFuture = _getAssets();
   }
 
@@ -202,9 +128,9 @@ class _MapPageState extends State<MapPage> {
 
     clearUpdate();
 
-    if (_mapImage != null) {
-      this._mapPainter = MapPainter(_mapImage!,_cameraIconImg!, _getMoveX, _mapItems);
-    }
+    // if (_mapImage != null) {
+    //   this._mapPainter = MapPainter(_mapImage!,_cameraIconImg!, _getMoveX, _mapItems);
+    // }
 
     return Scaffold(
       appBar: appBar,
@@ -213,39 +139,85 @@ class _MapPageState extends State<MapPage> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             if (!this.is_clear) {
-              return GestureDetector(
-                onTapUp: (details) { // タップ時の処理
-                  // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-                  for (var item in _mapItems) {
-                    // TODO: 実際に現地で検証して
-                    if (item.isProximity(30)) {
-                      // 場所ごとのタップの判定処理(タップ時は遷移)
-                      if (item.didTappedImageTransition(this._mapPainter!.scale, _getMoveX(), details.localPosition)) {
-
-                        Navigator.of(context).pushNamed('/camera_page', arguments: item);
-                        break;
-                      }
-                    }
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Consumer(
+                  builder: (context, spots, child) {
+                    final spot = spots.watch(mapItemListProvider);
+                    return Stack(
+                      children: <Widget>[
+                        Image.asset('assets/images/map_img.png', fit: BoxFit.cover, height: double.infinity,),
+                        Positioned(
+                            top: 50,
+                            left: 200,
+                            child: OutlinedButton(
+                              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CameraPageState(_mapItems[0], 0))),
+                              child: Image.asset(spot.first.initialImagePath, width: 200, height: 100, fit: BoxFit.cover),
+                            ),
+                        ),
+                        Positioned(
+                          top: 50,
+                          right: 200,
+                          child: OutlinedButton(
+                            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CameraPageState(_mapItems[1], 1))),
+                            child: Image.asset(spot[1].initialImagePath, width: 200, height: 100, fit: BoxFit.cover),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 50,
+                          left: 200,
+                          child: OutlinedButton(
+                            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CameraPageState(_mapItems[2], 2))),
+                            child: Image.asset(spot[2].initialImagePath, width: 200, height: 100, fit: BoxFit.cover),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 50,
+                          right: 200,
+                          child: OutlinedButton(
+                            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CameraPageState(_mapItems[3], 3))),
+                            child: Image.asset(spot[3].initialImagePath, width: 200, height: 100, fit: BoxFit.cover),
+                          ),
+                        ),
+                      ],
+                    );
                   }
-                },
-                onPanUpdate: (DragUpdateDetails details) { // スクロール時の処理
-                  setState(() {
-                    // スクロールを適用した場合の遷移先X
-                    final next = _moveX - details.delta.dx;
-                    // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-                    // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
-                    _moveX = min(max(next, 0),
-                        _mapImage!.width * this._mapPainter!.scale -
-                            mediaSize.width);
-                  });
-                },
-                child: CustomPaint(
-                  // キャンバス本体
-                  size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
-                  painter: this._mapPainter!, // ペインター
-                  child: Center(), // あったほうがいいらしい？？
-                ),
+                )
               );
+
+              // return GestureDetector(
+              //   onTapUp: (details) { // タップ時の処理
+              //     // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
+              //     for (var item in _mapItems) {
+              //       // TODO: 実際に現地で検証して
+              //       if (item.isProximity(30)) {
+              //         // 場所ごとのタップの判定処理(タップ時は遷移)
+              //         if (item.didTappedImageTransition(this._mapPainter!.scale, _getMoveX(), details.localPosition)) {
+              //
+              //           Navigator.of(context).pushNamed('/camera_page', arguments: item);
+              //           break;
+              //         }
+              //       }
+              //     }
+              //   },
+              //   onPanUpdate: (DragUpdateDetails details) { // スクロール時の処理
+              //     setState(() {
+              //       // スクロールを適用した場合の遷移先X
+              //       final next = _moveX - details.delta.dx;
+              //       // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
+              //       // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
+              //       _moveX = min(max(next, 0),
+              //           _mapImage!.width * this._mapPainter!.scale -
+              //               mediaSize.width);
+              //     });
+              //   },
+              //   child: CustomPaint(
+              //     // キャンバス本体
+              //     size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
+              //     painter: this._mapPainter!, // ペインター
+              //     child: Center(), // あったほうがいいらしい？？
+              //   ),
+              // );
             } else {
               if (!is_reset_images && pageClear != null) {
                 this.pageClear!.width = mediaSize.width;

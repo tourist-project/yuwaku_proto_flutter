@@ -18,37 +18,48 @@ import 'package:image/image.dart' as img;
 
 import 'package:flutter/services.dart';
 
-class CameraPage extends StatefulWidget {
-  CameraPage({Key? key, required this.title, required this.mapItem}) : super(key: key);
+import 'map_item.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-  final String title;
-  final MapItem mapItem;
+import 'package:uuid/uuid.dart';
 
-  @override
-  _CameraPageState createState() => _CameraPageState(mapItem);
-}
 
-class _CameraPageState extends State<CameraPage> {
+// class CameraPage extends StatefulWidget {
+//   CameraPage({Key? key, required this.title, required this.mapItem}) : super(key: key);
+//
+//   final String title;
+//   final MapItem mapItem;
+//
+//   @override
+//   _CameraPageState createState() => _CameraPageState(mapItem);
+// }
+class CameraPageState extends ConsumerWidget {
+// class _CameraPageState extends State<CameraPage> {
 
-  _CameraPageState(this.mapItem);
+  // _CameraPageState(this.mapItem);
+  CameraPageState(this.mapItem, this.number);
 
-  final MapItem mapItem;
+    final MapItem mapItem;
+    final int number;
   final picker = ImagePicker();
   final imageDb = ImageDBProvider.instance;
   Image? _dstStampImage;
   img.Image? logo;
-
-  void initState() {
-    super.initState();
-    _loadInitAsync();
-    _loadStampImage();
-  }
+  //
+  // void initState() {
+  //   super.initState();
+  //   _loadInitAsync();
+  //   _loadStampImage();
+  // }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context, ref) {
+    final data = ref.watch(mapItemListProvider);
+    // final path = ref.watch(yuwakuProvider);
+  // Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title, style: TextStyle(color: Colors.black87)),
+        title: Text('Camera page', style: TextStyle(color: Colors.black87)),
         actions: <Widget>[
           IconButton(
             onPressed:  () => _onShare(context),
@@ -56,11 +67,13 @@ class _CameraPageState extends State<CameraPage> {
           ),
         ],
       ),
-      body: Center(
-        child: _dstStampImage,
-      ),
+      body: Center(child: Image.asset(data[number].initialImagePath)),
       floatingActionButton: FloatingActionButton(
-        onPressed: getImage,
+        onPressed: () async {
+          final imagePath = await getImage();
+          if(imagePath == null) return;
+          ref.read(mapItemListProvider.notifier).edit(name: mapItem.name, path: imagePath);
+        },
         child: Icon(Icons.add_a_photo),
       ),
     );
@@ -77,19 +90,20 @@ class _CameraPageState extends State<CameraPage> {
     if ( dblow.length > 0 ) {
       final byte = base64.decode(dblow[0]['image'] as String);
       await _writeLocalImage(byte);
-      setState((){
+      // setState((){
         _dstStampImage = Image.memory(byte);
-      });
+      // });
     } else {
-      setState((){
-        _dstStampImage = Image.asset(mapItem.initialImagePath);
-      });
+      // setState((){
+      //   _dstStampImage = Image.asset(mapItem.initialImagePath);
+      // });
     }
   }
 
-  /// カメラで写真撮影時の処理
-  Future<void> getImage() async {
+  /// カメラで写真撮影し、画像のパスを返す
+  Future<String?> getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
+
     if (pickedFile != null) {
       Uint8List data = await pickedFile.readAsBytes();
 
@@ -106,9 +120,9 @@ class _CameraPageState extends State<CameraPage> {
         }
         data = Uint8List.fromList(img.encodePng(photo));
       }
-
-
+      
       final saveData = base64.encode(img.encodePng(photo!));
+
       if (await imageDb.isExist(mapItem.name)) {
         await imageDb.updateImage(mapItem.name, saveData);
       } else {
@@ -123,12 +137,10 @@ class _CameraPageState extends State<CameraPage> {
       });
 
       final result_image = await ImageGallerySaver.saveImage(data);
-      print(result_image);
 
-      await _writeLocalImage(data);
-      setState(() {
-        _dstStampImage = Image.memory(data);
-      });
+      final imagePath = await _writeLocalImage(data);
+
+      return imagePath.path;
     }
   }
 
@@ -153,7 +165,8 @@ class _CameraPageState extends State<CameraPage> {
   /// 端末に画像を保存する
   Future<File> _writeLocalImage(Uint8List data) async {
     final path = await _getLocalPath;
-    final imagePath = '$path/image.png';
+    final uuid = Uuid().v4();
+    final imagePath = '$path/$uuid.png';
     File imageFile = File(imagePath);
 
     final byte = ByteData.view(data.buffer);

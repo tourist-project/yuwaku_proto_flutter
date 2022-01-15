@@ -10,6 +10,9 @@ import 'package:yuwaku_proto/gameclear.dart';
 import 'package:yuwaku_proto/app_top_view.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'map_item.dart';
 
 void main() {
 
@@ -18,7 +21,7 @@ void main() {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -36,9 +39,9 @@ class MyApp extends StatelessWidget {
       home: BottomTabPage(),
       routes: <String, WidgetBuilder>{
         '/map_page': (BuildContext context) => MapPage(title: '地図'),
-        '/camera_page': (BuildContext context) => CameraPage(
-            title: 'Camera page',
-            mapItem: ModalRoute.of(context)!.settings.arguments as MapItem),
+        // '/camera_page': (BuildContext context) => CameraPage(
+        //     title: 'Camera page',
+        //     mapItem: ModalRoute.of(context)!.settings.arguments as MapItem),
         '/some_explain': (BuildContext context) => Explain(),
         '/plane_explain': (BuildContext context) => PicExplain(title: '場所説明'),
         '/development_page': (BuildContext context) =>
