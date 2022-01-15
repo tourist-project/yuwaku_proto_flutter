@@ -23,87 +23,54 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:uuid/uuid.dart';
 
-
-// class CameraPage extends StatefulWidget {
-//   CameraPage({Key? key, required this.title, required this.mapItem}) : super(key: key);
-//
-//   final String title;
-//   final MapItem mapItem;
-//
-//   @override
-//   _CameraPageState createState() => _CameraPageState(mapItem);
-// }
 class CameraPageState extends ConsumerWidget {
-// class _CameraPageState extends State<CameraPage> {
-
-  // _CameraPageState(this.mapItem);
   CameraPageState(this.mapItem, this.number);
 
-    final MapItem mapItem;
-    final int number;
+  final MapItem mapItem;
+  final int number;
   final picker = ImagePicker();
   final imageDb = ImageDBProvider.instance;
-  Image? _dstStampImage;
+
+
   img.Image? logo;
-  //
-  // void initState() {
-  //   super.initState();
-  //   _loadInitAsync();
-  //   _loadStampImage();
-  // }
 
   @override
   Widget build(context, ref) {
-    final data = ref.watch(mapItemListProvider);
-    // final path = ref.watch(yuwakuProvider);
-  // Widget build(BuildContext context) {
+    final checkPoint = ref.watch(mapItemListProvider);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Camera page', style: TextStyle(color: Colors.black87)),
+        title: const Text('Camera page', style: TextStyle(color: Colors.black87)),
         actions: <Widget>[
           IconButton(
             onPressed: () => _onShare(context),
-            icon: Icon(Icons.ios_share),
+            icon: const Icon(Icons.ios_share),
           ),
         ],
       ),
-      body: Center(child: Image.asset(data[number].initialImagePath)),
+      body: Center(child: Image.asset(checkPoint[number].initialImagePath)),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           final imagePath = await getImage();
           if(imagePath == null) return;
           ref.read(mapItemListProvider.notifier).edit(name: mapItem.name, path: imagePath);
         },
-        child: Icon(Icons.add_a_photo),
+        child: const Icon(Icons.add_a_photo),
       ),
     );
   }
 
+  /// ロゴ画像を取得する
   Future<void> _loadInitAsync() async {
     ByteData imageData = await rootBundle.load('assets/images/text_logo.png');
     logo = img.decodeImage(Uint8List.view(imageData.buffer));
-  }
-
-  /// CameraPageを開いた時の初期画像を呼び出す
-  Future<void> _loadStampImage() async {
-    final dblow = await imageDb.querySearchRows(mapItem.name);
-    if ( dblow.length > 0 ) {
-      final byte = base64.decode(dblow[0]['image'] as String);
-      await _writeLocalImage(byte);
-      // setState((){
-        _dstStampImage = Image.memory(byte);
-      // });
-    } else {
-      // setState((){
-      //   _dstStampImage = Image.asset(mapItem.initialImagePath);
-      // });
-    }
   }
 
   /// カメラで写真撮影し、画像のパスを返す
   Future<String?> getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
 
+    await _loadInitAsync();
     if (pickedFile != null) {
       Uint8List data = await pickedFile.readAsBytes();
 
