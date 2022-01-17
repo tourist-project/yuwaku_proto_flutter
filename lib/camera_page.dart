@@ -87,45 +87,52 @@ class _CameraPageState extends State<CameraPage> {
     }
   }
 
+  Future<void> getImageInner(Uint8List data) async {
+
+    List<int> values = data.buffer.asUint8List();
+    img.Image? photo = img.decodeImage(values);
+
+    if (photo != null && logo != null) {
+      for (var i = 0; i < logo!.width-1; i++) {
+        for (var j = 0; j < logo!.height-1; j++) {
+          final px = logo!.getPixelSafe(i, j);
+          if ( img.getAlpha(px) != 0 ) {
+            photo.setPixelSafe(photo.width-logo!.width-30+i, photo.height-logo!.height-30+j, px);
+          }
+        }
+      }
+      data = Uint8List.fromList(img.encodePng(photo));
+    }
+
+    ui.decodeImageFromList(data, (ui.Image img) {
+      mapItem.photoImage = img;
+    });
+
+    final saveData = base64.encode(img.encodePng(photo!));
+    if (await imageDb.isExist(mapItem.name)) {
+      await imageDb.updateImage(mapItem.name, saveData);
+    } else {
+      await imageDb.insert({
+        'state': mapItem.name,
+        'image': saveData
+      });
+    }
+
+    await ImageGallerySaver.saveImage(data);
+
+    await _writeLocalImage(data);
+    setState(() {
+      _dstStampImage = Image.memory(data);
+    });
+
+  }
+
   /// カメラで写真撮影時の処理
   Future<void> getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
     if (pickedFile != null) {
       Uint8List data = await pickedFile.readAsBytes();
-
-      List<int> values = data.buffer.asUint8List();
-      img.Image? photo = img.decodeImage(values);
-      if (photo != null && logo != null) {
-        for (var i = 0; i < logo!.width-1; i++) {
-          for (var j = 0; j < logo!.height-1; j++) {
-            final px = logo!.getPixelSafe(i, j);
-            if ( img.getAlpha(px) != 0 ) {
-              photo.setPixelSafe(photo.width-logo!.width-30+i, photo.height-logo!.height-30+j, px);
-            }
-          }
-        }
-        data = Uint8List.fromList(img.encodePng(photo));
-      }
-
-
-      final saveData = base64.encode(img.encodePng(photo!));
-      if (await imageDb.isExist(mapItem.name)) {
-        await imageDb.updateImage(mapItem.name, saveData);
-      } else {
-        await imageDb.insert({
-          'state': mapItem.name,
-          'image': saveData
-        });
-      }
-
-      ui.decodeImageFromList(data, (ui.Image img) {
-        mapItem.photoImage = img;
-      });
-
-      final result_image = await ImageGallerySaver.saveImage(data);
-      print(result_image);
-
-      await _writeLocalImage(data);
+      getImageInner(data);
       setState(() {
         _dstStampImage = Image.memory(data);
       });
