@@ -178,7 +178,16 @@ class _MapPageState extends State<MapPage> {
   void initState() {
     super.initState();
     print('initState');
-    MapPainter.determinePosition().catchError((_) => _dialogLocationLicense());
+    MapPainter.determinePosition()
+    .then((value) {
+      // 位置情報を取得する
+      Geolocator.getPositionStream().listen((location) {
+        print(location);
+        for(final item in _mapItems) {
+          item.setDistance(location); // 距離関係を更新する
+        }
+      });
+    }).catchError((_) => _dialogLocationLicense());
     _getAssets();
   }
 

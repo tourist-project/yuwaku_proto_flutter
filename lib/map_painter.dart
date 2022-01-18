@@ -62,8 +62,6 @@ class MapPainter extends CustomPainter {
         final rescaleRect = item.getPhotoRectForDeviceFit(scale, movex); // どこに描画するかを設定
         final scaleDev2 = scale / 2;
 
-        determinePosition().then((pos) => item.setDistance(pos)).catchError((error) => print(error));
-
         // item.distance = 15;
         // !!!:debug時はコメント外す
 
@@ -102,7 +100,7 @@ class MapPainter extends CustomPainter {
   static Future<Position> determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
-    
+
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       return Future.error('Location services are disabled.');
@@ -120,7 +118,7 @@ class MapPainter extends CustomPainter {
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
-    
+
     return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
   }
 }
