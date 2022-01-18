@@ -12,19 +12,19 @@ import 'package:geolocator/geolocator.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'map_item.dart';
-
+import 'location.dart';
 
 final mapItemListProvider = StateNotifierProvider<MapItemList, List<MapItem>>((ref) {
   /// TODO: DBにデータがある場合、if文でpath入れ用のreturnを追記
   return MapItemList([
-    MapItem('総湯', 36.485425901995455,  136.75758738535384, Offset(1358, 408),
-        'assets/images/img2_gray.png', Rect.fromLTWH(1000, 820, 280, 280)),
-    MapItem('氷室', 36.48346516395541, 136.75701193508996, Offset(1881, 512),
-        'assets/images/himurogoya_gray.png', Rect.fromLTWH(1720, 620, 280, 280)),
-    MapItem('足湯(立派な方)', 36.48582537854954, 136.7574341842218, Offset(1275, 385),
-        'assets/images/asiyu(temp)_gray.png', Rect.fromLTWH(1500, 60, 280, 280)),
-    MapItem('湯涌夢二館', 36.48584951599308, 136.75738876226737, Offset(1250, 425),
-        'assets/images/yumejikan_gray.png', Rect.fromLTWH(580, 80, 280, 280)),
+    MapItem(name: '総湯', latitude: 36.485425901995455, longitude: 136.75758738535384, position: Offset(1358, 408),
+        initialImagePath: 'assets/images/img2_gray.png', photoRect: Rect.fromLTWH(1000, 820, 280, 280)),
+    MapItem(name: '氷室', latitude: 36.48346516395541, longitude: 136.75701193508996, position: Offset(1881, 512),
+        initialImagePath: 'assets/images/himurogoya_gray.png', photoRect: Rect.fromLTWH(1720, 620, 280, 280)),
+    MapItem(name: '足湯(立派な方)', latitude: 36.48582537854954, longitude: 136.7574341842218, position: Offset(1275, 385),
+        initialImagePath: 'assets/images/asiyu(temp)_gray.png', photoRect: Rect.fromLTWH(1500, 60, 280, 280)),
+    MapItem(name: '湯涌夢二館', latitude: 36.48584951599308, longitude: 136.75738876226737, position: Offset(1250, 425),
+        initialImagePath: 'assets/images/yumejikan_gray.png', photoRect: Rect.fromLTWH(580, 80, 280, 280)),
   ]);
 });
 
@@ -88,6 +88,16 @@ class MapPageState extends ConsumerWidget {
     final spot = ref.watch(mapItemListProvider);
     final index = ref.watch(indexedSelectorProvider.state).state;
 
+    // 位置情報が更新されたら処理される
+    ref.watch(locationProvider.stream).listen((location) {
+      for(final check in spot) {
+        // 現在地とスポットの距離をメートル単位で測る
+        final measure = Geolocator.distanceBetween(location.latitude, location.longitude, check.latitude, check.longitude);
+
+        ref.read(mapItemListProvider.notifier).updatePositionalRelation(name: check.name, distance: measure);
+      }
+    });
+
     return Scaffold(
       appBar: AppBar(title: Text('地図', style: TextStyle(color: prefix.Colors.black87))),
       body: IndexedStack(
@@ -103,7 +113,7 @@ class MapPageState extends ConsumerWidget {
                   top: 50,
                   left: 200,
                   child: OutlinedButton(
-                    onPressed: () => seguePageSwitcher(context, ref, 0),
+                    onPressed: !spot.first.tap ? null : () => seguePageSwitcher(context, ref, 0),
                     child: Image.asset(spot.first.initialImagePath, width: 200, height: 100, fit: BoxFit.cover),
                   ),
                 ),
@@ -111,7 +121,7 @@ class MapPageState extends ConsumerWidget {
                   top: 50,
                   right: 200,
                   child: OutlinedButton(
-                    onPressed: () => seguePageSwitcher(context, ref, 1),
+                    onPressed: !spot[1].tap ? null :() => seguePageSwitcher(context, ref, 1),
                     child: Image.asset(spot[1].initialImagePath, width: 200, height: 100, fit: BoxFit.cover),
                   ),
                 ),
@@ -119,7 +129,7 @@ class MapPageState extends ConsumerWidget {
                   bottom: 50,
                   left: 200,
                   child: OutlinedButton(
-                    onPressed: () => seguePageSwitcher(context, ref, 2),
+                    onPressed: !spot[2].tap ? null : () => seguePageSwitcher(context, ref, 2),
                     child: Image.asset(spot[2].initialImagePath, width: 200, height: 100, fit: BoxFit.cover),
                   ),
                 ),
@@ -127,7 +137,7 @@ class MapPageState extends ConsumerWidget {
                   bottom: 50,
                   right: 200,
                   child: OutlinedButton(
-                    onPressed: () => seguePageSwitcher(context, ref, 3),
+                    onPressed: !spot[3].tap ? null : () => seguePageSwitcher(context, ref, 3),
                     child: Image.asset(spot[3].initialImagePath, width: 200, height: 100, fit: BoxFit.cover),
                   ),
                 ),
@@ -142,13 +152,14 @@ class MapPageState extends ConsumerWidget {
 
   void seguePageSwitcher(BuildContext ctx, WidgetRef ref, int num) {
     final item = ref.read(mapItemListProvider.notifier).state[num];
+    print(item.tap);
 
     Navigator.push(ctx, MaterialPageRoute(builder: (context) => CameraPageState(item, num)))
         .then((_) {
       // 撮影数のカウント
-      final numOfShots = ref.read(mapItemListProvider.notifier).state.where((element) => element.initialImagePath.length > 50).length;
+      final numOfShots = ref.read(mapItemListProvider).where((element) => element.initialImagePath.length > 50).length;
       // 全て撮影されたら、クリア画面に遷移
-      if(numOfShots == ref.read(mapItemListProvider.notifier).state.length) ref.read(indexedSelectorProvider.notifier).state = 1;
+      if(numOfShots == ref.read(mapItemListProvider).length) ref.read(indexedSelectorProvider.notifier).state = 1;
     }).catchError((error) {
       print('seguePageSwitcher'+'$error');
     });

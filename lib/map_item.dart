@@ -22,11 +22,21 @@ class MapItem {
   ui.Rect photoRect;/// 画像の四角
   ui.Image? initialImage;
 
+  final bool tap;
+
   final imageDb = ImageDBProvider.instance;/// 初期化時のイラスト
   ui.Image? photoImage;
 
-  /// イニシャライズ
-  MapItem(this.name, this.latitude, this.longitude, this.position, this.initialImagePath, this.photoRect);
+
+  MapItem({
+    required this.name,
+    required this.latitude,
+    required this.longitude,
+    required this.position,
+    required this.initialImagePath,
+    required this.photoRect,
+    this.tap = false
+  });
 
   /// 初期画像のロード
   Future loadInitialImage() async {
@@ -106,15 +116,30 @@ class MapItem {
 class MapItemList extends StateNotifier<List<MapItem>> {
   MapItemList([List<MapItem>? initialTodos]) : super(initialTodos ?? []);
 
-  void edit({required String name, required String path}) {
+  /// 画像を差し替える
+  void replaceTheImage({required String name, required String path}) {
     state = [
       for (final spot in state)
         if (spot.name == name)
-          MapItem(spot.name, spot.latitude, spot.longitude, spot.position, path, spot.photoRect)
+          MapItem(name: spot.name, latitude: spot.latitude, longitude: spot.longitude, position: spot.position, initialImagePath: path, photoRect: spot.photoRect, tap: spot.tap)
         else
           spot,
     ];
   }
 
+  /// 位置関係を更新する
+  void updatePositionalRelation({required String name, required double distance}) {
+    const double toleranceLevel = 30.0; // 許容範囲
 
+    // 許容範囲(toleranceLevel)以下だとtrue　/　以上だとfalse
+    final bool proximity = distance <= toleranceLevel;
+
+    state = [
+      for (final spot in state)
+        if (spot.name == name)
+          MapItem(name: spot.name, latitude: spot.latitude, longitude: spot.longitude, position: spot.position, initialImagePath: spot.initialImagePath, photoRect: spot.photoRect, tap: proximity)
+        else
+          spot,
+    ];
+  }
 }

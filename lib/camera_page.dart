@@ -53,7 +53,7 @@ class CameraPageState extends ConsumerWidget {
         onPressed: () async {
           final imagePath = await getImage();
           if(imagePath == null) return;
-          ref.read(mapItemListProvider.notifier).edit(name: mapItem.name, path: imagePath);
+          ref.read(mapItemListProvider.notifier).replaceTheImage(name: mapItem.name, path: imagePath);
         },
         child: const Icon(Icons.add_a_photo),
       ),
