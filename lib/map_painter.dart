@@ -57,9 +57,11 @@ class MapPainter extends CustomPainter {
         final ox = (img.width.toDouble() - length) / 2;
         final oy = (img.height.toDouble() - length) / 2;
         final src = Rect.fromLTWH(ox, oy, length, length); // 画像中の描画する場所を選択
-        final rescaleRect =
-            item.getPhotoRectForDeviceFit(scale, _getMoveX()); // どこに描画するかを設定
 
+
+        final movex = _getMoveX();
+        final rescaleRect = item.getPhotoRectForDeviceFit(scale, movex); // どこに描画するかを設定
+        final scaleDev2 = scale / 2;
 
         determinePosition()
             .then((pos) => item.setDistance(pos))
@@ -69,30 +71,25 @@ class MapPainter extends CustomPainter {
         item.distance = 15;
 
         if (item.isProximity(30)) {
-          circlePaint.color = Color.fromARGB(255, 255, 0, 0);
+          final xscale = item.position.dx * scale - movex;
+          final yscale = item.position.dy * scale;
+          final leftscale = item.photoRect.left * scale - movex;
+          final topscale = item.photoRect.top * scale;
+
+          circlePaint.color = const Color.fromARGB(255, 255, 0, 0);
           // 円を書く
-          canvas.drawCircle(
-              Offset(item.position.dx * scale - _getMoveX(),
-                  item.position.dy * scale), 10, circlePaint);
+
+          canvas.drawCircle(Offset(xscale, yscale), 10, circlePaint);
 
           // 線をひく
-          linePaint.color = Color.fromARGB(255, 255, 0, 0);
-          canvas.drawLine(
-              Offset(
-                  (item.photoRect.left * scale - _getMoveX()) +
-                      item.photoRect.width * scale / 2,
-                  (item.photoRect.top * scale) +
-                      item.photoRect.height * scale / 2),
-              Offset((item.position.dx * scale - _getMoveX()),
-                  item.position.dy * scale),
-              linePaint);
+          linePaint.color = const Color.fromARGB(255, 255, 0, 0);
+          canvas.drawLine(Offset(leftscale + item.photoRect.width * scaleDev2,
+                                 topscale + item.photoRect.height * scaleDev2),
+                          Offset(xscale, yscale), linePaint);
           canvas.drawImageRect(img, src, rescaleRect, imagePaint);
-          canvas.drawImageRect(
-              _cameraIconImg,
-              Rect.fromLTWH(0, 0, 256, 256),
-              Rect.fromLTWH(item.photoRect.left * scale - _getMoveX() + 5,
-                  item.photoRect.top * scale + 5, 50, 50),
-              imagePaint);
+          canvas.drawImageRect(_cameraIconImg, const Rect.fromLTWH(0, 0, 256, 256),
+                               Rect.fromLTWH(leftscale + 5, topscale + 5, 50, 50), imagePaint);
+
         } else {
           canvas.drawImageRect(img, src, rescaleRect, imagePaint);
         }
@@ -128,8 +125,9 @@ class MapPainter extends CustomPainter {
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    return await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.best);
+
+    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+
   }
 
 }
