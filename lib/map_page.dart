@@ -40,7 +40,7 @@ class MapItem {
   Future loadInitialImage() async {
     initialImage = await loadUiImage(initialImagePath);
     if (await imageDb.isExist(this.name)) {
-      final rawStr = (await imageDb.querySearchRows(this.name))[0]['image']! as String;
+      final rawStr = (await imageDb.querySearchRows(this.name))[0]['image'].toString();
       Uint8List raw = base64.decode(rawStr);
       ui.decodeImageFromList(raw, (ui.Image img) => {this.photoImage = img});
     }
@@ -178,7 +178,16 @@ class _MapPageState extends State<MapPage> {
   void initState() {
     super.initState();
     print('initState');
-    MapPainter.determinePosition().catchError((_) => _dialogLocationLicense());
+    MapPainter.determinePosition()
+    .then((value) {
+      // 位置情報を取得する
+      Geolocator.getPositionStream().listen((location) {
+        print(location);
+        for(final item in _mapItems) {
+          item.setDistance(location); // 距離関係を更新する
+        }
+      });
+    }).catchError((_) => _dialogLocationLicense());
     _getAssets();
   }
 
