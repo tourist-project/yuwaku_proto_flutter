@@ -70,25 +70,101 @@ class clearpage extends StatelessWidget {
               this.imagephotos.length >= 2 ?
               Expanded(
                 flex: 2,
-                child: Row(
-                  children: <Widget>[
-                    this.imagephotos[0],
-                    this.imagephotos[1],
-                  ],
-                ),
-              ) : Container()
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                    child: Row(
+                      children: <Widget>[
+                        this.imagephotos[0],
+                        this.imagephotos[1],
+                      ],
+                    ),
+                    onTapDown: (details) {
+                      if(details.globalPosition.dx < width / 2){
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context){
+                            return AlertDialog(
+                              content: Row(children: <Widget>[this.imagephotos[0]]),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text('戻る'),
+                                ),
+                              ],
+                            );
+                          }
+                        );
+                      }else if(details.globalPosition.dx > width / 2){
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) {
+                            return AlertDialog(
+                              content: Row(children: <Widget>[this.imagephotos[1]]),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text('戻る'),
+                                ),
+                              ],
+                            );
+                          }
+                        );
+                      }
+                    }
+                  ),
+                ) : Container()
           ),
           (
               this.imagephotos.length >= 4 ?
               Expanded(
                 flex: 2,
-                child: Row(
-                  children: <Widget>[
-                    this.imagephotos[2],
-                    this.imagephotos[3],
-                  ],
-                ),
-              ) : Container()
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                    child: Row(
+                      children: <Widget>[
+                        this.imagephotos[2],
+                        this.imagephotos[3],
+                      ],
+                    ),
+                    onTapDown: (details) {
+                      if(details.globalPosition.dx < width / 2){
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context){
+                            return AlertDialog(
+                              content: Row(children: <Widget>[this.imagephotos[2]]),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text('戻る'),
+                                ),
+                              ],
+                            );
+                          }
+                        );
+                      }else if(details.globalPosition.dx > width / 2){
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) {
+                            return AlertDialog(
+                              content: Row(children: <Widget>[this.imagephotos[3]]),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text('戻る'),
+                                ),
+                              ],
+                            );
+                          }
+                        );
+                      }
+                    }
+                  ),
+                ) : Container()
           ),
           Expanded(
             flex: 5,
