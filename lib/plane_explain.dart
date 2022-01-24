@@ -221,6 +221,8 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
 
 Widget planeExplain(String posName, String posEnglishName, String posExplain, var image){
 
+  
+
   return Card(
     margin: EdgeInsets.only(left: 20,right: 20,bottom: 15),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),

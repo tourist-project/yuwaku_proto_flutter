@@ -61,7 +61,7 @@ class MapPainter extends CustomPainter {
 
         determinePosition().then((pos) => item.setDistance(pos)).catchError((error) => print(error));
 
-         item.distance = 15;
+        // item.distance = 15;
         // !!!:debug時はコメント外す
 
         if (item.isProximity(30)) {
