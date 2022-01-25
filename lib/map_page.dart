@@ -3,7 +3,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+// import 'package:flutter/rendering.dart';
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
@@ -13,7 +13,6 @@ import 'package:yuwaku_proto/database.dart';
 import 'package:yuwaku_proto/gameclear.dart';
 import 'package:flutter/material.dart' as prefix;
 import 'package:bubble/bubble.dart';
-import 'camera_page.dart';
 import 'map_painter.dart'; // Colorsを使う時はprefix.Colors.~と使ってください
 import 'package:geolocator/geolocator.dart';
 
@@ -147,12 +146,13 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   final imageDb = ImageDBProvider.instance;
   bool is_clear = true;
-  ui.Image? _mapImage; // マップの画像
-  ui.Image? _cameraIconImg;
+  late ui.Image _mapImage; // マップの画像
+  late ui.Image _cameraIconImg;
   double _moveX = 0; // x軸の移動を保持
-  MapPainter? _mapPainter = null;
-  clearpage? pageClear = null;
-  bool is_reset_images = false;
+  late MapPainter _mapPainter;
+  late clearpage pageClear;
+
+  late Future<void> _initializeImageFuture;  // 画像を読み込み完了を検知する
 
   /// マップの場所情報の一覧
   final _mapItems = <MapItem>[
@@ -186,19 +186,16 @@ class _MapPageState extends State<MapPage> {
   /// アセット(画像等)の取得
   Future<void> _getAssets() async {
     final ui.Image img = await MapItem.loadUiImage('assets/images/map_img.png');
-    final ui.Image cameraIconImg =
-        await MapItem.loadUiImage('assets/images/camera_red.png');
+    final ui.Image cameraIconImg = await MapItem.loadUiImage('assets/images/camera_red.png');
     this._mapPainter = MapPainter(img, cameraIconImg, _getMoveX, _mapItems);
     for (var item in _mapItems) {
       await item.loadInitialImage();
     }
 
-    if (mounted) {
-      /// WidgetTreeにWidgetが存在するかの判断
-      setState(() => {_mapImage = img, _cameraIconImg = cameraIconImg});
-    }
+    _mapImage = img;
+    _cameraIconImg = cameraIconImg;
 
-    this.pageClear = clearpage(0, 0, _mapItems);
+    await clearUpdate();
   }
 
   /// x軸の移動情報を返す
@@ -207,126 +204,106 @@ class _MapPageState extends State<MapPage> {
   @override
   void initState() {
     super.initState();
-    print('initState');
+    pageClear = clearpage(0, 0, _mapItems);
+    _initializeImageFuture = _getAssets(); // 画像の読み込み
+
     MapPainter.determinePosition()
-    .then((value) {
-      // 位置情報を取得する
-      Geolocator.getPositionStream().listen((location) {
-        print(location);
-        for(final item in _mapItems) {
-          item.setDistance(location); // 距離関係を更新する
-        }
-      });
-    }).catchError((_) => _dialogLocationLicense());
-    _getAssets();
+        .then((_) {
+          Geolocator.getPositionStream().listen((location) {
+            for(final item in _mapItems)
+              item.setDistance(location); // 距離関係を更新する
+          });
+        }).catchError((_) => _dialogLocationLicense());
   }
 
+  /// スポットの写真を全て撮影したかチェックする
   Future<void> clearUpdate() async {
     final count = await imageDb.countImage();
-    if (mounted) {
-      setState(() => {this.is_clear = count >= _mapItems.length});
-    }
+    setState(() => this.is_clear = count >= _mapItems.length);
   }
 
   @override
   Widget build(BuildContext context) {
     final Size mediaSize = MediaQuery.of(context).size; // 画面の取得
+    final mediaHeight = mediaSize.height - kToolbarHeight; // キャンバス部分の高さ
 
-    final AppBar appBar = AppBar(
-        title: Text(widget.title, style: TextStyle(color: prefix.Colors.black87)));
 
-    final mediaHeight = mediaSize.height - appBar.preferredSize.height; // キャンバス部分の高さ
+    return Scaffold(
+      appBar: AppBar(title: Text(widget.title, style: TextStyle(color: prefix.Colors.black87))),
+      body: FutureBuilder<void>(
+        future: _initializeImageFuture,
+        builder: (context, snapshot) {
+          if(snapshot.connectionState == ConnectionState.done) {
+            if (!this.is_clear) {
+              this._mapPainter = MapPainter(_mapImage, _cameraIconImg, _getMoveX, _mapItems);
 
-    clearUpdate();
+              return GestureDetector(
+                onTapUp: (details) {
+                  // タップ時の処理
+                  // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
+                  for (var item in _mapItems) {
+                    // TODO: 実際に現地で検証して
+                    if (item.isProximity(30)) {
+                      // 場所ごとのタップの判定処理(タップ時は遷移)
+                      if (item.didTappedImageTransition(this._mapPainter.scale, _getMoveX(), details.localPosition)) {
+                        Navigator.of(context).pushNamed('/camera_page', arguments: item).then((_) async => await clearUpdate());
+                        break;
+                      }
+                    }
+                  }
+                },
+                onPanUpdate: (DragUpdateDetails details) {
+                  // スクロール時の処理
 
-    if (_mapImage != null) {
-      this._mapPainter =
-          MapPainter(_mapImage!, _cameraIconImg!, _getMoveX, _mapItems);
-    }
+                  // スクロールを適用した場合の遷移先X
+                  final next = _moveX - details.delta.dx;
+                  setState(() {
+                    // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
+                    // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
+                    _moveX = min(max(next, 0), _mapImage.width * this._mapPainter.scale - mediaSize.width);
+                  });
+                },
+                child: CustomPaint(
+                  // キャンバス本体
+                  size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
+                  painter: this._mapPainter, // ペインター
+                ),
+              );
+            } else {
+              this.pageClear.width = mediaSize.width;
+              this.pageClear.height = mediaSize.height;
 
-    if (!this.is_clear) {
-      // UI部分
-      return Scaffold(
-        appBar: appBar,
-        body: Stack(
-          children: <Widget>[
-            Center(
-              child: _mapImage == null
-                  ? Text('Loading...',
-                      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
-                  : // ロード画面
-                  GestureDetector(
-                      onTapUp: (details) {
-                        // タップ時の処理
-                        // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-                        for (var item in _mapItems) {
-                          // TODO: 実際に現地で検証して
-                          if (item.isProximity(30)) {
-                            // 場所ごとのタップの判定処理(タップ時は遷移)
-                            if (item.didTappedImageTransition(
-                                this._mapPainter!.scale,
-                                _getMoveX(),
-                                details.localPosition)) {
-                              Navigator.of(context)
-                                  .pushNamed('/camera_page', arguments: item);
-                              break;
-                            }
-                          }
-                        }
-                      },
-                      onPanUpdate: (DragUpdateDetails details) {
-                        // スクロール時の処理
-                        setState(() {
-                          // スクロールを適用した場合の遷移先X
-                          final next = _moveX - details.delta.dx;
-                          // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-                          // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
-                          _moveX = min(
-                              max(next, 0),
-                              _mapImage!.width * this._mapPainter!.scale -
-                                  mediaSize.width);
-                        });
-                      },
-                      child: CustomPaint(
-                        // キャンバス本体
-                        size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
-                        painter: this._mapPainter!, // ペインター
-                        child: Center(), // あったほうがいいらしい？？
-                      ),
+              return Stack(
+                children: [
+                  pageClear,
+                  ElevatedButton(
+                    onPressed: () {
+                      imageDb.deleteAll();
+                      for (var item in _mapItems) {
+                        item.photoImage = null;
+                      }
+                      clearUpdate();
+                    },
+                    child: const Text('もう一度'),
                   ),
-            ),
-            // SnackBerPage(),
-          ],
-        ),
-      );
-    } else {
-      if (!is_reset_images && pageClear != null) {
-        this.pageClear!.width = mediaSize.width;
-        this.pageClear!.height = mediaSize.height;
-        this.is_reset_images = true;
-      }
-      return Scaffold(
-        appBar: appBar,
-        body: Stack(
-          children: [
-            _mapImage == null || pageClear == null
-                ? Text('Loading...',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center)
-                : pageClear!,
-            ElevatedButton(
-              onPressed: () {
-                imageDb.deleteAll();
-                for (var item in _mapItems) {
-                  item.photoImage = null;
-                }
-              },
-              child: const Text('もう一度'),
-            ),
-          ],
-        ),
-      );
-    }
+                ],
+              );
+            }
+          } else if(snapshot.hasError) {
+            return Center(child: Text('アプリを再起動してください'));
+          } else {
+            return Center(
+              child: Column(
+                children: <Widget>[
+                  const CircularProgressIndicator(),
+                  const Text('Loading...', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+                ],
+              ),
+            );
+          }
+        },
+      ),
+    );
   }
 
   /// 位置情報が拒否されている時、「位置情報を許可する」ダイアログを表示する
