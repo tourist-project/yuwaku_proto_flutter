@@ -80,43 +80,15 @@ class clearpage extends StatelessWidget {
                     ),
                     onTapDown: (details) {
                       if(details.globalPosition.dx < width / 2){
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (context){
-                            return AlertDialog(
-                              content: Row(children: <Widget>[this.imagephotos[0]]),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text('戻る'),
-                                ),
-                              ],
-                            );
-                          }
-                        );
+                        ImagePrint(context, imagephotos[0]);
                       }else if(details.globalPosition.dx > width / 2){
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (context) {
-                            return AlertDialog(
-                              content: Row(children: <Widget>[this.imagephotos[1]]),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text('戻る'),
-                                ),
-                              ],
-                            );
-                          }
-                        );
+                        ImagePrint(context, imagephotos[1]);
                       }
                     }
                   ),
                 ) : Container()
           ),
-          (
+          
               this.imagephotos.length >= 4 ?
               Expanded(
                 flex: 2,
@@ -130,42 +102,13 @@ class clearpage extends StatelessWidget {
                     ),
                     onTapDown: (details) {
                       if(details.globalPosition.dx < width / 2){
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (context){
-                            return AlertDialog(
-                              content: Row(children: <Widget>[this.imagephotos[2]]),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text('戻る'),
-                                ),
-                              ],
-                            );
-                          }
-                        );
+                        ImagePrint(context, imagephotos[2]);
                       }else if(details.globalPosition.dx > width / 2){
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (context) {
-                            return AlertDialog(
-                              content: Row(children: <Widget>[this.imagephotos[3]]),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text('戻る'),
-                                ),
-                              ],
-                            );
-                          }
-                        );
+                        ImagePrint(context, imagephotos[3]);
                       }
                     }
                   ),
-                ) : Container()
-          ),
+                ) : Container(),
           Expanded(
             flex: 5,
             child: Container(
@@ -220,4 +163,22 @@ class clearpage extends StatelessWidget {
       ),
     );
   }
+  void ImagePrint(BuildContext context, Expanded otherimage){
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          content: Row(children: <Widget>[otherimage]),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('戻る'),
+              ),
+            ],
+        );
+      },
+    );
+  }
 }
+
