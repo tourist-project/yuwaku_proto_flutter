@@ -80,16 +80,15 @@ class clearpage extends StatelessWidget {
                     ),
                     onTapDown: (details) {
                       if(details.globalPosition.dx < width / 2){
-                        ImagePrint(context, imagephotos[0]);
+                        showImage(context, imagephotos[0]);
                       }else if(details.globalPosition.dx > width / 2){
-                        ImagePrint(context, imagephotos[1]);
+                        showImage(context, imagephotos[1]);
                       }
                     }
                   ),
                 ) : Container()
           ),
-          
-              this.imagephotos.length >= 4 ?
+            this.imagephotos.length >= 4 ?
               Expanded(
                 flex: 2,
                 child: GestureDetector(
@@ -102,9 +101,9 @@ class clearpage extends StatelessWidget {
                     ),
                     onTapDown: (details) {
                       if(details.globalPosition.dx < width / 2){
-                        ImagePrint(context, imagephotos[2]);
+                        showImage(context, imagephotos[2]);
                       }else if(details.globalPosition.dx > width / 2){
-                        ImagePrint(context, imagephotos[3]);
+                        showImage(context, imagephotos[3]);
                       }
                     }
                   ),
@@ -164,7 +163,7 @@ class clearpage extends StatelessWidget {
     );
   }
   Future <void> showImage(BuildContext context, Expanded otherimage){
-    showDialog(
+    return showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) {
