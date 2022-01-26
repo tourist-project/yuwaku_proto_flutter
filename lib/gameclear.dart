@@ -179,6 +179,7 @@ class clearpage extends StatelessWidget {
               child: Scrollbar(
                 child: SingleChildScrollView(
                   child: Container(
+
                     child: RichText(
                       text: TextSpan(
                         text: 'ゲームクリア！本日はユーザーテストにご協力いただきありがとうございます。\n'
@@ -189,6 +190,7 @@ class clearpage extends StatelessWidget {
                           TextSpan(text: '左上のボタンは押さないでください。データ全てが消去されます。', style: TextStyle(color: Colors.red)),
                         ],
                       ),
+
                     ),
                   ),
 
@@ -196,6 +198,7 @@ class clearpage extends StatelessWidget {
               ),
             ),
           ),
+          /*
           Expanded(
             flex: 1,
             child: Container(
@@ -221,6 +224,8 @@ class clearpage extends StatelessWidget {
               ),
             ),
           ),
+
+           */
         ],
       ),
     );
