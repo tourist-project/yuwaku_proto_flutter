@@ -163,7 +163,7 @@ class clearpage extends StatelessWidget {
       ),
     );
   }
-  void ImagePrint(BuildContext context, Expanded otherimage){
+  Future <void> showImage(BuildContext context, Expanded otherimage){
     showDialog(
       context: context,
       barrierDismissible: false,
