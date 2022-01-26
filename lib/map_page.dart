@@ -284,7 +284,7 @@ class _MapPageState extends State<MapPage> {
                       }
                       clearUpdate();
                     },
-                    child: const Text('もう一度'),
+                    child: const Text('データ消去'),
                   ),
                 ],
               );

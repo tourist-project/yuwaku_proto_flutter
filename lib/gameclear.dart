@@ -183,6 +183,7 @@ class clearpage extends StatelessWidget {
                       ' ゲームクリア！本日はユーザーテストにご協力いただきありがとうございます。\n'
                           ' 端末の返却のほどよろしくお願いいたします。\n'
                           ' 返却後にお礼の品などをお渡ししたいと考えております。',
+
                       style: TextStyle(fontSize: height / 40),
                     ),
                   ),
@@ -191,6 +192,7 @@ class clearpage extends StatelessWidget {
               ),
             ),
           ),
+          /*
           Expanded(
             flex: 1,
             child: Container(
@@ -216,6 +218,8 @@ class clearpage extends StatelessWidget {
               ),
             ),
           ),
+
+           */
         ],
       ),
     );
