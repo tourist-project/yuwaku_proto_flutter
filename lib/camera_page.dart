@@ -103,6 +103,7 @@ class _CameraPageState extends State<CameraPage> {
       List<int> values = data.buffer.asUint8List();
       img.Image? photo = img.decodeImage(values);
 
+
       if (photo != null && logo != null) {
         for (var i = 0; i < logo!.width - 1; i++) {
           for (var j = 0; j < logo!.height - 1; j++) {
@@ -115,6 +116,7 @@ class _CameraPageState extends State<CameraPage> {
         }
         data = Uint8List.fromList(img.encodePng(photo));
       }
+
 
       final saveData = base64.encode(img.encodePng(photo!));
       if (await imageDb.isExist(mapItem.name)) {

@@ -98,7 +98,7 @@ class TopPageView extends StatelessWidget{
                       onPressed: () => selectItem(2),
                       style: ElevatedButton.styleFrom(
                         primary: Colors.lightBlueAccent,
-                        fixedSize: const Size(80.0, 80.0),
+                        minimumSize: const Size(80.0, 80.0),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100), ),
                       ),
                       child: const Center(child: Text("遊び方", style: TextStyle(color: prefix.Colors.white))),
@@ -109,7 +109,7 @@ class TopPageView extends StatelessWidget{
                       onPressed: () => selectItem(1),
                       style: ElevatedButton.styleFrom(
                         primary: Colors.redAccent,
-                        fixedSize: const Size(80.0, 80.0),
+                        minimumSize: const Size(80.0, 80.0),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                       ),
                       child: const Center(child: Text("スタート", style: TextStyle(color: prefix.Colors.white, fontSize: 12.0))),
@@ -120,7 +120,7 @@ class TopPageView extends StatelessWidget{
                         onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PicExplain(title: '場所説明'))),
                         style: ElevatedButton.styleFrom(
                           primary: Colors.orange,
-                          fixedSize: const Size(80.0, 80.0),
+                          minimumSize: const Size(80.0, 80.0),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                         ),
                         child: const Center(child: Text("スポット", style: TextStyle(color: prefix.Colors.white, fontSize: 12.0)))
@@ -136,7 +136,7 @@ class TopPageView extends StatelessWidget{
                   onPressed: () => _launchURLtoWebSite(),
                   style: ElevatedButton.styleFrom(
                     primary: prefix.Colors.red[300],
-                    fixedSize: const Size(280, 50),
+                    minimumSize: const Size(280, 50),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   ),
                   child: const Center(child: Text("Webサイトへ", style: TextStyle(color: prefix.Colors.white))),
