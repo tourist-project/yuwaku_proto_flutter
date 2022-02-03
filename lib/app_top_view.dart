@@ -36,7 +36,7 @@ class TopPageView extends StatelessWidget{
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/TopView.png'),
+            image: AssetImage('assets/images/develop/TopView.png'),
             fit: BoxFit.cover,
           ),
         ),

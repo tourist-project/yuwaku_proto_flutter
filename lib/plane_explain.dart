@@ -74,9 +74,9 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
         'ぜひ足湯を体験してみていかかでしょう。'
   ];
   var imagePhoto = [
-    //'assets/images/MidorinoSato.png',
-    'assets/images/HimuroGoya.png',
-    'assets/images/Asiyu(temp).png'
+    //'assets/images/spots/MidorinoSato.png',
+    'assets/images/spots/HimuroGoya.png',
+    'assets/images/spots/Asiyu(temp).png'
   ];
 
 
@@ -110,7 +110,7 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
                           child: Column(
                             children: <Widget>[
                               Container(
-                                child: Image.asset('assets/images/KeigoSirayu.png'),
+                                child: Image.asset('assets/images/spots/KeigoSirayu.png'),
                               ),
                               Container(
                                 child: Column(
@@ -162,7 +162,7 @@ class _PicExplain extends State<PicExplain> with TickerProviderStateMixin{
                           child: Column(
                             children: <Widget>[
                               Container(
-                                  child: Image.asset('assets/images/Yumezikan.png')
+                                  child: Image.asset('assets/images/spots/Yumezikan.png')
                               ),
                               Container(
                                 child: Column(

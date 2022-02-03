@@ -49,12 +49,12 @@ extension PageDataExtension on PageData {
     PageData.first: {
       'title': '観光スポットを探索',
       'description': '画像とヒントを頼りに観光スポットを探そう！！',
-      'imagePath': 'assets/images/tutorial_image_step1.png'
+      'imagePath': 'assets/images/develop/tutorial_image_step1.png'
     },
     PageData.second: {
       'title': 'スポットを見つけたら写真を撮影',
       'description': 'スポットに近づいたらカメラマークがでるよ！！',
-      'imagePath': 'assets/images/tutorial_image_step2.png'
+      'imagePath': 'assets/images/develop/tutorial_image_step2.png'
     }
   };
 

@@ -157,36 +157,36 @@ class _MapPageState extends State<MapPage> {
   /// マップの場所情報の一覧
   final _mapItems = <MapItem>[
     /*MapItem('湯涌稲荷神社', 36.4856770,136.7582343, Offset(1254, 292),
-        'assets/images/img1_gray.png', Rect.fromLTWH(650, 182, 280, 280)),*/
+        'assets/images/spots/img1_gray.png', Rect.fromLTWH(650, 182, 280, 280)),*/
     MapItem('総湯', 36.485425901995455, 136.75758738535384, Offset(1358, 408),
-        'assets/images/img2_gray.png', Rect.fromLTWH(1000, 820, 280, 280)),
+        'assets/images/spots/img2_gray.png', Rect.fromLTWH(1000, 820, 280, 280)),
     MapItem(
         '氷室',
         36.48346516395541,
         136.75701193508996,
         Offset(1881, 512),
-        'assets/images/himurogoya_gray.png',
+        'assets/images/spots/himurogoya_gray.png',
         Rect.fromLTWH(1720, 620, 280, 280)),
     MapItem(
         '足湯(立派な方)',
         36.48582537854954,
         136.7574341842218,
         Offset(1275, 385),
-        'assets/images/asiyu(temp)_gray.png',
+        'assets/images/spots/asiyu(temp)_gray.png',
         Rect.fromLTWH(1500, 60, 280, 280)),
     /* MapItem('足湯(湯の出)', 36.48919374904115, 136.75588850463596, Offset(505, 690),
-        'assets/images/Asiyu(temp).png', Rect.fromLTWH(750, 80, 280, 280)),
+        'assets/images/spots/Asiyu(temp).png', Rect.fromLTWH(750, 80, 280, 280)),
         */
     /*MapItem('みどりの里', 36.49050881078798, 136.75404574490975, Offset(239, 928),
-        'assets/images/MidorinoSato.png', Rect.fromLTWH(280, 850, 280, 280))*/
+        'assets/images/spots/MidorinoSato.png', Rect.fromLTWH(280, 850, 280, 280))*/
     MapItem('湯涌夢二館', 36.48584951599308, 136.75738876226737, Offset(1250, 425),
-        'assets/images/yumejikan_gray.png', Rect.fromLTWH(580, 80, 280, 280)),
+        'assets/images/spots/yumejikan_gray.png', Rect.fromLTWH(580, 80, 280, 280)),
   ];
 
   /// アセット(画像等)の取得
   Future<void> _getAssets() async {
-    final ui.Image img = await MapItem.loadUiImage('assets/images/map_img.png');
-    final ui.Image cameraIconImg = await MapItem.loadUiImage('assets/images/camera_red.png');
+    final ui.Image img = await MapItem.loadUiImage('assets/images/develop/map_img.png');
+    final ui.Image cameraIconImg = await MapItem.loadUiImage('assets/images/develop/camera_red.png');
     this._mapPainter = MapPainter(img, cameraIconImg, _getMoveX, _mapItems);
     for (var item in _mapItems) {
       await item.loadInitialImage();

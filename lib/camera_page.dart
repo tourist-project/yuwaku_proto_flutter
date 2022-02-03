@@ -66,7 +66,7 @@ class _CameraPageState extends State<CameraPage> {
   }
 
   Future<void> _loadInitAsync() async {
-    ByteData imageData = await rootBundle.load('assets/images/text_logo.png');
+    ByteData imageData = await rootBundle.load('assets/images/develop/text_logo.png');
     logo = img.decodeImage(Uint8List.view(imageData.buffer));
   }
 
@@ -189,7 +189,7 @@ class _CameraPageState extends State<CameraPage> {
       print('取得中ｘ');
       return Center(
         child: Image(
-          image: AssetImage('assets/images/Loading.gif'),
+          image: AssetImage('assets/images/develop/Loading.gif'),
         ),
       );
     }else if(_dstStampImage != null && loadingFlag == true){
@@ -197,7 +197,7 @@ class _CameraPageState extends State<CameraPage> {
 
       return Center(
           child: Image(
-          image: AssetImage('assets/images/Loading.gif'),
+          image: AssetImage('assets/images/develop/Loading.gif'),
           ),
       );
     }else{

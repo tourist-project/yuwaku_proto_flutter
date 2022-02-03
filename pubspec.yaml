@@ -56,7 +56,7 @@ dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/icon.png"
+  image_path: "assets/images/develop/icon.png"
 
 dev_dependencies:
   flutter_test:
@@ -69,7 +69,8 @@ dev_dependencies:
 flutter:
 
   assets:
-    - assets/images/
+    - assets/images/develop/
+    - assets/images/spots/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
