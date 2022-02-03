@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
 import 'map_page.dart';
-import 'some_explain.dart';
 import 'package:yuwaku_proto/app_top_view.dart';
 import 'plane_explain.dart';
 
