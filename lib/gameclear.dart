@@ -130,17 +130,23 @@ class _clearpage extends State<clearpage> {
               child: Scrollbar(
                 child: SingleChildScrollView(
                   child: Container(
-                    child: Text(
-                      ' ゲームクリア！本日はユーザーテストにご協力いただきありがとうございます。\n'
-                      ' 端末の返却のほどよろしくお願いいたします。\n'
-                      ' 返却後にお礼の品などをお渡ししたいと考えております。',
-                      style: TextStyle(fontSize: height / 40),
+                    child: RichText(
+                      text: TextSpan(
+                        text: 'ゲームクリア！本日はユーザーテストにご協力いただきありがとうございます。\n'
+                            ' 端末の返却のほどよろしくお願いいたします。\n'
+                            ' 返却後にお礼の品などをお渡ししたいと考えております。',
+                        style: TextStyle(color: Colors.black, fontSize: height / 40),
+                        children: <TextSpan>[
+                          TextSpan(text: '左上のボタンは押さないでください。データ全てが消去されます。', style: TextStyle(color: Colors.red)),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
           ),
+          /*
           Expanded(
             flex: 1,
             child: Container(
@@ -164,6 +170,8 @@ class _clearpage extends State<clearpage> {
               ),
             ),
           ),
+
+           */
         ],
       ),
     );
