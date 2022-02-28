@@ -11,16 +11,6 @@ class TopPageView extends StatelessWidget{
 
   TopPageView({required this.selectItem});
 
-
-  final AppBar appBar = AppBar(
-    title: Text('撮っテク!',
-        style: TextStyle(
-            color: prefix.Colors.black,
-            fontStyle: FontStyle.normal)),
-    centerTitle: true,
-    backgroundColor: Color.fromRGBO(249,234,205,50),
-  );
-
   Future<void> _launchURLtoWebSite() async{
     const url = "https://totteku.tourism-project.com/";
     if (await canLaunch(url)) {
@@ -32,25 +22,29 @@ class TopPageView extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    final mediaWidth = MediaQuery.of(context).size.width;
-    final mediaHeight = MediaQuery.of(context).size.height - appBar.preferredSize.height; // Appbarを除いた画面の大きさ
-
     return Scaffold(
-      appBar: appBar,
-      body: Container(
-        decoration: const BoxDecoration( // 背景
-            image: DecorationImage(
-              image: AssetImage('assets/images/TopView.png'),
-              fit: BoxFit.cover,
+      appBar: AppBar(
+        title: const Text('撮っテク!',
+            style: TextStyle(
+                color: prefix.Colors.black,
+                fontStyle: FontStyle.normal
             ),
         ),
-        height: mediaHeight,
-        width: mediaWidth,
+        centerTitle: true,
+        backgroundColor: const Color.fromRGBO(249,234,205,50),
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/TopView.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Flexible( // 日付
-              flex: 4,
+            Expanded(
+              flex: 1,
               child: Opacity(
                 opacity: 0.6,
                 child: Container(
@@ -68,150 +62,92 @@ class TopPageView extends StatelessWidget{
                 ),
               ),
             ),
-            Flexible( //フォトラリーWidget
-              flex: 12,
-              child: Container(
-                width: double.infinity,
-                height: mediaHeight/3,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      child: Text("湯涌\nフォトラリー",
-                        textAlign: TextAlign.center,
+            Expanded(
+              flex: 5,
+              child: FittedBox(
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: const TextSpan(
+                    text: '湯涌\nフォトラリー\n',
+                    style: TextStyle(
+                      color: prefix.Colors.white,
+                      fontSize: 55,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: '写真を撮ってスタンプラリー',
                         style: TextStyle(
                           color: prefix.Colors.white,
-                          fontSize: mediaWidth/7,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                    Spacer(),
-                    Container(
-                      child: Text("写真を撮ってスタンプラリー",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: prefix.Colors.white,
-                          fontSize: mediaWidth/25,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Spacer(),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-            Flexible( // ボタン配置
-              flex: 8,
+            Expanded(
+              flex: 3,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Spacer(),
-                  RawMaterialButton(
-                    onPressed: () => selectItem(2),
-                    shape: CircleBorder(),
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: mediaWidth/5,
-                      height: mediaHeight/8,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: prefix.Colors.lightBlueAccent,
+                  FittedBox(
+                    child: ElevatedButton(
+                      onPressed: () => selectItem(2),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.lightBlueAccent,
+                        minimumSize: const Size(80.0, 80.0),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100), ),
                       ),
-                      child:const Text("遊び方",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: prefix.Colors.white
-                        ),
-                      ),
+                      child: const Center(child: Text("遊び方", style: TextStyle(color: prefix.Colors.white))),
                     ),
                   ),
-                  Spacer(),
-                  RawMaterialButton(
-                    onPressed: () => selectItem(1),
-                    shape: CircleBorder(),
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: mediaWidth/5,
-                      height: mediaHeight/8,
-                      decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: prefix.Colors.redAccent
+                  FittedBox(
+                    child: ElevatedButton(
+                      onPressed: () => selectItem(1),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.redAccent,
+                        minimumSize: const Size(80.0, 80.0),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                       ),
-                      child: const Text("スタート",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: prefix.Colors.white
-                        ),
-                      ),
+                      child: const Center(child: Text("スタート", style: TextStyle(color: prefix.Colors.white, fontSize: 12.0))),
                     ),
                   ),
-                  Spacer(),
-                  RawMaterialButton(
-                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PicExplain(title: '場所説明'))),
-                    shape: CircleBorder(),
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: mediaWidth/5,
-                      height: mediaHeight/8,
-                      decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: prefix.Colors.orange
-                      ),
-                      child: const Text("スポット",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: prefix.Colors.white
+                  FittedBox(
+                    child: ElevatedButton(
+                        onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PicExplain(title: '場所説明'))),
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.orange,
+                          minimumSize: const Size(80.0, 80.0),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                         ),
-                      ),
+                        child: const Center(child: Text("スポット", style: TextStyle(color: prefix.Colors.white, fontSize: 12.0)))
                     ),
                   ),
-                  Spacer(),
                 ],
               ),
             ),
-            Flexible(
-              flex: 4,
-              child: Padding(
-                padding: EdgeInsets.all(10),
-                child: Container( // フォトコン
-                  width: mediaWidth/1.2,
-                  height: mediaHeight/8,
-                  alignment: Alignment.center,
-                  decoration: const BoxDecoration( // 背景
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/photoConPage.png'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  child: Text("フォトコンテスト",
-                    style: TextStyle(
-                        color: prefix.Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: mediaWidth/16
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Flexible( //webサイトに飛ぶ
-              flex: 3,
-              child: SizedBox(
-                width: mediaWidth/1.2,
-                height: mediaHeight/15,
+            Expanded(
+              flex: 1,
+              child: FittedBox(
                 child: ElevatedButton(
+                  onPressed: () => _launchURLtoWebSite(),
                   style: ElevatedButton.styleFrom(
                     primary: prefix.Colors.red[300],
-                    onPrimary: prefix.Colors.white,
-                    shape: const StadiumBorder(),
+                    minimumSize: const Size(280, 50),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   ),
-                  onPressed: () => _launchURLtoWebSite(), // Webサイトに飛ぶ
-                  child: Text("Webサイトへ"),
+                  child: const Center(child: Text("Webサイトへ", style: TextStyle(color: prefix.Colors.white))),
                 ),
               ),
             ),
+            const Padding(padding: EdgeInsets.all(30.0)),
           ],
         ),
       ),
     );
   }
 }
+
