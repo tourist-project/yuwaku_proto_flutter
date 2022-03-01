@@ -1,13 +1,15 @@
-
-
+import 'package:yuwaku_proto/main.dart';
+import 'package:flutter/material.dart';
+/*
 class HomePageItem{
+
   final String? title , eng_title, explain, image;
 
   HomePageItem({
-    this.title,
-    this.eng_title,
-    this.explain,
-    this.image
+    @required this.title,
+    @required this.eng_title,
+    @required this.explain,
+    @required this.image
   });
 
   List<HomePageItem> homeItems = [
@@ -38,8 +40,8 @@ class HomePageItem{
             'おります。湯涌の新鮮な農作物や加工品などをお買い求めいただけます。',
         image: 'assets/images/MidorinoSato.png'
     ),
-
-
   ];
 
 }
+
+ */
