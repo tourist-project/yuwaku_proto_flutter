@@ -62,10 +62,10 @@ class MapPainter extends CustomPainter {
         final movex = _getMoveX();
         final rescaleRect = item.getPhotoRectForDeviceFit(scale, movex); // どこに描画するかを設定
         final scaleDev2 = scale / 2;
-
+        
         /// !!!:debug時はコメント外す
-        // item.distance = 15;
-
+      //item.distance = 15;
+      
         if (item.isProximity(30)) {
           final xscale = item.position.dx * scale - movex;
           final yscale = item.position.dy * scale;

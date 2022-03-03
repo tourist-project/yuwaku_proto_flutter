@@ -30,6 +30,7 @@ dependencies:
   image_picker: ^0.7.0-nullsafety
   moor: ^4.0.0-nullsafety.1
   geolocator: ^7.0.3
+  
   vector_math: any
   angles: ^2.1.0
   touchable:
@@ -44,14 +45,14 @@ dependencies:
   url_launcher: ^6.0.10
 
 
-  smooth_page_indicator: any
 
   image_gallery_saver: ^1.7.1
   image: ^3.1.0
 
   flutter_launcher_icons: ^0.9.2
 
-
+  carousel_slider: ^4.0.0
+  smooth_page_indicator: any
 
 flutter_icons:
   android: true
