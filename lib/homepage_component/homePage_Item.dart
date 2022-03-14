@@ -37,8 +37,8 @@ List<HomePageItem> homeItems = [
       '蕎麦打ち体験や梨の収穫体験などの様々なイベントが1年を通して行われます。'
           '4月中旬〜12月中旬の毎週日曜日と水曜日に朝市が開催され新鮮な農作物などをお買い求めいただけます。',
       'assets/images/MidorinoSato.png'),
-
 ];
+
 
 
 

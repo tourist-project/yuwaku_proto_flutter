@@ -18,7 +18,8 @@ class _HomeScreen extends State<HomeScreen>{
   @override
   Widget build(BuildContext context) {
 
-    final mediaSize = MediaQuery.of(context).size;
+    double mediaWidthSize = MediaQuery.of(context).size.width;
+    double mediaHeightSize = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -39,11 +40,11 @@ class _HomeScreen extends State<HomeScreen>{
           ),
 
           SliverGrid(
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 300.0,
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: mediaHeightSize/2,
               mainAxisSpacing: 10.0,
-              crossAxisSpacing: 10.0,
-              childAspectRatio: 0.6,
+              crossAxisSpacing: 0.0,
+              childAspectRatio: 1.0,
             ),
             delegate:
             SliverChildBuilderDelegate(
@@ -56,19 +57,31 @@ class _HomeScreen extends State<HomeScreen>{
                           Column(
                             children: <Widget>[
                               Text(
-                                  homeItems[index].title
+                                  homeItems[index].title,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: mediaHeightSize/30
+                                ),
                               ),
                               Text(homeItems[index].eng_title)
                             ],
                           ),
 
                           Card(
-                            child: Image(
-                              image: AssetImage(homeItems[index].image,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(homeItems[index].image),
+                                  )
                               ),
+                              width: mediaWidthSize/2,
+                              height: mediaHeightSize/5.0,
+                            ),
                           ),
-                          ),
-                          Text(homeItems[index].explain),
+
+                          // Text(homeItems[index].explain)
+
 
 
                         ],
