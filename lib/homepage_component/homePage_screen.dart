@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:yuwaku_proto/main.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'homePage_Item.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class HomeScreen extends StatefulWidget {
 
@@ -50,39 +52,41 @@ class _HomeScreen extends State<HomeScreen>{
             SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
                     return Card(
-                      elevation: 15,
+                      elevation: 20,
                       shadowColor: Colors.orange,
                       child: Column(
                         children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              Text(
-                                  homeItems[index].title,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: mediaHeightSize/30
+                          Flexible(
+                            flex: 2,
+                            child: Column(
+                                children: <Widget>[
+                                  AutoSizeText(
+                                    homeItems[index].title,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: mediaHeightSize/30
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Text(homeItems[index].eng_title)
+                                ],
+                              ),
+                          ),
+
+                          Flexible(
+                            flex: 5,
+                            child: Card(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: AssetImage(homeItems[index].image),
+                                    )
                                 ),
                               ),
-                              Text(homeItems[index].eng_title)
-                            ],
-                          ),
-
-                          Card(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage(homeItems[index].image),
-                                  )
-                              ),
-                              width: mediaWidthSize/2,
-                              height: mediaHeightSize/5.0,
                             ),
                           ),
-
                           // Text(homeItems[index].explain)
-
-
 
                         ],
                       ),
