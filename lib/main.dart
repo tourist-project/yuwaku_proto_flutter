@@ -12,6 +12,7 @@ import 'package:yuwaku_proto/tutorial_page.dart';
 import 'package:flutter/services.dart';
 import 'homepage_component/homePage_Item.dart';
 import 'homepage_component/homePage_screen.dart';
+import 'SizeConfig.dart';
 
 void main() {
 

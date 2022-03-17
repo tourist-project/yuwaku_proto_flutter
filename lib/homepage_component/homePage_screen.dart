@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:yuwaku_proto/SizeConfig.dart';
 import 'package:yuwaku_proto/main.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'homePage_Item.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+
 
 class HomeScreen extends StatefulWidget {
 
@@ -20,6 +22,7 @@ class _HomeScreen extends State<HomeScreen>{
   @override
   Widget build(BuildContext context) {
 
+    SizeConfig().init(context);
     double mediaWidthSize = MediaQuery.of(context).size.width;
     double mediaHeightSize = MediaQuery.of(context).size.height;
 
@@ -48,51 +51,61 @@ class _HomeScreen extends State<HomeScreen>{
               crossAxisSpacing: 0.0,
               childAspectRatio: 1.0,
             ),
-            delegate:
-            SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    return Card(
-                      elevation: 20,
-                      shadowColor: Colors.orange,
+            delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+              SizeConfig().init(context);
+              return Card(
+                elevation: 20,
+                shadowColor: Colors.orange,
+                child: Column(
+                  children: <Widget>[
+                    Flexible(
+                      flex: 2,
                       child: Column(
                         children: <Widget>[
                           Flexible(
                             flex: 2,
-                            child: Column(
-                                children: <Widget>[
-                                  AutoSizeText(
-                                    homeItems[index].title,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: mediaHeightSize/30
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  Text(homeItems[index].eng_title)
-                                ],
+                            child: AutoSizeText(
+                              homeItems[index].title,
+                              style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                                fontSize: mediaHeightSize/30,
                               ),
-                          ),
-
-                          Flexible(
-                            flex: 5,
-                            child: Card(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: AssetImage(homeItems[index].image),
-                                    )
-                                ),
-                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          // Text(homeItems[index].explain)
-
+                          Flexible(
+                            flex: 1,
+                            child: AutoSizeText(
+                              homeItems[index].eng_title,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: mediaHeightSize/50,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
                         ],
                       ),
-                    );
-                    },
-
+                    ),
+                    Flexible(
+                      flex: 5,
+                      child: Card(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5.0),
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage(homeItems[index].image),
+                              )
+                          ),
+                        ),
+                      ),
+                    ),
+                    // Text(homeItems[index].explain)
+                  ],
+                ),
+              );
+              },
               childCount: homeItems.length,
             ),
           ),
@@ -110,11 +123,9 @@ class _HomeScreen extends State<HomeScreen>{
               },
             ),
           ),
-
-           */
-        ],
+        */
+          ],
       )
-
     );
   }
 }
