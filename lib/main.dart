@@ -10,6 +10,9 @@ import 'package:yuwaku_proto/gameclear.dart';
 import 'package:yuwaku_proto/app_top_view.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
 import 'package:flutter/services.dart';
+import 'homepage_component/homePage_Item.dart';
+import 'homepage_component/homePage_screen.dart';
+import 'SizeConfig.dart';
 
 void main() {
 
@@ -33,7 +36,7 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme(
             color: Color.fromRGBO(240, 233, 208, 100),
           )),
-      home: BottomTabPage(),
+      home: HomeScreen(),
       routes: <String, WidgetBuilder>{
         '/map_page': (BuildContext context) => MapPage(title: '地図'),
         '/camera_page': (BuildContext context) => CameraPage(
