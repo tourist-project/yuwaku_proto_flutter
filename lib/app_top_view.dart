@@ -33,6 +33,7 @@ class TopPageView extends StatelessWidget{
         centerTitle: true,
         backgroundColor: const Color.fromRGBO(249,234,205,50),
       ),
+      
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(

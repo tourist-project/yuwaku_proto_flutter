@@ -131,6 +131,7 @@ class MapItem {
   }
 }
 
+
 /// マップページのステートフルウィジェット
 class MapPage extends StatefulWidget {
   MapPage({Key? key, required this.title}) : super(key: key);
