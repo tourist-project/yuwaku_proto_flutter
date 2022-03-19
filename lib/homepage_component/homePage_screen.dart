@@ -7,6 +7,7 @@ import 'homePage_Item.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 
+
 class HomeScreen extends StatefulWidget {
 
   const HomeScreen({Key? key}) : super(key: key);
@@ -17,115 +18,115 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen>{
-
-
   @override
   Widget build(BuildContext context) {
-
-    SizeConfig().init(context);
     double mediaWidthSize = MediaQuery.of(context).size.width;
     double mediaHeightSize = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text('トップページ'),
+        backgroundColor: Colors.orange,
+      ),
       backgroundColor: Colors.white,
-      body: CustomScrollView(
-        slivers: <Widget>[
-          const SliverAppBar(
-            pinned: true,
-            expandedHeight: 100,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text(
-                'トップページ',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
+      body: SafeArea(
+        bottom: false,
+        child: Container(
+          color: Color(0xFFEAEAEA),
+          child: Column(
+
+            children: [
+              SizedBox( // ここにMap(or Webサイト)へ飛ぶ機能
+                height: mediaHeightSize/12,
+
               ),
-              background: FlutterLogo() /// なんかいい感じの写真とか挿入したい
-            ),
-          ),
-
-          SliverGrid(
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: mediaHeightSize/2,
-              mainAxisSpacing: 10.0,
-              crossAxisSpacing: 0.0,
-              childAspectRatio: 1.0,
-            ),
-            delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-              SizeConfig().init(context);
-              return Card(
-                elevation: 20,
-                shadowColor: Colors.orange,
-                child: Column(
-                  children: <Widget>[
-                    Flexible(
-                      flex: 2,
-                      child: Column(
-                        children: <Widget>[
-                          Flexible(
-                            flex: 2,
-                            child: AutoSizeText(
-                              homeItems[index].title,
-                              style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                                fontSize: mediaHeightSize/30,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Flexible(
-                            flex: 1,
-                            child: AutoSizeText(
-                              homeItems[index].eng_title,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: mediaHeightSize/50,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
-                      ),
+              Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(30),
+                            bottomRight: Radius.circular(30),
+                        )
                     ),
-                    Flexible(
-                      flex: 5,
-                      child: Card(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5.0),
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: AssetImage(homeItems[index].image),
-                              )
-                          ),
+                    child: GridView.builder(
+                        itemCount: homeItems.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 0.9,
                         ),
-                      ),
-                    ),
-                    // Text(homeItems[index].explain)
-                  ],
-                ),
-              );
-              },
-              childCount: homeItems.length,
-            ),
-          ),
+                        itemBuilder: (BuildContext context, int index) {
+                          return Card(
+                            elevation: 20,
+                            shadowColor: Colors.deepOrange,
+                            child: GestureDetector( //ボタン押下
+                              onTap: () {
+                                // タップ時
 
-          /*
-          SliverFixedExtentList(
-            itemExtent: 50.0,
-            delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                return Container(
-                  alignment: Alignment.center,
-                  color: Colors.lightBlue[100 * (index % 9)],
-                  child: Text('List Item $index'),
-                );
-              },
-            ),
+                              },
+                              child: Column(
+                                children: <Widget>[
+                                  Flexible(
+                                    flex: 2,
+                                    child: Column(
+                                      children: <Widget>[
+                                        Flexible(
+                                          flex: 2,
+                                          child: AutoSizeText(
+                                            homeItems[index].title,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: mediaHeightSize/30,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                        Flexible(
+                                          flex: 1,
+                                          child: AutoSizeText(
+                                            homeItems[index].eng_title,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: mediaHeightSize/50,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Flexible(
+                                    flex: 5,
+                                    child: Card(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(5.0),
+                                            image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: AssetImage(homeItems[index].image),
+                                            )
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }),
+                  ),
+
+              ),
+              SizedBox( // ここにWebサイト(or Map)に飛ぶ機能
+                height: mediaHeightSize/10,
+
+              )
+            ],
           ),
-        */
-          ],
-      )
+        )
+
+
+      ),
     );
   }
 }
