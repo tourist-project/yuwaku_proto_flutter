@@ -227,7 +227,7 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     final Size mediaSize = MediaQuery.of(context).size; // 画面の取得
     final mediaHeight = mediaSize.height - kToolbarHeight; // キャンバス部分の高さ
-
+    final mediaWidth = mediaSize.width;
 
     return Scaffold(
       appBar: AppBar(title: Text(widget.title, style: TextStyle(color: prefix.Colors.black87))),
@@ -238,36 +238,80 @@ class _MapPageState extends State<MapPage> {
             if (!this.is_clear) {
               this._mapPainter = MapPainter(_mapImage, _cameraIconImg, _getMoveX, _mapItems);
 
-              return GestureDetector(
-                onTapUp: (details) {
-                  // タップ時の処理
-                  // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-                  for (var item in _mapItems) {
-                    // TODO: 実際に現地で検証して
-                    if (item.isProximity(30)) {
-                      // 場所ごとのタップの判定処理(タップ時は遷移)
-                      if (item.didTappedImageTransition(this._mapPainter.scale, _getMoveX(), details.localPosition)) {
-                        Navigator.of(context).pushNamed('/camera_page', arguments: item).then((_) async => await clearUpdate());
-                        break;
-                      }
-                    }
-                  }
-                },
-                onPanUpdate: (DragUpdateDetails details) {
-                  // スクロール時の処理
+              return Container(
+                height: mediaHeight,
+                width: mediaWidth,
 
-                  // スクロールを適用した場合の遷移先X
-                  final next = _moveX - details.delta.dx;
-                  setState(() {
-                    // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-                    // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
-                    _moveX = min(max(next, 0), _mapImage.width * this._mapPainter.scale - mediaSize.width);
-                  });
-                },
-                child: CustomPaint(
-                  // キャンバス本体
-                  size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
-                  painter: this._mapPainter, // ペインター
+                child: Column(
+                  children: [
+                    Flexible(
+                      flex: 2,
+                      child: GestureDetector(
+                        onTapUp: (details) {
+                          // タップ時の処理
+                          // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
+                          for (var item in _mapItems) {
+                            // TODO: 実際に現地で検証して
+                            if (item.isProximity(30)) {
+                              // 場所ごとのタップの判定処理(タップ時は遷移)
+                              if (item.didTappedImageTransition(this._mapPainter.scale, _getMoveX(), details.localPosition)) {
+                                Navigator.of(context).pushNamed('/camera_page', arguments: item).then((_) async => await clearUpdate());
+                                break;
+                              }
+                            }
+                          }
+                        },
+                        onPanUpdate: (DragUpdateDetails details) {
+                          // スクロール時の処理
+
+                          // スクロールを適用した場合の遷移先X
+                          final next = _moveX - details.delta.dx;
+                          setState(() {
+                            // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
+                            // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
+                            _moveX = min(max(next, 0), _mapImage.width * this._mapPainter.scale - mediaSize.width);
+                          });
+                        },
+                        child: CustomPaint(
+                          // キャンバス本体
+                          size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
+                          painter: this._mapPainter, // ペインター
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          Card(
+                            child: Container(
+                              width: 200,
+                            ),
+                            color: Colors.blue,
+                          ),
+                          Card(
+                            child: Container(
+                              width: 200,
+                            ),
+                            color: Colors.green,
+                          ),
+                          Card(
+                            child: Container(
+                              width: 200,
+                            ),
+                            color: Colors.yellow,
+                          ),
+                          Card(
+                            child: Container(
+                              width: 200,
+                            ),
+                            color: Colors.pink,
+                          ),
+                        ],
+                        shrinkWrap: true,
+                      ),
+                    ),
+                  ],
                 ),
               );
             } else {
@@ -327,6 +371,7 @@ class _MapPageState extends State<MapPage> {
             ],
           );
         }
+
         // iOS側の動作
         return CupertinoAlertDialog(
           title: Text('位置情報を許可する'),
@@ -347,75 +392,4 @@ class _MapPageState extends State<MapPage> {
     if (result == null) return; // unwrap
     if (result) await Geolocator.openAppSettings(); // 'OK'を選択した時、設定画面を開く
   }
-}
-
-// ヒント内容
-String hintText = randomHint();
-
-String randomHint() => explainList[Random().nextInt(explainList.length)];
-
-// ヒント内容
-const explainList = ['森に囲まれた長い段差を乗り越えるとそこには', '川にかかった大きな橋、森を見守るような厳かな表情'];
-int change = 0;
-
-class SnackBerPage extends StatefulWidget {
-  SnackBerPage() : super();
-
-  @override
-  _SnackBarPageState createState() => _SnackBarPageState(durationSecond: 3);
-}
-
-class _SnackBarPageState extends State<SnackBerPage> {
-  final int durationSecond;
-
-  _SnackBarPageState({required this.durationSecond});
-
-  var _myOpacity = 0.5; // 透過値
-
-  @override
-  void initState() {
-    Timer.periodic(Duration(seconds: durationSecond), _onTimer);
-    super.initState();
-  }
-
-  void _onTimer(Timer timer) {
-    if (mounted) {
-      // 表示するヒントを決める変数にランダムに数字を代入
-      hintText = randomHint();
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width; // スマホの横幅
-    final screenHeight = MediaQuery.of(context).size.height; // スマホの縦幅
-
-    // 透過処理
-    return Container(
-      height: screenWidth / 6,
-      margin: EdgeInsets.fromLTRB(screenHeight / 8, screenHeight / 1.5, 0, 0),
-      child: AnimatedOpacity(
-        duration: Duration(milliseconds: 1000),
-        opacity: _myOpacity,
-        child: Bubble(
-          padding: BubbleEdges.only(left: 5, right: 5), // ヒントの空白部分
-          child: Container(
-              alignment: Alignment.center,
-              child: Text(
-                explainList[change],
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-                textAlign: TextAlign.center,
-              )),
-          nip: BubbleNip.leftBottom, // 出っ張っている所の指定
-        ),
-      ),
-    );
-  }
-}
-
-@override
-Widget build(BuildContext context) {
-  return Container();
 }

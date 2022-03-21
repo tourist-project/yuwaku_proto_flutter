@@ -3,6 +3,7 @@ import 'package:yuwaku_proto/main.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_animations/simple_animations.dart';
 import '../google_map_page.dart';
+import 'package:yuwaku_proto/map_page.dart';
 import 'homePage_Item.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
@@ -41,7 +42,7 @@ class _HomeScreen extends State<HomeScreen>{
                 child: GestureDetector(
                   onTap:() {
                     print("地図画面に飛ぶよ");
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => GoogleMapPage(title: '地図')));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => MapPage(title: '地図')));
                   },
                 ),
 
