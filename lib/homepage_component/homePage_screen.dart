@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:yuwaku_proto/SizeConfig.dart';
 import 'package:yuwaku_proto/main.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_animations/simple_animations.dart';
+import '../google_map_page.dart';
 import 'homePage_Item.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
@@ -37,17 +37,19 @@ class _HomeScreen extends State<HomeScreen>{
 
             children: [
               SizedBox( // ここにMap(or Webサイト)へ飛ぶ機能
-                height: mediaHeightSize/12,
+                height: mediaHeightSize/8,
+                child: GestureDetector(
+                  onTap:() {
+                    print("地図画面に飛ぶよ");
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => GoogleMapPage(title: '地図')));
+                  },
+                ),
 
               ),
               Expanded(
                   child: Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(30),
-                            bottomRight: Radius.circular(30),
-                        )
                     ),
                     child: GridView.builder(
                         itemCount: homeItems.length,
@@ -117,14 +119,9 @@ class _HomeScreen extends State<HomeScreen>{
                   ),
 
               ),
-              SizedBox( // ここにWebサイト(or Map)に飛ぶ機能
-                height: mediaHeightSize/10,
-
-              )
             ],
           ),
         )
-
 
       ),
     );

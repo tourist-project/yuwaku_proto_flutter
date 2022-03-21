@@ -54,6 +54,7 @@ dependencies:
   carousel_slider: ^4.0.0
   smooth_page_indicator: any
   auto_size_text: ^3.0.0
+  google_maps_flutter: ^2.0.9
 
 flutter_icons:
   android: true

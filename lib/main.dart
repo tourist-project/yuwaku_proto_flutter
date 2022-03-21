@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yuwaku_proto/google_map_page.dart';
 import 'package:yuwaku_proto/map_page.dart';
 import 'package:yuwaku_proto/camera_page.dart';
 import 'package:yuwaku_proto/map_painter.dart';
@@ -12,7 +13,8 @@ import 'package:yuwaku_proto/tutorial_page.dart';
 import 'package:flutter/services.dart';
 import 'homepage_component/homePage_Item.dart';
 import 'homepage_component/homePage_screen.dart';
-import 'SizeConfig.dart';
+import 'google_map_page.dart';
+
 
 void main() {
 
@@ -48,6 +50,7 @@ class MyApp extends StatelessWidget {
             DevelopmentPage(title: '開発中'),
         // '/app_top_view':(BuildContext context) => TopPageView(),
         '/tutorial_page':(BuildContext context) => TutorialPage(),
+        '/google_map_page':(BuildContext context) => GoogleMapPage(title: '地図画面'),
       },
     );
   }
