@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/rendering.dart';
@@ -15,6 +16,7 @@ import 'package:flutter/material.dart' as prefix;
 import 'package:bubble/bubble.dart';
 import 'map_painter.dart'; // Colorsを使う時はprefix.Colors.~と使ってください
 import 'package:geolocator/geolocator.dart';
+import 'homepage_component/homePage_Item.dart';
 
 /// 場所情報
 class MapItem {
@@ -245,7 +247,7 @@ class _MapPageState extends State<MapPage> {
                 child: Column(
                   children: [
                     Flexible(
-                      flex: 2,
+                      flex: 3,
                       child: GestureDetector(
                         onTapUp: (details) {
                           // タップ時の処理
@@ -283,30 +285,37 @@ class _MapPageState extends State<MapPage> {
                       child: ListView(
                         scrollDirection: Axis.horizontal,
                         children: [
-                          Card(
-                            child: Container(
-                              width: 200,
+                          for(int i = 0; i < homeItems.length; i++)
+                            Card(
+                              child: Column(
+                                children: [
+                                  Container(
+                                    height: mediaHeight/6,
+                                    width: mediaWidth/2.5,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5.0),
+                                        image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: AssetImage(homeItems[i].image),
+                                        )
+                                    ),
+                                  ),
+
+                                  Container(
+
+                                    width: mediaWidth/3,
+                                    height: mediaHeight/30,
+                                    child: Text(homeItems[i].title),
+                                  ),
+
+
+
+
+                                ],
+                              ),
                             ),
-                            color: Colors.blue,
-                          ),
-                          Card(
-                            child: Container(
-                              width: 200,
-                            ),
-                            color: Colors.green,
-                          ),
-                          Card(
-                            child: Container(
-                              width: 200,
-                            ),
-                            color: Colors.yellow,
-                          ),
-                          Card(
-                            child: Container(
-                              width: 200,
-                            ),
-                            color: Colors.pink,
-                          ),
+
+
                         ],
                         shrinkWrap: true,
                       ),
@@ -393,3 +402,4 @@ class _MapPageState extends State<MapPage> {
     if (result) await Geolocator.openAppSettings(); // 'OK'を選択した時、設定画面を開く
   }
 }
+
