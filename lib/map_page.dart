@@ -244,8 +244,7 @@ class _MapPageState extends State<MapPage> {
                         onTapUp: (details) {
                           // タップ時の処理
                           // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-                          for (var item in _mapItems) {
-                            // TODO: 実際に現地で検証して
+                          for (var item in _mapItems) { // TODO: 実際に現地で検証して
                             if (item.isProximity(30)) {
                               // 場所ごとのタップの判定処理(タップ時は遷移)
                               if (item.didTappedImageTransition(this._mapPainter.scale, _getMoveX(), details.localPosition)) {
@@ -255,9 +254,7 @@ class _MapPageState extends State<MapPage> {
                             }
                           }
                         },
-                        onPanUpdate: (DragUpdateDetails details) {
-                          // スクロール時の処理
-
+                        onPanUpdate: (DragUpdateDetails details) { // スクロール時の処理
                           // スクロールを適用した場合の遷移先X
                           final next = _moveX - details.delta.dx;
                           setState(() {
@@ -301,14 +298,22 @@ class _MapPageState extends State<MapPage> {
                                     ),
                                   ),
 
+                                  itemDist.distance != null ?
                                   Container(
                                     alignment: Alignment(1,1),
                                     width: mediaWidth/3,
                                     height: mediaHeight/50,
                                     child: Text(
-                                      itemDist.distance!.toStringAsFixed(1),
+                                      itemDist.distance!.toStringAsFixed(1)
                                     ),
-                                  ),
+                                  ):
+                                  Container(
+                                    width: mediaWidth/3,
+                                    height: mediaHeight/50,
+                                    child: Text(
+                                      'Not Found Distance'
+                                    ),
+                                  )
                                 ],
                               ),
                             ),
