@@ -61,8 +61,7 @@ class _HomeScreen extends State<HomeScreen>{
                             shadowColor: Colors.deepOrange,
                             child: GestureDetector( //ボタン押下
                               onTap: () {
-                                // タップ時
-
+                                printModal(index);
                               },
                               child: Column(
                                 children: <Widget>[
@@ -124,9 +123,79 @@ class _HomeScreen extends State<HomeScreen>{
             ],
           ),
         )
-
-
       ),
     );
   }
+  @override
+  Future<void> printModal(int tapImage) {
+    double mediaWidthSize = MediaQuery.of(context).size.width;
+    double mediaHeightSize = MediaQuery.of(context).size.height;
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: GestureDetector(
+            onTap: () {Navigator.pop(context);},
+              child: Container(
+                height: mediaHeightSize / 1.35,
+                    child: Column(
+                    children: [
+                    Expanded(
+                      flex: 3,
+                        child: Container(
+                          child: Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                            Row(children: [
+                              Expanded(
+                                child: Image(image: AssetImage(homeimages[tapImage].Image)),
+                              ),
+                              Expanded(
+                                child: Image(image: AssetImage(homeimages[tapImage].Image2))
+                              ),
+                            ]),
+                            Row(children: [
+                              Expanded(
+                                child: Image(image: AssetImage(homeimages[tapImage].Image3))
+                              ),
+                              Expanded(
+                                child: Image(image: AssetImage(homeimages[tapImage].Image4))
+                              ),
+                            ]),
+                          ]),
+                        ),
+                        ),
+                    ),
+                    Expanded(
+                      flex: 4,
+                       child: Container(
+                        margin: EdgeInsets.only(top: 5),
+                        child: Center(
+                         child: Column(
+                           mainAxisSize: MainAxisSize.min,
+                           children: [
+                            Text(
+                              'ヒント①: ヒントヒントヒントヒントヒントヒントヒントヒントヒントヒント',
+                              style: TextStyle(fontSize: mediaWidthSize / 19.5),
+                            ),
+                          Container(
+                            margin: EdgeInsets.only(top: 5),
+                            child: Text(
+                              'ヒント②: ヒントヒントヒントヒントヒントヒントヒントヒントヒントヒントヒントヒントヒントヒント',
+                              style: TextStyle(fontSize: mediaWidthSize / 19.5),
+                            ),
+                          ),
+                        ]),
+                      ),
+                    ),)
+                  ],
+                ),
+              ),
+            )
+          );
+        }
+    );
+  }
 }
+  

@@ -39,6 +39,49 @@ List<HomePageItem> homeItems = [
       'assets/images/MidorinoSato.png'),
 ];
 
+class HomeImages{
+  HomeImages(this.Image,this.Image2,this.Image3,this.Image4);
+  
+  String Image,Image2,Image3,Image4;
+}
+
+List<HomeImages>homeimages = [
+  HomeImages(
+      'assets/images/HimuroGoya.png',
+      'assets/images/HimuroGoya.png',
+      'assets/images/HimuroGoya.png',
+      'assets/images/HimuroGoya.png'
+  ),
+       
+  HomeImages(
+    'assets/images/Yumezikan.png',
+    'assets/images/Yumezikan.png',
+    'assets/images/Yumezikan.png',
+    'assets/images/Yumezikan.png'
+  ),
+       
+  HomeImages(
+    'assets/images/KeigoSirayu.png',
+    'assets/images/KeigoSirayu.png', 
+    'assets/images/KeigoSirayu.png',
+    'assets/images/KeigoSirayu.png'
+  ),
+         
+  HomeImages(
+    'assets/images/Asiyu(temp).png',
+    'assets/images/Asiyu(temp).png',
+    'assets/images/Asiyu(temp).png', 
+    'assets/images/Asiyu(temp).png'
+  ),
+        
+  HomeImages(
+    'assets/images/MidorinoSato.png',
+    'assets/images/MidorinoSato.png', 
+    'assets/images/MidorinoSato.png',
+    'assets/images/MidorinoSato.png'
+  )
+];
+
 
 
 
