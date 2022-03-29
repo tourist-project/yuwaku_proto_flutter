@@ -64,7 +64,7 @@ class MapPainter extends CustomPainter {
         final scaleDev2 = scale / 2;
         
         /// !!!:debug時はコメント外す
-      //item.distance = 15;
+        item.distance = 15;
       
         if (item.isProximity(30)) {
           final xscale = item.position.dx * scale - movex;
