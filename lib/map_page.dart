@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/rendering.dart';
@@ -15,40 +16,25 @@ import 'package:flutter/material.dart' as prefix;
 import 'package:bubble/bubble.dart';
 import 'map_painter.dart'; // Colorsを使う時はprefix.Colors.~と使ってください
 import 'package:geolocator/geolocator.dart';
+import 'homepage_component/homePage_Item.dart';
 
 /// 場所情報
 class MapItem {
-  final String name;
-
-  /// 場所の名前
-  final double latitude;
-
-  /// 緯度
-  final double longitude;
-
-  /// 経度
-  final Offset position;
-
-  /// 画像上の座標
-  final String initialImagePath;
-
-  /// イラストのパス
-  double? distance;
-
-  /// 距離
-  ui.Rect photoRect;
-
-  /// 画像の四角
+  final String name;/// 場所の名前
+  final double latitude;/// 緯度
+  final double longitude;/// 経度
+  final Offset position;/// 画像上の座標
+  final String initialImagePath;/// イラストのパス
+  final String posImage; ///　場所の写真
+  double? distance;/// 距離
+  ui.Rect photoRect;/// 画像の四角
   ui.Image? initialImage;
-
   final imageDb = ImageDBProvider.instance;
-
-  /// 初期化時のイラスト
-  ui.Image? photoImage;
+  ui.Image? photoImage;/// 初期化時のイラスト
 
   /// イニシャライズ
   MapItem(this.name, this.latitude, this.longitude, this.position,
-      this.initialImagePath, this.photoRect);
+      this.initialImagePath, this.photoRect, this.posImage);
 
   /// 初期画像のロード
   Future loadInitialImage() async {
@@ -159,30 +145,38 @@ class _MapPageState extends State<MapPage> {
   final _mapItems = <MapItem>[
     /*MapItem('湯涌稲荷神社', 36.4856770,136.7582343, Offset(1254, 292),
         'assets/images/img1_gray.png', Rect.fromLTWH(650, 182, 280, 280)),*/
-    MapItem('総湯', 36.485425901995455, 136.75758738535384, Offset(1358, 408),
-        'assets/images/img2_gray.png', Rect.fromLTWH(1000, 820, 280, 280)),
+    MapItem(
+            '総湯',
+            36.485425901995455, 136.75758738535384, Offset(1358, 408),
+        'assets/images/img2_gray.png', Rect.fromLTWH(1000, 820, 280, 280),
+        'assets/images/KeigoSirayu.png'
+    ),
     MapItem(
         '氷室',
-        36.48346516395541,
-        136.75701193508996,
-        Offset(1881, 512),
+        36.48346516395541, 136.75701193508996, Offset(1881, 512),
         'assets/images/himurogoya_gray.png',
-        Rect.fromLTWH(1720, 620, 280, 280)),
+        Rect.fromLTWH(1720, 620, 280, 280), 'assets/images/HimuroGoya.png'
+    ),
     MapItem(
-        '足湯(立派な方)',
-        36.48582537854954,
-        136.7574341842218,
-        Offset(1275, 385),
-        'assets/images/asiyu(temp)_gray.png',
-        Rect.fromLTWH(1500, 60, 280, 280)),
+        '足湯(立派な方)', 36.48582537854954, 136.7574341842218, Offset(1275, 385),
+        'assets/images/asiyu(temp)_gray.png', Rect.fromLTWH(1500, 60, 280, 280),
+        'assets/images/Asiyu(temp).png'
+    ),
     /* MapItem('足湯(湯の出)', 36.48919374904115, 136.75588850463596, Offset(505, 690),
         'assets/images/Asiyu(temp).png', Rect.fromLTWH(750, 80, 280, 280)),
         */
-    /*MapItem('みどりの里', 36.49050881078798, 136.75404574490975, Offset(239, 928),
-        'assets/images/MidorinoSato.png', Rect.fromLTWH(280, 850, 280, 280))*/
-    MapItem('湯涌夢二館', 36.48584951599308, 136.75738876226737, Offset(1250, 425),
-        'assets/images/yumejikan_gray.png', Rect.fromLTWH(580, 80, 280, 280)),
+    MapItem('みどりの里',
+            36.49050881078798, 136.75404574490975, Offset(239, 928),
+            'assets/images/MidorinoSato.png', Rect.fromLTWH(280, 850, 280, 280),
+            'assets/images/MidorinoSato.png',
+    ),
+    MapItem('湯涌夢二館',
+            36.48584951599308, 136.75738876226737, Offset(1250, 425),
+            'assets/images/yumejikan_gray.png', Rect.fromLTWH(580, 80, 280, 280),
+            'assets/images/Yumezikan.png'
+    ),
   ];
+
 
   /// アセット(画像等)の取得
   Future<void> _getAssets() async {
@@ -227,7 +221,7 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     final Size mediaSize = MediaQuery.of(context).size; // 画面の取得
     final mediaHeight = mediaSize.height - kToolbarHeight; // キャンバス部分の高さ
-
+    final mediaWidth = mediaSize.width;
 
     return Scaffold(
       appBar: AppBar(title: Text(widget.title, style: TextStyle(color: prefix.Colors.black87))),
@@ -238,36 +232,96 @@ class _MapPageState extends State<MapPage> {
             if (!this.is_clear) {
               this._mapPainter = MapPainter(_mapImage, _cameraIconImg, _getMoveX, _mapItems);
 
-              return GestureDetector(
-                onTapUp: (details) {
-                  // タップ時の処理
-                  // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-                  for (var item in _mapItems) {
-                    // TODO: 実際に現地で検証して
-                    if (item.isProximity(30)) {
-                      // 場所ごとのタップの判定処理(タップ時は遷移)
-                      if (item.didTappedImageTransition(this._mapPainter.scale, _getMoveX(), details.localPosition)) {
-                        Navigator.of(context).pushNamed('/camera_page', arguments: item).then((_) async => await clearUpdate());
-                        break;
-                      }
-                    }
-                  }
-                },
-                onPanUpdate: (DragUpdateDetails details) {
-                  // スクロール時の処理
+              return Container(
+                height: mediaHeight,
+                width: mediaWidth,
 
-                  // スクロールを適用した場合の遷移先X
-                  final next = _moveX - details.delta.dx;
-                  setState(() {
-                    // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
-                    // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
-                    _moveX = min(max(next, 0), _mapImage.width * this._mapPainter.scale - mediaSize.width);
-                  });
-                },
-                child: CustomPaint(
-                  // キャンバス本体
-                  size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
-                  painter: this._mapPainter, // ペインター
+                child: Column(
+                  children: [
+                    Flexible(
+                      flex: 3,
+                      child: GestureDetector(
+                        onTapUp: (details) {
+                          // タップ時の処理
+                          // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
+                          for (var item in _mapItems) { // TODO: 実際に現地で検証して
+                            if (item.isProximity(30)) {
+                              // 場所ごとのタップの判定処理(タップ時は遷移)
+                              if (item.didTappedImageTransition(this._mapPainter.scale, _getMoveX(), details.localPosition)) {
+                                Navigator.of(context).pushNamed('/camera_page', arguments: item).then((_) async => await clearUpdate());
+                                break;
+                              }
+                            }
+                          }
+                        },
+                        onPanUpdate: (DragUpdateDetails details) { // スクロール時の処理
+                          // スクロールを適用した場合の遷移先X
+                          final next = _moveX - details.delta.dx;
+                          setState(() {
+                            // 高さを基準にした画像の座標系からデバイスへの座標系への変換倍率
+                            // スクロールできない場所などを考慮した補正をかけてメンバ変数に代入
+                            _moveX = min(max(next, 0), _mapImage.width * this._mapPainter.scale - mediaSize.width);
+                          });
+                        },
+                        child: CustomPaint(
+                          // キャンバス本体
+                          size: Size(mediaSize.width, mediaHeight), // サイズの設定(必須)
+                          painter: this._mapPainter, // ペインター
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                            for(var itemDist in _mapItems)
+                            Card(
+                              child: Column(
+                                children: [
+                                  Container(
+                                    height: mediaHeight/8,
+                                    width: mediaWidth/2.5,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5.0),
+                                        image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: AssetImage(itemDist.posImage),
+                                        )
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment(1,1),
+                                    width: mediaWidth/3,
+                                    height: mediaHeight/30,
+                                    child: Text(
+                                      itemDist.name,
+                                    ),
+                                  ),
+
+                                  itemDist.distance != null ?
+                                  Container(
+                                    alignment: Alignment(1,1),
+                                    width: mediaWidth/3,
+                                    height: mediaHeight/50,
+                                    child: Text(
+                                      itemDist.distance!.toStringAsFixed(1)
+                                    ),
+                                  ):
+                                  Container(
+                                    width: mediaWidth/3,
+                                    height: mediaHeight/50,
+                                    child: Text(
+                                      'Not Found Distance'
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                        ],
+                        shrinkWrap: true,
+                      ),
+                    ),
+                  ],
                 ),
               );
             } else {
@@ -327,6 +381,7 @@ class _MapPageState extends State<MapPage> {
             ],
           );
         }
+
         // iOS側の動作
         return CupertinoAlertDialog(
           title: Text('位置情報を許可する'),
@@ -349,73 +404,3 @@ class _MapPageState extends State<MapPage> {
   }
 }
 
-// ヒント内容
-String hintText = randomHint();
-
-String randomHint() => explainList[Random().nextInt(explainList.length)];
-
-// ヒント内容
-const explainList = ['森に囲まれた長い段差を乗り越えるとそこには', '川にかかった大きな橋、森を見守るような厳かな表情'];
-int change = 0;
-
-class SnackBerPage extends StatefulWidget {
-  SnackBerPage() : super();
-
-  @override
-  _SnackBarPageState createState() => _SnackBarPageState(durationSecond: 3);
-}
-
-class _SnackBarPageState extends State<SnackBerPage> {
-  final int durationSecond;
-
-  _SnackBarPageState({required this.durationSecond});
-
-  var _myOpacity = 0.5; // 透過値
-
-  @override
-  void initState() {
-    Timer.periodic(Duration(seconds: durationSecond), _onTimer);
-    super.initState();
-  }
-
-  void _onTimer(Timer timer) {
-    if (mounted) {
-      // 表示するヒントを決める変数にランダムに数字を代入
-      hintText = randomHint();
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width; // スマホの横幅
-    final screenHeight = MediaQuery.of(context).size.height; // スマホの縦幅
-
-    // 透過処理
-    return Container(
-      height: screenWidth / 6,
-      margin: EdgeInsets.fromLTRB(screenHeight / 8, screenHeight / 1.5, 0, 0),
-      child: AnimatedOpacity(
-        duration: Duration(milliseconds: 1000),
-        opacity: _myOpacity,
-        child: Bubble(
-          padding: BubbleEdges.only(left: 5, right: 5), // ヒントの空白部分
-          child: Container(
-              alignment: Alignment.center,
-              child: Text(
-                explainList[change],
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-                textAlign: TextAlign.center,
-              )),
-          nip: BubbleNip.leftBottom, // 出っ張っている所の指定
-        ),
-      ),
-    );
-  }
-}
-
-@override
-Widget build(BuildContext context) {
-  return Container();
-}
