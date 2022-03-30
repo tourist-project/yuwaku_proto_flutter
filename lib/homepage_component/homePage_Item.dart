@@ -40,9 +40,9 @@ List<HomePageItem> homeItems = [
 ];
 
 class HomeImages{
-  HomeImages(this.Image,this.Image2,this.Image3,this.Image4);
+  HomeImages(this.Image,this.Image2,this.Image3,this.Image4,this.Hint,this.Hint2);
   
-  String Image,Image2,Image3,Image4;
+  String Image,Image2,Image3,Image4,Hint,Hint2;
 }
 
 List<HomeImages>homeimages = [
@@ -50,40 +50,44 @@ List<HomeImages>homeimages = [
       'assets/images/HimuroGoya.png',
       'assets/images/HimuroGoya.png',
       'assets/images/HimuroGoya.png',
-      'assets/images/HimuroGoya.png'
+      'assets/images/HimuroGoya.png',
+      '1111111111111111111111111',
+      '22222222222222222222222222'
   ),
        
   HomeImages(
     'assets/images/Yumezikan.png',
     'assets/images/Yumezikan.png',
     'assets/images/Yumezikan.png',
-    'assets/images/Yumezikan.png'
+    'assets/images/Yumezikan.png',
+    '3333333333333333333333333',
+    '4444444444444444444444444'
   ),
        
   HomeImages(
     'assets/images/KeigoSirayu.png',
     'assets/images/KeigoSirayu.png', 
     'assets/images/KeigoSirayu.png',
-    'assets/images/KeigoSirayu.png'
+    'assets/images/KeigoSirayu.png',
+    '5555555555555555555555555',
+    '6666666666666666666666666'
   ),
          
   HomeImages(
     'assets/images/Asiyu(temp).png',
     'assets/images/Asiyu(temp).png',
     'assets/images/Asiyu(temp).png', 
-    'assets/images/Asiyu(temp).png'
+    'assets/images/Asiyu(temp).png',
+    '77777777777777777777777777',
+    '8888888888888888888888888'
   ),
         
   HomeImages(
     'assets/images/MidorinoSato.png',
     'assets/images/MidorinoSato.png', 
     'assets/images/MidorinoSato.png',
-    'assets/images/MidorinoSato.png'
+    'assets/images/MidorinoSato.png',
+    '99999999999999999999999999',
+    '10101010101010101010101010'
   )
 ];
-
-
-
-
-
-
