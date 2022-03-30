@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:yuwaku_proto/SizeConfig.dart';
 import 'package:yuwaku_proto/main.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_animations/simple_animations.dart';
-import 'package:yuwaku_proto/map_page.dart';
 import 'homePage_Item.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
@@ -37,22 +37,17 @@ class _HomeScreen extends State<HomeScreen>{
 
             children: [
               SizedBox( // ここにMap(or Webサイト)へ飛ぶ機能
-                height: mediaHeightSize/8,
-                child: Container(
-                  color: Colors.red,
-                  child: GestureDetector(
-                    onTap:() {
-                      print("地図画面に飛ぶよ");
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => MapPage(title: '地図')));
-                    },
-                  ),
-                ),
+                height: mediaHeightSize/12,
 
               ),
               Expanded(
                   child: Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(30),
+                            bottomRight: Radius.circular(30),
+                        )
                     ),
                     child: GridView.builder(
                         itemCount: homeItems.length,
@@ -121,10 +116,13 @@ class _HomeScreen extends State<HomeScreen>{
                   ),
 
               ),
+              SizedBox( // ここにWebサイト(or Map)に飛ぶ機能
+                height: mediaHeightSize/10,
+
+              )
             ],
           ),
         )
-
       ),
     );
   }
@@ -178,13 +176,13 @@ class _HomeScreen extends State<HomeScreen>{
                            mainAxisSize: MainAxisSize.min,
                            children: [
                             Text(
-                              'ヒント①: ヒントヒントヒントヒントヒントヒントヒントヒントヒントヒント',
+                              'ヒント①: ${homeimages[tapImage].Hint}',
                               style: TextStyle(fontSize: mediaWidthSize / 19.5),
                             ),
                           Container(
                             margin: EdgeInsets.only(top: 5),
                             child: Text(
-                              'ヒント②: ヒントヒントヒントヒントヒントヒントヒントヒントヒントヒントヒントヒントヒントヒント',
+                              'ヒント②: ${homeimages[tapImage].Hint2}',
                               style: TextStyle(fontSize: mediaWidthSize / 19.5),
                             ),
                           ),
