@@ -24,15 +24,35 @@ class _TutorialPageState extends State<TutorialPage> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: const Color.fromRGBO(240, 233, 208, 100),
       appBar: AppBar(title: const Text("使い方ガイド", style: TextStyle(color: prefix.Colors.black87))),
-      body: PageView(
-        scrollDirection: Axis.horizontal,
-        controller: pageController,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          TutorialStepPage(PageData.first, pageController),
-          TutorialStepPage(PageData.second, pageController)
+          Flexible(
+            flex: 8,
+            child: PageView(
+              scrollDirection: Axis.horizontal,
+              controller: pageController,
+              children: <Widget>[
+                TutorialStepPage(PageData.first, pageController),
+                TutorialStepPage(PageData.second, pageController),
+              ],
+            ),
+          ),
+          Flexible(
+            flex: 1,
+            child: SmoothPageIndicator(
+              controller: pageController,
+              count: 2,
+              effect: const WormEffect(
+                  dotColor: Colors.grey,
+                  activeDotColor: Color.fromRGBO(186, 66, 43, 100)
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -68,6 +88,7 @@ class TutorialStepPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -94,17 +115,7 @@ class TutorialStepPage extends StatelessWidget {
           child: Text( data.typeName['description']!),
         ),
         const Padding(padding: EdgeInsets.all(20.0)),
-        Flexible(
-            flex: 1,
-            child: SmoothPageIndicator(
-              controller: controller,
-              count: 2,
-              effect: const WormEffect(
-                  dotColor: Colors.grey,
-                  activeDotColor: Color.fromRGBO(186, 66, 43, 100)
-              ),
-            ),
-        ),
+
       ],
     );
   }

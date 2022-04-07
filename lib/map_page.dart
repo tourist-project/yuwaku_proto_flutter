@@ -141,6 +141,12 @@ class _MapPageState extends State<MapPage> {
 
   late Future<void> _initializeImageFuture;  // 画像を読み込み完了を検知する
 
+
+  /*学校でテスト
+  LC：36.5309848,136.6271052
+  1号館：36.5309848,136.6271052
+   */
+
   /// マップの場所情報の一覧
   final _mapItems = <MapItem>[
     /*MapItem('湯涌稲荷神社', 36.4856770,136.7582343, Offset(1254, 292),
@@ -151,6 +157,8 @@ class _MapPageState extends State<MapPage> {
         'assets/images/img2_gray.png', Rect.fromLTWH(1000, 820, 280, 280),
         'assets/images/KeigoSirayu.png'
     ),
+
+
     MapItem(
         '氷室',
         36.48346516395541, 136.75701193508996, Offset(1881, 512),
@@ -279,7 +287,7 @@ class _MapPageState extends State<MapPage> {
                               child: Column(
                                 children: [
                                   Container(
-                                    height: mediaHeight/8,
+                                    height: mediaHeight/7,
                                     width: mediaWidth/2.5,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(5.0),
@@ -303,14 +311,14 @@ class _MapPageState extends State<MapPage> {
                                     alignment: Alignment(1,1),
                                     width: mediaWidth/3,
                                     height: mediaHeight/50,
-                                    child: Text(
+                                    child: AutoSizeText(
                                       itemDist.distance!.toStringAsFixed(1)
                                     ),
                                   ):
                                   Container(
                                     width: mediaWidth/3,
                                     height: mediaHeight/50,
-                                    child: Text(
+                                    child: AutoSizeText(
                                       'Not Found Distance'
                                     ),
                                   )

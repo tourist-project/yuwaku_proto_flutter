@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme(
             color: Color.fromRGBO(240, 233, 208, 100),
           )),
-      home: HomeScreen(),
+      home: BottomTabPage(),
       routes: <String, WidgetBuilder>{
         '/map_page': (BuildContext context) => MapPage(title: '地図'),
         '/camera_page': (BuildContext context) => CameraPage(

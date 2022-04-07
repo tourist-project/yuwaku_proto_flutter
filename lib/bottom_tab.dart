@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yuwaku_proto/homepage_component/homePage_screen.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
 import 'map_page.dart';
 import 'some_explain.dart';
@@ -21,7 +22,8 @@ class _BottomTabPageState extends State<BottomTabPage> {
       body: IndexedStack(
         index: _currentIndex,
         children: [
-          TopPageView(selectItem: (index) => _onItemTapped(index)),
+          // TopPageView(selectItem: (index) => _onItemTapped(index)),
+          HomeScreen(),
           MapPage(title: '地図'),
           TutorialPage(),
         ],
