@@ -149,18 +149,18 @@ class _HomeScreen extends State<HomeScreen>{
                             children: [
                             Row(children: [
                               Expanded(
-                                child: Image(image: AssetImage(ModalContents[tapImage].Image_UpLeft)),
+                                child: Image(image: AssetImage(modalContents[tapImage].Image_UpLeft)),
                               ),
                               Expanded(
-                                child: Image(image: AssetImage(ModalContents[tapImage].Image_UpRight))
+                                child: Image(image: AssetImage(modalContents[tapImage].Image_UpRight))
                               ),
                             ]),
                             Row(children: [
                               Expanded(
-                                child: Image(image: AssetImage(ModalContents[tapImage].Image_DownLeft))
+                                child: Image(image: AssetImage(modalContents[tapImage].Image_DownLeft))
                               ),
                               Expanded(
-                                child: Image(image: AssetImage(ModalContents[tapImage].Image_DownRight))
+                                child: Image(image: AssetImage(modalContents[tapImage].Image_DownRight))
                               ),
                             ]),
                           ]),
@@ -177,14 +177,14 @@ class _HomeScreen extends State<HomeScreen>{
                              Container(
                                alignment: Alignment.centerLeft,
                               child: Text(
-                              'ヒント①: ${ModalContents[tapImage].Hint_Up}',
+                              'ヒント①: ${modalContents[tapImage].Hint_Up}',
                               style: TextStyle(fontSize: mediaWidthSize / 19.5),
                             ),),
                           Container(
                             alignment: Alignment.centerLeft,
                             margin: EdgeInsets.only(top: 5),
                             child: Text(
-                              'ヒント②: ${ModalContents[tapImage].Hint_Down}',
+                              'ヒント②: ${modalContents[tapImage].Hint_Down}',
                               style: TextStyle(fontSize: mediaWidthSize / 19.5),
                             ),
                           ),
