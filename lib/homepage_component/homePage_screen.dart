@@ -61,7 +61,7 @@ class _HomeScreen extends State<HomeScreen>{
                             shadowColor: Colors.deepOrange,
                             child: GestureDetector( //ボタン押下
                               onTap: () {
-                                printModal(index);
+                                displayModal(index);
                               },
                               child: Column(
                                 children: <Widget>[
@@ -127,7 +127,7 @@ class _HomeScreen extends State<HomeScreen>{
     );
   }
   @override
-  Future<void> printModal(int tapImage) {
+  Future<void> displayModal(int tapImage) {
     double mediaWidthSize = MediaQuery.of(context).size.width;
     double mediaHeightSize = MediaQuery.of(context).size.height;
     return showDialog(
@@ -137,11 +137,11 @@ class _HomeScreen extends State<HomeScreen>{
           content: GestureDetector(
             onTap: () {Navigator.pop(context);},
               child: Container(
-                height: mediaHeightSize / 1.35,
+                height: mediaHeightSize / 1.80,
                     child: Column(
                     children: [
                     Expanded(
-                      flex: 3,
+                      flex: 8,
                         child: Container(
                           child: Center(
                           child: Column(
@@ -149,18 +149,18 @@ class _HomeScreen extends State<HomeScreen>{
                             children: [
                             Row(children: [
                               Expanded(
-                                child: Image(image: AssetImage(homeimages[tapImage].Image)),
+                                child: Image(image: AssetImage(ModalContents[tapImage].Image_UpLeft)),
                               ),
                               Expanded(
-                                child: Image(image: AssetImage(homeimages[tapImage].Image2))
+                                child: Image(image: AssetImage(ModalContents[tapImage].Image_UpRight))
                               ),
                             ]),
                             Row(children: [
                               Expanded(
-                                child: Image(image: AssetImage(homeimages[tapImage].Image3))
+                                child: Image(image: AssetImage(ModalContents[tapImage].Image_DownLeft))
                               ),
                               Expanded(
-                                child: Image(image: AssetImage(homeimages[tapImage].Image4))
+                                child: Image(image: AssetImage(ModalContents[tapImage].Image_DownRight))
                               ),
                             ]),
                           ]),
@@ -168,27 +168,29 @@ class _HomeScreen extends State<HomeScreen>{
                         ),
                     ),
                     Expanded(
-                      flex: 4,
+                      flex: 5,
                        child: Container(
                         margin: EdgeInsets.only(top: 5),
-                        child: Center(
                          child: Column(
-                           mainAxisSize: MainAxisSize.min,
+                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                            children: [
-                            Text(
-                              'ヒント①: ${homeimages[tapImage].Hint}',
+                             Container(
+                               alignment: Alignment.centerLeft,
+                              child: Text(
+                              'ヒント①: ${ModalContents[tapImage].Hint_Up}',
                               style: TextStyle(fontSize: mediaWidthSize / 19.5),
-                            ),
+                            ),),
                           Container(
+                            alignment: Alignment.centerLeft,
                             margin: EdgeInsets.only(top: 5),
                             child: Text(
-                              'ヒント②: ${homeimages[tapImage].Hint2}',
+                              'ヒント②: ${ModalContents[tapImage].Hint_Down}',
                               style: TextStyle(fontSize: mediaWidthSize / 19.5),
                             ),
                           ),
                         ]),
                       ),
-                    ),)
+                    ),
                   ],
                 ),
               ),
