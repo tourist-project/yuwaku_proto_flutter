@@ -39,55 +39,56 @@ List<HomePageItem> homeItems = [
       'assets/images/MidorinoSato.png'),
 ];
 
-class HomeImages{
-  HomeImages(this.Image,this.Image2,this.Image3,this.Image4,this.Hint,this.Hint2);
+class ModalItem{
   
-  String Image,Image2,Image3,Image4,Hint,Hint2;
+  ModalItem(this.Image_UpLeft, this.Image_UpRight, this.Image_DownLeft, this.Image_DownRight, this.Hint_Up, this.Hint_Down);
+  
+  String Image_UpLeft, Image_UpRight, Image_DownLeft, Image_DownRight, Hint_Up, Hint_Down;
 }
 
-List<HomeImages>homeimages = [
-  HomeImages(
+List<ModalItem>ModalContents = [
+  ModalItem(
       'assets/images/HimuroGoya.png',
       'assets/images/HimuroGoya.png',
       'assets/images/HimuroGoya.png',
       'assets/images/HimuroGoya.png',
-      '1111111111111111111111111',
-      '22222222222222222222222222'
+      '山の中にある小屋',
+      '坂を登り、湖を囲む'
   ),
        
-  HomeImages(
+  ModalItem(
     'assets/images/Yumezikan.png',
     'assets/images/Yumezikan.png',
     'assets/images/Yumezikan.png',
     'assets/images/Yumezikan.png',
-    '3333333333333333333333333',
-    '4444444444444444444444444'
+    '中央の広場の近く',
+    '総湯の近くにある'
   ),
        
-  HomeImages(
+  ModalItem(
     'assets/images/KeigoSirayu.png',
     'assets/images/KeigoSirayu.png', 
     'assets/images/KeigoSirayu.png',
     'assets/images/KeigoSirayu.png',
-    '5555555555555555555555555',
-    '6666666666666666666666666'
+    '大きな階段の近く',
+    '奥には山が潜む'
   ),
          
-  HomeImages(
+  ModalItem(
     'assets/images/Asiyu(temp).png',
     'assets/images/Asiyu(temp).png',
     'assets/images/Asiyu(temp).png', 
     'assets/images/Asiyu(temp).png',
-    '77777777777777777777777777',
-    '8888888888888888888888888'
+    '階段の上にある',
+    '上には神社を見る'
   ),
         
-  HomeImages(
+  ModalItem(
     'assets/images/MidorinoSato.png',
     'assets/images/MidorinoSato.png', 
     'assets/images/MidorinoSato.png',
     'assets/images/MidorinoSato.png',
-    '99999999999999999999999999',
-    '10101010101010101010101010'
+    '近くには赤い郵便ポストがある',
+    '近くには大きな木がある'
   )
 ];
