@@ -39,15 +39,15 @@ List<HomePageItem> homeItems = [
       'assets/images/MidorinoSato.png'),
 ];
 
-class ModalItem{
+class modalItem{
   
-  ModalItem(this.Image_UpLeft, this.Image_UpRight, this.Image_DownLeft, this.Image_DownRight, this.Hint_Up, this.Hint_Down);
+  modalItem(this.Image_UpLeft, this.Image_UpRight, this.Image_DownLeft, this.Image_DownRight, this.Hint_Up, this.Hint_Down);
   
   String Image_UpLeft, Image_UpRight, Image_DownLeft, Image_DownRight, Hint_Up, Hint_Down;
 }
 
-List<ModalItem>ModalContents = [
-  ModalItem(
+List<modalItem>modalContents = [
+  modalItem(
       'assets/images/HimuroGoya.png',
       'assets/images/HimuroGoya.png',
       'assets/images/HimuroGoya.png',
@@ -56,7 +56,7 @@ List<ModalItem>ModalContents = [
       '坂を登り、湖を囲む'
   ),
        
-  ModalItem(
+  modalItem(
     'assets/images/Yumezikan.png',
     'assets/images/Yumezikan.png',
     'assets/images/Yumezikan.png',
@@ -65,7 +65,7 @@ List<ModalItem>ModalContents = [
     '総湯の近くにある'
   ),
        
-  ModalItem(
+  modalItem(
     'assets/images/KeigoSirayu.png',
     'assets/images/KeigoSirayu.png', 
     'assets/images/KeigoSirayu.png',
@@ -74,7 +74,7 @@ List<ModalItem>ModalContents = [
     '奥には山が潜む'
   ),
          
-  ModalItem(
+  modalItem(
     'assets/images/Asiyu(temp).png',
     'assets/images/Asiyu(temp).png',
     'assets/images/Asiyu(temp).png', 
@@ -83,7 +83,7 @@ List<ModalItem>ModalContents = [
     '上には神社を見る'
   ),
         
-  ModalItem(
+  modalItem(
     'assets/images/MidorinoSato.png',
     'assets/images/MidorinoSato.png', 
     'assets/images/MidorinoSato.png',
