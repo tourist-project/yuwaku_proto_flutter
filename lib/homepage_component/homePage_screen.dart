@@ -6,13 +6,6 @@ import 'package:simple_animations/simple_animations.dart';
 import 'homePage_Item.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
-class modalItem{
-  
-  modalItem(this.Image_UpLeft, this.Image_UpRight, this.Image_DownLeft, this.Image_DownRight, this.Hint_Up, this.Hint_Down);
-  
-  String Image_UpLeft, Image_UpRight, Image_DownLeft, Image_DownRight, Hint_Up, Hint_Down;
-}
-
 List<modalItem>modalContents = [
   modalItem(
       'assets/images/HimuroGoya.png',
@@ -59,16 +52,6 @@ List<modalItem>modalContents = [
     '近くには大きな木がある'
   )
 ];
-
-class HomePageItem{
-
-  HomePageItem(this.title, this.eng_title, this.explain, this.image){
-    print('インスタンスの生成');
-  }
-
-  String title , eng_title, explain, image;
-
-}
 
 List<HomePageItem> homeItems = [
   HomePageItem('氷室小屋', "Himurogoya",
