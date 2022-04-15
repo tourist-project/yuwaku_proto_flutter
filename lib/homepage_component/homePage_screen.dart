@@ -6,7 +6,17 @@ import 'package:simple_animations/simple_animations.dart';
 import 'homePage_Item.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
-List<modalItem>modalContents = [
+class HomeScreen extends StatefulWidget {
+
+  const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreen();
+
+}
+
+class _HomeScreen extends State<HomeScreen>{
+  List<modalItem>modalContents = [
   modalItem(
       'assets/images/HimuroGoya.png',
       'assets/images/HimuroGoya.png',
@@ -80,17 +90,7 @@ List<HomePageItem> homeItems = [
           '4月中旬〜12月中旬の毎週日曜日と水曜日に朝市が開催され新鮮な農作物などをお買い求めいただけます。',
       'assets/images/MidorinoSato.png'),
 ];
-
-class HomeScreen extends StatefulWidget {
-
-  const HomeScreen({Key? key}) : super(key: key);
-
-  @override
-  State<HomeScreen> createState() => _HomeScreen();
-
-}
-
-class _HomeScreen extends State<HomeScreen>{
+  
   @override
   Widget build(BuildContext context) {
     double mediaWidthSize = MediaQuery.of(context).size.width;
