@@ -39,8 +39,56 @@ List<HomePageItem> homeItems = [
       'assets/images/MidorinoSato.png'),
 ];
 
+class modalItem{
+  
+  modalItem(this.Image_UpLeft, this.Image_UpRight, this.Image_DownLeft, this.Image_DownRight, this.Hint_Up, this.Hint_Down);
+  
+  String Image_UpLeft, Image_UpRight, Image_DownLeft, Image_DownRight, Hint_Up, Hint_Down;
+}
 
-
-
-
-
+List<modalItem>modalContents = [
+  modalItem(
+      'assets/images/HimuroGoya.png',
+      'assets/images/HimuroGoya.png',
+      'assets/images/HimuroGoya.png',
+      'assets/images/HimuroGoya.png',
+      '山の中にある小屋',
+      '坂を登り、湖を囲む'
+  ),
+       
+  modalItem(
+    'assets/images/Yumezikan.png',
+    'assets/images/Yumezikan.png',
+    'assets/images/Yumezikan.png',
+    'assets/images/Yumezikan.png',
+    '中央の広場の近く',
+    '総湯の近くにある'
+  ),
+       
+  modalItem(
+    'assets/images/KeigoSirayu.png',
+    'assets/images/KeigoSirayu.png', 
+    'assets/images/KeigoSirayu.png',
+    'assets/images/KeigoSirayu.png',
+    '大きな階段の近く',
+    '奥には山が潜む'
+  ),
+         
+  modalItem(
+    'assets/images/Asiyu(temp).png',
+    'assets/images/Asiyu(temp).png',
+    'assets/images/Asiyu(temp).png', 
+    'assets/images/Asiyu(temp).png',
+    '階段の上にある',
+    '上には神社を見る'
+  ),
+        
+  modalItem(
+    'assets/images/MidorinoSato.png',
+    'assets/images/MidorinoSato.png', 
+    'assets/images/MidorinoSato.png',
+    'assets/images/MidorinoSato.png',
+    '近くには赤い郵便ポストがある',
+    '近くには大きな木がある'
+  )
+];
