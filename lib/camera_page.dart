@@ -5,6 +5,7 @@ import 'dart:io';
 import 'dart:ui' as ui;
 import 'package:image_picker/image_picker.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:yuwaku_proto/database/database_client.dart';
 import 'package:yuwaku_proto/map_page.dart';
 import 'package:yuwaku_proto/database.dart';
 import 'package:share_plus/share_plus.dart';
@@ -31,7 +32,7 @@ class _CameraPageState extends State<CameraPage> {
 
   final MapItem mapItem;
   final picker = ImagePicker();
-  final imageDb = ImageDBProvider.instance;
+  final imageDb = DatabaseClient();
   Image? _dstStampImage;
   img.Image? logo;
   bool loadingFlag = false;
@@ -72,21 +73,22 @@ class _CameraPageState extends State<CameraPage> {
 
   /// CameraPageを開いた時の初期画像を呼び出す
   Future<void> _loadStampImage() async {
-    loadingFlag = true;
-    final dblow = await imageDb.querySearchRows(mapItem.name);
-    if (dblow.length > 0) {
-      final byte = base64.decode(dblow[0]['image'] as String);
-      await _writeLocalImage(byte);
-      setState(() {
-        _dstStampImage = Image.memory(byte);
-        loadingFlag = false;
-      });
-    } else {
-      setState(() {
-        _dstStampImage = Image.asset(mapItem.initialImagePath);
-        loadingFlag = false;
-      });
-    }
+    // loadingFlag = true;
+    //
+    // final dblow = await imageDb.getImageData(mapItem.name);
+    // if (dblow.length > 0) {
+    //   final byte = base64.decode(dblow[0]['image'] as String);
+    //   await _writeLocalImage(byte);
+    //   setState(() {
+    //     _dstStampImage = Image.memory(byte);
+    //     loadingFlag = false;
+    //   });
+    // } else {
+    //   setState(() {
+    //     _dstStampImage = Image.asset(mapItem.initialImagePath);
+    //     loadingFlag = false;
+    //   });
+    // }
 
   }
 
@@ -119,13 +121,8 @@ class _CameraPageState extends State<CameraPage> {
 
 
       final saveData = base64.encode(img.encodePng(photo!));
-      if (await imageDb.isExist(mapItem.name)) {
 
-        await imageDb.updateImage(mapItem.name, saveData);
-      } else {
-
-        await imageDb.insert({'state': mapItem.name, 'image': saveData});
-      }
+      imageDb.insertImageData(mapItem.name, saveData);
 
       ui.decodeImageFromList(data, (ui.Image img) {
         mapItem.photoImage = img;

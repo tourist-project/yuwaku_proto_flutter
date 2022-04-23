@@ -1,34 +1,15 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-enum ImageSpot {
-  himurogoya,
-  kanazawaYumejikan,
-  soyu,
-  ashiyu,
-  midorinosato
-}
-
 class DatabaseClient {
 
-  void insertImageData(ImageSpot spot, imagePath) async {
+  void insertImageData(String spot, imagePath) async {
+    print("写真の保存に成功しました");
     final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(spot, imagePath);
+  }
 
-    switch (spot) {
-      case ImageSpot.himurogoya:
-        await prefs.setString('himurogoya', imagePath);
-        break;
-      case ImageSpot.kanazawaYumejikan:
-        await prefs.setString('kanazawaYumejikan', imagePath);
-        break;
-      case ImageSpot.soyu:
-        await prefs.setString('soyu', imagePath);
-        break;
-      case ImageSpot.ashiyu:
-        await prefs.setString('ashiyu', imagePath);
-        break;
-      case ImageSpot.midorinosato:
-        await prefs.setString('midorinosato', imagePath);
-        break;
-    }
+   Future<String> getImageData(String spot) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(spot) ?? "";
   }
 }
