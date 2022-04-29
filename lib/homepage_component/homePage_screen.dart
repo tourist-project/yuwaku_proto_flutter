@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:yuwaku_proto/SizeConfig.dart';
 import 'package:yuwaku_proto/main.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_animations/simple_animations.dart';

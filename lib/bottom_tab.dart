@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_screen.dart';
+import 'package:yuwaku_proto/some_top_page.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
 import 'map_page.dart';
 import 'some_explain.dart';
@@ -23,8 +24,7 @@ class _BottomTabPageState extends State<BottomTabPage> {
         index: _currentIndex,
         children: [
           // TopPageView(selectItem: (index) => _onItemTapped(index)),
-          HomeScreen(),
-          MapPage(title: '地図'),
+          runTopPage(),
           TutorialPage(),
         ],
       ),
@@ -36,11 +36,6 @@ class _BottomTabPageState extends State<BottomTabPage> {
             ),
             label: 'ホーム',
           ),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.add_location_alt_sharp,
-              ),
-              label: '地図'),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.help,

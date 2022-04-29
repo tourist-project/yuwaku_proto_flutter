@@ -5,6 +5,7 @@ import 'package:yuwaku_proto/map_painter.dart';
 import 'package:yuwaku_proto/plane_explain.dart';
 import 'package:yuwaku_proto/some_explain.dart';
 import 'package:yuwaku_proto/bottom_tab.dart';
+import 'package:yuwaku_proto/some_top_page.dart';
 import 'development_page.dart';
 import 'package:yuwaku_proto/gameclear.dart';
 import 'package:yuwaku_proto/app_top_view.dart';
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme(
             color: Color.fromRGBO(240, 233, 208, 100),
           )),
-      home: BottomTabPage(),
+      home: runTopPage(),
       routes: <String, WidgetBuilder>{
         '/map_page': (BuildContext context) => MapPage(title: '地図'),
         '/camera_page': (BuildContext context) => CameraPage(
