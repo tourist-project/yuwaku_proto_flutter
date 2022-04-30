@@ -1,126 +1,185 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-
 import 'package:yuwaku_proto/camera_page.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_screen.dart';
+import 'package:yuwaku_proto/homepage_component/homePage_Item.dart';
+import 'package:flutter/cupertino.dart';
 
-class runTopPage extends StatefulWidget {
-  const runTopPage({Key? key}) : super(key: key);
+class RunTopPage extends StatefulWidget {
+  const RunTopPage({Key? key}) : super(key: key);
 
   @override
-  State<runTopPage> createState() => _runTopPage();
+  State<RunTopPage> createState() => _RunTopPage();
 }
 
-class _runTopPage extends State<runTopPage> {  
+class _RunTopPage extends State<RunTopPage> {
+
   var i = 0, selectIndex = 0;
-  
-  @override
-  void ontapmove(int index){
-      setState(() {
-        selectIndex = index;
-        if(i != 0)
-          i = 0;
-      });
-    }
+
+  List<HomePageItem> _homeItems = [
+    HomePageItem('氷室小屋', "Himurogoya",
+        '氷室小屋は冷蔵施設がなく氷が大変貴重であった江戸時代に、大寒の雪を詰め'
+            '天然の雪氷を夏まで長期保存するために作られた小屋です。湯涌ではこの雪詰めを体験'
+            'できるイベントが開催されます。',
+        'assets/images/HimuroGoya.png'),
+    HomePageItem('金沢夢二館', "KanazawaYumejikan",
+        '大正時代を代表する詩人画家の竹下夢二の記念館です。旅、女性、信仰心の3つ'
+            'のテーマから、遺品や作品を通して夢二の芸術性や人間性を紹介しています。',
+        'assets/images/Yumezikan.png'),
+    HomePageItem('総湯', "Soyu",
+        '湯涌温泉の日帰り温泉。浴室はガラス窓であり、内湯でも開放的な気分になります。'
+            '観光客だけでなく地元の方々にも日々利用されている名湯になります。',
+        'assets/images/KeigoSirayu.png'),
+    HomePageItem('足湯', "Ashiyu",
+        '湯涌に2つある足湯の1つです。足だけの入浴なので無理なく体をしんから温める'
+            'ことができます。無料なのでぜひ足湯を体験してみていかかでしょう。',
+        'assets/images/Asiyu(temp).png'),
+    HomePageItem('みどりの里', "Midorinosato",
+        '蕎麦打ち体験や梨の収穫体験などの様々なイベントが1年を通して行われます。'
+            '4月中旬〜12月中旬の毎週日曜日と水曜日に朝市が開催され新鮮な農作物などをお買い求めいただけます。',
+        'assets/images/MidorinoSato.png'),
+  ];
+
+  void onTapMove(int index){
+    setState(() {
+      selectIndex = index;
+      if(i != 0)
+        i = 0;
+    });
+  }
       
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    double heightSize = MediaQuery.of(context).size.height;
+    double widthSize = MediaQuery.of(context).size.width;
     return Scaffold(
        bottomNavigationBar: BottomNavigationBar(
          items: [
            BottomNavigationBarItem(icon: Icon(Icons.home),label: 'ホーム'),
            BottomNavigationBarItem(icon: Icon(Icons.photo_camera),label: 'カメラ'),
          ],
-          onTap: ontapmove,
+          onTap: onTapMove,
           currentIndex: selectIndex,
-          
        ),
+      body: ListView.builder( // 各要素の羅列
+        itemCount: _homeItems.length,
+        itemBuilder: (BuildContext context, int index){
+          return HomeClassTitleComponents(
+            heightSize: heightSize,
+            widthSize: widthSize,
+            homeExplain: _homeItems[index].explain,
+            homeImages: _homeItems[index].image,
+            indexCount: index,
+          );
+        },
+      ),
+    );
+  }
+}
 
-      body: selectIndex == 0 ?
-      SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            for (i; i <= 5; i++)
-              Container(
-                height: size.height / 3,
-                width: size.width,
-                margin: EdgeInsets.all(5),
-                color: Color.fromRGBO(240, 233, 208, 1),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: InkWell(
-                        onTap: (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: ((context) => HomeScreen()))
-                          );
-                        },
-                        child:Container(
-                          child: Image(
-                              image: AssetImage('assets/images/KeigoSirayu.png'),
-                              fit: BoxFit.cover),
-                        ),
+
+
+/// 新しいホームページの構成Widget
+class HomeClassTitleComponents extends StatelessWidget{
+
+  // _RunTopPageからの情報をコンストラクタで取得
+  HomeClassTitleComponents({
+    required this.homeExplain,
+    required this.homeImages,
+    required this.heightSize,
+    required this.widthSize,
+    required this.indexCount
+  });
+
+  final double heightSize;
+  final double widthSize;
+  final String homeExplain;
+  final String homeImages;
+  final int indexCount;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: heightSize/3,
+      width: widthSize,
+      margin: EdgeInsets.all(5),
+      color: Color.fromRGBO(240, 233, 208, 1),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 1,
+            child: InkWell(
+              onTap: (){
+                Navigator.push(context,
+                    MaterialPageRoute(
+                        builder: ((context) => HomeScreen())
                     ),
-                    ),
-                    Expanded(
-                      flex: 1,
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5.0),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage(homeImages),
+                    )
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Column(
+              children: [
+                Flexible(
+                  flex: 1,
+                  child: Container(
+                      margin: EdgeInsets.all(5),
                       child: Column(
-                        children: [
-                          Expanded(
-                              flex: 1,
-                              child: Container(
-                                child: Container(
-                                    margin: EdgeInsets.all(5),
-                                    child: Column(children: [
-                                      Container(
-                                          width: double.infinity,
-                                          child: Text('目的地まで',
-                                              style: TextStyle(fontSize: 15),
-                                              textAlign: TextAlign.left)),
-                                      Text(
-                                        '??m',
-                                        style: TextStyle(fontSize: 25),
-                                      )
-                                    ])),
-                              )),
-                          Expanded(
-                            flex: 2,
-                            child: Container(
-                              color:  Color.fromRGBO(186, 66, 43, 1),
-                              child: Container(
-                                margin: EdgeInsets.all(10),
-                                child: Text(
-                                  'この温泉は階段の上にあり、暫く奥にに歩いて行って、大きな博物館の近くにある。',
-                                  style: TextStyle(
-                                      fontSize: 16, color: Colors.white),
-                                ),
-                              ),
+                          children: <Widget>[
+                            Container(
+                                width: double.infinity,
+                                child: Text('目的地まで',
+                                    style: TextStyle(fontSize: 15),
+                                    textAlign: TextAlign.left)),
+                            Text('??m',
+                              style: TextStyle(fontSize: 25),
                             ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: InkWell(
-                              onTap: (){
-                                // Navigator.push(
-                                //   context,
-                                //    MaterialPageRoute(builder: ((context) => CameraPage(title: 'test', mapItem: )))
-                                // )
-                              },
-                              child: Container(
-                                child: Icon(Icons.photo_camera, size: 56)),),
-                          ),
-                        ],
+                          ]
+                      )
+                    ),
+                ),
+                Expanded(
+                  child: Container(
+                    color: Color.fromRGBO(186, 66, 43, 1),
+                    child: Container(
+                      margin: EdgeInsets.all(10),
+                      child: Text(homeExplain,
+                        style: TextStyle(
+                            fontSize: 10, color: Colors.white),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 4,
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              )
-          ],
-        ),
-      ): Container(),
+                Flexible(
+                  flex: 1,
+                  child: InkWell(
+                    onTap: (){
+                      // Navigator.push(
+                      //   context,
+                      //    MaterialPageRoute(builder: ((context) => CameraPage(title: 'test', mapItem: )))
+                      // )
+                    },
+                    child: Container(
+                        child: Icon(Icons.photo_camera, size: 56)),),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

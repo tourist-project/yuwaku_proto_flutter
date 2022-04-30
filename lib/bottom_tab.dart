@@ -24,7 +24,7 @@ class _BottomTabPageState extends State<BottomTabPage> {
         index: _currentIndex,
         children: [
           // TopPageView(selectItem: (index) => _onItemTapped(index)),
-          runTopPage(),
+          RunTopPage(),
           TutorialPage(),
         ],
       ),
