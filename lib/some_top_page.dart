@@ -43,9 +43,7 @@ class _RunTopPage extends State<RunTopPage> {
           return HomeClassTitleComponents(
             heightSize: heightSize,
             widthSize: widthSize,
-            homeExplain: _homeItems[index].explain,
-            homeImages: _homeItems[index].image,
-            indexCount: index,
+            homePageItem: _homeItems[index],
           );
         },
       ),
@@ -60,18 +58,14 @@ class HomeClassTitleComponents extends StatelessWidget{
 
   // _RunTopPageからの情報をコンストラクタで取得
   HomeClassTitleComponents({
-    required this.homeExplain,
-    required this.homeImages,
     required this.heightSize,
     required this.widthSize,
-    required this.indexCount
+    required this.homePageItem,
   });
 
   final double heightSize;
   final double widthSize;
-  final String homeExplain;
-  final String homeImages;
-  final int indexCount;
+  final HomePageItem homePageItem;
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +91,7 @@ class HomeClassTitleComponents extends StatelessWidget{
                     borderRadius: BorderRadius.circular(5.0),
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: AssetImage(homeImages),
+                      image: AssetImage(homePageItem.image),
                     )
                 ),
               ),
@@ -145,7 +139,7 @@ class HomeClassTitleComponents extends StatelessWidget{
                     ),*/
                       ),
                     child: Text(
-                      homeExplain,
+                      homePageItem.explain,
                       style: TextStyle(
                           fontSize: 15,
                           color: Colors.white
