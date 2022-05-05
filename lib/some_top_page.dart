@@ -129,15 +129,30 @@ class HomeClassTitleComponents extends StatelessWidget{
                 ),
                 Expanded(
                   child: Container(
-                    color: Color.fromRGBO(186, 66, 43, 1),
-                    child: Container(
-                      margin: EdgeInsets.all(10),
-                      child: Text(homeExplain,
-                        style: TextStyle(
-                            fontSize: 15, color: Colors.white),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 4,
+                    margin: const EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(186, 66, 43, 1),
+                      borderRadius: BorderRadius.circular(10.0),
+                      /*
+                      boxShadow:  [
+                        BoxShadow(
+                          color: Colors.black54,
+                          spreadRadius: 1.0,
+                          blurRadius: 10.0,
+                          offset: Offset(5, 5),
+                        ),
+                      ],
+                    ),*/
                       ),
+                    child: Text(
+                      homeExplain,
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.white
+                      ),
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
                     ),
                   ),
                 ),
