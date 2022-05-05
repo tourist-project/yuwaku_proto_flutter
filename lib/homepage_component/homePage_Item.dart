@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 
 class HomePageItem{
 
-  HomePageItem(this.title, this.eng_title, this.explain, this.image){
+  HomePageItem(
+      this.title, this.eng_title, this.explain, this.image,
+      this.latitude, this.longitude,
+      ){
     print('インスタンスの生成');
   }
 
   String title , eng_title, explain, image;
-
+  double latitude, longitude;
+  
 }
 
 class modalItem{

@@ -3,9 +3,7 @@ import 'package:yuwaku_proto/homepage_component/homePage_screen.dart';
 import 'package:yuwaku_proto/some_top_page.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
 import 'map_page.dart';
-import 'some_explain.dart';
-import 'package:yuwaku_proto/app_top_view.dart';
-import 'plane_explain.dart';
+import 'package:yuwaku_proto/DistanceDemo.dart';
 
 class BottomTabPage extends StatefulWidget {
   @override
@@ -26,6 +24,7 @@ class _BottomTabPageState extends State<BottomTabPage> {
           // TopPageView(selectItem: (index) => _onItemTapped(index)),
           RunTopPage(),
           TutorialPage(),
+          DemoDistance(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -41,6 +40,12 @@ class _BottomTabPageState extends State<BottomTabPage> {
                 Icons.help,
               ),
               label: '遊び方'),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.map,
+              ),
+              label: '位置情報'),
+
         ],
         currentIndex: _currentIndex,
         fixedColor: Colors.blueAccent,
