@@ -17,6 +17,9 @@ class DistanceShowPage extends StatefulWidget {
 
 class _DistanceShowPage extends State<DistanceShowPage>{
 
+  Position? _position;
+  late StreamSubscription<Position> positionStream;
+
   final distanceItem = <Distance>[
     Distance(36.48346516395541, 136.75701193508996),
     Distance(36.48584951599308, 136.75738876226737),
@@ -25,16 +28,38 @@ class _DistanceShowPage extends State<DistanceShowPage>{
     Distance(36.49050881078798, 136.75404574490975),
   ];
 
-  StreamSubscription<Position> positionStream = Geolocator.getPositionStream(locationOptions).listen(
-          (Position position) {
-        print(position == null ? 'Unknown' : position.latitude.toString() + ', ' + position.longitude.toString());
-      });
 
-  Position position = await Geolocator.getCurrentPosition(
-  desiredAccuracy: LocationAccuracy.high,
-    timeLimit: Duration(seconds: 4),
-  );
-  
+
+
+  @override
+  void initState() {
+    super.initState();
+    Geolocator _geolocator = Geolocator();
+
+    positionStream = Geolocator.getPositionStream(
+        desiredAccuracy: LocationAccuracy.best,
+        intervalDuration: Duration(seconds: 5)
+    ).listen((Position position) {
+          _position = position;
+        });
+  }
+
+
+  void updateLocation() async {
+    try {
+      Position newPosition = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      ).timeout(new Duration(seconds: 5));
+
+      setState(() {
+        _position = newPosition;
+      });
+    } catch (e) {
+      print('Error: ${e.toString()}');
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +75,8 @@ class _DistanceShowPage extends State<DistanceShowPage>{
                         child: Text('目的地まで',
                             style: TextStyle(fontSize: 15),
                             textAlign: TextAlign.left)),
-                    Text('??m',
+                    Text('Latitude: ${_position != null ? _position!.latitude.toString() : '0'},'
+                        ' Longitude: ${_position != null ? _position!.longitude.toString() : '0'}',
                       style: TextStyle(fontSize: 25),
                     ),
                   ]
