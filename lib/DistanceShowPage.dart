@@ -17,9 +17,6 @@ class DistanceShowPage extends StatefulWidget {
 
 class _DistanceShowPage extends State<DistanceShowPage>{
 
-  Position? _position;
-  late StreamSubscription<Position> positionStream;
-
   final distanceItem = <Distance>[
     Distance(36.48346516395541, 136.75701193508996),
     Distance(36.48584951599308, 136.75738876226737),
@@ -27,62 +24,92 @@ class _DistanceShowPage extends State<DistanceShowPage>{
     Distance(36.48582537854954, 136.7574341842218),
     Distance(36.49050881078798, 136.75404574490975),
   ];
+  double? distance;
+
+  void setDistance(Position position) {
+    this.distance = Geolocator.distanceBetween(
+        position.latitude, position.longitude, this.distanceItem.first, this.longitude);
+  }
 
 
+  Position? _position;
+  late StreamSubscription<Position> positionStream;
+
+
+  Future<void> count() async{
+    var counterStream = Stream<int>.periodic(
+        const Duration(seconds: 2),
+
+    );
+    await for(int n in counterStream){
+      print(n);
+    }
+  }
 
 
   @override
   void initState() {
     super.initState();
-    Geolocator _geolocator = Geolocator();
 
-    positionStream = Geolocator.getPositionStream(
-        desiredAccuracy: LocationAccuracy.best,
-        intervalDuration: Duration(seconds: 5)
-    ).listen((Position position) {
-          _position = position;
-        });
   }
+/*
+  positionStream = Geolocator.getPositionStream(
+  desiredAccuracy: LocationAccuracy.best,
+  intervalDuration: Duration(seconds: 5)
+  ).listen((Position position) {
+  _position = position;
+  });*/
 
 
-  void updateLocation() async {
+  Stream<Position> updateLocation() async* {
     try {
       Position newPosition = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       ).timeout(new Duration(seconds: 5));
-
       setState(() {
         _position = newPosition;
       });
+      yield* newPosition;
     } catch (e) {
       print('Error: ${e.toString()}');
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<Object>(
-      stream: null,
-      builder: (context, snapshot) {
-        return Container(
-              margin: EdgeInsets.all(5),
-              child: Column(
-                  children: <Widget>[
-                    Container(
-                        width: double.infinity,
-                        child: Text('目的地まで',
-                            style: TextStyle(fontSize: 15),
-                            textAlign: TextAlign.left)),
-                    Text('Latitude: ${_position != null ? _position!.latitude.toString() : '0'},'
-                        ' Longitude: ${_position != null ? _position!.longitude.toString() : '0'}',
-                      style: TextStyle(fontSize: 25),
-                    ),
-                  ]
-              )
-        );
-      }
+    return Container(
+      margin: EdgeInsets.all(5),
+      width: double.infinity,
+      child: _buildStreamBuilder(),
     );
   }
+  Widget _buildStreamBuilder(){
+    return Center(
+      child: StreamBuilder<void>(
+        stream: updateLocation(),
+        builder: (context, snapshot){
+          if(snapshot.connectionState == ConnectionState.active)
+            return  Column(
+              children: <Widget>[
+                Text(
+                  'Latitude: ${_position!.latitude}',
+                  style: TextStyle(fontSize: 20),
+                ),
+                Text(
+                    'Longitude: ${_position!.longitude}',
+                  style: TextStyle(fontSize: 20),
+                )
+              ]
+            );
+          else{
+            return CircularProgressIndicator();
+          }
+        },
+      ),
+    );
+  }
+
+
+
+
 }

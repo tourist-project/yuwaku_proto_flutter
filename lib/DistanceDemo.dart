@@ -68,7 +68,7 @@ class _DemoDistance extends State<DemoDistance>{
 
     // 方位を返す
     double distanceBetween = Geolocator.distanceBetween(
-        homeItems[0].latitude, homeItems[0].longitude,
+        this.latitude, homeItems[0].longitude,
         position.latitude,
         position.longitude);
     print(distanceBetween);
