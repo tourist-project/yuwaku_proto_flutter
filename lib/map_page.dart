@@ -212,7 +212,10 @@ class _MapPageState extends State<MapPage> {
 
     MapPainter.determinePosition()
         .then((_) {
-          Geolocator.getPositionStream().listen((location) {
+          Geolocator.getPositionStream(
+            intervalDuration: Duration(seconds: 5),
+            desiredAccuracy: LocationAccuracy.best,
+          ).listen((location) {
             for(final item in _mapItems)
               item.setDistance(location); // 距離関係を更新する
           });

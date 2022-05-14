@@ -3,7 +3,6 @@ import 'package:yuwaku_proto/homepage_component/homePage_screen.dart';
 import 'package:yuwaku_proto/some_top_page.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
 import 'map_page.dart';
-import 'package:yuwaku_proto/DistanceDemo.dart';
 
 class BottomTabPage extends StatefulWidget {
   @override
@@ -24,7 +23,6 @@ class _BottomTabPageState extends State<BottomTabPage> {
           // TopPageView(selectItem: (index) => _onItemTapped(index)),
           RunTopPage(),
           TutorialPage(),
-          DemoDistance(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
