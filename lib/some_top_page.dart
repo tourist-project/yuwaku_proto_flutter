@@ -1,13 +1,17 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'some_camera_page.dart';
 import 'dart:async';
 import 'package:yuwaku_proto/camera_page.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_screen.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_Item.dart';
 import 'package:flutter/cupertino.dart';
-
+import 'some_camera_page.dart';
+ 
 class RunTopPage extends StatefulWidget {
-  const RunTopPage({Key? key}) : super(key: key);
-
+   RunTopPage({Key? key}) : super(key: key);
+    
   @override
   State<RunTopPage> createState() => _RunTopPage();
 }
@@ -36,6 +40,7 @@ class _RunTopPage extends State<RunTopPage> {
   Widget build(BuildContext context) {
     double heightSize = MediaQuery.of(context).size.height;
     double widthSize = MediaQuery.of(context).size.width;
+    late CameraDescription camera;
     return Scaffold(
       body: ListView.builder( // 各要素の羅列
         itemCount: _homeItems.length,
@@ -43,9 +48,9 @@ class _RunTopPage extends State<RunTopPage> {
           return HomeClassTitleComponents(
             heightSize: heightSize,
             widthSize: widthSize,
-            homeExplain: _homeItems[index].explain,
-            homeImages: _homeItems[index].image,
-            indexCount: index,
+            homePageItem: _homeItems[index],
+            camera: camera,
+            
           );
         },
       ),
@@ -60,18 +65,17 @@ class HomeClassTitleComponents extends StatelessWidget{
 
   // _RunTopPageからの情報をコンストラクタで取得
   HomeClassTitleComponents({
-    required this.homeExplain,
-    required this.homeImages,
     required this.heightSize,
     required this.widthSize,
-    required this.indexCount
+    required this.homePageItem,
+    required this.camera
   });
 
   final double heightSize;
   final double widthSize;
-  final String homeExplain;
-  final String homeImages;
-  final int indexCount;
+  final HomePageItem homePageItem;
+  CameraDescription camera;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +101,7 @@ class HomeClassTitleComponents extends StatelessWidget{
                     borderRadius: BorderRadius.circular(5.0),
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: AssetImage(homeImages),
+                     image: AssetImage(homePageItem.image)
                     )
                 ),
               ),
@@ -129,15 +133,30 @@ class HomeClassTitleComponents extends StatelessWidget{
                 ),
                 Expanded(
                   child: Container(
-                    color: Color.fromRGBO(186, 66, 43, 1),
-                    child: Container(
-                      margin: EdgeInsets.all(10),
-                      child: Text(homeExplain,
-                        style: TextStyle(
-                            fontSize: 15, color: Colors.white),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 4,
+                    margin: const EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(186, 66, 43, 1),
+                      borderRadius: BorderRadius.circular(10.0),
+                      /*
+                      boxShadow:  [
+                        BoxShadow(
+                          color: Colors.black54,
+                          spreadRadius: 1.0,
+                          blurRadius: 10.0,
+                          offset: Offset(5, 5),
+                        ),
+                      ],
+                    ),*/
                       ),
+                    child: Text(
+                      homePageItem.explain,
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.white
+                      ),
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
                     ),
                   ),
                 ),
@@ -145,10 +164,10 @@ class HomeClassTitleComponents extends StatelessWidget{
                   flex: 1,
                   child: InkWell(
                     onTap: (){
-                      // Navigator.push(
-                      //   context,
-                      //    MaterialPageRoute(builder: ((context) => CameraPage(title: 'test', mapItem: )))
-                      // )
+                      Navigator.push(
+                        context,
+                         MaterialPageRoute(builder: ((context) =>Cameraspage(camera: camera)))
+                      );
                     },
                     child: Center(
                         child: Icon(Icons.photo_camera, size: 56)),),
@@ -161,3 +180,4 @@ class HomeClassTitleComponents extends StatelessWidget{
     );
   }
 }
+

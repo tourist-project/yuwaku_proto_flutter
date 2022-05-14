@@ -13,12 +13,20 @@ import 'package:yuwaku_proto/tutorial_page.dart';
 import 'package:flutter/services.dart';
 import 'homepage_component/homePage_Item.dart';
 import 'homepage_component/homePage_screen.dart';
+import 'some_top_page.dart';
+import 'package:camera/camera.dart';
 
 
 
-void main() {
+Future<void> main() async{
 
   WidgetsFlutterBinding.ensureInitialized();
+  
+  final cameras = await availableCameras();
+  
+  final firstCamera = cameras.first;
+  
+  print(firstCamera);  
   // 画面の向きを固定
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -40,7 +48,7 @@ class MyApp extends StatelessWidget {
           )),
       home: BottomTabPage(),
       routes: <String, WidgetBuilder>{
-        '/map_page': (BuildContext context) => MapPage(title: '地図'),
+        // '/map_page': (BuildContext context) => MapPage(title: '地図'),
         '/camera_page': (BuildContext context) => CameraPage(
             title: 'Camera page',
             mapItem: ModalRoute.of(context)!.settings.arguments as MapItem),

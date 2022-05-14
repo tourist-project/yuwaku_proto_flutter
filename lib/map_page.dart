@@ -18,7 +18,7 @@ import 'map_painter.dart'; // Colorsを使う時はprefix.Colors.~と使って�
 import 'package:geolocator/geolocator.dart';
 import 'homepage_component/homePage_Item.dart';
 
-/// 場所情報
+// 場所情報
 class MapItem {
   final String name;/// 場所の名前
   final double latitude;/// 緯度

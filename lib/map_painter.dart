@@ -9,6 +9,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:touchable/touchable.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:typed_data';
+import 'some_top_page.dart';
 
 /// マップの描画
 class MapPainter extends CustomPainter {

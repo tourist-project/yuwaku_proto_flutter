@@ -6,6 +6,7 @@ import 'dart:ui' as ui;
 import 'package:image_picker/image_picker.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:yuwaku_proto/map_page.dart';
+import 'some_top_page.dart';
 import 'package:yuwaku_proto/database.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:path_provider/path_provider.dart';
