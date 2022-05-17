@@ -6,17 +6,19 @@ import 'dart:async';
 import 'package:yuwaku_proto/camera_page.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_screen.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_Item.dart';
-import 'package:flutter/cupertino.dart';
-import 'some_camera_page.dart';
- 
+
 class RunTopPage extends StatefulWidget {
-   RunTopPage({Key? key}) : super(key: key);
+   RunTopPage({Key? key,required this.camera}) : super(key: key);
+   
+   final CameraDescription camera;
     
   @override
-  State<RunTopPage> createState() => _RunTopPage();
+  State<RunTopPage> createState() => _RunTopPage(camera: camera);
 }
 
 class _RunTopPage extends State<RunTopPage> {
+  _RunTopPage({Key? key, required this.camera});
+  final CameraDescription camera;
 
   List<HomePageItem> _homeItems = [
     HomePageItem('氷室小屋', "Himurogoya",
@@ -36,11 +38,10 @@ class _RunTopPage extends State<RunTopPage> {
         'assets/images/MidorinoSato.png'),
   ];
 
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)  {
     double heightSize = MediaQuery.of(context).size.height;
     double widthSize = MediaQuery.of(context).size.width;
-    late CameraDescription camera;
+
     return Scaffold(
       body: ListView.builder( // 各要素の羅列
         itemCount: _homeItems.length,
@@ -50,7 +51,6 @@ class _RunTopPage extends State<RunTopPage> {
             widthSize: widthSize,
             homePageItem: _homeItems[index],
             camera: camera,
-            
           );
         },
       ),
@@ -74,8 +74,7 @@ class HomeClassTitleComponents extends StatelessWidget{
   final double heightSize;
   final double widthSize;
   final HomePageItem homePageItem;
-  CameraDescription camera;
-  
+  final CameraDescription camera;
 
   @override
   Widget build(BuildContext context) {

@@ -15,27 +15,29 @@ import 'homepage_component/homePage_Item.dart';
 import 'homepage_component/homePage_screen.dart';
 import 'some_top_page.dart';
 import 'package:camera/camera.dart';
+import 'some_camera_page.dart';
 
 
 
 Future<void> main() async{
-
   WidgetsFlutterBinding.ensureInitialized();
-  
   final cameras = await availableCameras();
-  
   final firstCamera = cameras.first;
-  
-  print(firstCamera);  
+
   // 画面の向きを固定
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-  runApp(MyApp());
+  runApp(MyApp(camera: firstCamera));
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+  
+  MyApp({Key? key, required this.camera});
+  
+  final CameraDescription  camera;
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,7 +48,7 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme(
             color: Color.fromRGBO(240, 233, 208, 100),
           )),
-      home: BottomTabPage(),
+      home: BottomTabPage(camera: camera),
       routes: <String, WidgetBuilder>{
         // '/map_page': (BuildContext context) => MapPage(title: '地図'),
         '/camera_page': (BuildContext context) => CameraPage(

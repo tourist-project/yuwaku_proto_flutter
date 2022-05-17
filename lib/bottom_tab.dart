@@ -1,4 +1,6 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:yuwaku_proto/camera_page.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_screen.dart';
 import 'package:yuwaku_proto/some_top_page.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
@@ -8,14 +10,19 @@ import 'package:yuwaku_proto/app_top_view.dart';
 import 'plane_explain.dart';
 
 class BottomTabPage extends StatefulWidget {
+  
+  BottomTabPage({Key? key, required this.camera});
+  final CameraDescription camera;
   @override
   State<StatefulWidget> createState() {
-    return _BottomTabPageState();
+    return _BottomTabPageState(camera: camera);
   }
 }
 
 class _BottomTabPageState extends State<BottomTabPage> {
   int _currentIndex = 0;
+  _BottomTabPageState({Key? key, required this.camera});
+  final CameraDescription camera;
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +30,7 @@ class _BottomTabPageState extends State<BottomTabPage> {
       body: IndexedStack(
         index: _currentIndex,
         children: [
-          // TopPageView(selectItem: (index) => _onItemTapped(index)),
-          RunTopPage(),
+          RunTopPage(camera: camera),
           TutorialPage(),
         ],
       ),
