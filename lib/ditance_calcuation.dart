@@ -2,11 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:yuwaku_proto/map_page.dart';
 import 'dart:async';
 import 'package:yuwaku_proto/map_painter.dart';
-import 'map_painter.dart'; // Colorsを使う時はprefix.Colors.~と使ってください
+import 'map_painter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'homepage_component/homePage_Item.dart';
+
+import 'package:auto_size_text/auto_size_text.dart';
 
 
 class DistanceItems {
@@ -15,7 +18,11 @@ class DistanceItems {
   final double longitude; // 経度
   double? distance; // 距離
 
-  DistanceItems(this.name, this.latitude, this.longitude);
+  DistanceItems(
+      this.name,
+      this.latitude,
+      this.longitude,
+      );
 
   // 距離を図る
   double setDistance(Position position) {
@@ -32,6 +39,9 @@ class ShowDistancePosition extends StatefulWidget {
 }
 
 class _ShowDistancePosition extends State<ShowDistancePosition> {
+
+  late Stream<Position> _initializeStream;
+
 
   /*学校でテスト
   LC：36.5309848,136.6271052
@@ -62,25 +72,23 @@ class _ShowDistancePosition extends State<ShowDistancePosition> {
     ),
   ];
 
-  double? currentDistance;
+
 
   @override
   void initState() {
     super.initState();
-    calDistance();
+    _initializeStream = _getStream();
   }
 
-  Stream<DistanceItems>? calDistance()
-  {
+  Stream<Position> _getStream() async*{
     MapPainter.determinePosition()
         .then((_) {
       Geolocator.getPositionStream(
         intervalDuration: Duration(seconds: 5),
         desiredAccuracy: LocationAccuracy.best,
       ).listen((location) {
-        for(DistanceItems item in _mapItems)
-          this.currentDistance = item.setDistance(location); // 距離関係を更新する
-
+        for(final item in _mapItems)
+          item.setDistance(location); // 距離関係を更新する
       });
     }).catchError((_) => _dialogLocationLicense());
   }
@@ -88,39 +96,34 @@ class _ShowDistancePosition extends State<ShowDistancePosition> {
   @override
   void dispose() {
     super.dispose();
-    calDistance();
+
   }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<DistanceItems>(
-      stream: calDistance(),
+    return StreamBuilder<Position>(
+      stream: _initializeStream,
       builder: (context, snapshot) {
         if(snapshot.connectionState == ConnectionState.done){
-          if(snapshot.hasData){
-            return Flexible(
+          for(var itemDist in _mapItems)
+            itemDist.distance != null ?
+            Flexible(
               flex: 1,
               child: Container(
-                margin: EdgeInsets.all(5),
-                child: Container(
-                    width: double.infinity,
-                    child: Text(this.currentDistance.toString(),
-                        style: TextStyle(fontSize: 15),
-                        textAlign: TextAlign.left)
-                ),
+                width: double.infinity,
+                child: Text(itemDist.distance.toString(),
+                    style: TextStyle(fontSize: 15),
+                    textAlign: TextAlign.left),
+              ),
+            ):
+            Container(
+              width: double.infinity,
+              child: AutoSizeText(
+                  'Not Found Distance'
               ),
             );
-          }
-          else if(snapshot.hasError){
-            return Container(
-              child: Text(
-                'Error $snapshot'
-              ),
-            );
-          }
         }
         return CircularProgressIndicator();
-
       }
     );
   }

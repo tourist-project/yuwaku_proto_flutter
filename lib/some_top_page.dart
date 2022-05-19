@@ -161,7 +161,8 @@ class HomeClassTitleComponents extends StatelessWidget{
                       // )
                     },
                     child: Container(
-                        child: Icon(Icons.photo_camera, size: 56)),),
+                        child: Icon(Icons.photo_camera, size: 56)),
+                  ),
                 ),
               ],
             ),

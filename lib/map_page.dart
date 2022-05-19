@@ -286,8 +286,8 @@ class _MapPageState extends State<MapPage> {
                         scrollDirection: Axis.horizontal,
                         children: [
                             for(var itemDist in _mapItems)
-                            Card(
-                              child: Column(
+                              Card(
+                                child: Column(
                                 children: [
                                   Container(
                                     height: mediaHeight/7,
