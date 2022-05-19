@@ -7,8 +7,7 @@ import 'dart:async';
 import 'package:yuwaku_proto/map_painter.dart';
 import 'map_painter.dart';
 import 'package:geolocator/geolocator.dart';
-import 'homepage_component/homePage_Item.dart';
-
+import 'dart:ui' as ui;
 import 'package:auto_size_text/auto_size_text.dart';
 
 
@@ -40,8 +39,6 @@ class ShowDistancePosition extends StatefulWidget {
 
 class _ShowDistancePosition extends State<ShowDistancePosition> {
 
-  late Stream<Position> _initializeStream;
-
 
   /*学校でテスト
   LC：36.5309848,136.6271052
@@ -72,7 +69,9 @@ class _ShowDistancePosition extends State<ShowDistancePosition> {
     ),
   ];
 
-
+  late Stream<DistanceItems> _initializeStream;
+  late Stream<DistanceItems> pos;
+  late StreamController<DistanceItems> _controller = StreamController<DistanceItems>();
 
   @override
   void initState() {
@@ -80,15 +79,16 @@ class _ShowDistancePosition extends State<ShowDistancePosition> {
     _initializeStream = _getStream();
   }
 
-  Stream<Position> _getStream() async*{
+  Stream<DistanceItems> _getStream() async*{
     MapPainter.determinePosition()
-        .then((_) {
+        .then((event) {
       Geolocator.getPositionStream(
         intervalDuration: Duration(seconds: 5),
         desiredAccuracy: LocationAccuracy.best,
       ).listen((location) {
-        for(final item in _mapItems)
+        for(DistanceItems item in _mapItems){
           item.setDistance(location); // 距離関係を更新する
+        }
       });
     }).catchError((_) => _dialogLocationLicense());
   }
@@ -96,22 +96,24 @@ class _ShowDistancePosition extends State<ShowDistancePosition> {
   @override
   void dispose() {
     super.dispose();
-
   }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<Position>(
+    return StreamBuilder<DistanceItems>(
       stream: _initializeStream,
       builder: (context, snapshot) {
         if(snapshot.connectionState == ConnectionState.done){
-          for(var itemDist in _mapItems)
-            itemDist.distance != null ?
+          // print(snapshot);
+          for(DistanceItems itemDist in _mapItems){
+            print('itemDistの距離${itemDist.distance}');
+            return itemDist.distance != null ?
             Flexible(
               flex: 1,
               child: Container(
                 width: double.infinity,
-                child: Text(itemDist.distance.toString(),
+                child: Text(
+                    itemDist.distance!.toStringAsFixed(1) + 'm',
                     style: TextStyle(fontSize: 15),
                     textAlign: TextAlign.left),
               ),
@@ -122,6 +124,7 @@ class _ShowDistancePosition extends State<ShowDistancePosition> {
                   'Not Found Distance'
               ),
             );
+          }
         }
         return CircularProgressIndicator();
       }
