@@ -1,9 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'dart:io';
 import 'some_camera_page.dart';
-import 'dart:async';
-import 'package:yuwaku_proto/camera_page.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_screen.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_Item.dart';
 
@@ -91,7 +88,7 @@ class HomeClassTitleComponents extends StatelessWidget{
               onTap: (){
                 Navigator.push(context,
                     MaterialPageRoute(
-                        builder: ((context) => HomeScreen())
+                        builder: ((context) => HomePage())
                     ),
                 );
               },
@@ -165,7 +162,7 @@ class HomeClassTitleComponents extends StatelessWidget{
                     onTap: (){
                       Navigator.push(
                         context,
-                         MaterialPageRoute(builder: ((context) =>Cameraspage(camera: camera)))
+                         MaterialPageRoute(builder: ((context) =>Camerapage(camera: camera)))
                       );
                     },
                     child: Center(

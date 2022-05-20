@@ -13,10 +13,8 @@ import 'package:yuwaku_proto/map_painter.dart';
 import 'package:yuwaku_proto/database.dart';
 import 'package:yuwaku_proto/gameclear.dart';
 import 'package:flutter/material.dart' as prefix;
-import 'package:bubble/bubble.dart';
 import 'map_painter.dart'; // Colorsを使う時はprefix.Colors.~と使ってください
 import 'package:geolocator/geolocator.dart';
-import 'homepage_component/homePage_Item.dart';
 
 // 場所情報
 class MapItem {

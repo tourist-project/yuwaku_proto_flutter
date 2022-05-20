@@ -1,13 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:yuwaku_proto/camera_page.dart';
-import 'package:yuwaku_proto/homepage_component/homePage_screen.dart';
 import 'package:yuwaku_proto/some_top_page.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
-import 'map_page.dart';
-import 'some_explain.dart';
-import 'package:yuwaku_proto/app_top_view.dart';
-import 'plane_explain.dart';
 
 class BottomTabPage extends StatefulWidget {
   

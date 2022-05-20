@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:yuwaku_proto/map_page.dart';
 import 'package:flutter/material.dart' as prefix;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yuwaku_proto/plane_explain.dart';
-import 'package:yuwaku_proto/tutorial_page.dart';
 
 class TopPageView extends StatelessWidget{
   final ValueChanged<int> selectItem;

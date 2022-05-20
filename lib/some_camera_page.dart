@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'dart:io';
 import 'some_top_page.dart';
-import 'main.dart';
 
-class Cameraspage extends StatefulWidget{
-  Cameraspage({Key? key, required this.camera}) : super(key: key);
+class Camerapage extends StatefulWidget{
+  Camerapage({Key? key, required this.camera}) : super(key: key);
   final CameraDescription camera;
 
   @override
   _Camerapage createState() => _Camerapage(camera: this.camera);
 }
 
-class _Camerapage extends State<Cameraspage>{
+class _Camerapage extends State<Camerapage>{
   _Camerapage({Key? key,required this.camera});
   
   final CameraDescription camera;
@@ -90,6 +89,7 @@ class DisplayPictureScreen extends StatelessWidget {
             ),
           );
         },
+        child: Icon(Icons.arrow_back),
       ),
     );
   }

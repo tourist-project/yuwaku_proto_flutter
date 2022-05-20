@@ -3,13 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 import 'package:yuwaku_proto/map_page.dart';
-import 'main.dart';
 import 'map_page.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:touchable/touchable.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'dart:typed_data';
-import 'some_top_page.dart';
 
 /// マップの描画
 class MapPainter extends CustomPainter {

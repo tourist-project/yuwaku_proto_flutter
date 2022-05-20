@@ -1,11 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'dart:ui' as ui;
-import 'package:http/http.dart' as http;
-import 'package:yuwaku_proto/map_page.dart';
-import 'dart:math';
-import 'package:flutter/animation.dart';
-
 
 class Explain extends StatefulWidget{
   _Explain createState() => _Explain();
