@@ -1,5 +1,4 @@
 import 'package:yuwaku_proto/main.dart';
-import 'package:flutter/material.dart';
 
 class HomePageItem{
 

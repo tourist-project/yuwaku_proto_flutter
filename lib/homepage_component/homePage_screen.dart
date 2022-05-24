@@ -1,20 +1,18 @@
 import 'package:flutter/cupertino.dart';
-import 'package:yuwaku_proto/main.dart';
 import 'package:flutter/material.dart';
-import 'package:simple_animations/simple_animations.dart';
 import 'homePage_Item.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomePage extends StatefulWidget {
 
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreen();
+  State<HomePage> createState() => _HomePage();
 
 }
 
-class _HomeScreen extends State<HomeScreen>{
+class _HomePage extends State<HomePage>{
   List<modalItem>modalContents = [
   modalItem(
       'assets/images/HimuroGoya.png',
