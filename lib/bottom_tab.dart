@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_screen.dart';
 import 'package:yuwaku_proto/some_top_page.dart';
+import 'package:yuwaku_proto/test_stream_distanc.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
 import 'map_page.dart';
 
@@ -21,8 +22,10 @@ class _BottomTabPageState extends State<BottomTabPage> {
         index: _currentIndex,
         children: [
           // TopPageView(selectItem: (index) => _onItemTapped(index)),
+
           RunTopPage(),
           TutorialPage(),
+         // StreamShow(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -38,12 +41,6 @@ class _BottomTabPageState extends State<BottomTabPage> {
                 Icons.help,
               ),
               label: '遊び方'),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.map,
-              ),
-              label: '位置情報'),
-
         ],
         currentIndex: _currentIndex,
         fixedColor: Colors.blueAccent,

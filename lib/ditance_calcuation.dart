@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 
 
 class DistanceItems {
+
   final String name;
   final double latitude; // 緯度
   final double longitude; // 経度
@@ -30,6 +32,7 @@ class DistanceItems {
   }
 }
 
+
 class ShowDistancePosition extends StatefulWidget {
   ShowDistancePosition({Key? key}) : super(key: key);
 
@@ -45,10 +48,15 @@ class _ShowDistancePosition extends State<ShowDistancePosition> {
   1号館：36.5309848,136.6271052
    */
 
+  /*MapItem('湯涌稲荷神社', 36.4856770,136.7582343, Offset(1254, 292),
+        'assets/images/img1_gray.png', Rect.fromLTWH(650, 182, 280, 280)),*/
+
+  /* MapItem('足湯(湯の出)', 36.48919374904115, 136.75588850463596, Offset(505, 690),
+        'assets/images/Asiyu(temp).png', Rect.fromLTWH(750, 80, 280, 280)),
+        */
+
   /// マップの場所情報の一覧
   final _mapItems = <DistanceItems>[
-    /*MapItem('湯涌稲荷神社', 36.4856770,136.7582343, Offset(1254, 292),
-        'assets/images/img1_gray.png', Rect.fromLTWH(650, 182, 280, 280)),*/
     DistanceItems('総湯',
         36.485425901995455, 136.75758738535384
     ),
@@ -58,9 +66,6 @@ class _ShowDistancePosition extends State<ShowDistancePosition> {
     DistanceItems('足湯(立派な方)',
       36.48582537854954, 136.7574341842218,
     ),
-    /* MapItem('足湯(湯の出)', 36.48919374904115, 136.75588850463596, Offset(505, 690),
-        'assets/images/Asiyu(temp).png', Rect.fromLTWH(750, 80, 280, 280)),
-        */
     DistanceItems('みどりの里',
       36.49050881078798, 136.75404574490975
     ),
@@ -69,43 +74,45 @@ class _ShowDistancePosition extends State<ShowDistancePosition> {
     ),
   ];
 
-  late Stream<DistanceItems> _initializeStream;
-  late Stream<DistanceItems> pos;
-  late StreamController<DistanceItems> _controller = StreamController<DistanceItems>();
-
   @override
   void initState() {
+
     super.initState();
-    _initializeStream = _getStream();
   }
 
   Stream<DistanceItems> _getStream() async*{
     MapPainter.determinePosition()
-        .then((event) {
+        .then((_) {
       Geolocator.getPositionStream(
         intervalDuration: Duration(seconds: 5),
         desiredAccuracy: LocationAccuracy.best,
       ).listen((location) {
         for(DistanceItems item in _mapItems){
+          print(location);
           item.setDistance(location); // 距離関係を更新する
         }
       });
-    }).catchError((_) => _dialogLocationLicense());
+    });
   }
 
   @override
   void dispose() {
+    _getStream();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DistanceItems>(
-      stream: _initializeStream,
+      stream: _getStream(),
       builder: (context, snapshot) {
         if(snapshot.connectionState == ConnectionState.done){
           // print(snapshot);
-          for(DistanceItems itemDist in _mapItems){
+          for(int i = 0; i < _mapItems.length; i++){
+            var distanceList = [];
+
+          }
+          for(var itemDist in _mapItems){
             print('itemDistの距離${itemDist.distance}');
             return itemDist.distance != null ?
             Flexible(

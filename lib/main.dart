@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yuwaku_proto/ditance_calcuation.dart';
 import 'package:yuwaku_proto/map_page.dart';
 import 'package:yuwaku_proto/camera_page.dart';
 import 'package:yuwaku_proto/map_painter.dart';
@@ -6,6 +7,7 @@ import 'package:yuwaku_proto/plane_explain.dart';
 import 'package:yuwaku_proto/some_explain.dart';
 import 'package:yuwaku_proto/bottom_tab.dart';
 import 'package:yuwaku_proto/some_top_page.dart';
+import 'package:yuwaku_proto/test_stream_distanc.dart';
 import 'development_page.dart';
 import 'package:yuwaku_proto/gameclear.dart';
 import 'package:yuwaku_proto/app_top_view.dart';
@@ -50,6 +52,7 @@ class MyApp extends StatelessWidget {
             DevelopmentPage(title: '開発中'),
         // '/app_top_view':(BuildContext context) => TopPageView(),
         '/tutorial_page':(BuildContext context) => TutorialPage(),
+        '/test_stream_distanc':(BuildContext context) => StreamShow(),
       },
     );
   }

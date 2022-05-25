@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:yuwaku_proto/map_page.dart';
 import 'package:yuwaku_proto/map_painter.dart';
+import 'package:yuwaku_proto/test_stream_distanc.dart';
 import 'ditance_calcuation.dart';
 
 
