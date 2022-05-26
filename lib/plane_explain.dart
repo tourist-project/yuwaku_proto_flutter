@@ -1,10 +1,4 @@
-import 'dart:io';
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'dart:ui' as ui;
-import 'package:flutter/animation.dart';
-import 'package:simple_animations/simple_animations.dart';
 
 /// 場所説明のページ作成予定
 class PlaneExplain{

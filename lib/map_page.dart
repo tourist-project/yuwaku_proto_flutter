@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter/rendering.dart';
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
@@ -13,12 +12,10 @@ import 'package:yuwaku_proto/map_painter.dart';
 import 'package:yuwaku_proto/database.dart';
 import 'package:yuwaku_proto/gameclear.dart';
 import 'package:flutter/material.dart' as prefix;
-import 'package:bubble/bubble.dart';
 import 'map_painter.dart'; // Colorsを使う時はprefix.Colors.~と使ってください
 import 'package:geolocator/geolocator.dart';
-import 'homepage_component/homePage_Item.dart';
 
-/// 場所情報
+// 場所情報
 class MapItem {
   final String name;/// 場所の名前
   final double latitude;/// 緯度

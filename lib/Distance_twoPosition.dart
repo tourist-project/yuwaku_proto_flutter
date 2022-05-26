@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'dart:math';
-import 'package:angles/angles.dart';
 import 'dart:async';
-import 'map_page.dart';
+
 
 
 class Distance {
