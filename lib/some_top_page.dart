@@ -7,8 +7,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:yuwaku_proto/map_page.dart';
 import 'package:yuwaku_proto/map_painter.dart';
-import 'package:yuwaku_proto/test_stream_distanc.dart';
-import 'ditance_calcuation.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 
@@ -23,6 +21,10 @@ class _RunTopPage extends State<RunTopPage> {
 
   var i = 0, selectIndex = 0;
 
+  /*学校でテスト
+  LC：36.5309848,136.6271052
+  1号館：36.5309848,136.6271052
+   */
   List<HomePageItem> homeItems = [
     HomePageItem('氷室小屋', "Himurogoya",
       '氷室小屋は冷蔵施設がなく氷が大変貴重であった江戸時代に、大寒の雪を詰め'
@@ -80,7 +82,6 @@ class _RunTopPage extends State<RunTopPage> {
   }
 
 
-
   @override
   Widget build(BuildContext context) {
     double heightSize = MediaQuery.of(context).size.height;
@@ -99,7 +100,7 @@ class _RunTopPage extends State<RunTopPage> {
                       heightSize: heightSize,
                       widthSize: widthSize,
                       homeItems: homeItems[index],
-                      errorGetDistance: homeItems[index]!.distance,
+                      errorGetDistance: homeItems[index].distance,
                     );
                   },
                 ),
@@ -133,8 +134,6 @@ class HomeClassTitleComponents extends StatelessWidget{
   final double widthSize;
   final HomePageItem homeItems;
   double? errorGetDistance;
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -170,14 +169,25 @@ class HomeClassTitleComponents extends StatelessWidget{
                 flex: 1,
                 child: Column(
                   children: [
+                    homeItems.distance != null ?
                       Container(
                         alignment: Alignment(1,1),
                         width: double.infinity,
                         height: heightSize/20,
+
                         child: AutoSizeText(
-                            homeItems.distance!.toStringAsFixed(1)
+                            'あと' + homeItems.distance!.toStringAsFixed(1) + 'mです'
                         ),
+                      ):
+                    Container(
+                      alignment: Alignment(1,1),
+                      width: double.infinity,
+                      height: heightSize/20,
+
+                      child: AutoSizeText(
+                          'データ取得中です'
                       ),
+                    ),
                     Expanded(
                         child: Container(
                           color: Color.fromRGBO(186, 66, 43, 1),

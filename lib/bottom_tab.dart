@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_screen.dart';
 import 'package:yuwaku_proto/some_top_page.dart';
-import 'package:yuwaku_proto/test_stream_distanc.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
 import 'map_page.dart';
 
