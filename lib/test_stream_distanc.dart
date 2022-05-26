@@ -11,27 +11,6 @@ import 'package:geolocator/geolocator.dart';
 import 'dart:ui' as ui;
 import 'package:auto_size_text/auto_size_text.dart';
 
-
-class DistanceItems {
-
-  final String name;
-  final double latitude; // 緯度
-  final double longitude; // 経度
-  double? distance; // 距離
-
-  DistanceItems(
-      this.name,
-      this.latitude,
-      this.longitude,
-      );
-
-  // 距離を図る
-  double setDistance(Position position) {
-    return this.distance = Geolocator.distanceBetween(
-        position.latitude, position.longitude, this.latitude, this.longitude);
-  }
-}
-
 class StreamShow extends StatefulWidget {
 
   StreamShow({Key? key}) : super(key: key);

@@ -1,5 +1,4 @@
-import 'package:yuwaku_proto/main.dart';
-import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 class HomePageItem{
 
@@ -12,6 +11,15 @@ class HomePageItem{
 
   String title , eng_title, explain, image;
   double latitude, longitude;
+  double? distance;
+
+
+
+  /// 距離を図る
+  void setDistance(Position position) {
+    this.distance = Geolocator.distanceBetween(
+        position.latitude, position.longitude, this.latitude, this.longitude);
+  }
   
 }
 

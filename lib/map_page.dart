@@ -324,7 +324,7 @@ class _MapPageState extends State<MapPage> {
                                     child: AutoSizeText(
                                       'Not Found Distance'
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),

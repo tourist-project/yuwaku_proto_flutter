@@ -76,7 +76,6 @@ class _ShowDistancePosition extends State<ShowDistancePosition> {
 
   @override
   void initState() {
-
     super.initState();
   }
 
@@ -108,10 +107,6 @@ class _ShowDistancePosition extends State<ShowDistancePosition> {
       builder: (context, snapshot) {
         if(snapshot.connectionState == ConnectionState.done){
           // print(snapshot);
-          for(int i = 0; i < _mapItems.length; i++){
-            var distanceList = [];
-
-          }
           for(var itemDist in _mapItems){
             print('itemDistの距離${itemDist.distance}');
             return itemDist.distance != null ?
