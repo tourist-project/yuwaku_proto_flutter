@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:yuwaku_proto/camera_page.dart';
@@ -8,16 +9,23 @@ import 'package:geolocator/geolocator.dart';
 import 'package:yuwaku_proto/map_page.dart';
 import 'package:yuwaku_proto/map_painter.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:camera/camera.dart';
+import 'some_camera_page.dart';
 
 
 class RunTopPage extends StatefulWidget {
-  const RunTopPage({Key? key}) : super(key: key);
+  const RunTopPage({Key? key, required this.camera}) : super(key: key);
 
+  final CameraDescription camera;
   @override
-  State<RunTopPage> createState() => _RunTopPage();
+  State<RunTopPage> createState() => _RunTopPage(camera: camera);
 }
 
 class _RunTopPage extends State<RunTopPage> {
+
+  _RunTopPage({Key? key, required this.camera});
+  final CameraDescription camera;
+
 
   var i = 0, selectIndex = 0;
 
@@ -91,31 +99,30 @@ class _RunTopPage extends State<RunTopPage> {
         stream: _getStream(),
         builder: (context, snapshot) {
           if(snapshot.connectionState == ConnectionState.done){
-
-              return Scaffold(
-                body: ListView.builder( // 各要素の羅列
-                  itemCount: homeItems.length,
-                  itemBuilder: (BuildContext context, int index){
-                    return HomeClassTitleComponents(
-                      heightSize: heightSize,
-                      widthSize: widthSize,
-                      homeItems: homeItems[index],
-                      errorGetDistance: homeItems[index].distance,
-                    );
-                  },
-                ),
-              );
-            }else{
-              return Container(
-                alignment: Alignment.center,
-                child: CircularProgressIndicator(),
-              );
-            }
-        }
-      ),
+            return Scaffold(
+              body: ListView.builder( // 各要素の羅列
+                itemCount: homeItems.length,
+                itemBuilder: (BuildContext context, int index){
+                  return HomeClassTitleComponents(
+                    heightSize: heightSize,
+                    widthSize: widthSize,
+                    homeItems: homeItems[index],
+                    errorGetDistance: homeItems[index].distance,
+                    camera: camera,
+                  );},
+              ),
+            );
+          }else{
+            return Container(
+              alignment: Alignment.center,
+              child: CircularProgressIndicator(),
+            );
+          }
+        }),
     );
   }
 }
+
 
 
 
@@ -124,12 +131,16 @@ class HomeClassTitleComponents extends StatelessWidget{
 
   // _RunTopPageからの情報をコンストラクタで取得
   HomeClassTitleComponents({
+
     required this.homeItems,
     required this.heightSize,
     required this.widthSize,
     required this.errorGetDistance,
+    required this.camera
+
   });
 
+  final CameraDescription camera;
   final double heightSize;
   final double widthSize;
   final HomePageItem homeItems;
@@ -205,21 +216,25 @@ class HomeClassTitleComponents extends StatelessWidget{
                     Flexible(
                       flex: 1,
                       child: InkWell(
-                        onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //    MaterialPageRoute(builder: ((context) => CameraPage(title: 'test', mapItem: )))
-                          // )
-                        },
-                        child: Container(
-                            child: Icon(Icons.photo_camera, size: 56)),
+                        onTap: (){
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: ((context) =>Camerapage(camera: camera))
+                              ),
+                          );},
+                        child: Center(
+                            child: Icon(Icons.photo_camera, size: 56)
+                        ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
+        ],
+      ),
+
     );
   }
 }
+

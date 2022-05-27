@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:yuwaku_proto/main.dart';
 import 'package:flutter/material.dart';
-import 'package:simple_animations/simple_animations.dart';
 import 'homePage_Item.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:yuwaku_proto/homepage_component/homePage_Item.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -11,9 +11,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreen();
 }
 
-class _HomeScreen extends State<HomeScreen> {
-
-
+class _HomeScreen extends State<HomeScreen>{
 
   List<modalItem> modalContents = [
 
@@ -51,15 +49,6 @@ class _HomeScreen extends State<HomeScreen> {
         'assets/images/Asiyu(temp).png',
         '階段の上にある',
         '上には神社を見る'
-    ),
-
-    modalItem(
-        'assets/images/MidorinoSato.png',
-        'assets/images/MidorinoSato.png',
-        'assets/images/MidorinoSato.png',
-        'assets/images/MidorinoSato.png',
-        '近くには赤い郵便ポストがある',
-        '近くには大きな木がある'
     ),
   ];
 

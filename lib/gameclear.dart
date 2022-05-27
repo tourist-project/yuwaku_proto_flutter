@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:ui' as ui;
 import 'package:carousel_slider/carousel_slider.dart';
-
 import 'map_page.dart';
 
 class clearpage extends StatefulWidget {
