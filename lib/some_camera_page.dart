@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'dart:io';
 import 'some_top_page.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:uuid/uuid.dart';
 
 class Camerapage extends StatefulWidget{
   Camerapage({Key? key, required this.camera}) : super(key: key);
@@ -70,11 +72,12 @@ class _Camerapage extends State<Camerapage>{
 
 // 撮影した写真を表示する画面
 class DisplayPictureScreen extends StatelessWidget {
-  const DisplayPictureScreen({Key? key, required this.imagePath,required this.camera})
+  DisplayPictureScreen({Key? key, required this.imagePath,required this.camera})
       : super(key: key);
 
   final String imagePath;
   final CameraDescription camera;
+  final storage = FirebaseStorage.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +86,10 @@ class DisplayPictureScreen extends StatelessWidget {
       body: Center(child: Image.file(File(imagePath))),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          final ref = storage.ref();
+          final imageFile = File(imagePath);
+          var uuid = Uuid().v1();
+          ref.child(uuid).putFile(imageFile);
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => RunTopPage(camera: camera)
