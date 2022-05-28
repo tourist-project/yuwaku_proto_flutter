@@ -11,6 +11,7 @@ import 'package:yuwaku_proto/map_painter.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:camera/camera.dart';
 import 'some_camera_page.dart';
+import 'Distance_twoPosition.dart';
 
 
 class RunTopPage extends StatefulWidget {
@@ -71,12 +72,10 @@ class _RunTopPage extends State<RunTopPage> {
     MapPainter.determinePosition()
         .then((_) {
       Geolocator.getPositionStream(
-        intervalDuration: Duration(seconds: 5),
+        intervalDuration: const Duration(seconds: 5),
         desiredAccuracy: LocationAccuracy.best,
       ).listen((location) {
         for(var item in homeItems){
-          print(location);
-          print('itemDistの距離${item.distance}');
           item.setDistance(location); // 距離関係を更新する
         }
       });
@@ -88,6 +87,11 @@ class _RunTopPage extends State<RunTopPage> {
     _getStream();
     super.initState();
   }
+  @override
+  void dispose() {
+    _getStream();
+    super.dispose();
+  }
 
 
   @override
@@ -96,29 +100,30 @@ class _RunTopPage extends State<RunTopPage> {
     double widthSize = MediaQuery.of(context).size.width;
     return SafeArea(
       child: StreamBuilder<HomePageItem>(
-        stream: _getStream(),
-        builder: (context, snapshot) {
-          if(snapshot.connectionState == ConnectionState.done){
-            return Scaffold(
-              body: ListView.builder( // 各要素の羅列
-                itemCount: homeItems.length,
-                itemBuilder: (BuildContext context, int index){
-                  return HomeClassTitleComponents(
-                    heightSize: heightSize,
-                    widthSize: widthSize,
-                    homeItems: homeItems[index],
-                    errorGetDistance: homeItems[index].distance,
-                    camera: camera,
-                  );},
-              ),
-            );
-          }else{
-            return Container(
-              alignment: Alignment.center,
-              child: CircularProgressIndicator(),
-            );
-          }
-        }),
+          stream: _getStream(),
+          builder: (context, snapshot) {
+            if(snapshot.connectionState == ConnectionState.done){
+              return Scaffold(
+                body: ListView.builder( // 各要素の羅列
+                  itemCount: homeItems.length,
+                  itemBuilder: (BuildContext context, int index){
+                    return HomeClassTitleComponents(
+                      heightSize: heightSize,
+                      widthSize: widthSize,
+                      homeItems: homeItems[index],
+                      getDistance: homeItems[index].distance,
+                      camera: camera,
+                    );
+                  },
+                ),
+              );
+            } else{
+              return Container(
+                alignment: Alignment.center,
+                child: CircularProgressIndicator(),
+              );
+            }
+          }),
     );
   }
 }
@@ -135,7 +140,7 @@ class HomeClassTitleComponents extends StatelessWidget{
     required this.homeItems,
     required this.heightSize,
     required this.widthSize,
-    required this.errorGetDistance,
+    required this.getDistance,
     required this.camera
 
   });
@@ -144,11 +149,12 @@ class HomeClassTitleComponents extends StatelessWidget{
   final double heightSize;
   final double widthSize;
   final HomePageItem homeItems;
-  double? errorGetDistance;
+  double? getDistance;
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
+    print(this.getDistance);
+    return Container(
           height: heightSize / 3,
           width: widthSize,
           margin: EdgeInsets.all(5),
@@ -187,17 +193,14 @@ class HomeClassTitleComponents extends StatelessWidget{
                         height: heightSize/20,
 
                         child: AutoSizeText(
-                            'あと' + homeItems.distance!.toStringAsFixed(1) + 'mです'
+                            'あと' + getDistance!.toStringAsFixed(1) + 'mです'
                         ),
                       ):
                     Container(
                       alignment: Alignment(1,1),
                       width: double.infinity,
                       height: heightSize/20,
-
-                      child: AutoSizeText(
-                          'データ取得中です'
-                      ),
+                      child: CircularProgressIndicator(),
                     ),
                     Expanded(
                         child: Container(
@@ -233,7 +236,6 @@ class HomeClassTitleComponents extends StatelessWidget{
           ),
         ],
       ),
-
     );
   }
 }
