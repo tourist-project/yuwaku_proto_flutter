@@ -9,7 +9,7 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:ui' as ui;
-import 'package:yuwaku_proto/map_painter.dart';
+import 'package:yuwaku_proto/map_component/map_painter.dart';
 import 'package:yuwaku_proto/database.dart';
 import 'package:yuwaku_proto/gameclear.dart';
 import 'package:flutter/material.dart' as prefix;
