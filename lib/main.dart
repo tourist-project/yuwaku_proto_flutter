@@ -9,9 +9,8 @@ import 'development_page.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
 import 'package:flutter/services.dart';
 import 'package:camera/camera.dart';
-
-
-
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +21,11 @@ Future<void> main() async{
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(MyApp(camera: firstCamera));
 }
 
