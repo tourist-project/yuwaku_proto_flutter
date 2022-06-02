@@ -45,7 +45,9 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme(
             color: Color.fromRGBO(240, 233, 208, 100),
           )),
+
       home: BottomTabPage(camera: camera),
+
       routes: <String, WidgetBuilder>{
         // '/camera_page': (BuildContext context) => CameraPage(
         //     title: 'Camera page',
