@@ -57,6 +57,8 @@ dependencies:
   smooth_page_indicator: any
   auto_size_text: ^3.0.0
   google_maps_flutter: ^2.0.9
+  firebase_storage: ^10.2.15
+  uuid: 3.0.6
 
 flutter_icons:
   android: true

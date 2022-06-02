@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "744909736497",
+    "project_id": "totteku",
+    "storage_bucket": "totteku.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:744909736497:android:dc3233cbe91b8cfa8fe310",
+        "android_client_info": {
+          "package_name": "com.example.yuwaku_proto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "744909736497-2hithpi47fjmnujl0evvkn27kn731i3p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACY-1JUjr9AiCRT4EFlu3sWL9tFeKWXYU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "744909736497-2hithpi47fjmnujl0evvkn27kn731i3p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
