@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:camera/camera.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,7 +41,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-          primarySwatch: Colors.blue,
+          useMaterial3: true,
+          primarySwatch: Colors.blueGrey,
+          textTheme: GoogleFonts.sawarabiGothicTextTheme(
+            Theme.of(context).textTheme,
+          ),
           visualDensity: VisualDensity.adaptivePlatformDensity,
           appBarTheme: AppBarTheme(
             color: Color.fromRGBO(240, 233, 208, 100),

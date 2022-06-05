@@ -64,7 +64,7 @@ class _Camerapage extends State<Camerapage>{
             ),
             );
         },
-        child: const Icon(Icons.camera_alt),
+        child: const Icon(Icons.photo_camera_outlined),
       ),
     );
   }
