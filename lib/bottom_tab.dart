@@ -24,8 +24,10 @@ class _BottomTabPageState extends State<BottomTabPage> {
       body: IndexedStack(
         index: _currentIndex,
         children: [
+
           RunTopPage(camera: camera),
           TutorialPage(),
+         // StreamShow(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
