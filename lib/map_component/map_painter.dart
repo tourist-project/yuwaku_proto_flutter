@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
-import 'package:yuwaku_proto/map_page.dart';
+import 'package:yuwaku_proto/map_component/map_page.dart';
 import 'map_page.dart';
 import 'package:geolocator/geolocator.dart';
 
