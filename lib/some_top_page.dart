@@ -76,7 +76,9 @@ class _RunTopPage extends State<RunTopPage> {
         desiredAccuracy: LocationAccuracy.best,
       ).listen((location) {
         for(var item in homeItems){
-          item.setDistance(location); // 距離関係を更新する
+          setState(() {
+            item.setDistance(location); // 距離関係を更新する
+          });
         }
       });
     });
