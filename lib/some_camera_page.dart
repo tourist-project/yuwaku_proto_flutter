@@ -104,7 +104,7 @@ class DisplayPictureScreen extends StatelessWidget {
           int count = 0;
           Navigator.of(context).popUntil((route) => count++ >= 2);
         },
-        child: Icon(Icons.arrow_back),
+        child: Icon(Icons.download),
       ),
     );
   }
