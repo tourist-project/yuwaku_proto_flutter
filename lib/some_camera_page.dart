@@ -79,6 +79,13 @@ class DisplayPictureScreen extends StatelessWidget {
   final CameraDescription camera;
   final storage = FirebaseStorage.instance;
 
+  void uploadStorage() {
+    final ref = storage.ref();
+    final imageFile = File(imagePath);
+    var uuid = Uuid().v1();
+    ref.child(uuid).putFile(imageFile);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,10 +93,7 @@ class DisplayPictureScreen extends StatelessWidget {
       body: Center(child: Image.file(File(imagePath))),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          final ref = storage.ref();
-          final imageFile = File(imagePath);
-          var uuid = Uuid().v1();
-          ref.child(uuid).putFile(imageFile);
+          uploadStorage();
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => RunTopPage(camera: camera)
