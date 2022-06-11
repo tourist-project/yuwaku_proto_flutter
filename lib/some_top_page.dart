@@ -24,6 +24,7 @@ class RunTopPage extends StatefulWidget {
 }
 
 class _RunTopPage extends State<RunTopPage> {
+
   _RunTopPage({Key? key, required this.camera});
   final CameraDescription camera;
 
@@ -107,7 +108,6 @@ class _RunTopPage extends State<RunTopPage> {
   Widget build(BuildContext context) {
     double heightSize = MediaQuery.of(context).size.height;
     double widthSize = MediaQuery.of(context).size.width;
-
     return SafeArea(
       child: StreamBuilder<HomePageItem>(
         stream: _getStream(),
@@ -204,6 +204,7 @@ class _RunTopPage extends State<RunTopPage> {
 /// 新しいホームページの構成Widget
 class HomeClassTitleComponents extends StatelessWidget {
   // _RunTopPageからの情報をコンストラクタで取得
+  
   HomeClassTitleComponents(
       {required this.homeItems,
       required this.heightSize,
