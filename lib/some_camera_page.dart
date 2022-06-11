@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'dart:io';
 import 'some_top_page.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -86,6 +87,12 @@ class DisplayPictureScreen extends StatelessWidget {
     ref.child(uuid).putFile(imageFile);
   }
 
+  Future _saveImage() async {
+    final imageFile = File(imagePath);
+    final imageBuffer = await imageFile.readAsBytes();
+    await ImageGallerySaver.saveImage(imageBuffer);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,6 +101,7 @@ class DisplayPictureScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           uploadStorage();
+          _saveImage();
           int count = 0;
           Navigator.of(context).popUntil((route) => count++ >= 2);
         },
