@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:yuwaku_proto/map_page.dart';
+import 'package:yuwaku_proto/map_component/map_interactive_move.dart';
+import 'package:yuwaku_proto/map_component/map_page.dart';
 import 'package:yuwaku_proto/camera_page.dart';
 import 'package:yuwaku_proto/plane_explain.dart';
 import 'package:yuwaku_proto/some_explain.dart';
@@ -50,7 +51,9 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme(
             color: Color.fromRGBO(240, 233, 208, 100),
           )),
+
       home: BottomTabPage(camera: camera),
+
       routes: <String, WidgetBuilder>{
         // '/camera_page': (BuildContext context) => CameraPage(
         //     title: 'Camera page',
@@ -61,6 +64,7 @@ class MyApp extends StatelessWidget {
             DevelopmentPage(title: '開発中'),
         // '/app_top_view':(BuildContext context) => TopPageView(),
         '/tutorial_page':(BuildContext context) => TutorialPage(),
+        '/map_interactive_move':(BuildContext context) => InteractiveMap(title: '湯涌全体図'),
       },
     );
   }

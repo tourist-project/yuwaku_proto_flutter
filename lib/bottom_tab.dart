@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:yuwaku_proto/map_component/map_interactive_move.dart';
 import 'package:yuwaku_proto/some_top_page.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
 
@@ -26,6 +27,7 @@ class _BottomTabPageState extends State<BottomTabPage> {
         children: [
           RunTopPage(camera: camera),
           TutorialPage(),
+         InteractiveMap(title: '湯涌全体図')
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -41,6 +43,9 @@ class _BottomTabPageState extends State<BottomTabPage> {
                 Icons.help,
               ),
               label: '遊び方'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.map),
+              label: '地図'),
         ],
         currentIndex: _currentIndex,
         fixedColor: Colors.blueAccent,
