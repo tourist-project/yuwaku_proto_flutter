@@ -24,7 +24,6 @@ class RunTopPage extends StatefulWidget {
 }
 
 class _RunTopPage extends State<RunTopPage> {
-
   _RunTopPage({Key? key, required this.camera});
   final CameraDescription camera;
 
@@ -108,6 +107,7 @@ class _RunTopPage extends State<RunTopPage> {
   Widget build(BuildContext context) {
     double heightSize = MediaQuery.of(context).size.height;
     double widthSize = MediaQuery.of(context).size.width;
+
     return SafeArea(
       child: StreamBuilder<HomePageItem>(
         stream: _getStream(),
@@ -117,7 +117,7 @@ class _RunTopPage extends State<RunTopPage> {
               body: SingleChildScrollView(
                 child: Container(
                   width: widthSize,
-                  height: heightSize * 2.48,
+                  height: heightSize * 2.9,
                   child: Column(
                     children: [
                       Container(
@@ -127,7 +127,7 @@ class _RunTopPage extends State<RunTopPage> {
                         child: Text('写真一覧', style: TextStyle(fontSize: widthSize / 10)),
                       ),
                       Container(
-                        margin: EdgeInsets.only(left: widthSize / 12, right: widthSize / 12),
+                        margin: EdgeInsets.only(left: widthSize / 12, right: widthSize / 12,top: widthSize/16),
                         width: widthSize,
                         height: heightSize / 16,
                         child: Text('取った写真や、観光地の写真の一覧です。',
@@ -156,13 +156,13 @@ class _RunTopPage extends State<RunTopPage> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: widthSize / 12, left: widthSize / 12),
+                        margin: EdgeInsets.only(top: widthSize / 12, left: widthSize / 12,),
                         width: widthSize,
                         height: heightSize / 16,
                         child: Text('目標一覧', style: TextStyle(fontSize: widthSize / 10)),
                       ),
                       Container(
-                        margin: EdgeInsets.only(left: widthSize / 12, right: widthSize / 12),
+                        margin: EdgeInsets.only(left: widthSize / 12, right: widthSize / 12,top: widthSize/16,bottom: widthSize/16),
                         width: widthSize,
                         height: heightSize / 16,
                         child: Text(
@@ -204,7 +204,6 @@ class _RunTopPage extends State<RunTopPage> {
 /// 新しいホームページの構成Widget
 class HomeClassTitleComponents extends StatelessWidget {
   // _RunTopPageからの情報をコンストラクタで取得
-  
   HomeClassTitleComponents(
       {required this.homeItems,
       required this.heightSize,
@@ -221,7 +220,7 @@ class HomeClassTitleComponents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: heightSize / 3,
+      height: heightSize / 2.5,
       width: widthSize,
       margin: EdgeInsets.only(right: 5, left: 5, bottom: 20),
       decoration: BoxDecoration(
@@ -277,7 +276,7 @@ class HomeClassTitleComponents extends StatelessWidget {
                                   'あと' +
                                       homeItems.distance!.toStringAsFixed(1) +
                                       'mです',
-                                  style: TextStyle(fontSize: widthSize / 15),
+                                  style: TextStyle(fontSize: widthSize / 18),
                                 ),
                               )
                             : Center(
