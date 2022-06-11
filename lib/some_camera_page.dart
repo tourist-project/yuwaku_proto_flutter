@@ -94,11 +94,8 @@ class DisplayPictureScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           uploadStorage();
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => RunTopPage(camera: camera)
-            ),
-          );
+          int count = 0;
+          Navigator.of(context).popUntil((route) => count++ >= 2);
         },
         child: Icon(Icons.arrow_back),
       ),
