@@ -302,7 +302,7 @@ class HomeClassTitleComponents extends StatelessWidget {
                                 child: Text(
                                   homeItems.title,
                                   style: TextStyle(
-                                      fontSize: widthSize / 13,
+                                      fontSize: widthSize / 15,
                                       color: Colors.white),
                                   textAlign: TextAlign.center,
                                   overflow: TextOverflow.ellipsis,
