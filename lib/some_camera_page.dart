@@ -93,6 +93,14 @@ class DisplayPictureScreen extends StatelessWidget {
     await ImageGallerySaver.saveImage(imageBuffer);
   }
 
+  void showNoPermissionDialog(BuildContext context) async {
+    await showDialog<void>(
+        context: context,
+        builder: (_) {
+          return NoPermissionDialog();
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,15 +108,45 @@ class DisplayPictureScreen extends StatelessWidget {
       body: Center(child: Image.file(File(imagePath))),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          if (await Permission.photosAddOnly.request().isGranted) {
-            uploadStorage();
+          uploadStorage();
+          await Permission.photosAddOnly.request();
+          final photosAddOnlyStatus = await Permission.photosAddOnly.status;
+          if (photosAddOnlyStatus.isGranted) {
             _saveImage();
+            int count = 0;
+            Navigator.of(context).popUntil((route) => count++ >= 2);
+          } else {
+            showNoPermissionDialog(context);
           }
-          int count = 0;
-          Navigator.of(context).popUntil((route) => count++ >= 2);
         },
         child: Icon(Icons.download),
       ),
+    );
+  }
+}
+
+class NoPermissionDialog extends StatelessWidget {
+  const NoPermissionDialog({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('写真の保存を許可してください'),
+      actions: [
+        TextButton(
+          child: Text("戻る"),
+          onPressed: () {
+            int count = 0;
+            Navigator.of(context).popUntil((route) => count++ >= 3);
+          }
+        ),
+        TextButton(
+          child: Text("設定を開く"),
+          onPressed: () {
+            openAppSettings();
+          }
+        ),
+      ],
     );
   }
 }
