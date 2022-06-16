@@ -60,6 +60,8 @@ dependencies:
   firebase_storage: ^10.2.15
   uuid: 3.0.6
 
+  permission_handler: ^10.0.0
+
 flutter_icons:
   android: true
   ios: true

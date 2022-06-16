@@ -3,6 +3,7 @@ import 'package:camera/camera.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:uuid/uuid.dart';
 
 class Camerapage extends StatefulWidget{
@@ -98,9 +99,11 @@ class DisplayPictureScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('撮れた写真')),
       body: Center(child: Image.file(File(imagePath))),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          uploadStorage();
-          _saveImage();
+        onPressed: () async {
+          if (await Permission.photosAddOnly.request().isGranted) {
+            uploadStorage();
+            _saveImage();
+          }
           int count = 0;
           Navigator.of(context).popUntil((route) => count++ >= 2);
         },
