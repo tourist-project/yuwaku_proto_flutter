@@ -117,9 +117,9 @@ class MapPainter extends CustomPainter {
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    return await Geolocator.getCurrentPosition(
+    return await Geolocator.getCurrentPosition( //位置情報の更新(n秒毎)
       desiredAccuracy: LocationAccuracy.best,
-      timeLimit: Duration(seconds: 5),
+      timeLimit: Duration(seconds: 10),
     );
   }
 
