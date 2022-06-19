@@ -117,72 +117,94 @@ class _RunTopPage extends State<RunTopPage> {
               body: SingleChildScrollView(
                 child: Container(
                   width: widthSize,
-                  height: heightSize * 2.9,
+                  height: heightSize * 3.1,
                   child: Column(
                     children: [
-                      Container(
-                        margin: EdgeInsets.only(top: widthSize / 12, left: widthSize / 12),
-                        width: widthSize,
-                        height: heightSize / 16,
-                        child: Text('写真一覧', style: TextStyle(fontSize: widthSize / 10)),
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          margin: EdgeInsets.only(top: widthSize / 16, left: widthSize / 12),
+                          width: widthSize,
+                          height: heightSize / 16,
+                          child: Text('写真一覧', style: TextStyle(fontSize: widthSize / 12)),
+                        ),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(left: widthSize / 12, right: widthSize / 12,top: widthSize/16),
-                        width: widthSize,
-                        height: heightSize / 16,
-                        child: Text('取った写真や、観光地の写真の一覧です。',
-                            style: TextStyle(fontSize: 16)),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          margin: EdgeInsets.only(left: widthSize / 12, right: widthSize / 12),
+                          width: widthSize,
+                          height: heightSize / 30,
+                          child: Text('取った写真や、観光地の写真の一覧です。',
+                              style: TextStyle(fontSize:  widthSize/24)),
+                        ),
                       ),
-                      Container(
-                        width: widthSize,
-                        height: heightSize/3,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: homeItems.length,
-                          itemBuilder: (BuildContext context, int index){
-                            return Container(
-                              width: widthSize/2,
-                              height: heightSize/3,
-                              margin: EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: AssetImage(homeItems[index].image),
+                      Expanded(
+                        flex: 8,
+                        child: Container(
+                          width: widthSize,
+                          height: heightSize/3,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: homeItems.length,
+                            itemBuilder: (BuildContext context, int index){
+                              return Container(
+                                width: widthSize/2,
+                                height: heightSize/3,
+                                margin: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(homeItems[index].image),
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                          ),
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(top: widthSize / 12, left: widthSize / 12,),
-                        width: widthSize,
-                        height: heightSize / 16,
-                        child: Text('目標一覧', style: TextStyle(fontSize: widthSize / 10)),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: widthSize / 12, right: widthSize / 12,top: widthSize/16,bottom: widthSize/16),
-                        width: widthSize,
-                        height: heightSize / 16,
-                        child: Text(
-                          '目標一覧です。写真をタップすると観光地の説明、ヒントを見ることが出来ます。',
-                          style: TextStyle(fontSize: 16),
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          margin: EdgeInsets.only(top: widthSize / 12, left: widthSize / 12),
+                          width: widthSize,
+                          height: heightSize / 16,
+                          child: Text('目標一覧', style: TextStyle(fontSize: widthSize / 12)),
                         ),
                       ),
-                      ListView.builder( 
-                        shrinkWrap: true, 
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: homeItems.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return HomeClassTitleComponents(
-                            homeItems: homeItems[index],
-                            heightSize: heightSize,
-                            widthSize: widthSize,
-                            errorGetDistance: homeItems[index].distance,
-                            camera: camera,
-                          );
-                        },
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          // color: Colors.black,
+                          margin: EdgeInsets.only(left: widthSize / 12, right: widthSize / 12),
+                          width: widthSize,
+                          height: heightSize / 20,
+                          child: Text(
+                            '目標一覧です。写真をタップすると観光地の説明、ヒントを見ることが出来ます。',
+                            style: TextStyle(fontSize: widthSize/26),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 35,
+                        child: Container(
+                          margin: EdgeInsets.only(top: widthSize / 18),
+                          child: ListView.builder( 
+                            shrinkWrap: true, 
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: homeItems.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return HomeClassTitleComponents(
+                                homeItems: homeItems[index],
+                                heightSize: heightSize,
+                                widthSize: widthSize,
+                                errorGetDistance: homeItems[index].distance,
+                                camera: camera,
+                              );
+                            },
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -190,9 +212,12 @@ class _RunTopPage extends State<RunTopPage> {
               ),
             );
           } else {
-            return Container(
-              alignment: Alignment.center,
-              child: CircularProgressIndicator(),
+            return Expanded(
+              flex: 20,
+              child: Container(
+                alignment: Alignment.center,
+                child: CircularProgressIndicator(),
+              ),
             );
           }
         },
@@ -266,16 +291,18 @@ class HomeClassTitleComponents extends StatelessWidget {
                     child: Column(
                       children: [
                         Container(
-                            width: double.infinity,
+                            height: heightSize / 18,
+                            margin:  EdgeInsets.only(right: 5, left: 5),
                             child: Text('目的地まで',
-                                style: TextStyle(fontSize: 15),
-                                textAlign: TextAlign.left)),
+                                style: TextStyle(fontSize: widthSize / 20),
+                            ),
+                        ),
                         homeItems.distance != null
                             ? Center(
                                 child: Text(
                                   'あと' +
                                       homeItems.distance!.toStringAsFixed(1) +
-                                      'mです',
+                                      'm',
                                   style: TextStyle(fontSize: widthSize / 18),
                                 ),
                               )
@@ -283,7 +310,7 @@ class HomeClassTitleComponents extends StatelessWidget {
                                 child: Container(
                                   child: Text(
                                     'データ取得中です',
-                                    style: TextStyle(fontSize: widthSize / 15),
+                                    style: TextStyle(fontSize: widthSize / 14),
                                   ),
                                 ),
                               ),
@@ -296,13 +323,11 @@ class HomeClassTitleComponents extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             child: Container(
-                              margin: const EdgeInsets.all(5),
-                              width: widthSize,
                               child: Center(
                                 child: Text(
                                   homeItems.title,
                                   style: TextStyle(
-                                      fontSize: widthSize / 15,
+                                      fontSize: widthSize / 14,
                                       color: Colors.white),
                                   textAlign: TextAlign.center,
                                   overflow: TextOverflow.ellipsis,
@@ -314,7 +339,6 @@ class HomeClassTitleComponents extends StatelessWidget {
                         Flexible(
                           flex: 1,
                           child: Container(
-                            margin: EdgeInsets.only(left: 5),
                             decoration: BoxDecoration(
                                 border:
                                     Border.all(color: Colors.black, width: 3),
@@ -333,7 +357,7 @@ class HomeClassTitleComponents extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     Icon(Icons.photo_camera_outlined,
-                                        size: widthSize / 7),
+                                        size: widthSize / 8),
                                     Text('タップで写真ページへ')
                                   ],
                                 ),
