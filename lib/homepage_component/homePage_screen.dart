@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'homePage_Item.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_Item.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -86,6 +86,14 @@ class _HomeScreen extends State<HomeScreen>{
     ),
   ];
 
+  Future<void> _launchURLtoWebSite() async{
+    const url = "https://totteku.tourism-project.com/";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not Launch $url';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +110,21 @@ class _HomeScreen extends State<HomeScreen>{
             child: Column(
               children: [
                 SizedBox( // ここにMap(or Webサイト)へ飛ぶ機能
-                  height: mediaHeightSize/12),
+                  height: mediaHeightSize/12,
+                  child: FittedBox(
+                    child: ElevatedButton(
+                      onPressed: () => _launchURLtoWebSite(),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.red[300],
+                        minimumSize: const Size(280, 50),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      ),
+                      child: const Center(child: Text("TourismのWebサイトへ", style: TextStyle(color: Colors.white))),
+                    ),
+                  ),
+
+                ),
+
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
