@@ -254,45 +254,72 @@ class _HomeScreen extends State<HomeScreen>{
                                   Row(
                                       children: [
                                         Expanded(
-                                          flex: 1,
-                                            child:  FittedBox(
-
-                                              child: Image(
-                                                image: AssetImage(modalContents[tapImage].Image_UpLeft),
-                                                fit: BoxFit.cover,
+                                          child: Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Container(
+                                              width: mediaWidthSize / 4,
+                                              height: mediaHeightSize/7,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                                image: DecorationImage(
+                                                  image: AssetImage(modalContents[tapImage].Image_UpLeft),
+                                                  fit: BoxFit.cover,
+                                                ),
                                               ),
-                                            ),
-                                        ),
-                                        Expanded(
-                                          flex: 1,
-                                          child:  FittedBox(
-
-                                            child: Image(
-                                              image: AssetImage(modalContents[tapImage].Image_UpRight),
-                                              fit: BoxFit.cover,
                                             ),
                                           ),
                                         ),
+                                        
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              width: mediaWidthSize / 4,
+                                              height: mediaHeightSize/ 7 ,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                                image: DecorationImage(
+                                                  image: AssetImage(modalContents[tapImage].Image_UpRight),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+
                                       ]
                                   ),
                                   Row(
                                       children: [
                                         Expanded(
-                                          flex: 1,
-                                          child:  FittedBox(
-                                            child: Image(
-                                              image: AssetImage(modalContents[tapImage].Image_DownRight),
-                                              fit: BoxFit.cover,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              width: mediaWidthSize / 4,
+                                              height: mediaHeightSize/ 7,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                                image: DecorationImage(
+                                                  image: AssetImage(modalContents[tapImage].Image_DownLeft),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),
                                         Expanded(
-                                          flex: 1,
-                                          child:  FittedBox(
-                                            fit: BoxFit.fill,
-                                            child: Image(
-                                              image: AssetImage(modalContents[tapImage].Image_DownLeft),
-                                              fit: BoxFit.cover,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              width: mediaWidthSize / 4,
+                                              height: mediaHeightSize/ 7,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                                image: DecorationImage(
+                                                  image: AssetImage(modalContents[tapImage].Image_DownRight),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),
