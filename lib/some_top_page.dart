@@ -310,7 +310,7 @@ class HomeClassTitleComponents extends StatelessWidget {
                                 child: Container(
                                   child: Text(
                                     'データ取得中です',
-                                    style: TextStyle(fontSize: widthSize / 14),
+                                    style: TextStyle(fontSize: widthSize / ),
                                   ),
                                 ),
                               ),
