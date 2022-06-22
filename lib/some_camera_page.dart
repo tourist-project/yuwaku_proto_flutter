@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'dart:io';
-import 'some_top_page.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:uuid/uuid.dart';
 
 class Camerapage extends StatefulWidget{
@@ -79,25 +80,73 @@ class DisplayPictureScreen extends StatelessWidget {
   final CameraDescription camera;
   final storage = FirebaseStorage.instance;
 
+  void uploadStorage() {
+    final ref = storage.ref();
+    final imageFile = File(imagePath);
+    var uuid = Uuid().v1();
+    ref.child(uuid).putFile(imageFile);
+  }
+
+  Future _saveImage() async {
+    final imageFile = File(imagePath);
+    final imageBuffer = await imageFile.readAsBytes();
+    await ImageGallerySaver.saveImage(imageBuffer);
+  }
+
+  void showNoPermissionDialog(BuildContext context) async {
+    await showDialog<void>(
+        context: context,
+        builder: (_) {
+          return NoPermissionDialog();
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('撮れた写真')),
       body: Center(child: Image.file(File(imagePath))),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          final ref = storage.ref();
-          final imageFile = File(imagePath);
-          var uuid = Uuid().v1();
-          ref.child(uuid).putFile(imageFile);
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => RunTopPage(camera: camera)
-            ),
-          );
+        onPressed: () async {
+          uploadStorage();
+          await Permission.photosAddOnly.request();
+          final photosAddOnlyStatus = await Permission.photosAddOnly.status;
+          if (photosAddOnlyStatus.isGranted) {
+            _saveImage();
+            int count = 0;
+            Navigator.of(context).popUntil((route) => count++ >= 2);
+          } else {
+            showNoPermissionDialog(context);
+          }
         },
-        child: Icon(Icons.arrow_back),
+        child: Icon(Icons.download),
       ),
+    );
+  }
+}
+
+class NoPermissionDialog extends StatelessWidget {
+  const NoPermissionDialog({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('写真の保存を許可してください'),
+      actions: [
+        TextButton(
+          child: Text("戻る"),
+          onPressed: () {
+            int count = 0;
+            Navigator.of(context).popUntil((route) => count++ >= 3);
+          }
+        ),
+        TextButton(
+          child: Text("設定を開く"),
+          onPressed: () {
+            openAppSettings();
+          }
+        ),
+      ],
     );
   }
 }
