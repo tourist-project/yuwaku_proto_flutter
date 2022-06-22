@@ -110,7 +110,7 @@ class _RunTopPage extends State<RunTopPage> {
 
     return SafeArea(
       child: StreamBuilder<HomePageItem>(
-        stream: _getStream(),
+        stream: _getStream(), //定期的に呼び出し
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return Scaffold(
