@@ -216,13 +216,7 @@ class _HomeScreen extends State<HomeScreen>{
                           );
                         }),
                   ),
-
               ),
-              //
-              // SizedBox( // ここにWebサイト(or Map)に飛ぶ機能
-              //   height: mediaHeightSize/10,
-              //
-              // )
             ],
           ),
         )
