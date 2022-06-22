@@ -39,6 +39,8 @@ class _TutorialPageState extends State<TutorialPage> {
               children: <Widget>[
                 TutorialStepPage(PageData.first, pageController),
                 TutorialStepPage(PageData.second, pageController),
+                TutorialStepPage(PageData.third, pageController),
+                TutorialStepPage(PageData.forth, pageController),
               ],
             ),
           ),
@@ -46,7 +48,7 @@ class _TutorialPageState extends State<TutorialPage> {
             flex: 1,
             child: SmoothPageIndicator(
               controller: pageController,
-              count: 2,
+              count: 4,
               effect: const WormEffect(
                   dotColor: Colors.grey,
                   activeDotColor: Color.fromRGBO(186, 66, 43, 100)
@@ -62,19 +64,32 @@ class _TutorialPageState extends State<TutorialPage> {
 enum PageData {
   first,
   second,
+  third,
+  forth,
 }
 
 extension PageDataExtension on PageData {
   static const typeNames = {
     PageData.first: {
-      'title': '観光スポットを探索',
-      'description': '画像とヒントを頼りに観光スポットを探そう！！',
+      'title': '観光スポットの確認',
+      'description': '湯涌のスポットを一覧で見てみよう！！',
       'imagePath': 'assets/images/tutorial_image_step1.png'
     },
     PageData.second: {
-      'title': 'スポットを見つけたら写真を撮影',
-      'description': 'スポットに近づいたらカメラマークがでるよ！！',
+      'title': '距離を確認',
+      'description': '写真を撮る目標地点までの距離を確認！！\n'
+          'そして写真を撮ってみよう',
       'imagePath': 'assets/images/tutorial_image_step2.png'
+    },
+    PageData.third: {
+      'title': '近くの写真',
+      'description': 'スポット近くの写真で探索もラクラク',
+      'imagePath': 'assets/images/tutorial_image_step3.png'
+    },
+    PageData.forth: {
+      'title': '湯涌全体図',
+      'description': '湯涌温泉街の全体図を確認！！',
+      'imagePath': 'assets/images/tutorial_image_step4.png'
     }
   };
 

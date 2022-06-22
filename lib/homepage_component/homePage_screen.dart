@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'homePage_Item.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_Item.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -16,37 +16,45 @@ class _HomeScreen extends State<HomeScreen>{
   List<modalItem> modalContents = [
 
     modalItem(
-        'assets/images/HimuroGoya.png',
-        'assets/images/HimuroGoya.png',
-        'assets/images/HimuroGoya.png',
-        'assets/images/HimuroGoya.png',
+        'assets/images/HimuroGoya/HimuroGoya.png',
+        'assets/images/HimuroGoya/Himuro2.png',
+        'assets/images/HimuroGoya/HimuroGoya3.png',
+        'assets/images/HimuroGoya/HimuroGoya4.png',
         '山の中にある小屋',
         '坂を登り、湖を囲む'
     ),
 
     modalItem(
-        'assets/images/Yumezikan.png',
-        'assets/images/Yumezikan.png',
-        'assets/images/Yumezikan.png',
-        'assets/images/Yumezikan.png',
+        'assets/images/Yumezikan/Yumezikan.png',
+        'assets/images/Yumezikan/Yumezikan4.png',
+        'assets/images/Yumezikan/Yumezikan.png',
+        'assets/images/Yumezikan/Yumezikan4.png',
         '中央の広場の近く',
         '総湯の近くにある'
     ),
 
     modalItem(
-        'assets/images/KeigoSirayu.png',
-        'assets/images/KeigoSirayu.png',
-        'assets/images/KeigoSirayu.png',
-        'assets/images/KeigoSirayu.png',
+        'assets/images/Soyu/KeigoSirayu.png',
+        'assets/images/Soyu/Modal_Soyu.png',
+        'assets/images/Soyu/Soyu1.png',
+        'assets/images/Soyu/Soyu2.png',
         '大きな階段の近く',
         '奥には山が潜む'
     ),
 
     modalItem(
-        'assets/images/Asiyu(temp).png',
-        'assets/images/Asiyu(temp).png',
-        'assets/images/Asiyu(temp).png',
-        'assets/images/Asiyu(temp).png',
+        'assets/images/Ashiyu/Ashiyu2.png',
+        'assets/images/Ashiyu/Ashiyu3.png',
+        'assets/images/Ashiyu/Asiyu(temp).png',
+        'assets/images/Ashiyu/Ashiyu2.png',
+        '階段の上にある',
+        '上には神社を見る'
+    ),
+    modalItem(
+        'assets/images/Yakushizi1.png',
+        'assets/images/Yakushizi2.png',
+        'assets/images/Yakushizi1.png',
+        'assets/images/Yakushizi2.png',
         '階段の上にある',
         '上には神社を見る'
     ),
@@ -57,35 +65,51 @@ class _HomeScreen extends State<HomeScreen>{
       '氷室小屋は冷蔵施設がなく氷が大変貴重であった江戸時代に、大寒の雪を詰め'
           '天然の雪氷を夏まで長期保存するために作られた小屋です。湯涌ではこの雪詰めを体験'
           'できるイベントが開催されます。',
-      'assets/images/HimuroGoya.png',
+      'assets/images/HimuroGoya/HimuroGoya.png',
       36.48346516395541, 136.75701193508996,
     ),
     HomePageItem('金沢夢二館', "KanazawaYumejikan",
         '大正時代を代表する詩人画家の竹下夢二の記念館です。旅、女性、信仰心の3つ'
             'のテーマから、遺品や作品を通して夢二の芸術性や人間性を紹介しています。',
-        'assets/images/Yumezikan.png',
+        'assets/images/Yumezikan/Yumezikan.png',
         6.48584951599308, 136.75738876226737
     ),
     HomePageItem('総湯', "Soyu",
       '湯涌温泉の日帰り温泉。浴室はガラス窓であり、内湯でも開放的な気分になります。'
           '観光客だけでなく地元の方々にも日々利用されている名湯になります。',
-      'assets/images/KeigoSirayu.png',
+      'assets/images/Soyu/KeigoSirayu.png',
       36.485425901995455, 136.75758738535384,
     ),
     HomePageItem('足湯', "Ashiyu",
         '湯涌に2つある足湯の1つです。足だけの入浴なので無理なく体をしんから温める'
             'ことができます。無料なのでぜひ足湯を体験してみていかかでしょう。',
-        'assets/images/Asiyu(temp).png',
+        'assets/images/Ashiyu/Asiyu(temp).png',
         36.48582537854954, 136.7574341842218
     ),
-    HomePageItem('みどりの里', "Midorinosato",
-      '蕎麦打ち体験や梨の収穫体験などの様々なイベントが1年を通して行われます。'
+
+    HomePageItem('薬師寺', "Yakushizi",
+      '蕎麦打ち体験や梨の収穫体験などの様々なイベントが1年を通して行われ\n'
           '4月中旬〜12月中旬の毎週日曜日と水曜日に朝市が開催され新鮮な農作物などをお買い求めいただけます。',
-      'assets/images/MidorinoSato.png',
-      36.49050881078798, 136.75404574490975,
+      'assets/images/Yakushizi1.png',
+      36.48566, 136.75794,
     ),
+    //
+    // HomePageItem('みどりの里', "Midorinosato",
+    //   '蕎麦打ち体験や梨の収穫体験などの様々なイベントが1年を通して行われます。'
+    //       '4月中旬〜12月中旬の毎週日曜日と水曜日に朝市が開催され新鮮な農作物などをお買い求めいただけます。',
+    //   'assets/images/MidorinoSato.png',
+    //   36.49050881078798, 136.75404574490975,
+    // ),
   ];
 
+  Future<void> _launchURLtoWebSite() async{
+    const url = "https://totteku.tourism-project.com/";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not Launch $url';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +126,22 @@ class _HomeScreen extends State<HomeScreen>{
             child: Column(
               children: [
                 SizedBox( // ここにMap(or Webサイト)へ飛ぶ機能
-                  height: mediaHeightSize/12),
+                  height: mediaHeightSize/12,
+                  child: FittedBox(
+                    child: ElevatedButton(
+                      onPressed: () => _launchURLtoWebSite(),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.red[300],
+                        minimumSize: const Size(280, 50),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      ),
+                      child: const Center(
+                          child: Text("TourismのWebサイトへ", style: TextStyle(color: Colors.white))),
+                    ),
+                  ),
+
+                ),
+
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
@@ -177,12 +216,7 @@ class _HomeScreen extends State<HomeScreen>{
                           );
                         }),
                   ),
-
               ),
-              SizedBox( // ここにWebサイト(or Map)に飛ぶ機能
-                height: mediaHeightSize/10,
-
-              )
             ],
           ),
         )
@@ -214,20 +248,74 @@ class _HomeScreen extends State<HomeScreen>{
                                   Row(
                                       children: [
                                         Expanded(
-                                          child: Image(image: AssetImage(modalContents[tapImage].Image_UpLeft)),
+                                          child: Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Container(
+                                              width: mediaWidthSize / 4,
+                                              height: mediaHeightSize/7,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                                image: DecorationImage(
+                                                  image: AssetImage(modalContents[tapImage].Image_UpLeft),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ),
+                                        
                                         Expanded(
-                                            child: Image(image: AssetImage(modalContents[tapImage].Image_UpRight))
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              width: mediaWidthSize / 4,
+                                              height: mediaHeightSize/ 7 ,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                                image: DecorationImage(
+                                                  image: AssetImage(modalContents[tapImage].Image_UpRight),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ),
+
                                       ]
                                   ),
                                   Row(
                                       children: [
                                         Expanded(
-                                            child: Image(image: AssetImage(modalContents[tapImage].Image_DownLeft))
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              width: mediaWidthSize / 4,
+                                              height: mediaHeightSize/ 7,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                                image: DecorationImage(
+                                                  image: AssetImage(modalContents[tapImage].Image_DownLeft),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                         Expanded(
-                                            child: Image(image: AssetImage(modalContents[tapImage].Image_DownRight))
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              width: mediaWidthSize / 4,
+                                              height: mediaHeightSize/ 7,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                                image: DecorationImage(
+                                                  image: AssetImage(modalContents[tapImage].Image_DownRight),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ]
                                   ),
