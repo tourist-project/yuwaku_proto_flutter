@@ -55,8 +55,8 @@ class _HomeScreen extends State<HomeScreen>{
         'assets/images/Yakushizi2.png',
         'assets/images/Yakushizi1.png',
         'assets/images/Yakushizi2.png',
-        '階段の上にある',
-        '上には神社を見る'
+        '山の中にある神社',
+        '稲荷神社から見えるかも？'
     ),
   ];
 
@@ -88,8 +88,8 @@ class _HomeScreen extends State<HomeScreen>{
     ),
 
     HomePageItem('薬師寺', "Yakushizi",
-      '蕎麦打ち体験や梨の収穫体験などの様々なイベントが1年を通して行われ\n'
-          '4月中旬〜12月中旬の毎週日曜日と水曜日に朝市が開催され新鮮な農作物などをお買い求めいただけます。',
+      '湯涌温泉開湯の祖！！\n'
+          '薬師寺には薬師如来が祀られています',
       'assets/images/Yakushizi1.png',
       36.48566, 136.75794,
     ),
