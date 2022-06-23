@@ -49,7 +49,7 @@ class _RunTopPage extends State<RunTopPage> {
             'のテーマから、遺品や作品を通して夢二の芸術性や人間性を紹介しています。',
 
         'assets/images/Yumezikan/Yumezikan.png',
-        6.48584951599308, 136.75738876226737
+        36.48584951599308, 136.75738876226737
     ),
     HomePageItem('総湯', "Soyu",
       '湯涌温泉の日帰り温泉。浴室はガラス窓であり、内湯でも開放的な気分になります。'
@@ -86,7 +86,7 @@ class _RunTopPage extends State<RunTopPage> {
     MapPainter.determinePosition().then(
       (_) {
         Geolocator.getPositionStream(
-          intervalDuration: Duration(seconds: 5),
+          intervalDuration: Duration(seconds: 10),
           desiredAccuracy: LocationAccuracy.best,
         ).listen(
           (location) {
@@ -314,11 +314,11 @@ class HomeClassTitleComponents extends StatelessWidget {
                                 child: Container(
                                   child: Text(
                                     'データ取得中です',
-                                    style: TextStyle(fontSize: widthSize / 14),
+                                    style: TextStyle(fontSize: widthSize / 20),
                                   ),
                                 ),
                               ),
-                        Expanded(
+                        Flexible(
                           flex: 1,
                           child: Container(
                             margin: const EdgeInsets.all(5),
@@ -331,7 +331,7 @@ class HomeClassTitleComponents extends StatelessWidget {
                                 child: Text(
                                   homeItems.title,
                                   style: TextStyle(
-                                      fontSize: widthSize / 14,
+                                      fontSize: widthSize / 15,
                                       color: Colors.white),
                                   textAlign: TextAlign.center,
                                   overflow: TextOverflow.ellipsis,
