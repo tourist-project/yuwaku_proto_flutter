@@ -136,7 +136,7 @@ class _HomeScreen extends State<HomeScreen>{
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                       ),
                       child: const Center(
-                          child: Text("TourismのWebサイトへ", style: TextStyle(color: Colors.white))),
+                          child: Text("撮っテクのWebサイトへ", style: TextStyle(color: Colors.white))),
                     ),
                   ),
 
