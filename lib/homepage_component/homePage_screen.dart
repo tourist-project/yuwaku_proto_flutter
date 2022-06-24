@@ -25,16 +25,16 @@ class _HomeScreen extends State<HomeScreen>{
     ),
 
     modalItem(
-        'assets/images/Yumezikan/Yumezikan.png',
+        'assets/images/Yumezikan/Yumezikan1.JPG',
         'assets/images/Yumezikan/Yumezikan4.png',
+        'assets/images/Yumezikan/Yumezikan2.JPG',
         'assets/images/Yumezikan/Yumezikan.png',
-        'assets/images/Yumezikan/Yumezikan4.png',
         '中央の広場の近く',
         '総湯の近くにある'
     ),
 
     modalItem(
-        'assets/images/Soyu/KeigoSirayu.png',
+        'assets/images/Soyu/Soyu3.jpg',
         'assets/images/Soyu/Modal_Soyu.png',
         'assets/images/Soyu/Soyu1.png',
         'assets/images/Soyu/Soyu2.png',
@@ -46,17 +46,17 @@ class _HomeScreen extends State<HomeScreen>{
         'assets/images/Ashiyu/Ashiyu2.png',
         'assets/images/Ashiyu/Ashiyu3.png',
         'assets/images/Ashiyu/Asiyu(temp).png',
-        'assets/images/Ashiyu/Ashiyu2.png',
+        'assets/images/Ashiyu/Ashiyu1.jpg',
         '階段の上にある',
         '上には神社を見る'
     ),
     modalItem(
         'assets/images/Yakushizi1.png',
         'assets/images/Yakushizi2.png',
-        'assets/images/Yakushizi1.png',
-        'assets/images/Yakushizi2.png',
-        '階段の上にある',
-        '上には神社を見る'
+        'assets/images/Yakushizi3.JPG',
+        'assets/images/YakushiziBack.jpg',
+        '山の中にある神社',
+        '稲荷神社から見えるかも？'
     ),
   ];
 
@@ -88,8 +88,8 @@ class _HomeScreen extends State<HomeScreen>{
     ),
 
     HomePageItem('薬師寺', "Yakushizi",
-      '蕎麦打ち体験や梨の収穫体験などの様々なイベントが1年を通して行われ\n'
-          '4月中旬〜12月中旬の毎週日曜日と水曜日に朝市が開催され新鮮な農作物などをお買い求めいただけます。',
+      '湯涌温泉開湯の祖！！\n'
+          '薬師寺には薬師如来が祀られています',
       'assets/images/Yakushizi1.png',
       36.48566, 136.75794,
     ),
@@ -136,7 +136,7 @@ class _HomeScreen extends State<HomeScreen>{
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                       ),
                       child: const Center(
-                          child: Text("TourismのWebサイトへ", style: TextStyle(color: Colors.white))),
+                          child: Text("撮っテクのWebサイトへ", style: TextStyle(color: Colors.white))),
                     ),
                   ),
 

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -9,9 +11,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:yuwaku_proto/map_component/map_page.dart';
 import 'package:yuwaku_proto/map_component/map_painter.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'homepage_component/homePage_screen.dart';
 import 'package:camera/camera.dart';
 import 'some_camera_page.dart';
-
 
 class RunTopPage extends StatefulWidget {
   const RunTopPage({Key? key, required this.camera}) : super(key: key);
@@ -22,30 +24,32 @@ class RunTopPage extends StatefulWidget {
 }
 
 class _RunTopPage extends State<RunTopPage> {
-
   _RunTopPage({Key? key, required this.camera});
   final CameraDescription camera;
-
-
-  var i = 0, selectIndex = 0;
 
   /*学校でテスト
   LC：36.5309848,136.6271052
   1号館：36.5309848,136.6271052
    */
   List<HomePageItem> homeItems = [
-    HomePageItem('氷室小屋', "Himurogoya",
+    HomePageItem(
+      '氷室小屋',
+      "Himurogoya",
       '氷室小屋は冷蔵施設がなく氷が大変貴重であった江戸時代に、大寒の雪を詰め'
           '天然の雪氷を夏まで長期保存するために作られた小屋です。湯涌ではこの雪詰めを体験'
           'できるイベントが開催されます。',
+
       'assets/images/HimuroGoya/HimuroGoya.png',
       36.48346516395541, 136.75701193508996,
     ),
-    HomePageItem('金沢夢二館', "KanazawaYumejikan",
+    HomePageItem(
+        '金沢夢二館',
+        "KanazawaYumejikan",
         '大正時代を代表する詩人画家の竹下夢二の記念館です。旅、女性、信仰心の3つ'
             'のテーマから、遺品や作品を通して夢二の芸術性や人間性を紹介しています。',
+
         'assets/images/Yumezikan/Yumezikan.png',
-        6.48584951599308, 136.75738876226737
+        36.48584951599308, 136.75738876226737
     ),
     HomePageItem('総湯', "Soyu",
       '湯涌温泉の日帰り温泉。浴室はガラス窓であり、内湯でも開放的な気分になります。'
@@ -53,9 +57,12 @@ class _RunTopPage extends State<RunTopPage> {
       'assets/images/Soyu/KeigoSirayu.png',
       36.485425901995455, 136.75758738535384,
     ),
-    HomePageItem('足湯', "Ashiyu",
+    HomePageItem(
+        '足湯',
+        "Ashiyu",
         '湯涌に2つある足湯の1つです。足だけの入浴なので無理なく体をしんから温める'
             'ことができます。無料なのでぜひ足湯を体験してみていかかでしょう。',
+
         'assets/images/Ashiyu/Asiyu(temp).png',
         36.48582537854954, 136.7574341842218
     ),
@@ -75,23 +82,23 @@ class _RunTopPage extends State<RunTopPage> {
     // ),
   ];
 
-  Stream<HomePageItem> _getStream() async*{ //位置情報更新処理
-    MapPainter.determinePosition()
-        .then((_) {
-      Geolocator.getPositionStream(
-        intervalDuration: Duration(seconds: 5),
-        desiredAccuracy: LocationAccuracy.best,
-      ).listen((location) {
-        for(var item in homeItems){
-          print(location);
-          print('itemDistの距離${item.distance}');
-          setState(() {
-            item.setDistance(location); // 距離関係を更新する
-          });
-
-        }
-      });
-    });
+  Stream<HomePageItem> _getStream() async* {
+    MapPainter.determinePosition().then(
+      (_) {
+        Geolocator.getPositionStream(
+          intervalDuration: Duration(seconds: 10),
+          desiredAccuracy: LocationAccuracy.best,
+        ).listen(
+          (location) {
+            for (var item in homeItems) {
+              print(location);
+              print('itemDistの距離${item.distance}');
+              item.setDistance(location); // 距離関係を更新する
+            }
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -100,56 +107,138 @@ class _RunTopPage extends State<RunTopPage> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     double heightSize = MediaQuery.of(context).size.height;
     double widthSize = MediaQuery.of(context).size.width;
+
     return SafeArea(
       child: StreamBuilder<HomePageItem>(
         stream: _getStream(), //定期的に呼び出し
         builder: (context, snapshot) {
-          if(snapshot.connectionState == ConnectionState.done){
+          if (snapshot.connectionState == ConnectionState.done) {
             return Scaffold(
-              body: ListView.builder( // 各要素の羅列
-                itemCount: homeItems.length,
-                itemBuilder: (BuildContext context, int index){
-                  return HomeClassTitleComponents(
-                    heightSize: heightSize,
-                    widthSize: widthSize,
-                    homeItems: homeItems[index],
-                    errorGetDistance: homeItems[index].distance,
-                    camera: camera,
-                  );},
+              body: SingleChildScrollView(
+                child: Container(
+                  width: widthSize,
+                  height: heightSize * 3.1,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          margin: EdgeInsets.only(top: widthSize / 16, left: widthSize / 12),
+                          width: widthSize,
+                          height: heightSize / 16,
+                          child: Text('写真一覧', style: TextStyle(fontSize: widthSize / 12)),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          margin: EdgeInsets.only(left: widthSize / 12, right: widthSize / 12),
+                          width: widthSize,
+                          height: heightSize / 30,
+                          child: Text('取った写真や、観光地の写真の一覧です。',
+                              style: TextStyle(fontSize:  widthSize/24)),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 8,
+                        child: Container(
+                          width: widthSize,
+                          height: heightSize/3,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: homeItems.length,
+                            itemBuilder: (BuildContext context, int index){
+                              return Container(
+                                width: widthSize/2,
+                                height: heightSize/3,
+                                margin: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(homeItems[index].image),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          margin: EdgeInsets.only(top: widthSize / 12, left: widthSize / 12),
+                          width: widthSize,
+                          height: heightSize / 16,
+                          child: Text('目標一覧', style: TextStyle(fontSize: widthSize / 12)),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          // color: Colors.black,
+                          margin: EdgeInsets.only(left: widthSize / 12, right: widthSize / 12),
+                          width: widthSize,
+                          height: heightSize / 20,
+                          child: Text(
+                            '目標一覧です。写真をタップすると観光地の説明、ヒントを見ることが出来ます。',
+                            style: TextStyle(fontSize: widthSize/26),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 35,
+                        child: Container(
+                          margin: EdgeInsets.only(top: widthSize / 18),
+                          child: ListView.builder( 
+                            shrinkWrap: true, 
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: homeItems.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return HomeClassTitleComponents(
+                                homeItems: homeItems[index],
+                                heightSize: heightSize,
+                                widthSize: widthSize,
+                                errorGetDistance: homeItems[index].distance,
+                                camera: camera,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             );
-          }else{
-            return Container(
-              alignment: Alignment.center,
-              child: CircularProgressIndicator(),
+          } else {
+            return Expanded(
+              flex: 20,
+              child: Container(
+                alignment: Alignment.center,
+                child: CircularProgressIndicator(),
+              ),
             );
           }
-        }),
+        },
+      ),
     );
   }
 }
 
-
-
-
 /// 新しいホームページの構成Widget
-class HomeClassTitleComponents extends StatelessWidget{
-
+class HomeClassTitleComponents extends StatelessWidget {
   // _RunTopPageからの情報をコンストラクタで取得
-  HomeClassTitleComponents({
-
-    required this.homeItems,
-    required this.heightSize,
-    required this.widthSize,
-    required this.errorGetDistance,
-    required this.camera
-
-  });
+  HomeClassTitleComponents(
+      {required this.homeItems,
+      required this.heightSize,
+      required this.widthSize,
+      required this.errorGetDistance,
+      required this.camera});
 
   final CameraDescription camera;
   final double heightSize;
@@ -159,93 +248,136 @@ class HomeClassTitleComponents extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
-          height: heightSize / 3,
-          width: widthSize,
-          margin: EdgeInsets.all(5),
+    return Container(
+      height: heightSize / 2.5,
+      width: widthSize,
+      margin: EdgeInsets.only(right: 5, left: 5, bottom: 20),
+      decoration: BoxDecoration(
           color: Color.fromRGBO(240, 233, 208, 1),
-          child: Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(context,
-                      MaterialPageRoute(
-                          builder: ((context) => HomeScreen())
-                      ),
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5.0),
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage(homeItems.image),
-                      ),
-                    ),
+          borderRadius: BorderRadius.circular(20)),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 1,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: ((context) => HomeScreen())),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black,
+                        spreadRadius: 3,
+                        blurRadius: 3,
+                        offset: Offset(0, 3))
+                  ],
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage(homeItems.image),
                   ),
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: Column(
-                  children: [
-                    homeItems.distance != null ?
-                      Container(
-                        alignment: Alignment(1,1),
-                        width: double.infinity,
-                        height: heightSize/20,
-
-                        child: AutoSizeText(
-                            'あと' + homeItems.distance!.toStringAsFixed(1) + 'mです'
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Column(
+              children: [
+                Flexible(
+                  flex: 1,
+                  child: Container(
+                    margin: EdgeInsets.all(10),
+                    child: Column(
+                      children: [
+                        Container(
+                            height: heightSize / 18,
+                            margin:  EdgeInsets.only(right: 5, left: 5),
+                            child: Text('目的地まで',
+                                style: TextStyle(fontSize: widthSize / 20),
+                            ),
                         ),
-                      ):
-                    Container(
-                      alignment: Alignment(1,1),
-                      width: double.infinity,
-                      height: heightSize/20,
-
-                      child: AutoSizeText(
-                          'データ取得中です'
-                      ),
-                    ),
-                    Expanded(
-                        child: Container(
-                          color: Color.fromRGBO(186, 66, 43, 1),
-                          margin: EdgeInsets.all(10),
-                          child: Text(
-                            homeItems.explain,
-                            style: TextStyle(
-                                fontSize: 10, color: Colors.white),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 4,
+                        homeItems.distance != null
+                            ? Center(
+                                child: Text(
+                                  'あと' +
+                                      homeItems.distance!.toStringAsFixed(1) +
+                                      'm',
+                                  style: TextStyle(fontSize: widthSize / 18),
+                                ),
+                              )
+                            : Center(
+                                child: Container(
+                                  child: Text(
+                                    'データ取得中です',
+                                    style: TextStyle(fontSize: widthSize / 20),
+                                  ),
+                                ),
+                              ),
+                        Flexible(
+                          flex: 1,
+                          child: Container(
+                            margin: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(186, 66, 43, 1),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: Container(
+                              child: Center(
+                                child: Text(
+                                  homeItems.title,
+                                  style: TextStyle(
+                                      fontSize: widthSize / 15,
+                                      color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: InkWell(
-                        onTap: (){
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: ((context) =>Camerapage(camera: camera))
+                        Flexible(
+                          flex: 1,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: Colors.black, width: 3),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: ((context) =>
+                                        Camerapage(camera: camera)),
+                                  ),
+                                );
+                              },
+                              child: Center(
+                                child: Column(
+                                  children: [
+                                    Icon(Icons.photo_camera_outlined,
+                                        size: widthSize / 8),
+                                    Text('タップで写真ページへ')
+                                  ],
+                                ),
                               ),
-                          );},
-                        child: Center(
-                            child: Icon(Icons.photo_camera, size: 56)
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
+                  ),
+                ),
               ],
             ),
           ),
         ],
       ),
-
     );
   }
 }
-
