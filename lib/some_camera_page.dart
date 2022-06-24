@@ -1,9 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:uuid/uuid.dart';
 
 class Camerapage extends StatefulWidget{
@@ -87,9 +88,9 @@ class DisplayPictureScreen extends StatelessWidget {
     ref.child(uuid).putFile(imageFile);
   }
 
-  Future _saveImage() async {
-    final imageFile = File(imagePath);
-    final imageBuffer = await imageFile.readAsBytes();
+  void _saveImage(String path) async {
+    final imageFile = File(path);
+    final Uint8List imageBuffer = await imageFile.readAsBytes();
     await ImageGallerySaver.saveImage(imageBuffer);
   }
 
@@ -101,6 +102,11 @@ class DisplayPictureScreen extends StatelessWidget {
         });
   }
 
+  void popToHome(BuildContext context) async {
+    int count = 0;
+    Navigator.of(context).popUntil((route) => count++ >= 2);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,16 +114,9 @@ class DisplayPictureScreen extends StatelessWidget {
       body: Center(child: Image.file(File(imagePath))),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          _saveImage(imagePath);
           uploadStorage();
-          await Permission.photosAddOnly.request();
-          final photosAddOnlyStatus = await Permission.photosAddOnly.status;
-          if (photosAddOnlyStatus.isGranted) {
-            _saveImage();
-            int count = 0;
-            Navigator.of(context).popUntil((route) => count++ >= 2);
-          } else {
-            showNoPermissionDialog(context);
-          }
+          popToHome(context);
         },
         child: Icon(Icons.download),
       ),
@@ -138,12 +137,6 @@ class NoPermissionDialog extends StatelessWidget {
           onPressed: () {
             int count = 0;
             Navigator.of(context).popUntil((route) => count++ >= 3);
-          }
-        ),
-        TextButton(
-          child: Text("設定を開く"),
-          onPressed: () {
-            openAppSettings();
           }
         ),
       ],
