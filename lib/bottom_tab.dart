@@ -1,20 +1,23 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:yuwaku_proto/homepage_component/homePage_screen.dart';
+import 'package:yuwaku_proto/map_component/map_interactive_move.dart';
+import 'package:yuwaku_proto/some_top_page.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
-import 'map_page.dart';
-import 'some_explain.dart';
-import 'package:yuwaku_proto/app_top_view.dart';
-import 'plane_explain.dart';
 
 class BottomTabPage extends StatefulWidget {
+  
+  BottomTabPage({Key? key, required this.camera});
+  final CameraDescription camera;
   @override
   State<StatefulWidget> createState() {
-    return _BottomTabPageState();
+    return _BottomTabPageState(camera: camera);
   }
 }
 
 class _BottomTabPageState extends State<BottomTabPage> {
   int _currentIndex = 0;
+  _BottomTabPageState({Key? key, required this.camera});
+  final CameraDescription camera;
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +25,10 @@ class _BottomTabPageState extends State<BottomTabPage> {
       body: IndexedStack(
         index: _currentIndex,
         children: [
-          // TopPageView(selectItem: (index) => _onItemTapped(index)),
-          HomeScreen(),
-          MapPage(title: '地図'),
+
+          RunTopPage(camera: camera),
           TutorialPage(),
+         InteractiveMap(title: '湯涌全体図')
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -38,14 +41,12 @@ class _BottomTabPageState extends State<BottomTabPage> {
           ),
           BottomNavigationBarItem(
               icon: Icon(
-                Icons.add_location_alt_sharp,
-              ),
-              label: '地図'),
-          BottomNavigationBarItem(
-              icon: Icon(
                 Icons.help,
               ),
               label: '遊び方'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.map),
+              label: '地図'),
         ],
         currentIndex: _currentIndex,
         fixedColor: Colors.blueAccent,
