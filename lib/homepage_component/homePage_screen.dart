@@ -25,16 +25,16 @@ class _HomeScreen extends State<HomeScreen>{
     ),
 
     modalItem(
-        'assets/images/Yumezikan/Yumezikan.png',
+        'assets/images/Yumezikan/Yumezikan1.JPG',
         'assets/images/Yumezikan/Yumezikan4.png',
+        'assets/images/Yumezikan/Yumezikan2.JPG',
         'assets/images/Yumezikan/Yumezikan.png',
-        'assets/images/Yumezikan/Yumezikan4.png',
         '中央の広場の近く',
         '総湯の近くにある'
     ),
 
     modalItem(
-        'assets/images/Soyu/KeigoSirayu.png',
+        'assets/images/Soyu/Soyu3.jpg',
         'assets/images/Soyu/Modal_Soyu.png',
         'assets/images/Soyu/Soyu1.png',
         'assets/images/Soyu/Soyu2.png',
@@ -46,15 +46,15 @@ class _HomeScreen extends State<HomeScreen>{
         'assets/images/Ashiyu/Ashiyu2.png',
         'assets/images/Ashiyu/Ashiyu3.png',
         'assets/images/Ashiyu/Asiyu(temp).png',
-        'assets/images/Ashiyu/Ashiyu2.png',
+        'assets/images/Ashiyu/Ashiyu1.jpg',
         '階段の上にある',
         '上には神社を見る'
     ),
     modalItem(
         'assets/images/Yakushizi1.png',
         'assets/images/Yakushizi2.png',
-        'assets/images/Yakushizi1.png',
-        'assets/images/Yakushizi2.png',
+        'assets/images/Yakushizi3.JPG',
+        'assets/images/YakushiziBack.jpg',
         '山の中にある神社',
         '稲荷神社から見えるかも？'
     ),
