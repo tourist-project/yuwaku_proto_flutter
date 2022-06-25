@@ -293,10 +293,9 @@ class HomeClassTitleComponents extends StatelessWidget {
                     child: Column(
                       children: [
                         Container(
-                            height: heightSize / 20,
                             margin:  EdgeInsets.only(right: 5, left: 5),
                             child: AutoSizeText('目的地まで',
-                                style: TextStyle(fontSize: widthSize / 20),
+                                style: TextStyle(fontSize: widthSize / 25),
                             ),
                         ),
                         homeItems.distance != null
@@ -305,14 +304,14 @@ class HomeClassTitleComponents extends StatelessWidget {
                                   'あと' +
                                       homeItems.distance!.toStringAsFixed(1) +
                                       'm',
-                                  style: TextStyle(fontSize: widthSize / 18),
+                                  style: TextStyle(fontSize: widthSize / 25),
                                 ),
                               )
                             : Center(
                                 child: Container(
                                   child: AutoSizeText(
                                     'データ取得中です',
-                                    style: TextStyle(fontSize: widthSize / 20),
+                                    style: TextStyle(fontSize: widthSize / 25),
                                   ),
                                 ),
                               ),
@@ -360,7 +359,10 @@ class HomeClassTitleComponents extends StatelessWidget {
                                   children: [
                                     Icon(Icons.photo_camera_outlined,
                                         size: widthSize / 8),
-                                    AutoSizeText('タップで写真ページへ')
+                                    AutoSizeText(
+                                        'タップで写真ページへ',
+                                        maxLines: 1
+                                    )
                                   ],
                                 ),
                               ),
