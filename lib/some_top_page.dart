@@ -126,7 +126,7 @@ class _RunTopPage extends State<RunTopPage> {
                           margin: EdgeInsets.only(top: widthSize / 16, left: widthSize / 12),
                           width: widthSize,
                           height: heightSize / 16,
-                          child: Text('写真一覧', style: TextStyle(fontSize: widthSize / 12)),
+                          child: AutoSizeText('写真一覧', style: TextStyle(fontSize: widthSize / 12)),
                         ),
                       ),
                       Expanded(
@@ -135,7 +135,7 @@ class _RunTopPage extends State<RunTopPage> {
                           margin: EdgeInsets.only(left: widthSize / 12, right: widthSize / 12),
                           width: widthSize,
                           height: heightSize / 30,
-                          child: Text('取った写真や、観光地の写真の一覧です。',
+                          child: AutoSizeText('取った写真や、観光地の写真の一覧です。',
                               style: TextStyle(fontSize:  widthSize/24)),
                         ),
                       ),
@@ -170,7 +170,7 @@ class _RunTopPage extends State<RunTopPage> {
                           margin: EdgeInsets.only(top: widthSize / 12, left: widthSize / 12),
                           width: widthSize,
                           height: heightSize / 16,
-                          child: Text('目標一覧', style: TextStyle(fontSize: widthSize / 12)),
+                          child: AutoSizeText('目標一覧', style: TextStyle(fontSize: widthSize / 12)),
                         ),
                       ),
                       Expanded(
@@ -180,9 +180,9 @@ class _RunTopPage extends State<RunTopPage> {
                           margin: EdgeInsets.only(left: widthSize / 12, right: widthSize / 12),
                           width: widthSize,
                           height: heightSize / 20,
-                          child: Text(
+                          child: AutoSizeText(
                             '目標一覧です。写真をタップすると観光地の説明、ヒントを見ることが出来ます。',
-                            style: TextStyle(fontSize: widthSize/26),
+                            style: TextStyle(fontSize: widthSize/10),
                           ),
                         ),
                       ),
@@ -291,15 +291,15 @@ class HomeClassTitleComponents extends StatelessWidget {
                     child: Column(
                       children: [
                         Container(
-                            height: heightSize / 18,
+                            height: heightSize / 20,
                             margin:  EdgeInsets.only(right: 5, left: 5),
-                            child: Text('目的地まで',
+                            child: AutoSizeText('目的地まで',
                                 style: TextStyle(fontSize: widthSize / 20),
                             ),
                         ),
                         homeItems.distance != null
                             ? Center(
-                                child: Text(
+                                child: AutoSizeText(
                                   'あと' +
                                       homeItems.distance!.toStringAsFixed(1) +
                                       'm',
@@ -308,9 +308,9 @@ class HomeClassTitleComponents extends StatelessWidget {
                               )
                             : Center(
                                 child: Container(
-                                  child: Text(
+                                  child: AutoSizeText(
                                     'データ取得中です',
-                                    style: TextStyle(fontSize: widthSize / 14),
+                                    style: TextStyle(fontSize: widthSize / 20),
                                   ),
                                 ),
                               ),
@@ -324,7 +324,7 @@ class HomeClassTitleComponents extends StatelessWidget {
                             ),
                             child: Container(
                               child: Center(
-                                child: Text(
+                                child: AutoSizeText(
                                   homeItems.title,
                                   style: TextStyle(
                                       fontSize: widthSize / 14,
@@ -358,7 +358,7 @@ class HomeClassTitleComponents extends StatelessWidget {
                                   children: [
                                     Icon(Icons.photo_camera_outlined,
                                         size: widthSize / 8),
-                                    Text('タップで写真ページへ')
+                                    AutoSizeText('タップで写真ページへ')
                                   ],
                                 ),
                               ),
