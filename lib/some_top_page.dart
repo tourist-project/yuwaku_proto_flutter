@@ -295,7 +295,7 @@ class HomeClassTitleComponents extends StatelessWidget {
                         Container(
                             margin:  EdgeInsets.only(right: 5, left: 5),
                             child: AutoSizeText('目的地まで',
-                                style: TextStyle(fontSize: widthSize / 25),
+                                style: TextStyle(fontSize: widthSize / 20),
                             ),
                         ),
                         homeItems.distance != null
@@ -304,14 +304,14 @@ class HomeClassTitleComponents extends StatelessWidget {
                                   'あと' +
                                       homeItems.distance!.toStringAsFixed(1) +
                                       'm',
-                                  style: TextStyle(fontSize: widthSize / 25),
+                                  style: TextStyle(fontSize: widthSize / 18),
                                 ),
                               )
                             : Center(
                                 child: Container(
                                   child: AutoSizeText(
                                     'データ取得中です',
-                                    style: TextStyle(fontSize: widthSize / 25),
+                                    style: TextStyle(fontSize: widthSize / 20),
                                   ),
                                 ),
                               ),
