@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'homePage_Item.dart';
@@ -117,7 +119,7 @@ class _HomeScreen extends State<HomeScreen>{
     double mediaHeightSize = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: AppBar(title: Text('トップページ'), backgroundColor: Colors.orange,),
+      appBar: AppBar(title: Text('ヒントページ'), backgroundColor: Colors.orange,),
       backgroundColor: Colors.white,
       body: SafeArea(
           bottom: false,
@@ -139,9 +141,10 @@ class _HomeScreen extends State<HomeScreen>{
                           child: Text("撮っテクのWebサイトへ", style: TextStyle(color: Colors.white))),
                     ),
                   ),
-
                 ),
-
+                Center(
+                  child: Text("写真タップでヒントを表示するよ！",style: TextStyle(fontSize: mediaHeightSize/40)),
+                ),
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
