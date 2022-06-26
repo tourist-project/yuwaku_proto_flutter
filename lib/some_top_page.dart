@@ -337,12 +337,6 @@ class HomeClassTitleComponents extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Flexible(
-                          flex: 1,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.black, width: 3),
                         Row(
                           children: [
                             Flexible(
