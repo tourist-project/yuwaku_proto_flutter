@@ -1,24 +1,15 @@
-import 'dart:ui';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
-import 'package:yuwaku_proto/camera_page.dart';
-import 'package:yuwaku_proto/checkmark_image.dart';
 import 'package:yuwaku_proto/goal_listview_cell.dart';
-import 'package:yuwaku_proto/homepage_component/homePage_screen.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_Item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:yuwaku_proto/map_component/map_page.dart';
 import 'package:yuwaku_proto/map_component/map_painter.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'checkmark_notifier.dart';
 import 'goal.dart';
-import 'homepage_component/homePage_screen.dart';
-import 'package:camera/camera.dart';
-import 'some_camera_page.dart';
 
 class RunTopPage extends StatefulWidget {
   const RunTopPage({Key? key, required this.camera}) : super(key: key);

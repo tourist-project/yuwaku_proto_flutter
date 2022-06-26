@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
