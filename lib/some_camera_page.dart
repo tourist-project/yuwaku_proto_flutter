@@ -5,7 +5,9 @@ import 'package:camera/camera.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
+import 'package:yuwaku_proto/checkmark_notifier.dart';
 
 class Camerapage extends StatefulWidget{
   Camerapage({Key? key, required this.camera}) : super(key: key);
