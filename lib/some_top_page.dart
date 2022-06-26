@@ -38,7 +38,7 @@ class _RunTopPage extends State<RunTopPage> {
       '氷室小屋は冷蔵施設がなく氷が大変貴重であった江戸時代に、大寒の雪を詰め'
           '天然の雪氷を夏まで長期保存するために作られた小屋です。湯涌ではこの雪詰めを体験'
           'できるイベントが開催されます。',
-      'assets/images/HimuroGoya.png',
+      'assets/images/HimuroGoya/HimuroGoya.png'
       36.48346516395541,
       136.75701193508996,
     ),
