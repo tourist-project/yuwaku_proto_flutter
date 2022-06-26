@@ -91,7 +91,9 @@ class _RunTopPage extends State<RunTopPage> {
         ).listen(
           (location) {
             for (var item in homeItems) {
-              item.setDistance(location); // 距離関係を更新する
+              setState(() {
+                item.setDistance(location); // 距離関係を更新する
+              });
             }
           },
         );
@@ -106,6 +108,12 @@ class _RunTopPage extends State<RunTopPage> {
   }
 
   @override
+  void dispose(){
+    _getStream();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double heightSize = MediaQuery.of(context).size.height;
     double widthSize = MediaQuery.of(context).size.width;
@@ -116,6 +124,7 @@ class _RunTopPage extends State<RunTopPage> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return Scaffold(
+
               body: SingleChildScrollView(
                 child: Container(
                   width: widthSize,
@@ -192,8 +201,8 @@ class _RunTopPage extends State<RunTopPage> {
                         flex: 35,
                         child: Container(
                           margin: EdgeInsets.only(top: widthSize / 18),
-                          child: ListView.builder( 
-                            shrinkWrap: true, 
+                          child: ListView.builder(
+                            shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: homeItems.length,
                             itemBuilder: (BuildContext context, int index) {
@@ -211,6 +220,7 @@ class _RunTopPage extends State<RunTopPage> {
                     ],
                   ),
                 ),
+
               ),
             );
           } else {

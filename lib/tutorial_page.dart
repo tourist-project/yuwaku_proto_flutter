@@ -118,6 +118,7 @@ class TutorialStepPage extends StatelessWidget {
             ),
           ),
         ),
+
         Flexible(
           flex: 7,
           child: ClipRRect(
