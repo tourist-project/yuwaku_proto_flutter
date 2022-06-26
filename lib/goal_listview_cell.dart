@@ -159,7 +159,7 @@ class GoalListViewCell extends StatelessWidget {
                               SizedBox(width: 5),
                               Flexible(
                                 flex: 1,
-                                child: CheckmarkImage(true),
+                                child: CheckmarkImage(isTookPicture),
                               ),
                             ],
                           ),

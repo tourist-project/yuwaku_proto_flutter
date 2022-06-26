@@ -215,7 +215,7 @@ class _RunTopPage extends State<RunTopPage> {
                                   heightSize: heightSize,
                                   widthSize: widthSize,
                                   errorGetDistance: homeItems[1].distance,
-                                  camera: camera,isTookPicture: true
+                                  camera: camera,isTookPicture: false
                                 ),
                                 GoalListViewCell(
                                   homeItems: homeItems[2],
