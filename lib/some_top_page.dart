@@ -203,40 +203,44 @@ class _RunTopPage extends State<RunTopPage> {
                               physics: const NeverScrollableScrollPhysics(),
                               children: [
                                 GoalListViewCell(
-                                  homeItems: homeItems[0],
-                                  heightSize: heightSize,
-                                  widthSize: widthSize,
-                                  errorGetDistance: homeItems[0].distance,
-                                  camera: camera,
+                                    homeItems: homeItems[0],
+                                    heightSize: heightSize,
+                                    widthSize: widthSize,
+                                    errorGetDistance: homeItems[0].distance,
+                                    camera: camera,
                                     isTookPicture: context.watch<CheckmarkNotifier>().isTakedHimurogoya
                                 ),
                                 GoalListViewCell(
-                                  homeItems: homeItems[1],
-                                  heightSize: heightSize,
-                                  widthSize: widthSize,
-                                  errorGetDistance: homeItems[1].distance,
-                                  camera: camera,isTookPicture: false
+                                    homeItems: homeItems[1],
+                                    heightSize: heightSize,
+                                    widthSize: widthSize,
+                                    errorGetDistance: homeItems[1].distance,
+                                    camera: camera,
+                                    isTookPicture: context.watch<CheckmarkNotifier>().isTakedYumejikan
                                 ),
                                 GoalListViewCell(
-                                  homeItems: homeItems[2],
-                                  heightSize: heightSize,
-                                  widthSize: widthSize,
-                                  errorGetDistance: homeItems[2].distance,
-                                  camera: camera,isTookPicture: true
+                                    homeItems: homeItems[2],
+                                    heightSize: heightSize,
+                                    widthSize: widthSize,
+                                    errorGetDistance: homeItems[2].distance,
+                                    camera: camera,
+                                    isTookPicture: context.watch<CheckmarkNotifier>().isTakedSoyu
                                 ),
                                 GoalListViewCell(
-                                  homeItems: homeItems[3],
-                                  heightSize: heightSize,
-                                  widthSize: widthSize,
-                                  errorGetDistance: homeItems[3].distance,
-                                  camera: camera,isTookPicture: true
+                                    homeItems: homeItems[3],
+                                    heightSize: heightSize,
+                                    widthSize: widthSize,
+                                    errorGetDistance: homeItems[3].distance,
+                                    camera: camera,
+                                    isTookPicture: context.watch<CheckmarkNotifier>().isTakedAshiyu
                                 ),
                                 GoalListViewCell(
-                                  homeItems: homeItems[4],
-                                  heightSize: heightSize,
-                                  widthSize: widthSize,
-                                  errorGetDistance: homeItems[4].distance,
-                                  camera: camera,isTookPicture: true
+                                    homeItems: homeItems[4],
+                                    heightSize: heightSize,
+                                    widthSize: widthSize,
+                                    errorGetDistance: homeItems[4].distance,
+                                    camera: camera,
+                                    isTookPicture: context.watch<CheckmarkNotifier>().isTakedYakushiji
                                 )
                               ],
                             ),
