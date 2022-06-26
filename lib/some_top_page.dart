@@ -79,9 +79,9 @@ class _RunTopPage extends State<RunTopPage> {
         ).listen(
           (location) {
             for (var item in homeItems) {
-              // setState(() {
-              //   item.setDistance(location); // 距離関係を更新する
-              // });
+              setState(() {
+                item.setDistance(location); // 距離関係を更新する
+              });
             }
           },
         );
