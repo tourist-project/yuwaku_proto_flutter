@@ -343,31 +343,46 @@ class HomeClassTitleComponents extends StatelessWidget {
                             decoration: BoxDecoration(
                                 border:
                                     Border.all(color: Colors.black, width: 3),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: ((context) =>
-                                        Camerapage(camera: camera)),
+                        Row(
+                          children: [
+                            Flexible(
+                              flex: 1,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border:
+                                        Border.all(color: Colors.black, width: 3),
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: ((context) =>
+                                            Camerapage(camera: camera)),
+                                      ),
+                                    );
+                                  },
+                                  child: Center(
+                                    child: Column(
+                                      children: [
+                                        Icon(Icons.photo_camera_outlined,
+                                            size: widthSize / 8),
+                                        AutoSizeText(
+                                            'タップで写真ページへ',
+                                            maxLines: 1
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                );
-                              },
-                              child: Center(
-                                child: Column(
-                                  children: [
-                                    Icon(Icons.photo_camera_outlined,
-                                        size: widthSize / 8),
-                                    AutoSizeText(
-                                        'タップで写真ページへ',
-                                        maxLines: 1
-                                    )
-                                  ],
                                 ),
                               ),
                             ),
-                          ),
+                            SizedBox(width: 5),
+                            Flexible(
+                              flex: 1,
+                              child: Image.asset('assets/images/checkMark.png'),
+                            ),
+                          ],
                         ),
                       ],
                     ),
