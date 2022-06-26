@@ -15,6 +15,7 @@ import 'package:yuwaku_proto/map_component/map_page.dart';
 import 'package:yuwaku_proto/map_component/map_painter.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'checkmark_notifier.dart';
+import 'goal.dart';
 import 'homepage_component/homePage_screen.dart';
 import 'package:camera/camera.dart';
 import 'some_camera_page.dart';
@@ -208,7 +209,8 @@ class _RunTopPage extends State<RunTopPage> {
                                     widthSize: widthSize,
                                     errorGetDistance: homeItems[0].distance,
                                     camera: camera,
-                                    isTookPicture: context.watch<CheckmarkNotifier>().isTakedHimurogoya
+                                    isTookPicture: context.watch<CheckmarkNotifier>().isTakedHimurogoya,
+                                  goal: Goal.himurogoya,
                                 ),
                                 GoalListViewCell(
                                     homeItems: homeItems[1],
@@ -216,7 +218,8 @@ class _RunTopPage extends State<RunTopPage> {
                                     widthSize: widthSize,
                                     errorGetDistance: homeItems[1].distance,
                                     camera: camera,
-                                    isTookPicture: context.watch<CheckmarkNotifier>().isTakedYumejikan
+                                    isTookPicture: context.watch<CheckmarkNotifier>().isTakedYumejikan,
+                                    goal: Goal.yumejikan
                                 ),
                                 GoalListViewCell(
                                     homeItems: homeItems[2],
@@ -224,7 +227,8 @@ class _RunTopPage extends State<RunTopPage> {
                                     widthSize: widthSize,
                                     errorGetDistance: homeItems[2].distance,
                                     camera: camera,
-                                    isTookPicture: context.watch<CheckmarkNotifier>().isTakedSoyu
+                                    isTookPicture: context.watch<CheckmarkNotifier>().isTakedSoyu,
+                                    goal: Goal.soyu
                                 ),
                                 GoalListViewCell(
                                     homeItems: homeItems[3],
@@ -232,7 +236,8 @@ class _RunTopPage extends State<RunTopPage> {
                                     widthSize: widthSize,
                                     errorGetDistance: homeItems[3].distance,
                                     camera: camera,
-                                    isTookPicture: context.watch<CheckmarkNotifier>().isTakedAshiyu
+                                    isTookPicture: context.watch<CheckmarkNotifier>().isTakedAshiyu,
+                                  goal: Goal.ashiyu
                                 ),
                                 GoalListViewCell(
                                     homeItems: homeItems[4],
@@ -240,7 +245,8 @@ class _RunTopPage extends State<RunTopPage> {
                                     widthSize: widthSize,
                                     errorGetDistance: homeItems[4].distance,
                                     camera: camera,
-                                    isTookPicture: context.watch<CheckmarkNotifier>().isTakedYakushiji
+                                    isTookPicture: context.watch<CheckmarkNotifier>().isTakedYakushiji,
+                                  goal: Goal.yakushiji,
                                 )
                               ],
                             ),

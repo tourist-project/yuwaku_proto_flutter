@@ -8,19 +8,28 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:yuwaku_proto/checkmark_notifier.dart';
+import 'package:yuwaku_proto/goal.dart';
 
 class Camerapage extends StatefulWidget{
-  Camerapage({Key? key, required this.camera}) : super(key: key);
+  Camerapage(
+      {
+        Key? key,
+        required this.camera,
+        required this.goal,
+      }
+      ) : super(key: key);
   final CameraDescription camera;
+  final Goal goal;
 
   @override
-  _Camerapage createState() => _Camerapage(camera: this.camera);
+  _Camerapage createState() => _Camerapage(camera: this.camera, goal: this.goal);
 }
 
 class _Camerapage extends State<Camerapage>{
-  _Camerapage({Key? key,required this.camera});
+  _Camerapage({Key? key,required this.camera, required this.goal});
   
   final CameraDescription camera;
+  final Goal goal;
   
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
@@ -63,7 +72,7 @@ class _Camerapage extends State<Camerapage>{
           // 表示用の画面に遷移
           await Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => DisplayPictureScreen(imagePath: image.path,camera: camera),
+              builder: (context) => DisplayPictureScreen(imagePath: image.path,camera: camera, goal: goal),
               fullscreenDialog: true,
             ),
             );
@@ -76,12 +85,19 @@ class _Camerapage extends State<Camerapage>{
 
 // 撮影した写真を表示する画面
 class DisplayPictureScreen extends StatelessWidget {
-  DisplayPictureScreen({Key? key, required this.imagePath,required this.camera})
-      : super(key: key);
+  DisplayPictureScreen(
+      {
+        Key? key,
+        required this.imagePath,
+        required this.camera,
+        required this.goal
+      }
+      ) : super(key: key);
 
   final String imagePath;
   final CameraDescription camera;
   final storage = FirebaseStorage.instance;
+  final Goal goal;
 
   void uploadStorage() {
     final ref = storage.ref();
@@ -116,6 +132,23 @@ class DisplayPictureScreen extends StatelessWidget {
       body: Center(child: Image.file(File(imagePath))),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          switch (goal) {
+            case Goal.himurogoya:
+              context.read<CheckmarkNotifier>().notifyTakedHimurogoya();
+              break;
+            case Goal.yumejikan:
+              context.read<CheckmarkNotifier>().notifyTakedYumejikan();
+              break;
+            case Goal.soyu:
+              context.read<CheckmarkNotifier>().notifyTakedSoyu();
+              break;
+            case Goal.ashiyu:
+              context.read<CheckmarkNotifier>().notifyTakedAshiyu();
+              break;
+            case Goal.yakushiji:
+              context.read<CheckmarkNotifier>().notifyTakedYakushiji();
+              break;
+          }
           _saveImage(imagePath);
           uploadStorage();
           popToHome(context);

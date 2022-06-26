@@ -3,6 +3,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yuwaku_proto/checkmark_image.dart';
+import 'package:yuwaku_proto/goal.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_screen.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_Item.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,7 +19,8 @@ class GoalListViewCell extends StatelessWidget {
       required this.widthSize,
       required this.errorGetDistance,
       required this.camera,
-      required this.isTookPicture});
+      required this.isTookPicture,
+      required this.goal});
 
   final CameraDescription camera;
   final double heightSize;
@@ -26,6 +28,7 @@ class GoalListViewCell extends StatelessWidget {
   final HomePageItem homeItems;
   double? errorGetDistance;
   bool isTookPicture;
+  final Goal goal;
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +142,7 @@ class GoalListViewCell extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                           builder: ((context) =>
-                                              Camerapage(camera: camera)),
+                                              Camerapage(camera: camera, goal: goal,)),
                                         ),
                                       );
                                     },
