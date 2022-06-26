@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yuwaku_proto/checkmark_notifier.dart';
 import 'package:yuwaku_proto/map_component/map_interactive_move.dart';
-import 'package:yuwaku_proto/plane_explain.dart';
 import 'package:yuwaku_proto/some_explain.dart';
 import 'package:yuwaku_proto/bottom_tab.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
@@ -61,11 +60,7 @@ class MyApp extends StatelessWidget {
       home: BottomTabPage(camera: camera),
 
       routes: <String, WidgetBuilder>{
-        // '/camera_page': (BuildContext context) => CameraPage(
-        //     title: 'Camera page',
-        //     mapItem: ModalRoute.of(context)!.settings.arguments as MapItem),
         '/some_explain': (BuildContext context) => Explain(),
-        '/plane_explain': (BuildContext context) => PicExplain(title: '場所説明'),
         '/tutorial_page':(BuildContext context) => TutorialPage(),
         '/map_interactive_move':(BuildContext context) => InteractiveMap(title: '湯涌全体図'),
       },
