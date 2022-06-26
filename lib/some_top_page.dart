@@ -124,7 +124,6 @@ class _RunTopPage extends State<RunTopPage> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return Scaffold(
-
               body: SingleChildScrollView(
                 child: Container(
                   width: widthSize,
@@ -220,7 +219,6 @@ class _RunTopPage extends State<RunTopPage> {
                     ],
                   ),
                 ),
-
               ),
             );
           } else {

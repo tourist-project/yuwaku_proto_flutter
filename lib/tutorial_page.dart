@@ -107,7 +107,6 @@ class TutorialStepPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        
         Padding(
           padding: const EdgeInsets.all(20.0),
           child: Text(
@@ -119,7 +118,6 @@ class TutorialStepPage extends StatelessWidget {
             ),
           ),
         ),
-
         Flexible(
           flex: 7,
           child: ClipRRect(
