@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:yuwaku_proto/checkmark_notifier.dart';
 import 'package:yuwaku_proto/map_component/map_interactive_move.dart';
 import 'package:yuwaku_proto/map_component/map_page.dart';
 import 'package:yuwaku_proto/camera_page.dart';
@@ -26,7 +28,14 @@ Future<void> main() async{
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(MyApp(camera: firstCamera));
+  runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => CheckmarkNotifier())
+        ],
+        child: MyApp(camera: firstCamera)
+      )
+  );
 }
 
 class MyApp extends StatelessWidget {

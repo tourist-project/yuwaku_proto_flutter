@@ -120,126 +120,130 @@ class _RunTopPage extends State<RunTopPage> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return Scaffold(
-              body: SingleChildScrollView(
-                child: Container(
-                  width: widthSize,
-                  height: heightSize * 3.1,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Container(
-                          margin: EdgeInsets.only(top: widthSize / 16, left: widthSize / 12),
-                          width: widthSize,
-                          height: heightSize / 16,
-                          child: AutoSizeText('写真一覧', style: TextStyle(fontSize: widthSize / 12)),
+              body: ChangeNotifierProvider(
+                create: (_) => CheckmarkNotifier(),
+                child: SingleChildScrollView(
+                  child: Container(
+                    width: widthSize,
+                    height: heightSize * 3.1,
+                    child: Column(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            margin: EdgeInsets.only(top: widthSize / 16, left: widthSize / 12),
+                            width: widthSize,
+                            height: heightSize / 16,
+                            child: AutoSizeText('写真一覧', style: TextStyle(fontSize: widthSize / 12)),
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          margin: EdgeInsets.only(left: widthSize / 12, right: widthSize / 12),
-                          width: widthSize,
-                          height: heightSize / 30,
-                          child: AutoSizeText('取った写真や、観光地の写真の一覧です。',
-                              style: TextStyle(fontSize:  widthSize/24)),
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            margin: EdgeInsets.only(left: widthSize / 12, right: widthSize / 12),
+                            width: widthSize,
+                            height: heightSize / 30,
+                            child: AutoSizeText('取った写真や、観光地の写真の一覧です。',
+                                style: TextStyle(fontSize:  widthSize/24)),
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        flex: 8,
-                        child: Container(
-                          width: widthSize,
-                          height: heightSize/3,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: homeItems.length,
-                            itemBuilder: (BuildContext context, int index){
-                              return Container(
-                                width: widthSize/2,
-                                height: heightSize/3,
-                                margin: EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage(homeItems[index].image),
+                        Expanded(
+                          flex: 8,
+                          child: Container(
+                            width: widthSize,
+                            height: heightSize/3,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: homeItems.length,
+                              itemBuilder: (BuildContext context, int index){
+                                return Container(
+                                  width: widthSize/2,
+                                  height: heightSize/3,
+                                  margin: EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: AssetImage(homeItems[index].image),
+                                    ),
                                   ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            margin: EdgeInsets.only(top: widthSize / 12, left: widthSize / 12),
+                            width: widthSize,
+                            height: heightSize / 16,
+                            child: AutoSizeText('目標一覧', style: TextStyle(fontSize: widthSize / 12)),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            // color: Colors.black,
+                            margin: EdgeInsets.only(left: widthSize / 12, right: widthSize / 12),
+                            width: widthSize,
+                            height: heightSize / 20,
+                            child: AutoSizeText(
+                              '目標一覧です。写真をタップすると観光地の説明、ヒントを見ることが出来ます。',
+                              style: TextStyle(fontSize: widthSize/10),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 35,
+                          child: Container(
+                            margin: EdgeInsets.only(top: widthSize / 18),
+                            child: ListView(
+                              scrollDirection: Axis.vertical,
+                              physics: const NeverScrollableScrollPhysics(),
+                              children: [
+                                GoalListViewCell(
+                                  homeItems: homeItems[0],
+                                  heightSize: heightSize,
+                                  widthSize: widthSize,
+                                  errorGetDistance: homeItems[0].distance,
+                                  camera: camera,
+                                    isTookPicture: context.watch<CheckmarkNotifier>().isTakedHimurogoya
                                 ),
-                              );
-                            },
+                                GoalListViewCell(
+                                  homeItems: homeItems[1],
+                                  heightSize: heightSize,
+                                  widthSize: widthSize,
+                                  errorGetDistance: homeItems[1].distance,
+                                  camera: camera,isTookPicture: true
+                                ),
+                                GoalListViewCell(
+                                  homeItems: homeItems[2],
+                                  heightSize: heightSize,
+                                  widthSize: widthSize,
+                                  errorGetDistance: homeItems[2].distance,
+                                  camera: camera,isTookPicture: true
+                                ),
+                                GoalListViewCell(
+                                  homeItems: homeItems[3],
+                                  heightSize: heightSize,
+                                  widthSize: widthSize,
+                                  errorGetDistance: homeItems[3].distance,
+                                  camera: camera,isTookPicture: true
+                                ),
+                                GoalListViewCell(
+                                  homeItems: homeItems[4],
+                                  heightSize: heightSize,
+                                  widthSize: widthSize,
+                                  errorGetDistance: homeItems[4].distance,
+                                  camera: camera,isTookPicture: true
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Container(
-                          margin: EdgeInsets.only(top: widthSize / 12, left: widthSize / 12),
-                          width: widthSize,
-                          height: heightSize / 16,
-                          child: AutoSizeText('目標一覧', style: TextStyle(fontSize: widthSize / 12)),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          // color: Colors.black,
-                          margin: EdgeInsets.only(left: widthSize / 12, right: widthSize / 12),
-                          width: widthSize,
-                          height: heightSize / 20,
-                          child: AutoSizeText(
-                            '目標一覧です。写真をタップすると観光地の説明、ヒントを見ることが出来ます。',
-                            style: TextStyle(fontSize: widthSize/10),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 35,
-                        child: Container(
-                          margin: EdgeInsets.only(top: widthSize / 18),
-                          child: ListView(
-                            scrollDirection: Axis.vertical,
-                            physics: const NeverScrollableScrollPhysics(),
-                            children: [
-                              GoalListViewCell(
-                                homeItems: homeItems[0],
-                                heightSize: heightSize,
-                                widthSize: widthSize,
-                                errorGetDistance: homeItems[0].distance,
-                                camera: camera,
-                              ),
-                              GoalListViewCell(
-                                homeItems: homeItems[1],
-                                heightSize: heightSize,
-                                widthSize: widthSize,
-                                errorGetDistance: homeItems[1].distance,
-                                camera: camera,
-                              ),
-                              GoalListViewCell(
-                                homeItems: homeItems[2],
-                                heightSize: heightSize,
-                                widthSize: widthSize,
-                                errorGetDistance: homeItems[2].distance,
-                                camera: camera,
-                              ),
-                              GoalListViewCell(
-                                homeItems: homeItems[3],
-                                heightSize: heightSize,
-                                widthSize: widthSize,
-                                errorGetDistance: homeItems[3].distance,
-                                camera: camera,
-                              ),
-                              GoalListViewCell(
-                                homeItems: homeItems[4],
-                                heightSize: heightSize,
-                                widthSize: widthSize,
-                                errorGetDistance: homeItems[4].distance,
-                                camera: camera,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

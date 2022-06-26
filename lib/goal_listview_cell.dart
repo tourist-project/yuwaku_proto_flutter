@@ -17,13 +17,15 @@ class GoalListViewCell extends StatelessWidget {
       required this.heightSize,
       required this.widthSize,
       required this.errorGetDistance,
-      required this.camera});
+      required this.camera,
+      required this.isTookPicture});
 
   final CameraDescription camera;
   final double heightSize;
   final double widthSize;
   final HomePageItem homeItems;
   double? errorGetDistance;
+  bool isTookPicture;
 
   @override
   Widget build(BuildContext context) {
