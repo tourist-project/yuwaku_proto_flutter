@@ -335,7 +335,9 @@ class _HomeScreen extends State<HomeScreen>{
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     'ヒント①: ${modalContents[tapImage].Hint_Up}',
-                                    style: TextStyle(fontSize: mediaWidthSize / 19.5),
+                                    style: TextStyle(fontSize: mediaWidthSize / 22),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                                 Container(
@@ -343,7 +345,9 @@ class _HomeScreen extends State<HomeScreen>{
                                   margin: EdgeInsets.only(top: 5),
                                   child: Text(
                                     'ヒント②: ${modalContents[tapImage].Hint_Down}',
-                                    style: TextStyle(fontSize: mediaWidthSize / 19.5),
+                                    style: TextStyle(fontSize: mediaWidthSize / 22),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ]
