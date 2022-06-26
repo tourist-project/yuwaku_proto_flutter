@@ -13,5 +13,3 @@ class CheckmarkImage extends StatelessWidget {
     }
   }
 }
-
-//条件式 ? a : b;
