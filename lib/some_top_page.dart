@@ -91,7 +91,9 @@ class _RunTopPage extends State<RunTopPage> {
         ).listen(
           (location) {
             for (var item in homeItems) {
-              item.setDistance(location); // 距離関係を更新する
+              setState(() {
+                item.setDistance(location); // 距離関係を更新する
+              });
             }
           },
         );
@@ -103,6 +105,12 @@ class _RunTopPage extends State<RunTopPage> {
   void initState() {
     _getStream();
     super.initState();
+  }
+
+  @override
+  void dispose(){
+    _getStream();
+    super.dispose();
   }
 
   @override
@@ -192,8 +200,8 @@ class _RunTopPage extends State<RunTopPage> {
                         flex: 35,
                         child: Container(
                           margin: EdgeInsets.only(top: widthSize / 18),
-                          child: ListView.builder( 
-                            shrinkWrap: true, 
+                          child: ListView.builder(
+                            shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: homeItems.length,
                             itemBuilder: (BuildContext context, int index) {
