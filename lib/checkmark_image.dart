@@ -6,10 +6,27 @@ class CheckmarkImage extends StatelessWidget {
   var isCheck;
   CheckmarkImage(this.isCheck);
   Widget build(BuildContext context) {
+    final double mediaWidth = MediaQuery.of(context).size.width;
     if (isCheck) {
-      return Image.asset('assets/images/checkMark.png');
+      return Stack(
+        alignment: Alignment.center,
+        children: [
+          Icon(
+            Icons.check_box_outline_blank_rounded,
+            color: Colors.black38,
+            size: mediaWidth/4,
+          ),
+          Image.asset('assets/images/checkMark.png')
+        ],
+      );
     } else {
-      return Container();
+      return Center(
+        child: Icon(
+          Icons.check_box_outline_blank_rounded,
+          color: Colors.black38,
+          size: mediaWidth/4,
+        ),
+      );
     }
   }
 }
