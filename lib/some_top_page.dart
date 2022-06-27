@@ -1,19 +1,15 @@
-import 'dart:ui';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'dart:async';
-import 'package:yuwaku_proto/camera_page.dart';
-import 'package:yuwaku_proto/homepage_component/homePage_screen.dart';
+import 'package:yuwaku_proto/goal_listview_cell.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_Item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:yuwaku_proto/map_component/map_page.dart';
 import 'package:yuwaku_proto/map_component/map_painter.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'homepage_component/homePage_screen.dart';
-import 'package:camera/camera.dart';
-import 'some_camera_page.dart';
+import 'checkmark_notifier.dart';
+import 'goal.dart';
 
 class RunTopPage extends StatefulWidget {
   const RunTopPage({Key? key, required this.camera}) : super(key: key);
@@ -116,99 +112,139 @@ class _RunTopPage extends State<RunTopPage> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return Scaffold(
-              body: SingleChildScrollView(
-                child: Container(
-                  width: widthSize,
-                  height: heightSize * 3.1,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Container(
-                          margin: EdgeInsets.only(top: widthSize / 16, left: widthSize / 12),
-                          width: widthSize,
-                          height: heightSize / 16,
-                          child: AutoSizeText('写真一覧', style: TextStyle(fontSize: widthSize / 12)),
+              body: ChangeNotifierProvider(
+                create: (_) => CheckmarkNotifier(),
+                child: SingleChildScrollView(
+                  child: Container(
+                    width: widthSize,
+                    height: heightSize * 3.1,
+                    child: Column(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            margin: EdgeInsets.only(top: widthSize / 16, left: widthSize / 12),
+                            width: widthSize,
+                            height: heightSize / 16,
+                            child: AutoSizeText('写真一覧', style: TextStyle(fontSize: widthSize / 12)),
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          margin: EdgeInsets.only(left: widthSize / 12, right: widthSize / 12),
-                          width: widthSize,
-                          height: heightSize / 30,
-                          child: AutoSizeText('取った写真や、観光地の写真の一覧です。',
-                              style: TextStyle(fontSize:  widthSize/24)),
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            margin: EdgeInsets.only(left: widthSize / 12, right: widthSize / 12),
+                            width: widthSize,
+                            height: heightSize / 30,
+                            child: AutoSizeText('取った写真や、観光地の写真の一覧です。',
+                                style: TextStyle(fontSize:  widthSize/24)),
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        flex: 8,
-                        child: Container(
-                          width: widthSize,
-                          height: heightSize/3,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: homeItems.length,
-                            itemBuilder: (BuildContext context, int index){
-                              return Container(
-                                width: widthSize/2,
-                                height: heightSize/3,
-                                margin: EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage(homeItems[index].image),
+                        Expanded(
+                          flex: 8,
+                          child: Container(
+                            width: widthSize,
+                            height: heightSize/3,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: homeItems.length,
+                              itemBuilder: (BuildContext context, int index){
+                                return Container(
+                                  width: widthSize/2,
+                                  height: heightSize/3,
+                                  margin: EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: AssetImage(homeItems[index].image),
+                                    ),
                                   ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            margin: EdgeInsets.only(top: widthSize / 12, left: widthSize / 12),
+                            width: widthSize,
+                            height: heightSize / 16,
+                            child: AutoSizeText('目標一覧', style: TextStyle(fontSize: widthSize / 12)),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            // color: Colors.black,
+                            margin: EdgeInsets.only(left: widthSize / 12, right: widthSize / 12),
+                            width: widthSize,
+                            height: heightSize / 20,
+                            child: AutoSizeText(
+                              '目標一覧です。写真をタップすると観光地の説明、ヒントを見ることが出来ます。',
+                              style: TextStyle(fontSize: widthSize/10),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 35,
+                          child: Container(
+                            margin: EdgeInsets.only(top: widthSize / 18),
+                            child: ListView(
+                              scrollDirection: Axis.vertical,
+                              physics: const NeverScrollableScrollPhysics(),
+                              children: [
+                                GoalListViewCell(
+                                    homeItems: homeItems[0],
+                                    heightSize: heightSize,
+                                    widthSize: widthSize,
+                                    errorGetDistance: homeItems[0].distance,
+                                    camera: camera,
+                                    isTookPicture: context.watch<CheckmarkNotifier>().isTakedHimurogoya,
+                                  goal: Goal.himurogoya,
                                 ),
-                              );
-                            },
+                                GoalListViewCell(
+                                    homeItems: homeItems[1],
+                                    heightSize: heightSize,
+                                    widthSize: widthSize,
+                                    errorGetDistance: homeItems[1].distance,
+                                    camera: camera,
+                                    isTookPicture: context.watch<CheckmarkNotifier>().isTakedYumejikan,
+                                    goal: Goal.yumejikan
+                                ),
+                                GoalListViewCell(
+                                    homeItems: homeItems[2],
+                                    heightSize: heightSize,
+                                    widthSize: widthSize,
+                                    errorGetDistance: homeItems[2].distance,
+                                    camera: camera,
+                                    isTookPicture: context.watch<CheckmarkNotifier>().isTakedSoyu,
+                                    goal: Goal.soyu
+                                ),
+                                GoalListViewCell(
+                                    homeItems: homeItems[3],
+                                    heightSize: heightSize,
+                                    widthSize: widthSize,
+                                    errorGetDistance: homeItems[3].distance,
+                                    camera: camera,
+                                    isTookPicture: context.watch<CheckmarkNotifier>().isTakedAshiyu,
+                                  goal: Goal.ashiyu
+                                ),
+                                GoalListViewCell(
+                                    homeItems: homeItems[4],
+                                    heightSize: heightSize,
+                                    widthSize: widthSize,
+                                    errorGetDistance: homeItems[4].distance,
+                                    camera: camera,
+                                    isTookPicture: context.watch<CheckmarkNotifier>().isTakedYakushiji,
+                                  goal: Goal.yakushiji,
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Container(
-                          margin: EdgeInsets.only(top: widthSize / 12, left: widthSize / 12),
-                          width: widthSize,
-                          height: heightSize / 16,
-                          child: AutoSizeText('目標一覧', style: TextStyle(fontSize: widthSize / 12)),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          // color: Colors.black,
-                          margin: EdgeInsets.only(left: widthSize / 12, right: widthSize / 12),
-                          width: widthSize,
-                          height: heightSize / 20,
-                          child: AutoSizeText(
-                            '目標一覧です。写真をタップすると観光地の説明、ヒントを見ることが出来ます。',
-                            style: TextStyle(fontSize: widthSize/10),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 35,
-                        child: Container(
-                          margin: EdgeInsets.only(top: widthSize / 18),
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: homeItems.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return HomeClassTitleComponents(
-                                homeItems: homeItems[index],
-                                heightSize: heightSize,
-                                widthSize: widthSize,
-                                errorGetDistance: homeItems[index].distance,
-                                camera: camera,
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -228,156 +264,3 @@ class _RunTopPage extends State<RunTopPage> {
   }
 }
 
-/// 新しいホームページの構成Widget
-class HomeClassTitleComponents extends StatelessWidget {
-  // _RunTopPageからの情報をコンストラクタで取得
-  HomeClassTitleComponents(
-      {required this.homeItems,
-      required this.heightSize,
-      required this.widthSize,
-      required this.errorGetDistance,
-      required this.camera});
-
-  final CameraDescription camera;
-  final double heightSize;
-  final double widthSize;
-  final HomePageItem homeItems;
-  double? errorGetDistance;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: heightSize / 2.5,
-      width: widthSize,
-      margin: EdgeInsets.only(right: 5, left: 5, bottom: 20),
-      decoration: BoxDecoration(
-          color: Color.fromRGBO(240, 233, 208, 1),
-          borderRadius: BorderRadius.circular(20)),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 1,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: ((context) => HomeScreen())),
-                );
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.0),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black,
-                        spreadRadius: 3,
-                        blurRadius: 3,
-                        offset: Offset(0, 3))
-                  ],
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage(homeItems.image),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Column(
-              children: [
-                Flexible(
-                  flex: 1,
-                  child: Container(
-                    margin: EdgeInsets.all(10),
-                    child: Column(
-                      children: [
-                        Container(
-                            margin:  EdgeInsets.only(right: 5, left: 5),
-                            child: AutoSizeText('目的地まで',
-                                style: TextStyle(fontSize: widthSize / 20),
-                            ),
-                        ),
-                        homeItems.distance != null
-                            ? Center(
-                                child: AutoSizeText(
-                                  'あと' +
-                                      homeItems.distance!.toStringAsFixed(1) +
-                                      'm',
-                                  style: TextStyle(fontSize: widthSize / 18),
-                                ),
-                              )
-                            : Center(
-                                child: Container(
-                                  child: AutoSizeText(
-                                    'データ取得中です',
-                                    style: TextStyle(fontSize: widthSize / 20),
-                                  ),
-                                ),
-                              ),
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            margin: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(186, 66, 43, 1),
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            child: Container(
-                              child: Center(
-                                child: AutoSizeText(
-                                  homeItems.title,
-                                  style: TextStyle(
-                                      fontSize: widthSize / 14,
-                                      color: Colors.white),
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Flexible(
-                          flex: 1,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.black, width: 3),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: ((context) =>
-                                        Camerapage(camera: camera)),
-                                  ),
-                                );
-                              },
-                              child: Center(
-                                child: Column(
-                                  children: [
-                                    Icon(Icons.photo_camera_outlined,
-                                        size: widthSize / 8),
-                                    AutoSizeText(
-                                        'タップで写真ページへ',
-                                        maxLines: 1
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
