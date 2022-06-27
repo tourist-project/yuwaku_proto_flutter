@@ -3,6 +3,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yuwaku_proto/checkmark_image.dart';
+import 'package:yuwaku_proto/distance_goal_text.dart';
 import 'package:yuwaku_proto/goal.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_screen.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_Item.dart';
@@ -80,31 +81,7 @@ class GoalListViewCell extends StatelessWidget {
                       margin: EdgeInsets.all(10),
                       child: Column(
                         children: [
-                          Container(
-                            margin: EdgeInsets.only(right: 5, left: 5),
-                            child: AutoSizeText(
-                              '目的地まで',
-                              style: TextStyle(fontSize: widthSize / 20),
-                            ),
-                          ),
-                          homeItems.distance != null
-                              ? Center(
-                                  child: AutoSizeText(
-                                    'あと' +
-                                        homeItems.distance!.toStringAsFixed(1) +
-                                        'm',
-                                    style: TextStyle(fontSize: widthSize / 18),
-                                  ),
-                                )
-                              : Center(
-                                  child: Container(
-                                    child: AutoSizeText(
-                                      'データ取得中です',
-                                      style:
-                                          TextStyle(fontSize: widthSize / 20),
-                                    ),
-                                  ),
-                                ),
+                          DistanceGoalText(),
                           Expanded(
                             flex: 1,
                             child: Container(
