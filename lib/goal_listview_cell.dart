@@ -81,7 +81,10 @@ class GoalListViewCell extends StatelessWidget {
                       margin: EdgeInsets.all(10),
                       child: Column(
                         children: [
-                          DistanceGoalText(),
+                          Expanded(
+                            flex: 1,
+                              child: DistanceGoalText(goal)
+                          ),
                           Expanded(
                             flex: 1,
                             child: Container(

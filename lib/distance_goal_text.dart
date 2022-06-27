@@ -1,13 +1,13 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:yuwaku_proto/goal.dart';
 import 'package:yuwaku_proto/map_component/map_painter.dart';
 
 class DistanceGoalText extends StatefulWidget {
-  const DistanceGoalText({Key? key}) : super(key: key);
+  const DistanceGoalText(this.goal);
+  final goal;
 
   @override
   State<DistanceGoalText> createState() => _DistanceGoalText();
@@ -15,13 +15,38 @@ class DistanceGoalText extends StatefulWidget {
 
 class _DistanceGoalText extends State<DistanceGoalText> {
 
-  double latitude = 36.48346516395541;
-  double longitude = 136.75701193508996;
+  double latitude = 0.0;
+  double longitude = 0.0;
   double? distance;
 
   void setDistance(Position position) {
     this.distance = Geolocator.distanceBetween(
         position.latitude, position.longitude, this.latitude, this.longitude);
+  }
+
+  void switchDistance(Goal goal) {
+    switch (goal) {
+      case Goal.himurogoya:
+        latitude = 36.48346516395541;
+        longitude = 136.75701193508996;
+        break;
+      case Goal.yumejikan:
+        latitude = 36.48584951599308;
+        longitude = 136.75738876226737;
+        break;
+      case Goal.soyu:
+        latitude = 36.485425901995455;
+        longitude = 136.75758738535384;
+        break;
+      case Goal.ashiyu:
+        latitude = 36.48582537854954;
+        longitude = 136.7574341842218;
+        break;
+      case Goal.ashiyu:
+        latitude = 36.48566;
+        longitude = 136.75794;
+        break;
+    }
   }
 
   Stream<Position> _getDistance() async* {
@@ -39,24 +64,29 @@ class _DistanceGoalText extends State<DistanceGoalText> {
 
   @override
   Widget build(BuildContext context) {
+    switchDistance(widget.goal);
     return StreamBuilder<Position>(
         stream: _getDistance(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return Column(children: [
+              Spacer(),
               Container(
                 margin: EdgeInsets.only(right: 5, left: 5),
                 child: AutoSizeText(
                   '目的地まで',
+                  style: TextStyle(fontSize: 15),
+                ),
+              ),
+              Spacer(),
+              Center(
+                child: AutoSizeText(
+                  distance != null ? 'あと' + distance!.toStringAsFixed(1) + 'm':
+              "Loading",
                   style: TextStyle(fontSize: 20),
                 ),
               ),
-              Center(
-                child: AutoSizeText(
-                  'あと' + '${distance}' + 'm',
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
+              Spacer(),
             ]);
           } else {
             return Container();
