@@ -42,7 +42,7 @@ class _DistanceGoalText extends State<DistanceGoalText> {
         latitude = 36.48582537854954;
         longitude = 136.7574341842218;
         break;
-      case Goal.ashiyu:
+      case Goal.yakushiji:
         latitude = 36.48566;
         longitude = 136.75794;
         break;
