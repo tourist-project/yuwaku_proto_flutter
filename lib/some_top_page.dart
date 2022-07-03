@@ -78,10 +78,9 @@ class _RunTopPage extends State<RunTopPage> {
   // アプリ起動時に保存したデータを読み込む
   void init() async {
     final prefs = SharedPreferencesManager();
-    final checkmarkNotifier = CheckmarkNotifier();
      var isTookHimurogoya = await prefs.getIsTook(Goal.himurogoya);
      if (isTookHimurogoya == true) {
-       checkmarkNotifier.isTakedHimurogoya = true;
+       context.read<CheckmarkNotifier>().notifyTakedHimurogoya();
      }
   }
 

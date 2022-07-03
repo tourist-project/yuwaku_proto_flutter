@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:yuwaku_proto/checkmark_notifier.dart';
 import 'package:yuwaku_proto/goal.dart';
+import 'package:yuwaku_proto/shared_preferences_manager.dart';
 
 class Camerapage extends StatefulWidget{
   Camerapage(
@@ -97,6 +98,7 @@ class DisplayPictureScreen extends StatelessWidget {
   final CameraDescription camera;
   final storage = FirebaseStorage.instance;
   final Goal goal;
+  final sharedPreferencesManager = SharedPreferencesManager();
 
   void uploadStorage() {
     final ref = storage.ref();
@@ -133,6 +135,7 @@ class DisplayPictureScreen extends StatelessWidget {
         onPressed: () async {
           switch (goal) {
             case Goal.himurogoya:
+              sharedPreferencesManager.setIsTook(goal);
               context.read<CheckmarkNotifier>().notifyTakedHimurogoya();
               break;
             case Goal.yumejikan:
