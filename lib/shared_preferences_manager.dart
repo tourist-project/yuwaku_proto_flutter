@@ -19,12 +19,16 @@ class SharedPreferencesManager {
         await prefs.setBool("isTookHimurogoya", true);
         break;
       case Goal.yumejikan:
+        await prefs.setBool("isTookYumejikan", true);
         break;
       case Goal.soyu:
+        await prefs.setBool("isTookSoyu", true);
         break;
       case Goal.ashiyu:
+        await prefs.setBool("isTookAshiyu", true);
         break;
       case Goal.yakushiji:
+        await prefs.setBool("isTookYakushiji", true);
         break;
     }
   }
@@ -36,13 +40,17 @@ class SharedPreferencesManager {
         bool? isTook = prefs.getBool('isTookHimurogoya');
         return isTook;
       case Goal.yumejikan:
-        break;
+        bool? isTook = prefs.getBool('isTookYumejikan');
+        return isTook;
       case Goal.soyu:
-        break;
+        bool? isTook = prefs.getBool('isTookSoyu');
+        return isTook;
       case Goal.ashiyu:
-        break;
+        bool? isTook = prefs.getBool('isTookAshiyu');
+        return isTook;
       case Goal.yakushiji:
-        break;
+        bool? isTook = prefs.getBool('isTookYakushiji');
+        return isTook;
     }
   }
 }

@@ -72,16 +72,32 @@ class _RunTopPage extends State<RunTopPage> {
   @override
   void initState() {
     super.initState();
-    init();
+    _initCheckmarkState();
   }
 
   // アプリ起動時に保存したデータを読み込む
-  void init() async {
+  void _initCheckmarkState() async {
     final prefs = SharedPreferencesManager();
-     var isTookHimurogoya = await prefs.getIsTook(Goal.himurogoya);
-     if (isTookHimurogoya == true) {
-       context.read<CheckmarkNotifier>().notifyTakedHimurogoya();
-     }
+    var isTookHimurogoya = await prefs.getIsTook(Goal.himurogoya);
+    if (isTookHimurogoya == true) {
+      context.read<CheckmarkNotifier>().notifyTakedHimurogoya();
+    }
+    var isTookYumejikan = await prefs.getIsTook(Goal.yumejikan);
+    if (isTookYumejikan == true) {
+      context.read<CheckmarkNotifier>().notifyTakedYumejikan();
+    }
+    var isTookSoyu = await prefs.getIsTook(Goal.soyu);
+    if (isTookSoyu == true) {
+      context.read<CheckmarkNotifier>().notifyTakedSoyu();
+    }
+    var isTookAshiyu = await prefs.getIsTook(Goal.ashiyu);
+    if (isTookAshiyu == true) {
+      context.read<CheckmarkNotifier>().notifyTakedAshiyu();
+    }
+    var isTookYakushiji = await prefs.getIsTook(Goal.yakushiji);
+    if (isTookYakushiji == true) {
+      context.read<CheckmarkNotifier>().notifyTakedYakushiji();
+    }
   }
 
   @override

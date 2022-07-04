@@ -126,6 +126,27 @@ class DisplayPictureScreen extends StatelessWidget {
     Navigator.of(context).popUntil((route) => count++ >= 2);
   }
 
+  void _checkNotify(BuildContext context, Goal goal) {
+    sharedPreferencesManager.setIsTook(goal);
+    switch (goal) {
+      case Goal.himurogoya:
+        context.read<CheckmarkNotifier>().notifyTakedHimurogoya();
+        break;
+      case Goal.yumejikan:
+        context.read<CheckmarkNotifier>().notifyTakedYumejikan();
+        break;
+      case Goal.soyu:
+        context.read<CheckmarkNotifier>().notifyTakedSoyu();
+        break;
+      case Goal.ashiyu:
+        context.read<CheckmarkNotifier>().notifyTakedAshiyu();
+        break;
+      case Goal.yakushiji:
+        context.read<CheckmarkNotifier>().notifyTakedYakushiji();
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,24 +154,7 @@ class DisplayPictureScreen extends StatelessWidget {
       body: Center(child: Image.file(File(imagePath))),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          switch (goal) {
-            case Goal.himurogoya:
-              sharedPreferencesManager.setIsTook(goal);
-              context.read<CheckmarkNotifier>().notifyTakedHimurogoya();
-              break;
-            case Goal.yumejikan:
-              context.read<CheckmarkNotifier>().notifyTakedYumejikan();
-              break;
-            case Goal.soyu:
-              context.read<CheckmarkNotifier>().notifyTakedSoyu();
-              break;
-            case Goal.ashiyu:
-              context.read<CheckmarkNotifier>().notifyTakedAshiyu();
-              break;
-            case Goal.yakushiji:
-              context.read<CheckmarkNotifier>().notifyTakedYakushiji();
-              break;
-          }
+          _checkNotify(context, goal);
           _saveImage(imagePath);
           uploadStorage();
           popToHome(context);
