@@ -5,6 +5,7 @@ import 'package:yuwaku_proto/goal_listview_cell.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_Item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:yuwaku_proto/shared_preferences_manager.dart';
 import 'checkmark_notifier.dart';
 import 'goal.dart';
 
@@ -66,6 +67,37 @@ class _RunTopPage extends State<RunTopPage> {
       36.48566, 136.75794,
       )
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _initCheckmarkState();
+  }
+
+  // アプリ起動時に保存したデータを読み込む
+  void _initCheckmarkState() async {
+    final prefs = SharedPreferencesManager();
+    var isTookHimurogoya = await prefs.getIsTook(Goal.himurogoya);
+    if (isTookHimurogoya == true) {
+      context.read<CheckmarkNotifier>().notifyTakedHimurogoya();
+    }
+    var isTookYumejikan = await prefs.getIsTook(Goal.yumejikan);
+    if (isTookYumejikan == true) {
+      context.read<CheckmarkNotifier>().notifyTakedYumejikan();
+    }
+    var isTookSoyu = await prefs.getIsTook(Goal.soyu);
+    if (isTookSoyu == true) {
+      context.read<CheckmarkNotifier>().notifyTakedSoyu();
+    }
+    var isTookAshiyu = await prefs.getIsTook(Goal.ashiyu);
+    if (isTookAshiyu == true) {
+      context.read<CheckmarkNotifier>().notifyTakedAshiyu();
+    }
+    var isTookYakushiji = await prefs.getIsTook(Goal.yakushiji);
+    if (isTookYakushiji == true) {
+      context.read<CheckmarkNotifier>().notifyTakedYakushiji();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
