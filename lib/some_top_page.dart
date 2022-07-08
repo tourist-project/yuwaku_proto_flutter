@@ -1,13 +1,11 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'dart:async';
 import 'package:yuwaku_proto/goal_listview_cell.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_Item.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:yuwaku_proto/map_component/map_painter.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:yuwaku_proto/shared_preferences_manager.dart';
 import 'checkmark_notifier.dart';
 import 'goal.dart';
 
@@ -70,156 +68,204 @@ class _RunTopPage extends State<RunTopPage> {
       )
   ];
 
-  Stream<HomePageItem> _getStream() async* {
-    MapPainter.determinePosition().then(
-      (_) {
-        Geolocator.getPositionStream(
-          intervalDuration: Duration(seconds: 5),
-          desiredAccuracy: LocationAccuracy.best,
-        ).listen(
-          (location) {
-            for (var item in homeItems) {
-              setState(() {
-                item.setDistance(location); // 距離関係を更新する
-              });
-            }
-          },
-        );
-      },
-    );
-  }
-
   @override
   void initState() {
-    _getStream();
     super.initState();
+    _initCheckmarkState();
   }
 
-  @override
-  void dispose(){
-    _getStream();
-    super.dispose();
+  // アプリ起動時に保存したデータを読み込む
+  void _initCheckmarkState() async {
+    final prefs = SharedPreferencesManager();
+    var isTookHimurogoya = await prefs.getIsTook(Goal.himurogoya);
+    if (isTookHimurogoya == true) {
+      context.read<CheckmarkNotifier>().notifyTakedHimurogoya();
+    }
+    var isTookYumejikan = await prefs.getIsTook(Goal.yumejikan);
+    if (isTookYumejikan == true) {
+      context.read<CheckmarkNotifier>().notifyTakedYumejikan();
+    }
+    var isTookSoyu = await prefs.getIsTook(Goal.soyu);
+    if (isTookSoyu == true) {
+      context.read<CheckmarkNotifier>().notifyTakedSoyu();
+    }
+    var isTookAshiyu = await prefs.getIsTook(Goal.ashiyu);
+    if (isTookAshiyu == true) {
+      context.read<CheckmarkNotifier>().notifyTakedAshiyu();
+    }
+    var isTookYakushiji = await prefs.getIsTook(Goal.yakushiji);
+    if (isTookYakushiji == true) {
+      context.read<CheckmarkNotifier>().notifyTakedYakushiji();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    double heightSize = MediaQuery.of(context).size.height;
-    double widthSize = MediaQuery.of(context).size.width;
+
+    double heightSize = MediaQuery
+        .of(context)
+        .size
+        .height;
+    double widthSize = MediaQuery
+        .of(context)
+        .size
+        .width;
+
     return SafeArea(
-      child: StreamBuilder<HomePageItem>(
-        stream: _getStream(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return Scaffold(
-              body: ChangeNotifierProvider(
-                create: (_) => CheckmarkNotifier(),
-                child: SingleChildScrollView(
-                  child: Container(
-                    width: widthSize,
-                    height: heightSize * 2.4,
-                    child: Column(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Container(
-                            margin: EdgeInsets.only(top: widthSize / 12, left: widthSize / 12),
-                            width: widthSize,
-                            height: heightSize / 16,
-                            child: AutoSizeText('目標一覧', style: TextStyle(fontSize: widthSize / 12)),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            // color: Colors.black,
-                            margin: EdgeInsets.only(left: widthSize / 12, right: widthSize / 12),
-                            width: widthSize,
-                            height: heightSize / 20,
-                            child: AutoSizeText(
-                              '目標一覧です。写真をタップすると観光地の説明、ヒントを見ることが出来ます。',
-                              style: TextStyle(fontSize: widthSize/10),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 35,
-                          child: Container(
-                            margin: EdgeInsets.only(top: widthSize / 18),
-                            child: ListView(
-                              scrollDirection: Axis.vertical,
-                              physics: const NeverScrollableScrollPhysics(),
-                              children: [
-                                GoalListViewCell(
-                                    homeItems: homeItems[0],
-                                    index: 0,
-                                    heightSize: heightSize,
-                                    widthSize: widthSize,
-                                    errorGetDistance: homeItems[0].distance,
-                                    camera: camera,
-                                    isTookPicture: context.watch<CheckmarkNotifier>().isTakedHimurogoya,
-                                  goal: Goal.himurogoya,
-                                ),
-                                GoalListViewCell(
-                                    homeItems: homeItems[1],
-                                    index: 1,
-                                    heightSize: heightSize,
-                                    widthSize: widthSize,
-                                    errorGetDistance: homeItems[1].distance,
-                                    camera: camera,
-                                    isTookPicture: context.watch<CheckmarkNotifier>().isTakedYumejikan,
-                                    goal: Goal.yumejikan
-                                ),
-                                GoalListViewCell(
-                                    homeItems: homeItems[2],
-                                    index: 2,
-                                    heightSize: heightSize,
-                                    widthSize: widthSize,
-                                    errorGetDistance: homeItems[2].distance,
-                                    camera: camera,
-                                    isTookPicture: context.watch<CheckmarkNotifier>().isTakedSoyu,
-                                    goal: Goal.soyu
-                                ),
-                                GoalListViewCell(
-                                    homeItems: homeItems[3],
-                                    index: 3,
-                                    heightSize: heightSize,
-                                    widthSize: widthSize,
-                                    errorGetDistance: homeItems[3].distance,
-                                    camera: camera,
-                                    isTookPicture: context.watch<CheckmarkNotifier>().isTakedAshiyu,
-                                  goal: Goal.ashiyu
-                                ),
-                                GoalListViewCell(
-                                    homeItems: homeItems[4],
-                                    index: 4,
-                                    heightSize: heightSize,
-                                    widthSize: widthSize,
-                                    errorGetDistance: homeItems[4].distance,
-                                    camera: camera,
-                                    isTookPicture: context.watch<CheckmarkNotifier>().isTakedYakushiji,
-                                  goal: Goal.yakushiji,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
+        child: Scaffold(
+          body: ChangeNotifierProvider(
+            create: (_) => CheckmarkNotifier(),
+            child: SingleChildScrollView(
+              child: Container(
+                width: widthSize,
+                height: heightSize * 3.1,
+                child: Column(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Container(
+                        margin: EdgeInsets.only(
+                            top: widthSize / 16, left: widthSize / 12),
+                        width: widthSize,
+                        height: heightSize / 16,
+                        child: AutoSizeText(
+                            '写真一覧', style: TextStyle(fontSize: widthSize / 12)),
+                      ),
                     ),
-                  ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        margin: EdgeInsets.only(
+                            left: widthSize / 12, right: widthSize / 12),
+                        width: widthSize,
+                        height: heightSize / 30,
+                        child: AutoSizeText('取った写真や、観光地の写真の一覧です。',
+                            style: TextStyle(fontSize: widthSize / 24)),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 8,
+                      child: Container(
+                        width: widthSize,
+                        height: heightSize / 3,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: homeItems.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                              width: widthSize / 2,
+                              height: heightSize / 3,
+                              margin: EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: AssetImage(homeItems[index].image),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Container(
+                        margin: EdgeInsets.only(
+                            top: widthSize / 12, left: widthSize / 12),
+                        width: widthSize,
+                        height: heightSize / 16,
+                        child: AutoSizeText(
+                            '目標一覧', style: TextStyle(fontSize: widthSize / 12)),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        // color: Colors.black,
+                        margin: EdgeInsets.only(
+                            left: widthSize / 12, right: widthSize / 12),
+                        width: widthSize,
+                        height: heightSize / 20,
+                        child: AutoSizeText(
+                          '目標一覧です。写真をタップすると観光地の説明、ヒントを見ることが出来ます。',
+                          style: TextStyle(fontSize: widthSize / 10),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 35,
+                      child: Container(
+                        margin: EdgeInsets.only(top: widthSize / 18),
+                        child: ListView(
+                          scrollDirection: Axis.vertical,
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: [
+                            GoalListViewCell(
+                              homeItems: homeItems[0],
+                              heightSize: heightSize,
+                              widthSize: widthSize,
+                              errorGetDistance: homeItems[0].distance,
+                              camera: camera,
+                              isTookPicture: context
+                                  .watch<CheckmarkNotifier>()
+                                  .isTakedHimurogoya,
+                              goal: Goal.himurogoya,
+                            ),
+                            GoalListViewCell(
+                                homeItems: homeItems[1],
+                                heightSize: heightSize,
+                                widthSize: widthSize,
+                                errorGetDistance: homeItems[1].distance,
+                                camera: camera,
+                                isTookPicture: context
+                                    .watch<CheckmarkNotifier>()
+                                    .isTakedYumejikan,
+                                goal: Goal.yumejikan
+                            ),
+                            GoalListViewCell(
+                                homeItems: homeItems[2],
+                                heightSize: heightSize,
+                                widthSize: widthSize,
+                                errorGetDistance: homeItems[2].distance,
+                                camera: camera,
+                                isTookPicture: context
+                                    .watch<CheckmarkNotifier>()
+                                    .isTakedSoyu,
+                                goal: Goal.soyu
+                            ),
+                            GoalListViewCell(
+                                homeItems: homeItems[3],
+                                heightSize: heightSize,
+                                widthSize: widthSize,
+                                errorGetDistance: homeItems[3].distance,
+                                camera: camera,
+                                isTookPicture: context
+                                    .watch<CheckmarkNotifier>()
+                                    .isTakedAshiyu,
+                                goal: Goal.ashiyu
+                            ),
+                            GoalListViewCell(
+                              homeItems: homeItems[4],
+                              heightSize: heightSize,
+                              widthSize: widthSize,
+                              errorGetDistance: homeItems[4].distance,
+                              camera: camera,
+                              isTookPicture: context
+                                  .watch<CheckmarkNotifier>()
+                                  .isTakedYakushiji,
+                              goal: Goal.yakushiji,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            );
-          } else {
-            return Expanded(
-              flex: 20,
-              child: Container(
-                alignment: Alignment.center,
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
-        },
-      ),
+            ),
+          ),
+        ),
     );
   }
 }

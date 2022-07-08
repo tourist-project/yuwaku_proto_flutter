@@ -3,6 +3,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yuwaku_proto/checkmark_image.dart';
+import 'package:yuwaku_proto/distance_goal_text.dart';
 import 'package:yuwaku_proto/goal.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_Item.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -249,12 +250,9 @@ class GoalListViewCell extends StatelessWidget {
                       margin: EdgeInsets.all(10),
                       child: Column(
                         children: [
-                          Container(
-                            margin: EdgeInsets.only(right: 5, left: 5),
-                            child: AutoSizeText(
-                              '目的地まで',
-                              style: TextStyle(fontSize: widthSize / 20),
-                            ),
+                          Expanded(
+                            flex: 1,
+                              child: DistanceGoalText(goal)
                           ),
                           homeItems.distance != null
                           ? Center(

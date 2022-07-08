@@ -22,6 +22,8 @@ if (flutterVersionName == null) {
 }
 
 apply plugin: 'com.android.application'
+// deploygate
+apply plugin: 'deploygate'
 // START: FlutterFire Configuration
 apply plugin: 'com.google.gms.google-services'
 // END: FlutterFire Configuration
@@ -59,5 +61,5 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    
+    implementation 'com.deploygate:sdk:4.1.0'
 }
