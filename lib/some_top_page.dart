@@ -117,56 +117,9 @@ class _RunTopPage extends State<RunTopPage> {
             child: SingleChildScrollView(
               child: Container(
                 width: widthSize,
-                height: heightSize * 3.1,
+                height: heightSize * 2.6,
                 child: Column(
                   children: [
-                    Expanded(
-                      flex: 2,
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            top: widthSize / 16, left: widthSize / 12),
-                        width: widthSize,
-                        height: heightSize / 16,
-                        child: AutoSizeText(
-                            '写真一覧', style: TextStyle(fontSize: widthSize / 12)),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            left: widthSize / 12, right: widthSize / 12),
-                        width: widthSize,
-                        height: heightSize / 30,
-                        child: AutoSizeText('取った写真や、観光地の写真の一覧です。',
-                            style: TextStyle(fontSize: widthSize / 24)),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 8,
-                      child: Container(
-                        width: widthSize,
-                        height: heightSize / 3,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: homeItems.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Container(
-                              width: widthSize / 2,
-                              height: heightSize / 3,
-                              margin: EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: AssetImage(homeItems[index].image),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
                     Expanded(
                       flex: 2,
                       child: Container(

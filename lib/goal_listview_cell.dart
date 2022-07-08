@@ -36,7 +36,7 @@ class GoalListViewCell extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => CheckmarkNotifier(),
       child: Container(
-        height: heightSize / 2.5,
+        height: heightSize / 2.3,
         width: widthSize,
         margin: EdgeInsets.only(right: 5, left: 5, bottom: 20),
         decoration: BoxDecoration(
@@ -139,7 +139,7 @@ class GoalListViewCell extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 5),
+                              SizedBox(width: 3),
                               Flexible(
                                 flex: 1,
                                 child: CheckmarkImage(isTookPicture),
