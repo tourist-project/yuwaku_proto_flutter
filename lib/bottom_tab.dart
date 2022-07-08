@@ -25,28 +25,25 @@ class _BottomTabPageState extends State<BottomTabPage> {
       body: IndexedStack(
         index: _currentIndex,
         children: [
-
           RunTopPage(camera: camera),
           TutorialPage(),
-         InteractiveMap(title: '湯涌全体図')
+          InteractiveMap(title: '湯涌全体図')
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.add_comment_sharp,
-            ),
+            icon: Icon(Icons.add_comment_sharp),
             label: 'ホーム',
           ),
           BottomNavigationBarItem(
-              icon: Icon(
-                Icons.help,
-              ),
-              label: '遊び方'),
+            icon: Icon(Icons.help),
+            label: '遊び方'
+          ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.map),
-              label: '地図'),
+            icon: Icon(Icons.map),
+            label: '地図'
+          ),
         ],
         currentIndex: _currentIndex,
         fixedColor: Colors.blueAccent,
@@ -56,5 +53,5 @@ class _BottomTabPageState extends State<BottomTabPage> {
     );
   }
 
-  void _onItemTapped(int index) => setState(() => _currentIndex = index );
+  void _onItemTapped(int index) => setState(() => _currentIndex = index);
 }

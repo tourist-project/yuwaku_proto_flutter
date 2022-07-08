@@ -5,23 +5,20 @@ import 'package:geolocator/geolocator.dart';
 class HomePageItem{
 
   HomePageItem(
-      this.title, this.eng_title, this.explain, this.image,
-      this.latitude, this.longitude,
-      ){
-  }
+    this.title, this.eng_title, this.explain, 
+    this.image, this.latitude, this.longitude,
+  );
 
   String title , eng_title, explain, image;
   double latitude, longitude;
   double? distance;
 
-
-
   /// 距離を図る
   void setDistance(Position position) {
     this.distance = Geolocator.distanceBetween(
-        position.latitude, position.longitude, this.latitude, this.longitude);
+      position.latitude, position.longitude, this.latitude, this.longitude
+    );
   }
-  
 }
 
 class modalItem{

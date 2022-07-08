@@ -71,7 +71,8 @@ class MapItem {
   /// 座標系をマップ画像上からデバイス上へ変換
   ui.Rect getPhotoRectForDeviceFit(double scale, double moveX) {
     return Rect.fromLTWH(photoRect.left * scale - moveX, photoRect.top * scale,
-        photoRect.width * scale, photoRect.height * scale);
+                                     photoRect.width * scale, photoRect.height * scale
+                                     );
   }
 
   /// タップ判定をしてタップの場合はタップ処理をする
@@ -92,7 +93,8 @@ class MapItem {
   /// 距離を図る
   void setDistance(Position position) {
     this.distance = Geolocator.distanceBetween(
-        position.latitude, position.longitude, this.latitude, this.longitude);
+      position.latitude, position.longitude, this.latitude, this.longitude
+    );
   }
 
   /// 近接判定
@@ -150,37 +152,44 @@ class _MapPageState extends State<MapPage> {
     /*MapItem('湯涌稲荷神社', 36.4856770,136.7582343, Offset(1254, 292),
         'assets/images/img1_gray.png', Rect.fromLTWH(650, 182, 280, 280)),*/
     MapItem(
-            '総湯',
-            36.485425901995455, 136.75758738535384, Offset(1358, 408),
-        'assets/images/img2_gray.png', Rect.fromLTWH(1000, 820, 280, 280),
-        'assets/images/KeigoSirayu.png'
+      '総湯',
+      36.485425901995455, 136.75758738535384,
+      Offset(1358, 408),
+      'assets/images/img2_gray.png', Rect.fromLTWH(1000, 820, 280, 280),
+      'assets/images/KeigoSirayu.png'
     ),
 
-
     MapItem(
-        '氷室',
-        36.48346516395541, 136.75701193508996, Offset(1881, 512),
-        'assets/images/himurogoya_gray.png',
-        Rect.fromLTWH(1720, 620, 280, 280), 'assets/images/HimuroGoya.png'
+      '氷室',
+      36.48346516395541, 136.75701193508996,
+      Offset(1881, 512),
+      'assets/images/himurogoya_gray.png', Rect.fromLTWH(1720, 620, 280, 280), 
+      'assets/images/HimuroGoya.png'
     ),
+    
     MapItem(
-        '足湯(立派な方)', 36.48582537854954, 136.7574341842218, Offset(1275, 385),
-        'assets/images/asiyu(temp)_gray.png', Rect.fromLTWH(1500, 60, 280, 280),
-        'assets/images/Asiyu(temp).png'
+      '足湯(立派な方)',
+      36.48582537854954, 136.7574341842218, Offset(1275, 385),
+      'assets/images/asiyu(temp)_gray.png', Rect.fromLTWH(1500, 60, 280, 280),
+      'assets/images/Asiyu(temp).png'
     ),
     /* MapItem('足湯(湯の出)', 36.48919374904115, 136.75588850463596, Offset(505, 690),
         'assets/images/Asiyu(temp).png', Rect.fromLTWH(750, 80, 280, 280)),
         */
-    MapItem('みどりの里',
-            36.49050881078798, 136.75404574490975, Offset(239, 928),
-            'assets/images/MidorinoSato.png', Rect.fromLTWH(280, 850, 280, 280),
-            'assets/images/MidorinoSato.png',
+    MapItem(
+      'みどりの里',
+      36.49050881078798, 136.75404574490975, Offset(239, 928),
+      'assets/images/MidorinoSato.png', Rect.fromLTWH(280, 850, 280, 280),
+      'assets/images/MidorinoSato.png',
     ),
-    MapItem('湯涌夢二館',
-            36.48584951599308, 136.75738876226737, Offset(1250, 425),
-            'assets/images/yumejikan_gray.png', Rect.fromLTWH(580, 80, 280, 280),
-            'assets/images/Yumezikan.png'
+    
+    MapItem(
+      '湯涌夢二館',
+      36.48584951599308, 136.75738876226737, Offset(1250, 425),
+      'assets/images/yumejikan_gray.png', Rect.fromLTWH(580, 80, 280, 280),
+      'assets/images/Yumezikan.png'
     ),
+    
   ];
 
 
@@ -244,7 +253,6 @@ class _MapPageState extends State<MapPage> {
               return Container(
                 height: mediaHeight,
                 width: mediaWidth,
-
                 child: Column(
                   children: [
                     Flexible(
@@ -283,49 +291,48 @@ class _MapPageState extends State<MapPage> {
                       child: ListView(
                         scrollDirection: Axis.horizontal,
                         children: [
-                            for(var itemDist in _mapItems)
-                              Card(
-                                child: Column(
-                                children: [
-                                  Container(
-                                    height: mediaHeight/7,
-                                    width: mediaWidth/2.5,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5.0),
-                                        image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: AssetImage(itemDist.posImage),
-                                        )
-                                    ),
+                          for(var itemDist in _mapItems)
+                            Card(
+                              child: Column(
+                              children: [
+                                Container(
+                                  height: mediaHeight/7,
+                                  width: mediaWidth/2.5,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: AssetImage(itemDist.posImage),
+                                    )
                                   ),
-                                  Container(
-                                    alignment: Alignment(1,1),
-                                    width: mediaWidth/3,
-                                    height: mediaHeight/30,
-                                    child: Text(
-                                      itemDist.name,
-                                    ),
+                                ),
+                                Container(
+                                  alignment: Alignment(1,1),
+                                  width: mediaWidth/3,
+                                  height: mediaHeight/30,
+                                  child: Text(
+                                    itemDist.name,
                                   ),
-
-                                  itemDist.distance != null ?
-                                  Container(
-                                    alignment: Alignment(1,1),
-                                    width: mediaWidth/3,
-                                    height: mediaHeight/50,
-                                    child: AutoSizeText(
-                                      itemDist.distance!.toStringAsFixed(1)
-                                    ),
-                                  ):
-                                  Container(
-                                    width: mediaWidth/3,
-                                    height: mediaHeight/50,
-                                    child: AutoSizeText(
-                                      'Not Found Distance'
-                                    ),
+                                ),
+                                itemDist.distance != null 
+                                ? Container(
+                                  alignment: Alignment(1,1),
+                                  width: mediaWidth/3,
+                                  height: mediaHeight/50,
+                                  child: AutoSizeText(
+                                    itemDist.distance!.toStringAsFixed(1)
                                   ),
-                                ],
-                              ),
+                                )
+                                : Container(
+                                  width: mediaWidth/3,
+                                  height: mediaHeight/50,
+                                  child: AutoSizeText(
+                                    'Not Found Distance'
+                                  ),
+                                ),
+                              ],
                             ),
+                          ),
                         ],
                         shrinkWrap: true,
                       ),
@@ -343,9 +350,8 @@ class _MapPageState extends State<MapPage> {
                   ElevatedButton(
                     onPressed: () {
                       imageDb.deleteAll();
-                      for (var item in _mapItems) {
+                      for (var item in _mapItems) 
                         item.photoImage = null;
-                      }
                       clearUpdate();
                     },
                     child: const Text('データ消去'),
@@ -382,11 +388,13 @@ class _MapPageState extends State<MapPage> {
             content: Text('設定でアプリに位置情報を許可します。'),
             actions: <Widget>[
               TextButton(
-                  child: Text('Cancel'),
-                  onPressed: () => Navigator.of(context).pop(false)),
+                child: Text('Cancel'),
+                onPressed: () => Navigator.of(context).pop(false)
+              ),
               TextButton(
-                  child: Text('OK'),
-                  onPressed: () => Navigator.of(context).pop(true)),
+                child: Text('OK'),
+                onPressed: () => Navigator.of(context).pop(true)
+              ),
             ],
           );
         }
@@ -397,12 +405,14 @@ class _MapPageState extends State<MapPage> {
           content: Text('設定でアプリに位置情報を許可します。'),
           actions: <Widget>[
             CupertinoDialogAction(
-                child: Text('Cancel'),
-                isDestructiveAction: true,
-                onPressed: () => Navigator.of(context).pop(false)),
+              child: Text('Cancel'),
+              isDestructiveAction: true,
+              onPressed: () => Navigator.of(context).pop(false)
+            ),
             CupertinoDialogAction(
-                child: Text('OK'),
-                onPressed: () => Navigator.of(context).pop(true))
+              child: Text('OK'),
+              onPressed: () => Navigator.of(context).pop(true)
+            )
           ],
         );
       },

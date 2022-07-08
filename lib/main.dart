@@ -26,12 +26,12 @@ Future<void> main() async{
   );
 
   runApp(
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => CheckmarkNotifier())
-        ],
-        child: MyApp(camera: firstCamera)
-      )
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CheckmarkNotifier())
+      ],
+      child: MyApp(camera: firstCamera)
+    )
   );
 }
 
@@ -47,15 +47,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-          useMaterial3: true,
-          primarySwatch: Colors.blueGrey,
-          textTheme: GoogleFonts.sawarabiGothicTextTheme(
-            Theme.of(context).textTheme,
-          ),
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          appBarTheme: AppBarTheme(
-            color: Color.fromRGBO(240, 233, 208, 100),
-          )),
+        useMaterial3: true,
+        primarySwatch: Colors.blueGrey,
+        textTheme: GoogleFonts.sawarabiGothicTextTheme(
+          Theme.of(context).textTheme,
+        ),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        appBarTheme: AppBarTheme(
+          color: Color.fromRGBO(240, 233, 208, 100),
+        ),
+      ),
 
       home: BottomTabPage(camera: camera),
 

@@ -41,107 +41,105 @@ class _Explain extends State<Explain> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
 
-    return LayoutBuilder(builder: (context, contraint) {
+    return LayoutBuilder(
+      builder: (context, contraint) {
 
-      final double deviceHeight = MediaQuery.of(context).size.height;
-      final double deviceWidth = MediaQuery.of(context).size.width;
+        final double deviceHeight = MediaQuery.of(context).size.height;
+        final double deviceWidth  = MediaQuery.of(context).size.width;
 
-      return new Scaffold(
-        appBar: AppBar(
-          title: Text(title, style: TextStyle(color: Colors.black87)),
-        ),
+        return new Scaffold(
+          appBar: AppBar(
+            title: Text(title, style: TextStyle(color: Colors.black87)),
+          ),
 
-        body: AnimatedBuilder(
-          animation: _controller,
-          builder: (context, _) {
+          body: AnimatedBuilder(
+            animation: _controller,
+            builder: (context, _) {
 
-            return Container(
-              height: deviceHeight,
-              width: deviceWidth,
+              return Container(
+                height: deviceHeight,
+                width: deviceWidth,
 
-              child: Stack(
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(color: _color.value),
-                  ),
-                  AppBackground(),
-                  Column(
+                child: Stack(
+                  children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(color: _color.value),
+                    ),
+                    
+                    AppBackground(),
+                    
+                    Column(
                       children: <Widget>[
                         Align(
                           alignment: Alignment(-0.8, 0.5),
                           child: GestureDetector(
+                            
                             onTap: () {
                               Navigator.pushNamed(context, '/plane_explain');
-                              },
+                            },
 
                             child: Container(
                               margin: EdgeInsets.only(left: 15, top: 60),
                               width: deviceWidth * 0.7,
-
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
                                 color: Colors.white,
                                 boxShadow: [
                                   BoxShadow(
-                                      color: Colors.black,
-                                      offset: Offset(10.0, 15.0),
-                                      blurRadius: 10,
-                                      spreadRadius: 2.5)
+                                    color: Colors.black,
+                                    offset: Offset(10.0, 15.0),
+                                    blurRadius: 10,
+                                    spreadRadius: 2.5
+                                  )
                                 ],
                               ),
                               child: Stack(
                                 children: <Widget>[
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(100),
-                                    child: Image.asset(
-                                        'assets/images/KeigoSirayu.png'),
+                                    child: Image.asset('assets/images/KeigoSirayu.png'),
                                   ),
-                                  Text('第一ステージ',
-                                      style: TextStyle(fontSize: 40,
-                                          fontWeight: FontWeight.bold,
-                                          decoration: TextDecoration.underline,
-                                          color: Colors.green)
+                                  Text(
+                                    '第一ステージ',
+                                    style: TextStyle(
+                                      fontSize: 40,
+                                      fontWeight: FontWeight.bold,
+                                      decoration: TextDecoration.underline,
+                                      color: Colors.green
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
                           ),
                         ),
+                        
                         Spacer(),
 
                         Align(
                           alignment: Alignment(0.5, -0.5),
-                          child:GestureDetector(
-                            onTap:() {
-                              Navigator.pushNamed(context, '/development_page');
-                              },
-
+                          child: GestureDetector( 
                             child: Container(
                               margin: EdgeInsets.only(right: 15),
                               width: deviceWidth * 0.7,
-
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
                                 color: Colors.white,
                                 boxShadow: [
                                   BoxShadow(
-                                      color: Colors.black,
-                                      offset: Offset(10.0, 15.0),
-                                      blurRadius: 10,
-                                      spreadRadius: 2.5)
+                                    color: Colors.black,
+                                    offset: Offset(10.0, 15.0),
+                                    blurRadius: 10,
+                                    spreadRadius: 2.5
+                                  )
                                 ],
                               ),
-
                               child: Stack(
-
                                 children: <Widget>[
-
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(100),
-                                    child: Image.asset(
-                                        'assets/images/DeveloperPage.png'),
+                                    child: Image.asset('assets/images/DeveloperPage.png'),
                                   ),
-
                                   Text('開発中', style: TextStyle(
                                       fontSize: 40,
                                       fontWeight: FontWeight.bold,
@@ -151,52 +149,65 @@ class _Explain extends State<Explain> with TickerProviderStateMixin {
                                 ],
                               ),
                             ),
+                              
+                            onTap:() {
+                              Navigator.pushNamed(context, '/development_page');
+                            },
+                  
                           ),
                         ),
+                        
                         Spacer(),
+                          
                       ],
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
-      );
-    });
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      }
+    );
   }
 }
 
 class AppBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, contraint) {
-      final height = contraint.maxHeight;
-      final width = contraint.maxWidth;
+    return LayoutBuilder( 
+      builder: (context, contraint) {
+      
+        final height = contraint.maxHeight;
+        final width = contraint.maxWidth;
 
-      return Stack(
-        children: <Widget>[
-          Positioned(
-            top: height * 0.20,
-            left: height * 0.35,
-            child: Container(
-              height: height,
-              width: width,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle, color: Colors.white.withOpacity(0.2)),
+        return Stack(
+          children: <Widget>[
+            Positioned(
+              top: height * 0.20,
+              left: height * 0.35,
+              child: Container(
+                height: height,
+                width: width,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle, color: Colors.white.withOpacity(0.2),
+                ),
+              ),
             ),
-          ),
-          Positioned(
-            top: -height * 0.10,
-            left: -height * 0.4,
-            child: Container(
-              height: height,
-              width: width,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle, color: Colors.white.withOpacity(0.2)),
+            Positioned(
+              top: -height * 0.10,
+              left: -height * 0.4,
+              child: Container(
+                height: height,
+                width: width,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle, color: Colors.white.withOpacity(0.2),
+                ),
+              ),
             ),
-          ),
-        ],
-      );
-    });
+          ],
+        );
+      }
+    );
   }
 }

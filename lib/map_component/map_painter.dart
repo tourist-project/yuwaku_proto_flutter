@@ -16,8 +16,9 @@ class MapPainter extends CustomPainter {
   var scale = 0.0;
 
   /// コンストラクタ
-  MapPainter(ui.Image _mapImage, ui.Image _cameraIconImg,
-      double Function() _getMoveX, List<MapItem> _mapItems) {
+  MapPainter( ui.Image _mapImage, ui.Image _cameraIconImg,
+                    double Function() _getMoveX, List<MapItem> _mapItems) 
+  {
     this._mapImage = _mapImage;
     this._cameraIconImg = _cameraIconImg;
     this._getMoveX = _getMoveX;
@@ -75,12 +76,14 @@ class MapPainter extends CustomPainter {
 
           // 線をひく
           linePaint.color = const Color.fromARGB(255, 255, 0, 0);
-          canvas.drawLine(Offset(leftscale + item.photoRect.width * scaleDev2,
-                                 topscale + item.photoRect.height * scaleDev2),
-                          Offset(xscale, yscale), linePaint);
+          canvas.drawLine(Offset( leftscale + item.photoRect.width * scaleDev2,
+                                              topscale + item.photoRect.height * scaleDev2
+                                            ),
+                                   Offset(xscale, yscale), linePaint);
           canvas.drawImageRect(img, src, rescaleRect, imagePaint);
           canvas.drawImageRect(_cameraIconImg, const Rect.fromLTWH(0, 0, 256, 256),
-                               Rect.fromLTWH(leftscale + 5, topscale + 5, 50, 50), imagePaint);
+                                                                                Rect.fromLTWH(leftscale + 5, topscale + 5, 50, 50),
+          imagePaint);
 
         } else {
           canvas.drawImageRect(img, src, rescaleRect, imagePaint);
@@ -114,7 +117,8 @@ class MapPainter extends CustomPainter {
 
     if (permission == LocationPermission.deniedForever) {
       return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
+        'Location permissions are permanently denied, we cannot request permissions.'
+      );
     }
 
     return await Geolocator.getCurrentPosition( //位置情報の更新(n秒毎)
@@ -122,5 +126,4 @@ class MapPainter extends CustomPainter {
       timeLimit: Duration(seconds: 10),
     );
   }
-
 }

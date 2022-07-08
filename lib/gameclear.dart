@@ -5,11 +5,11 @@ import 'map_component/map_page.dart';
 
 class clearpage extends StatefulWidget {
   double width = 0, height = 0;
+  bool is_init = false;
   var imagephotos = <Expanded>[];
   List<MapItem> mapItems = [];
-  bool is_init = false;
 
-  clearpage(double width, double height, List<MapItem> mapItems) {
+  clearpage(double width, height, List<MapItem> mapItems) {
     this.width = width;
     this.height = height;
     this.mapItems = mapItems;
@@ -19,9 +19,9 @@ class clearpage extends StatefulWidget {
 
 class _clearpage extends State<clearpage> {
   double width = 0, height = 0;
+  bool is_init = false;
   var imagephotos = <Expanded>[];
   List<MapItem> mapItems = [];
-  bool is_init = false;
 
   _clearpage(double width, double height, List<MapItem> mapItems) {
     this.width = width;
@@ -46,25 +46,29 @@ class _clearpage extends State<clearpage> {
         final img = await e.getDisplayImageToImageWidget();
         return img;
       }).forEach((e) {
-        this.imagephotos.add(Expanded(
-                child: Container(
-                  padding: const EdgeInsets.all(5),
-                  child: FutureBuilder(
-                    future: e,
-                    builder:(BuildContext context,
-                      AsyncSnapshot<Image?> snapshot) {
-                        if (snapshot.hasData) {
-                          if (snapshot.data != null) {
-                            return snapshot.data!;
-                          }
-                        }
-                      return Container(
-                        child: Text('画像ロード中...'),
-                      );
+        this.imagephotos.add(
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(5),
+              child: FutureBuilder(
+                future: e,
+                builder: (
+                  BuildContext context,
+                  AsyncSnapshot<Image?> snapshot
+                ) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data != null) {
+                      return snapshot.data!;
                     }
-                  ),
-                )
-        ));
+                  }
+                  return Container(
+                    child: Text('画像ロード中...'),
+                  );
+                }
+              ),
+            )
+          )
+        );
       });
       this.is_init = true;
     }
@@ -73,48 +77,49 @@ class _clearpage extends State<clearpage> {
       color: Color.fromRGBO(240, 233, 208, 1),
       child: Column(
         children: [
-          (this.imagephotos.length >= 2
-              ? Expanded(
-                  flex: 2,
-                  child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      child: Row(
-                        children: <Widget>[
-                          this.imagephotos[0],
-                          this.imagephotos[1],
-                        ],
-                      ),
-                      onTapDown: (details) {
-                        if (details.globalPosition.dx < width / 2) {
-                          showImage(context, imagephotos[0], 0);
-                        } else if (details.globalPosition.dx > width / 2) {
-                          showImage(context, imagephotos[1], 1);
-                        }
-                      }
+          this.imagephotos.length >= 2
+            ? Expanded(
+                flex: 2,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  child: Row(
+                    children: <Widget>[
+                      this.imagephotos[0],
+                      this.imagephotos[1],
+                    ],
                   ),
-                )
-            : Container()),
-          this.imagephotos.length >= 4
-              ? Expanded(
-                  flex: 2,
-                  child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      child: Row(
-                        children: <Widget>[
-                          this.imagephotos[2],
-                          this.imagephotos[3],
-                        ],
-                      ),
-                      onTapDown: (details) {
-                        if (details.globalPosition.dx < width / 2) {
-                          showImage(context, imagephotos[2], 2);
-                        } else if (details.globalPosition.dx > width / 2) {
-                          showImage(context, imagephotos[3], 3);
-                        }
-                      }
-                  ),
+                  onTapDown: (details) {
+                    if (details.globalPosition.dx < width / 2) {
+                      showImage(context, imagephotos[0], 0);
+                    } else if (details.globalPosition.dx > width / 2) {
+                      showImage(context, imagephotos[1], 1);
+                    }
+                  }
+                ),
               )
-              : Container(),
+            : Container(),
+            
+          this.imagephotos.length >= 4
+            ? Expanded(
+              flex: 2,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                child: Row(
+                  children: <Widget>[
+                    this.imagephotos[2],
+                    this.imagephotos[3],
+                  ],
+                ),
+                onTapDown: (details) {
+                  if (details.globalPosition.dx < width / 2) {
+                    showImage(context, imagephotos[2], 2);
+                  } else if (details.globalPosition.dx > width / 2) {
+                    showImage(context, imagephotos[3], 3);
+                  }
+                }
+              ),
+            )
+            : Container(),
           Expanded(
             flex: 5,
             child: Container(
@@ -128,12 +133,11 @@ class _clearpage extends State<clearpage> {
               child: Scrollbar(
                 child: SingleChildScrollView(
                   child: Container(
-
                     child: RichText(
                       text: TextSpan(
                         text: 'ゲームクリア！本日はユーザーテストにご協力いただきありがとうございます。\n'
-                            ' 端末の返却のほどよろしくお願いいたします。\n'
-                            ' 返却後にお礼の品などをお渡ししたいと考えております。',
+                                ' 端末の返却のほどよろしくお願いいたします。\n'
+                                ' 返却後にお礼の品などをお渡ししたいと考えております。',
                         style: TextStyle(color: Colors.black, fontSize: height / 40),
                         children: <TextSpan>[
                           TextSpan(text: '左上のボタンは押さないでください。データ全てが消去されます。', style: TextStyle(color: Colors.red)),
