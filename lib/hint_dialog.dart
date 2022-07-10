@@ -73,118 +73,112 @@ class HintDialog extends StatelessWidget {
         child: Container(
           child: Column(
             children: [
-              Expanded(
-                flex: 8,
-                child: Container(
-                  child: Center(
-                    child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    width: modalWidth / 4,
-                                    height: modalHeight /7,
-                                    child: Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10.0),
-                                        child: Image.asset(
-                                          _modalItem.Image_UpLeft,
-                                          fit: BoxFit.cover
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-
-                                Expanded(
-                                  child: Container(
-                                    width: modalWidth / 4,
-                                    height: modalHeight /7,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10.0),
-                                        child: Image.asset(
-                                            _modalItem.Image_UpRight,
-                                            fit: BoxFit.cover
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-
-                              ]
-                          ),
-                          Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    width: modalWidth / 4,
-                                    height: modalHeight /7,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10.0),
-                                        child: Image.asset(
-                                          _modalItem.Image_DownLeft,
-                                          fit: BoxFit.cover
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    width: modalWidth / 4,
-                                    height: modalHeight /7,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10.0),
-                                        child: Image.asset(
-                                          _modalItem.Image_DownRight,
-                                          fit: BoxFit.cover
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ]
-                          ),
-                        ]
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 5,
-                child: Container(
-                  margin: EdgeInsets.only(top: 5),
+              Container(
+                child: Center(
                   child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            '・ ${_modalItem.Hint_Up}',
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                        Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  width: modalWidth / 4,
+                                  height: modalHeight /7,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child: Image.asset(
+                                        _modalItem.Image_UpLeft,
+                                        fit: BoxFit.cover
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                              Expanded(
+                                child: Container(
+                                  width: modalWidth / 4,
+                                  height: modalHeight /7,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child: Image.asset(
+                                          _modalItem.Image_UpRight,
+                                          fit: BoxFit.cover
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                            ]
                         ),
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          margin: EdgeInsets.only(top: 5),
-                          child: Text(
-                            '・ ${_modalItem.Hint_Down}',
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                        Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  width: modalWidth / 4,
+                                  height: modalHeight /7,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child: Image.asset(
+                                        _modalItem.Image_DownLeft,
+                                        fit: BoxFit.cover
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  width: modalWidth / 4,
+                                  height: modalHeight /7,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child: Image.asset(
+                                        _modalItem.Image_DownRight,
+                                        fit: BoxFit.cover
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ]
                         ),
                       ]
                   ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 5),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          '・ ${_modalItem.Hint_Up}',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        margin: EdgeInsets.only(top: 5),
+                        child: Text(
+                          '・ ${_modalItem.Hint_Down}',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ]
                 ),
               ),
             ],
