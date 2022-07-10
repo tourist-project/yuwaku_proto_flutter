@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yuwaku_proto/hint_dialog.dart';
 import 'goal.dart';
 
 class SpotImage extends StatelessWidget {
@@ -28,6 +29,14 @@ class SpotImage extends StatelessWidget {
     }
   }
 
+  void showHintDialog(BuildContext context) async {
+    await showDialog<void>(
+        context: context,
+        builder: (_) {
+          return HintDialog(goal);
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     getImagePath(goal);
@@ -52,7 +61,7 @@ class SpotImage extends StatelessWidget {
         Align(
           alignment: Alignment.topRight,
           child: ElevatedButton(onPressed: () {
-            print("hint");
+            showHintDialog(context);
           },
             child: Icon(Icons.lightbulb, color: Colors.orange.shade600,),
             style: ElevatedButton.styleFrom(
