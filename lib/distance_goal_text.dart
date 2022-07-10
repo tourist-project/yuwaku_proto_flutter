@@ -75,15 +75,15 @@ class _DistanceGoalText extends State<DistanceGoalText> {
                 margin: EdgeInsets.only(right: 5, left: 5),
                 child: AutoSizeText(
                   '目的地まで',
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontSize: 20),
                 ),
               ),
               Spacer(),
               Center(
                 child: AutoSizeText(
-                  distance != null ? 'あと' + distance!.toStringAsFixed(1) + 'm':
+                  distance != null ? distance!.toStringAsFixed(1) + 'm':
               "Loading",
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: 24),
                 ),
               ),
               Spacer(),
