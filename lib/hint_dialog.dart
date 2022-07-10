@@ -64,6 +64,8 @@ class HintDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double modalWidth = MediaQuery.of(context).size.width;
+    double modalHeight = MediaQuery.of(context).size.height;
     getModelItem(goal);
     return AlertDialog(
       content: GestureDetector(
@@ -81,14 +83,16 @@ class HintDialog extends StatelessWidget {
                           Row(
                               children: [
                                 Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
+                                  child: Container(
+                                    width: modalWidth / 4,
+                                    height: modalHeight /7,
+                                    child: Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: ClipRRect(
                                         borderRadius: BorderRadius.circular(10.0),
-                                        image: DecorationImage(
-                                          image: AssetImage(_modalItem.Image_UpLeft),
-                                          fit: BoxFit.cover,
+                                        child: Image.asset(
+                                          _modalItem.Image_UpLeft,
+                                          fit: BoxFit.cover
                                         ),
                                       ),
                                     ),
@@ -96,14 +100,16 @@ class HintDialog extends StatelessWidget {
                                 ),
 
                                 Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
+                                  child: Container(
+                                    width: modalWidth / 4,
+                                    height: modalHeight /7,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ClipRRect(
                                         borderRadius: BorderRadius.circular(10.0),
-                                        image: DecorationImage(
-                                          image: AssetImage(_modalItem.Image_UpRight),
-                                          fit: BoxFit.cover,
+                                        child: Image.asset(
+                                            _modalItem.Image_UpRight,
+                                            fit: BoxFit.cover
                                         ),
                                       ),
                                     ),
@@ -115,28 +121,32 @@ class HintDialog extends StatelessWidget {
                           Row(
                               children: [
                                 Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
+                                  child: Container(
+                                    width: modalWidth / 4,
+                                    height: modalHeight /7,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ClipRRect(
                                         borderRadius: BorderRadius.circular(10.0),
-                                        image: DecorationImage(
-                                          image: AssetImage(_modalItem.Image_DownLeft),
-                                          fit: BoxFit.cover,
+                                        child: Image.asset(
+                                          _modalItem.Image_DownLeft,
+                                          fit: BoxFit.cover
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
                                 Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
+                                  child: Container(
+                                    width: modalWidth / 4,
+                                    height: modalHeight /7,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ClipRRect(
                                         borderRadius: BorderRadius.circular(10.0),
-                                        image: DecorationImage(
-                                          image: AssetImage(_modalItem.Image_DownRight),
-                                          fit: BoxFit.cover,
+                                        child: Image.asset(
+                                          _modalItem.Image_DownRight,
+                                          fit: BoxFit.cover
                                         ),
                                       ),
                                     ),
