@@ -5,12 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:yuwaku_proto/checkmark_image.dart';
 import 'package:yuwaku_proto/distance_goal_text.dart';
 import 'package:yuwaku_proto/goal.dart';
-import 'package:yuwaku_proto/homepage_component/homePage_screen.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_Item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:yuwaku_proto/spot_image.dart';
 import 'checkmark_notifier.dart';
-import 'homepage_component/homePage_screen.dart';
 import 'some_camera_page.dart';
 
 class GoalListViewCell extends StatelessWidget {
@@ -46,30 +45,7 @@ class GoalListViewCell extends StatelessWidget {
           children: [
             Expanded(
               flex: 1,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: ((context) => HomeScreen())),
-                  );
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black,
-                          spreadRadius: 3,
-                          blurRadius: 3,
-                          offset: Offset(0, 3))
-                    ],
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage(homeItems.image),
-                    ),
-                  ),
-                ),
-              ),
+              child: SpotImage(goal),
             ),
             Expanded(
               flex: 1,
