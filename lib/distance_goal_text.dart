@@ -81,7 +81,7 @@ class _DistanceGoalText extends State<DistanceGoalText> {
               Spacer(),
               Center(
                 child: AutoSizeText(
-                  distance != null ? distance!.toStringAsFixed(1) + 'm':
+                  distance != null ? distance!.toStringAsFixed(0) + 'm':
               "Loading",
                   style: TextStyle(fontSize: 24),
                 ),

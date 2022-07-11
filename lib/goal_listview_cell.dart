@@ -131,7 +131,7 @@ class GoalListViewCell extends StatelessWidget {
                                         children: [
                                           Icon(Icons.photo_camera_outlined,
                                               size: widthSize / 8),
-                                          AutoSizeText('撮ってく？',
+                                          AutoSizeText('写真を撮る',
                                               maxLines: 1)
                                         ],
                                       ),
