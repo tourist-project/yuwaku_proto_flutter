@@ -131,6 +131,7 @@ class _RunTopPage extends State<RunTopPage> {
                             '目標一覧', style: TextStyle(fontSize: widthSize / 12)),
                       ),
                     ),
+
                     AutoSizeText(
                         '電球をタップするとヒントを見ることが出来ます。',
                         style: TextStyle(fontSize: 23),
