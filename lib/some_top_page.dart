@@ -140,8 +140,7 @@ class _RunTopPage extends State<RunTopPage> {
                         width: widthSize,
                         height: heightSize / 20,
                         child: AutoSizeText(
-                          '電球をタップするとヒントを見ることが出来ます。',
-                          style: TextStyle(fontSize: widthSize / 10),
+                          '電球をタップするとヒントを見ることが出来ます。'
                         ),
                       ),
                     ),
