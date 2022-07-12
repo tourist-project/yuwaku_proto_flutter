@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:yuwaku_proto/hint_dialog.dart';
+import 'package:yuwaku_proto/shared_preferences_manager.dart';
 import 'goal.dart';
 
 class SpotImage extends StatelessWidget {
 
   Goal goal;
-  SpotImage(this.goal);
+  String? downloadImageUrl;
+  SpotImage(this.goal, this.downloadImageUrl);
 
+  final sharedPreferencesManager = SharedPreferencesManager();
   late String _imagePath;
 
   void getImagePath(Goal goal) {
@@ -37,6 +40,13 @@ class SpotImage extends StatelessWidget {
         });
   }
 
+ ImageProvider setImage(String? url) {
+    if (url != null) {
+      return NetworkImage(url);
+    }
+    return AssetImage(_imagePath);
+  }
+
   @override
   Widget build(BuildContext context) {
     getImagePath(goal);
@@ -54,7 +64,7 @@ class SpotImage extends StatelessWidget {
             ],
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: AssetImage(_imagePath),
+              image: setImage(downloadImageUrl),
             ),
           ),
         ),

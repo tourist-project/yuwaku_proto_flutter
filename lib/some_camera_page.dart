@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:yuwaku_proto/checkmark_notifier.dart';
+import 'package:yuwaku_proto/download_image_notifier.dart';
 import 'package:yuwaku_proto/goal.dart';
 import 'package:yuwaku_proto/shared_preferences_manager.dart';
 
@@ -157,6 +158,30 @@ class DisplayPictureScreen extends StatelessWidget {
     }
   }
 
+  void _downloadNotify(BuildContext context, Goal goal, String? url) {
+    if (url == null) {
+      return;
+    }
+    sharedPreferencesManager.setDownloadUrl(goal, url);
+    switch (goal) {
+      case Goal.himurogoya:
+        context.read<DownloadImageNotifier>().notifyDownloadHimurogoyaImage(url);
+        break;
+      case Goal.yumejikan:
+        context.read<DownloadImageNotifier>().notifyDownloadYumejikanImage(url);
+        break;
+      case Goal.soyu:
+        context.read<DownloadImageNotifier>().notifyDownloadSoyuImage(url);
+        break;
+      case Goal.ashiyu:
+        context.read<DownloadImageNotifier>().notifyDownloadAshiyuImage(url);
+        break;
+      case Goal.yakushiji:
+        context.read<DownloadImageNotifier>().notifyDownloadYakushijiImage(url);
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -168,7 +193,7 @@ class DisplayPictureScreen extends StatelessWidget {
           _saveImage(imagePath);
           final task = await _uploadStorage();
           final url = await _downloadImage(task);
-          print("url is ${url}");
+          _downloadNotify(context, goal, url);
           popToHome(context);
         },
         child: Icon(Icons.download),

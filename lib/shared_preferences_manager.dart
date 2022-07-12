@@ -53,4 +53,46 @@ class SharedPreferencesManager {
         return isTook;
     }
   }
+
+  void setDownloadUrl(Goal goal, String url) async {
+    final SharedPreferences prefs = await _prefs;
+    switch (goal) {
+      case Goal.himurogoya:
+        await prefs.setString("downloadHimurogoyaImageUrl", url);
+        break;
+      case Goal.yumejikan:
+        await prefs.setString("downloadYumejikanImageUrl", url);
+        break;
+      case Goal.soyu:
+        await prefs.setString("downloadSoyuImageUrl", url);
+        break;
+      case Goal.ashiyu:
+        await prefs.setString("downloadAshiyuImageUrl", url);
+        break;
+      case Goal.yakushiji:
+        await prefs.setString("downloadYakushijiImageUrl", url);
+        break;
+    }
+  }
+
+  Future<String?> getDownloaUrl(Goal goal) async {
+    final SharedPreferences prefs = await _prefs;
+    switch (goal) {
+      case Goal.himurogoya:
+        String? url = prefs.getString('downloadHimurogoyaImageUrl');
+        return url;
+      case Goal.yumejikan:
+        String? url = prefs.getString('downloadYumejikanImageUrl');
+        return url;
+      case Goal.soyu:
+        String? url = prefs.getString('downloadSoyuImageUrl');
+        return url;
+      case Goal.ashiyu:
+        String? url = prefs.getString('downloadAshiyuImageUrl');
+        return url;
+      case Goal.yakushiji:
+        String? url = prefs.getString('downloadYakushijiImageUrl');
+        return url;
+    }
+  }
 }
