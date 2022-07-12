@@ -131,19 +131,10 @@ class _RunTopPage extends State<RunTopPage> {
                             '目標一覧', style: TextStyle(fontSize: widthSize / 12)),
                       ),
                     ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        // color: Colors.black,
-                        margin: EdgeInsets.only(
-                            left: widthSize / 12, right: widthSize / 12),
-                        width: widthSize,
-                        height: heightSize / 20,
-                        child: AutoSizeText(
-                          '電球をタップするとヒントを見ることが出来ます。',
-                          style: TextStyle(fontSize: widthSize / 10),
-                        ),
-                      ),
+
+                    AutoSizeText(
+                        '電球をタップするとヒントを見ることが出来ます。',
+                        style: TextStyle(fontSize: 23),
                     ),
                     Expanded(
                       flex: 35,
