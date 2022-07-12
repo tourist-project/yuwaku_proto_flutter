@@ -140,7 +140,7 @@ class _RunTopPage extends State<RunTopPage> {
                         width: widthSize,
                         height: heightSize / 20,
                         child: AutoSizeText(
-                          '目標一覧です。写真をタップすると観光地の説明、ヒントを見ることが出来ます。',
+                          '電球をタップするとヒントを見ることが出来ます。',
                           style: TextStyle(fontSize: widthSize / 10),
                         ),
                       ),

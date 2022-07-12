@@ -17,8 +17,8 @@ class HintDialog extends StatelessWidget {
             'assets/images/HimuroGoya/Himuro2.png',
             'assets/images/HimuroGoya/HimuroGoya3.png',
             'assets/images/HimuroGoya/HimuroGoya4.png',
-            '山の中にある小屋',
-            '坂を登り、湖を囲む'
+            '・坂を登ってさらに奥へ',
+            '・玉泉湖に行ってみよう！'
         );
         break;
       case Goal.yumejikan:
@@ -28,8 +28,8 @@ class HintDialog extends StatelessWidget {
             'assets/images/Yumezikan/Yumezikan4.png',
             'assets/images/Yumezikan/Yumezikan2.JPG',
             'assets/images/Yumezikan/Yumezikan.png',
-            '中央の広場の近く',
-            '総湯の近くにある'
+            '・広場の近く',
+            '・近くに竹久夢二の像があるよ'
         );
         break;
       case Goal.soyu:
@@ -39,8 +39,8 @@ class HintDialog extends StatelessWidget {
             'assets/images/Soyu/Modal_Soyu.png',
             'assets/images/Soyu/Soyu1.png',
             'assets/images/Soyu/Soyu2.png',
-            '大きな階段の近く',
-            '奥には山が潜む'
+            '・扇階段のとなり',
+            ''
         );
         break;
       case Goal.ashiyu:
@@ -50,8 +50,8 @@ class HintDialog extends StatelessWidget {
             'assets/images/Ashiyu/Ashiyu3.png',
             'assets/images/Ashiyu/Asiyu(temp).png',
             'assets/images/Ashiyu/Ashiyu1.jpg',
-            '階段の上にある',
-            '上には神社を見る'
+            '・扇階段を登ってみよう！',
+            ''
         );
         break;
       case Goal.yakushiji:
@@ -61,8 +61,8 @@ class HintDialog extends StatelessWidget {
             'assets/images/Yakushizi2.png',
             'assets/images/Yakushizi3.JPG',
             'assets/images/YakushiziBack.jpg',
-            '山の中にある神社',
-            '稲荷神社から見えるかも？'
+            '・扇階段を奥まで登ってみよう！',
+            ''
         );
         break;
     }
@@ -169,7 +169,7 @@ class HintDialog extends StatelessWidget {
                       Container(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          '・ ${_modalItem.Hint_Up}',
+                          '${_modalItem.Hint_Up}',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -178,7 +178,7 @@ class HintDialog extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         margin: EdgeInsets.only(top: 5),
                         child: Text(
-                          '・ ${_modalItem.Hint_Down}',
+                          '${_modalItem.Hint_Down}',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
