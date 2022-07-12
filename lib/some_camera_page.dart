@@ -100,11 +100,21 @@ class DisplayPictureScreen extends StatelessWidget {
   final Goal goal;
   final sharedPreferencesManager = SharedPreferencesManager();
 
-  void uploadStorage() {
+  Future<TaskSnapshot> uploadStorage() async {
     final ref = storage.ref();
     final imageFile = File(imagePath);
     var uuid = Uuid().v1();
-    ref.child(uuid).putFile(imageFile);
+    final imageRef = ref.child(uuid);
+    final uploadTask = await imageRef.putFile(imageFile);
+    return uploadTask;
+  }
+
+  Future<String?> _downloadImage(TaskSnapshot task) async {
+    if (task.state == TaskState.success) {
+      final imageRef = task.ref;
+      return imageRef.getDownloadURL();
+    }
+    return null;
   }
 
   void _saveImage(String path) async {
@@ -156,7 +166,9 @@ class DisplayPictureScreen extends StatelessWidget {
         onPressed: () async {
           _checkNotify(context, goal);
           _saveImage(imagePath);
-          uploadStorage();
+          final task = await uploadStorage();
+          final url = await _downloadImage(task);
+          print("url is ${url}");
           popToHome(context);
         },
         child: Icon(Icons.download),
