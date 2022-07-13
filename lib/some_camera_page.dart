@@ -9,6 +9,7 @@ import 'package:uuid/uuid.dart';
 import 'package:yuwaku_proto/checkmark_notifier.dart';
 import 'package:yuwaku_proto/goal.dart';
 import 'package:yuwaku_proto/shared_preferences_manager.dart';
+import 'package:flutter_exif_rotation/flutter_exif_rotation.dart';
 
 class Camerapage extends StatefulWidget{
   Camerapage(
@@ -108,8 +109,8 @@ class DisplayPictureScreen extends StatelessWidget {
   }
 
   void _saveImage(String path) async {
-    final imageFile = File(path);
-    final Uint8List imageBuffer = await imageFile.readAsBytes();
+    File roatedImage = await FlutterExifRotation.rotateImage(path: path);
+    final Uint8List imageBuffer = await roatedImage.readAsBytes();
     await ImageGallerySaver.saveImage(imageBuffer);
   }
 
