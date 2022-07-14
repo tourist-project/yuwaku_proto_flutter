@@ -10,6 +10,8 @@ import 'package:yuwaku_proto/checkmark_notifier.dart';
 import 'package:yuwaku_proto/download_image_notifier.dart';
 import 'package:yuwaku_proto/goal.dart';
 import 'package:yuwaku_proto/shared_preferences_manager.dart';
+import 'package:flutter_exif_rotation/flutter_exif_rotation.dart';
+import 'package:flutter/services.dart';
 
 class Camerapage extends StatefulWidget{
   Camerapage(
@@ -38,6 +40,12 @@ class _Camerapage extends State<Camerapage>{
   @override
   void initState() {
     super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
     _controller = CameraController(
       widget.camera,
       ResolutionPreset.high,
@@ -46,6 +54,9 @@ class _Camerapage extends State<Camerapage>{
   }
   @override
   void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     // ウィジェットが破棄されたら、コントローラーを破棄
     _controller.dispose();
     super.dispose();
@@ -70,6 +81,9 @@ class _Camerapage extends State<Camerapage>{
         onPressed: () async {
           // 写真を撮る
           final image = await _controller.takePicture();
+          SystemChrome.setPreferredOrientations([
+            DeviceOrientation.portraitUp,
+          ]);
           // 表示用の画面に遷移
           await Navigator.of(context).push(
             MaterialPageRoute(
@@ -119,8 +133,8 @@ class DisplayPictureScreen extends StatelessWidget {
   }
 
   void _saveImage(String path) async {
-    final imageFile = File(path);
-    final Uint8List imageBuffer = await imageFile.readAsBytes();
+    File roatedImage = await FlutterExifRotation.rotateImage(path: path);
+    final Uint8List imageBuffer = await roatedImage.readAsBytes();
     await ImageGallerySaver.saveImage(imageBuffer);
   }
 
