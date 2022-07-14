@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:yuwaku_proto/checkmark_notifier.dart';
+import 'package:yuwaku_proto/download_image_notifier.dart';
 import 'package:yuwaku_proto/goal.dart';
 import 'package:yuwaku_proto/shared_preferences_manager.dart';
 import 'package:flutter_exif_rotation/flutter_exif_rotation.dart';
@@ -114,11 +115,21 @@ class DisplayPictureScreen extends StatelessWidget {
   final Goal goal;
   final sharedPreferencesManager = SharedPreferencesManager();
 
-  void uploadStorage() {
+  Future<TaskSnapshot> _uploadStorage() async {
     final ref = storage.ref();
     final imageFile = File(imagePath);
     var uuid = Uuid().v1();
-    ref.child(uuid).putFile(imageFile);
+    final imageRef = ref.child(uuid);
+    final uploadTask = await imageRef.putFile(imageFile);
+    return uploadTask;
+  }
+
+  Future<String?> _downloadImage(TaskSnapshot task) async {
+    if (task.state == TaskState.success) {
+      final imageRef = task.ref;
+      return imageRef.getDownloadURL();
+    }
+    return null;
   }
 
   void _saveImage(String path) async {
@@ -161,6 +172,30 @@ class DisplayPictureScreen extends StatelessWidget {
     }
   }
 
+  void _downloadNotify(BuildContext context, Goal goal, String? url) {
+    if (url == null) {
+      return;
+    }
+    sharedPreferencesManager.setDownloadUrl(goal, url);
+    switch (goal) {
+      case Goal.himurogoya:
+        context.read<DownloadImageNotifier>().notifyDownloadHimurogoyaImage(url);
+        break;
+      case Goal.yumejikan:
+        context.read<DownloadImageNotifier>().notifyDownloadYumejikanImage(url);
+        break;
+      case Goal.soyu:
+        context.read<DownloadImageNotifier>().notifyDownloadSoyuImage(url);
+        break;
+      case Goal.ashiyu:
+        context.read<DownloadImageNotifier>().notifyDownloadAshiyuImage(url);
+        break;
+      case Goal.yakushiji:
+        context.read<DownloadImageNotifier>().notifyDownloadYakushijiImage(url);
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -170,7 +205,9 @@ class DisplayPictureScreen extends StatelessWidget {
         onPressed: () async {
           _checkNotify(context, goal);
           _saveImage(imagePath);
-          uploadStorage();
+          final task = await _uploadStorage();
+          final url = await _downloadImage(task);
+          _downloadNotify(context, goal, url);
           popToHome(context);
         },
         child: Icon(Icons.download),
