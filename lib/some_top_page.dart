@@ -143,10 +143,11 @@ class _RunTopPage extends State<RunTopPage> {
               ChangeNotifierProvider(create: (_) => CheckmarkNotifier()),
               ChangeNotifierProvider(create: (_) => DownloadImageNotifier())
             ],
+              // TODO: SingleChildScrollViewの高さを要素に応じて可変にするべき
               child: SingleChildScrollView(
                 child: Container(
                   width: widthSize,
-                  height: heightSize * 2.6,
+                  height: heightSize * 2.8,
                   child: Column(
                     children: [
                       Expanded(
@@ -160,10 +161,17 @@ class _RunTopPage extends State<RunTopPage> {
                               '目標一覧', style: TextStyle(fontSize: widthSize / 12)),
                         ),
                       ),
-                  AutoSizeText(
-                    '電球をタップするとヒントを見ることが出来ます。',
-                    style: TextStyle(fontSize: 23),
-                  ),
+                      AutoSizeText(
+                        '電球をタップするとヒントを見ることが出来ます。',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      AutoSizeText(
+                        '入場制限で入れないスポットはスキップしてください。',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.red
+                        ),
+                      ),
                     Expanded(
                       flex: 35,
                       child: Container(
