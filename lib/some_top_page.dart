@@ -181,7 +181,7 @@ class _RunTopPage extends State<RunTopPage> {
                           physics: const NeverScrollableScrollPhysics(),
                           children: [
                             GoalListViewCell(
-                                homeItems: homeItems[1],
+                                homeItems: homeItems[0],
                                 heightSize: heightSize,
                                 widthSize: widthSize,
                                 errorGetDistance: homeItems[0].distance,

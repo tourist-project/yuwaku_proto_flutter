@@ -69,6 +69,11 @@ class _DistanceGoalText extends State<DistanceGoalText> {
         stream: _getDistance(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
+            if(distance != null){
+
+            }else if(distance != null && distance! <= 30){
+
+            }
             return Column(children: [
               Spacer(),
               Container(
@@ -91,6 +96,7 @@ class _DistanceGoalText extends State<DistanceGoalText> {
           } else {
             return Container();
           }
+
         });
   }
 }
