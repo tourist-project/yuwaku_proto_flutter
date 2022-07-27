@@ -13,6 +13,8 @@ import 'package:yuwaku_proto/shared_preferences_manager.dart';
 import 'package:flutter_exif_rotation/flutter_exif_rotation.dart';
 import 'package:flutter/services.dart';
 
+import 'formatted_date_manager.dart';
+
 class Camerapage extends StatefulWidget{
   Camerapage(
       {
@@ -114,15 +116,10 @@ class DisplayPictureScreen extends StatelessWidget {
   final storage = FirebaseStorage.instance;
   final Goal goal;
   final sharedPreferencesManager = SharedPreferencesManager();
-
-  String _getStringSlashedFormatDate() {
-    var uploadDate = DateTime.now();
-    var dateString = "${uploadDate.year}-${uploadDate.month}-${uploadDate.day}";
-    return dateString;
-  }
+  final _formattedDateManager = FormattedDateManager();
 
   Future<TaskSnapshot> _uploadStorage() async {
-    final uploadDateString = _getStringSlashedFormatDate();
+    final uploadDateString = _formattedDateManager.stringSlashedFormatDate();
     final ref = storage.ref();
     final imageFile = File(imagePath);
     var uuid = Uuid().v1();
