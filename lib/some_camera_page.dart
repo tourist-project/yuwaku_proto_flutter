@@ -12,7 +12,6 @@ import 'package:yuwaku_proto/goal.dart';
 import 'package:yuwaku_proto/shared_preferences_manager.dart';
 import 'package:flutter_exif_rotation/flutter_exif_rotation.dart';
 import 'package:flutter/services.dart';
-
 import 'formatted_date_manager.dart';
 
 class Camerapage extends StatefulWidget{
