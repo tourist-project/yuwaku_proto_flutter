@@ -1,8 +1,7 @@
 class FormattedDateManager {
   // yyyy-MM-dd
-  String stringSlashedFormatDate() {
-    var uploadDate = DateTime.now();
-    var dateString = "${uploadDate.year}-${uploadDate.month}-${uploadDate.day}";
+  String stringSlashedFormatDate(DateTime date) {
+    var dateString = "${date.year}-${date.month}-${date.day}";
     return dateString;
   }
 }

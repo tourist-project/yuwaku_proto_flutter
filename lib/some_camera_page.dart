@@ -118,7 +118,8 @@ class DisplayPictureScreen extends StatelessWidget {
   final _formattedDateManager = FormattedDateManager();
 
   Future<TaskSnapshot> _uploadStorage() async {
-    final uploadDateString = _formattedDateManager.stringSlashedFormatDate();
+    final now = DateTime.now();
+    final uploadDateString = _formattedDateManager.stringSlashedFormatDate(now);
     final ref = storage.ref();
     final imageFile = File(imagePath);
     var uuid = Uuid().v1();
