@@ -57,10 +57,10 @@ class HintDialog extends StatelessWidget {
       case Goal.yakushiji:
         _title = "薬師寺";
         _modalItem = modalItem(
-            'assets/images/Yakushizi1.png',
-            'assets/images/Yakushizi2.png',
-            'assets/images/Yakushizi3.JPG',
-            'assets/images/YakushiziBack.jpg',
+            'assets/images/Yakushizi/Yakushizi1.png',
+            'assets/images/Yakushizi/Yakushizi2.png',
+            'assets/images/Yakushizi/Yakushizi3.JPG',
+            'assets/images/Yakushizi/YakushiziBack.jpg',
             '・扇階段を奥まで登ってみよう！',
             ''
         );
