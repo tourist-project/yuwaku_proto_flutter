@@ -14,6 +14,8 @@ import 'package:flutter_exif_rotation/flutter_exif_rotation.dart';
 import 'package:flutter/services.dart';
 import 'package:yuwaku_proto/formatted_date_manager.dart';
 
+import 'documents_directory_client.dart';
+
 class Camerapage extends StatefulWidget{
   Camerapage(
       {
@@ -115,25 +117,11 @@ class DisplayPictureScreen extends StatelessWidget {
   final storage = FirebaseStorage.instance;
   final Goal goal;
   final sharedPreferencesManager = SharedPreferencesManager();
-  final _formattedDateManager = FormattedDateManager();
+  final _documentsDirectoryClient = DocumentsDirectoryClient();
 
-  Future<TaskSnapshot> _uploadStorage() async {
-    final now = DateTime.now();
-    final uploadDateString = _formattedDateManager.stringSlashedFormatDate(now);
-    final ref = storage.ref();
-    final imageFile = File(imagePath);
-    var uuid = Uuid().v1();
-    final imageRef = ref.child(uploadDateString).child(uuid);
-    final uploadTask = await imageRef.putFile(imageFile);
-    return uploadTask;
-  }
-
-  Future<String?> _downloadImage(TaskSnapshot task) async {
-    if (task.state == TaskState.success) {
-      final imageRef = task.ref;
-      return imageRef.getDownloadURL();
-    }
-    return null;
+  void _saveImageToDocumentsDirectory(String path, Goal goal) async {
+    final imageFile = File(path);
+    _documentsDirectoryClient.saveImage(imageFile, goal);
   }
 
   void _saveImage(String path) async {
@@ -176,30 +164,6 @@ class DisplayPictureScreen extends StatelessWidget {
     }
   }
 
-  void _downloadNotify(BuildContext context, Goal goal, String? url) {
-    if (url == null) {
-      return;
-    }
-    sharedPreferencesManager.setDownloadUrl(goal, url);
-    switch (goal) {
-      case Goal.himurogoya:
-        context.read<DownloadImageNotifier>().notifyDownloadHimurogoyaImage(url);
-        break;
-      case Goal.yumejikan:
-        context.read<DownloadImageNotifier>().notifyDownloadYumejikanImage(url);
-        break;
-      case Goal.soyu:
-        context.read<DownloadImageNotifier>().notifyDownloadSoyuImage(url);
-        break;
-      case Goal.ashiyu:
-        context.read<DownloadImageNotifier>().notifyDownloadAshiyuImage(url);
-        break;
-      case Goal.yakushiji:
-        context.read<DownloadImageNotifier>().notifyDownloadYakushijiImage(url);
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -209,9 +173,7 @@ class DisplayPictureScreen extends StatelessWidget {
         onPressed: () async {
           _checkNotify(context, goal);
           _saveImage(imagePath);
-          final task = await _uploadStorage();
-          final url = await _downloadImage(task);
-          _downloadNotify(context, goal, url);
+          _saveImageToDocumentsDirectory(imagePath, goal);
           popToHome(context);
         },
         child: Icon(Icons.download),
