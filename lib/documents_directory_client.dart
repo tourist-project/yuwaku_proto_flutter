@@ -28,10 +28,15 @@ class DocumentsDirectoryClient {
     }
   }
 
-  void saveImage(File image, Goal goal) async {
+  Future<File?> saveImage(File image, Goal goal) async {
     final _documentsDirectoryPath = _spotPath(goal);
-    File directoryData = await _createSaveImageFolderData(_documentsDirectoryPath);
-    await directoryData.writeAsBytes(await image.readAsBytes());
+    try {
+      File directoryData = await _createSaveImageFolderData(_documentsDirectoryPath);
+      File saveData =  await directoryData.writeAsBytes(await image.readAsBytes());
+      return saveData;
+    } catch(e) {
+      return null;
+    }
   }
 
   Future<File> loadImage(Goal goal) async {
