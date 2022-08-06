@@ -96,7 +96,7 @@ class SharedPreferencesManager {
     }
   }
 
-  void setImageStoragePath(Goal goal, String path) async {
+  Future<void> setImageStoragePath(Goal goal, String path) async {
     final SharedPreferences prefs = await _prefs;
     switch (goal) {
       case Goal.himurogoya:

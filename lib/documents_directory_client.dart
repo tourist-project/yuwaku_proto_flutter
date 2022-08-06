@@ -8,40 +8,36 @@ class DocumentsDirectoryClient {
     return directory.path;
   }
 
-  Future<File> _createSaveImageFolderData(String imagePath) async {
+  Future<String> _createSaveImageFolderPath() async {
     final localPath = await _folderLocationPath;
-    return File(localPath + imagePath);
+    return localPath;
   }
 
   String _spotPath(Goal goal) {
     switch (goal) {
       case Goal.himurogoya:
-        return '/himurogoya.jpg';
+        return 'himurogoya';
       case Goal.yumejikan:
-        return '/yumejikan.jpg';
+        return 'yumejikan';
       case Goal.soyu:
-        return '/soyu.jpg';
+        return 'soyu';
       case Goal.ashiyu:
-        return '/ashiyu.jpg';
+        return 'ashiyu';
       case Goal.yakushiji:
-        return '/yakushiji.jpg';
+        return 'yakushiji';
     }
   }
 
-  Future<File?> saveImage(File image, Goal goal) async {
-    final _documentsDirectoryPath = _spotPath(goal);
-    try {
-      File directoryData = await _createSaveImageFolderData(_documentsDirectoryPath);
-      File saveData =  await directoryData.writeAsBytes(await image.readAsBytes());
-      return saveData;
-    } catch(e) {
-      return null;
-    }
+  Future<String> getDocumentsDirectoryPath(Goal goal) async {
+    final saveImageFolderPath = await _createSaveImageFolderPath();
+    final spotDirectoryPath = _spotPath(goal);
+    return '$saveImageFolderPath/$spotDirectoryPath';
   }
 
-  Future<File> loadImage(Goal goal) async {
-    final _documentsDirectoryPath = _spotPath(goal);
-    File data = await _createSaveImageFolderData(_documentsDirectoryPath);
-    return data;
+  Future<File> saveImage(Goal goal, String imagePath) async {
+    final documentDirectoryPath = await getDocumentsDirectoryPath(goal);
+    final saveImagePath = '$documentDirectoryPath';
+    final savedImagePath = await File(saveImagePath).writeAsBytes(File(imagePath).readAsBytesSync());
+    return savedImagePath;
   }
 }

@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:yuwaku_proto/checkmark_notifier.dart';
@@ -119,10 +120,10 @@ class DisplayPictureScreen extends StatelessWidget {
   final _sharedPreferencesManager = SharedPreferencesManager();
   final _documentsDirectoryClient = DocumentsDirectoryClient();
 
-  void _saveImageToDocumentsDirectory(String path, Goal goal) async {
-    final imageFile = File(path);
-    _documentsDirectoryClient.saveImage(imageFile, goal);
-    _sharedPreferencesManager.setImageStoragePath(goal, path);
+  Future<void> _saveImageToDocumentsDirectory(String path, Goal goal) async {
+     File savedImagePath = await _documentsDirectoryClient.saveImage(goal, path);
+     await _sharedPreferencesManager.setImageStoragePath(goal, savedImagePath.path);
+     final ch = await _sharedPreferencesManager.getImageStoragePath(goal);
   }
 
   void _saveImage(String path) async {
@@ -172,9 +173,9 @@ class DisplayPictureScreen extends StatelessWidget {
       body: Center(child: Image.file(File(imagePath))),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          await _saveImageToDocumentsDirectory(imagePath, goal);
           _checkNotify(context, goal);
           _saveImage(imagePath);
-          _saveImageToDocumentsDirectory(imagePath, goal);
           popToHome(context);
         },
         child: Icon(Icons.download),
