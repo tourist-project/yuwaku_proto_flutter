@@ -11,8 +11,7 @@ class SpotImage extends StatelessWidget {
   String? downloadImageUrl;
   SpotImage(this.goal, this.downloadImageUrl);
   final documentsDirectoryClient = DocumentsDirectoryClient();
-
-  final sharedPreferencesManager = SharedPreferencesManager();
+  final _sharedPreferencesManager = SharedPreferencesManager();
   late String _imagePath;
 
   void getImagePath(Goal goal) {
@@ -49,9 +48,9 @@ class SpotImage extends StatelessWidget {
     return Stack(
       children: [
         FutureBuilder(
-          future: documentsDirectoryClient.loadImage(goal),
-          builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
-            if (snapshot.hasData) {
+          future: _sharedPreferencesManager.getImageStoragePath(goal),
+          builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
+            if (snapshot.hasData && snapshot.data != null) {
               return Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
@@ -64,7 +63,7 @@ class SpotImage extends StatelessWidget {
                   ],
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: FileImage(snapshot.data!),
+                    image: MemoryImage(File(snapshot.data!).readAsBytesSync()),
                   ),
                 ),
               );

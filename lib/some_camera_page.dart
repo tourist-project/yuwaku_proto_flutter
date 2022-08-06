@@ -116,12 +116,13 @@ class DisplayPictureScreen extends StatelessWidget {
   final CameraDescription camera;
   final storage = FirebaseStorage.instance;
   final Goal goal;
-  final sharedPreferencesManager = SharedPreferencesManager();
+  final _sharedPreferencesManager = SharedPreferencesManager();
   final _documentsDirectoryClient = DocumentsDirectoryClient();
 
   void _saveImageToDocumentsDirectory(String path, Goal goal) async {
     final imageFile = File(path);
     _documentsDirectoryClient.saveImage(imageFile, goal);
+    _sharedPreferencesManager.setImageStoragePath(goal, path);
   }
 
   void _saveImage(String path) async {
@@ -144,7 +145,7 @@ class DisplayPictureScreen extends StatelessWidget {
   }
 
   void _checkNotify(BuildContext context, Goal goal) {
-    sharedPreferencesManager.setIsTook(goal);
+    _sharedPreferencesManager.setIsTook(goal);
     switch (goal) {
       case Goal.himurogoya:
         context.read<CheckmarkNotifier>().notifyTakedHimurogoya();
