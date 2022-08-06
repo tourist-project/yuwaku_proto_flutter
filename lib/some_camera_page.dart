@@ -123,7 +123,6 @@ class DisplayPictureScreen extends StatelessWidget {
   Future<void> _saveImageToDocumentsDirectory(String path, Goal goal) async {
      File savedImagePath = await _documentsDirectoryClient.saveImage(goal, path);
      await _sharedPreferencesManager.setImageStoragePath(goal, savedImagePath.path);
-     final ch = await _sharedPreferencesManager.getImageStoragePath(goal);
   }
 
   void _saveImage(String path) async {
