@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:yuwaku_proto/hint_dialog.dart';
 import 'package:yuwaku_proto/shared_preferences_manager.dart';
+import 'documents_directory_client.dart';
 import 'goal.dart';
 
 class SpotImage extends StatelessWidget {
@@ -8,6 +10,7 @@ class SpotImage extends StatelessWidget {
   Goal goal;
   String? downloadImageUrl;
   SpotImage(this.goal, this.downloadImageUrl);
+  final documentsDirectoryClient = DocumentsDirectoryClient();
 
   final sharedPreferencesManager = SharedPreferencesManager();
   late String _imagePath;
@@ -40,33 +43,50 @@ class SpotImage extends StatelessWidget {
         });
   }
 
- ImageProvider setImage(String? url) {
-    if (url != null) {
-      return NetworkImage(url);
-    }
-    return AssetImage(_imagePath);
-  }
-
   @override
   Widget build(BuildContext context) {
     getImagePath(goal);
     return Stack(
       children: [
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.0),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black,
-                  spreadRadius: 3,
-                  blurRadius: 3,
-                  offset: Offset(0, 3))
-            ],
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: setImage(downloadImageUrl),
-            ),
-          ),
+        FutureBuilder(
+          future: documentsDirectoryClient.loadImage(goal),
+          builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
+            if (snapshot.hasData) {
+              return Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black,
+                        spreadRadius: 3,
+                        blurRadius: 3,
+                        offset: Offset(0, 3))
+                  ],
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: FileImage(snapshot.data!),
+                  ),
+                ),
+              );
+            } else {
+              return Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black,
+                        spreadRadius: 3,
+                        blurRadius: 3,
+                        offset: Offset(0, 3))
+                  ],
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage(_imagePath),
+                  ),
+                ),
+              );
+            }
+          }
         ),
         Align(
           alignment: Alignment.topRight,
