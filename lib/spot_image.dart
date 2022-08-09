@@ -8,8 +8,7 @@ import 'goal.dart';
 class SpotImage extends StatelessWidget {
 
   Goal goal;
-  String? downloadImageUrl;
-  SpotImage(this.goal, this.downloadImageUrl);
+  SpotImage(this.goal);
   final documentsDirectoryClient = DocumentsDirectoryClient();
   final _sharedPreferencesManager = SharedPreferencesManager();
   late String _imagePath;

@@ -10,7 +10,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:yuwaku_proto/spot_image.dart';
 import 'checkmark_notifier.dart';
-import 'download_image_notifier.dart';
 import 'some_camera_page.dart';
 
 class GoalListViewCell extends StatelessWidget {
@@ -21,7 +20,6 @@ class GoalListViewCell extends StatelessWidget {
       required this.errorGetDistance,
       required this.camera,
       required this.isTookPicture,
-      required this.downloadImageUrl,
       required this.goal});
 
   final CameraDescription camera;
@@ -30,15 +28,13 @@ class GoalListViewCell extends StatelessWidget {
   final HomePageItem homeItems;
   double? errorGetDistance;
   bool isTookPicture;
-  String? downloadImageUrl;
   final Goal goal;
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => CheckmarkNotifier()),
-        ChangeNotifierProvider(create: (_) => DownloadImageNotifier()),
+        ChangeNotifierProvider(create: (_) => CheckmarkNotifier())
       ],
         child: Container(
           height: heightSize / 2.3,
@@ -51,7 +47,7 @@ class GoalListViewCell extends StatelessWidget {
             children: [
               Expanded(
                 flex: 1,
-                child: SpotImage(goal, downloadImageUrl),
+                child: SpotImage(goal),
               ),
               Expanded(
                 flex: 1,
