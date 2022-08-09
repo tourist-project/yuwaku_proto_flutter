@@ -4,17 +4,12 @@ import 'package:camera/camera.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:path/path.dart';
 import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
 import 'package:yuwaku_proto/checkmark_notifier.dart';
-import 'package:yuwaku_proto/download_image_notifier.dart';
 import 'package:yuwaku_proto/goal.dart';
 import 'package:yuwaku_proto/shared_preferences_manager.dart';
 import 'package:flutter_exif_rotation/flutter_exif_rotation.dart';
 import 'package:flutter/services.dart';
-import 'package:yuwaku_proto/formatted_date_manager.dart';
-
 import 'documents_directory_client.dart';
 
 class Camerapage extends StatefulWidget{
