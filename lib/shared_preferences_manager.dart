@@ -95,4 +95,46 @@ class SharedPreferencesManager {
         return url;
     }
   }
+
+  Future<void> setImageStoragePath(Goal goal, String path) async {
+    final SharedPreferences prefs = await _prefs;
+    switch (goal) {
+      case Goal.himurogoya:
+        await prefs.setString("himurogoyaImageStoragePath", path);
+        break;
+      case Goal.yumejikan:
+        await prefs.setString("yumejikanImageStoragePath", path);
+        break;
+      case Goal.soyu:
+        await prefs.setString("soyuImageStoragePath", path);
+        break;
+      case Goal.ashiyu:
+        await prefs.setString("ashiyuImageStoragePath", path);
+        break;
+      case Goal.yakushiji:
+        await prefs.setString("yakushijiImageStoragePath", path);
+        break;
+    }
+  }
+
+  Future<String?> getImageStoragePath(Goal goal) async {
+    final SharedPreferences prefs = await _prefs;
+    switch (goal) {
+      case Goal.himurogoya:
+        String? path = prefs.getString('himurogoyaImageStoragePath');
+        return path;
+      case Goal.yumejikan:
+        String? path = prefs.getString('yumejikanImageStoragePath');
+        return path;
+      case Goal.soyu:
+        String? path = prefs.getString('soyuImageStoragePath');
+        return path;
+      case Goal.ashiyu:
+        String? path = prefs.getString('ashiyuImageStoragePath');
+        return path;
+      case Goal.yakushiji:
+        String? path = prefs.getString('yakushijiImageStoragePath');
+        return path;
+    }
+  }
 }

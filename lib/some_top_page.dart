@@ -1,7 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yuwaku_proto/download_image_notifier.dart';
 import 'package:yuwaku_proto/goal_listview_cell.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_Item.dart';
 import 'package:flutter/cupertino.dart';
@@ -73,7 +72,6 @@ class _RunTopPage extends State<RunTopPage> {
   void initState() {
     super.initState();
     _initCheckmarkState();
-    _initImage();
   }
 
   // アプリ起動時に保存したデータを読み込む
@@ -101,30 +99,6 @@ class _RunTopPage extends State<RunTopPage> {
     }
   }
 
-  void _initImage() async {
-    final prefs = SharedPreferencesManager();
-    var himurogoyaImageUrl = await prefs.getDownloaUrl(Goal.himurogoya);
-    if (himurogoyaImageUrl != null) {
-      context.read<DownloadImageNotifier>().notifyDownloadHimurogoyaImage(himurogoyaImageUrl);
-    }
-    var yumejikanImageUrl = await prefs.getDownloaUrl(Goal.yumejikan);
-    if (yumejikanImageUrl != null) {
-      context.read<DownloadImageNotifier>().notifyDownloadYumejikanImage(yumejikanImageUrl);
-    }
-    var soyuImageUrl = await prefs.getDownloaUrl(Goal.soyu);
-    if (soyuImageUrl != null) {
-      context.read<DownloadImageNotifier>().notifyDownloadSoyuImage(soyuImageUrl);
-    }
-    var ashiyuImageUrl = await prefs.getDownloaUrl(Goal.ashiyu);
-    if (ashiyuImageUrl != null) {
-      context.read<DownloadImageNotifier>().notifyDownloadAshiyuImage(ashiyuImageUrl);
-    }
-    var yakushijiImageUrl = await prefs.getDownloaUrl(Goal.yakushiji);
-    if (yakushijiImageUrl != null) {
-      context.read<DownloadImageNotifier>().notifyDownloadYakushijiImage(yakushijiImageUrl);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     double heightSize = MediaQuery
@@ -140,8 +114,7 @@ class _RunTopPage extends State<RunTopPage> {
         child: Scaffold(
           body: MultiProvider(
             providers: [
-              ChangeNotifierProvider(create: (_) => CheckmarkNotifier()),
-              ChangeNotifierProvider(create: (_) => DownloadImageNotifier())
+              ChangeNotifierProvider(create: (_) => CheckmarkNotifier())
             ],
               // TODO: SingleChildScrollViewの高さを要素に応じて可変にするべき
               child: SingleChildScrollView(
@@ -189,9 +162,6 @@ class _RunTopPage extends State<RunTopPage> {
                                 isTookPicture: context
                                     .watch<CheckmarkNotifier>()
                                     .isTakedHimurogoya,
-                                downloadImageUrl: context
-                                    .watch<DownloadImageNotifier>()
-                                    .himurogoyaImageUrl,
                                 goal: Goal.himurogoya,
                               ),
                               GoalListViewCell(
@@ -203,9 +173,6 @@ class _RunTopPage extends State<RunTopPage> {
                                   isTookPicture: context
                                       .watch<CheckmarkNotifier>()
                                       .isTakedYumejikan,
-                                  downloadImageUrl: context
-                                      .watch<DownloadImageNotifier>()
-                                      .yumejikanImageUrl,
                                   goal: Goal.yumejikan
                               ),
                               GoalListViewCell(
@@ -217,9 +184,6 @@ class _RunTopPage extends State<RunTopPage> {
                                   isTookPicture: context
                                       .watch<CheckmarkNotifier>()
                                       .isTakedSoyu,
-                                  downloadImageUrl: context
-                                      .watch<DownloadImageNotifier>()
-                                      .soyuImageUrl,
                                   goal: Goal.soyu
                               ),
                               GoalListViewCell(
@@ -231,9 +195,6 @@ class _RunTopPage extends State<RunTopPage> {
                                   isTookPicture: context
                                       .watch<CheckmarkNotifier>()
                                       .isTakedAshiyu,
-                                  downloadImageUrl: context
-                                      .watch<DownloadImageNotifier>()
-                                      .ashiyuImageUrl,
                                   goal: Goal.ashiyu
                               ),
                               GoalListViewCell(
@@ -245,9 +206,6 @@ class _RunTopPage extends State<RunTopPage> {
                                 isTookPicture: context
                                     .watch<CheckmarkNotifier>()
                                     .isTakedYakushiji,
-                                downloadImageUrl: context
-                                    .watch<DownloadImageNotifier>()
-                                    .yakushijiImageUrl,
                                 goal: Goal.yakushiji,
                               )
                             ],
