@@ -1,6 +1,8 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:gallery_saver/gallery_saver.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -123,6 +125,7 @@ class DisplayPictureScreen extends StatelessWidget {
   void _saveImage(String path) async {
     File roatedImage = await FlutterExifRotation.rotateImage(path: path);
     final Uint8List imageBuffer = await roatedImage.readAsBytes();
+    GallerySaver.saveImage(path); // アルバム許可
     await ImageGallerySaver.saveImage(imageBuffer);
   }
 
@@ -183,6 +186,7 @@ class NoPermissionDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return AlertDialog(
       title: Text('写真の保存を許可してください'),
       actions: [
