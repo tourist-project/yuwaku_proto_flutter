@@ -50,9 +50,9 @@ class _BottomTabPageState extends State<BottomTabPage> {
               label: '地図'),
         ],
         currentIndex: _currentIndex,
-        fixedColor: Colors.black87,
+        selectedItemColor: Colors.amber[700],
         onTap: _onItemTapped,
-        backgroundColor: Colors.orangeAccent,
+        backgroundColor: Colors.white12,
         type: BottomNavigationBarType.fixed,
       ),
     );
