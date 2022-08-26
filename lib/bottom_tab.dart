@@ -1,8 +1,10 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:image/image.dart';
 import 'package:yuwaku_proto/map_component/map_interactive_move.dart';
 import 'package:yuwaku_proto/some_top_page.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
+
 
 class BottomTabPage extends StatefulWidget {
   
@@ -25,7 +27,6 @@ class _BottomTabPageState extends State<BottomTabPage> {
       body: IndexedStack(
         index: _currentIndex,
         children: [
-
           RunTopPage(camera: camera),
           TutorialPage(),
          InteractiveMap(title: '湯涌全体図')
@@ -49,8 +50,9 @@ class _BottomTabPageState extends State<BottomTabPage> {
               label: '地図'),
         ],
         currentIndex: _currentIndex,
-        fixedColor: Colors.blueAccent,
+        fixedColor: Colors.black87,
         onTap: _onItemTapped,
+        backgroundColor: Colors.orangeAccent,
         type: BottomNavigationBarType.fixed,
       ),
     );

@@ -10,6 +10,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:yuwaku_proto/shared_preferences_manager.dart';
 import 'checkmark_notifier.dart';
 import 'goal.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 class RunTopPage extends StatefulWidget {
@@ -71,11 +73,14 @@ class _RunTopPage extends State<RunTopPage> {
       )
   ];
 
+
+
   @override
   void initState() {
     super.initState();
     _initCheckmarkState();
   }
+
 
   // アプリ起動時に保存したデータを読み込む
   void _initCheckmarkState() async {
@@ -101,6 +106,53 @@ class _RunTopPage extends State<RunTopPage> {
       context.read<CheckmarkNotifier>().notifyTakedYakushiji();
     }
   }
+
+  /// WebサイトへのURL
+  Future tourismWebSUrl() async {
+    var url = "https://tourism-project.com/";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Unable to launch url $url';
+    }
+  }
+  Future photoContestUrl() async {
+    var url = "https://totteku.tourism-project.com/album";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Unable to launch url $url';
+    }
+  }
+
+  Future questionUrl() async {
+    var url = "https://totteku.tourism-project.com/contact";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Unable to launch url $url';
+    }
+  }
+
+  Future twitterUrl() async {
+    var url = "https://twitter.com/kit_tourism";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Unable to launch url $url';
+    }
+  }
+
+  Future questionWebSUrl() async {
+    var url = "https://totteku.tourism-project.com/";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Unable to launch url $url';
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -237,31 +289,38 @@ class _RunTopPage extends State<RunTopPage> {
                   ),
                 ),
                 ListTile(
+                  leading: Icon(Icons.launch),
                   title: const Text('Webサイト'),
                   onTap: () {
+                    tourismWebSUrl();
                   },
                 ),
                 ListTile(
+                  leading: Icon(Icons.camera_alt),
                   title: const Text('フォトコンテスト'),
                   onTap: () {
+                    photoContestUrl();
                   },
                 ),
                 ListTile(
+                  leading: Icon(Icons.list_alt),
                   title: const Text('アンケート'),
                   onTap: () {
-
+                    questionUrl();
                   },
                 ),
                 ListTile(
+                  leading: Icon(Icons.insert_drive_file),
                   title: const Text('利用規約'),
                   onTap: () {
 
                   },
                 ),
                 ListTile(
+                  leading: Icon(FontAwesomeIcons.twitter),
                   title: const Text('運営Twitter'),
                   onTap: () {
-
+                    twitterUrl();
                   },
                 ),
             ],
