@@ -5,7 +5,6 @@ import 'package:yuwaku_proto/map_component/map_interactive_move.dart';
 import 'package:yuwaku_proto/some_top_page.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
 
-
 class BottomTabPage extends StatefulWidget {
   
   BottomTabPage({Key? key, required this.camera});
