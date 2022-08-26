@@ -10,8 +10,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:yuwaku_proto/shared_preferences_manager.dart';
 import 'checkmark_notifier.dart';
 import 'goal.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'drawer_layout.dart';
+import 'external_website.dart';
 
 class RunTopPage extends StatefulWidget {
   const RunTopPage({Key? key, required this.camera}) : super(key: key);
@@ -225,100 +225,10 @@ class _RunTopPage extends State<RunTopPage> {
               ),
             ),
           drawer: Drawer(
-            child: ListView(
-              padding: EdgeInsets.all(0),
-              children: [
-                SizedBox(
-                  height: heightSize/5,
-                  child: DrawerHeader(
-                    decoration: BoxDecoration(),
-                    child: Container(
-                      child: Image(
-                        image: AssetImage('assets/images/icon.png'),
-                      )
-                    ),
-                  ),
-                ),
-                ListTile(
-                  leading: Icon(Icons.launch),
-                  title: const Text('Webサイト'),
-                  onTap: () {
-                    webSites.launchTourismUrl();
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.camera_alt),
-                  title: const Text('フォトコンテスト'),
-                  onTap: () {
-                    webSites.photoContestUrl();
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.list_alt),
-                  title: const Text('アンケート'),
-                  onTap: () {
-                    webSites.questionWebSUrl();
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.insert_drive_file),
-                  title: const Text('利用規約'),
-                  onTap: () {
-
-                  },
-                ),
-                ListTile(
-                  leading: Icon(FontAwesomeIcons.twitter),
-                  title: const Text('運営Twitter'),
-                  onTap: () {
-                    webSites.twitterUrl();
-                  },
-                ),
-            ],
-          ),
+            child: DrawerLayout(webSites: webSites),
         ),
       ),
     );
   }
 }
 
-/// WebサイトへのURLたち
-class ExternalWebSites{
-
-  Future launchTourismUrl() async {
-    var url = "https://totteku.tourism-project.com/contact";
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Unable to launch url $url';
-    }
-  }
-
-  Future photoContestUrl() async {
-    var url = "https://totteku.tourism-project.com/album";
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Unable to launch url $url';
-    }
-  }
-
-  Future questionWebSUrl() async {
-    var url = "https://totteku.tourism-project.com/";
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Unable to launch url $url';
-    }
-  }
-
-  Future twitterUrl() async {
-    var url = "https://twitter.com/kit_tourism";
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Unable to launch url $url';
-    }
-  }
-
-}
