@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:yuwaku_proto/spot_image.dart';
 import 'checkmark_notifier.dart';
+import 'hint_dialog.dart';
 import 'some_camera_page.dart';
 
 class GoalListViewCell extends StatelessWidget {
@@ -36,104 +37,107 @@ class GoalListViewCell extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => CheckmarkNotifier())
       ],
-        child: Container(
-          height: heightSize / 2.3,
-          width: widthSize,
-          margin: EdgeInsets.only(right: 5, left: 5, bottom: 20),
-          decoration: BoxDecoration(
-              color: Color.fromRGBO(240, 233, 208, 1),
-              borderRadius: BorderRadius.circular(20)),
-          child: Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: SpotImage(goal),
-              ),
-              Expanded(
-                flex: 1,
-                child: Column(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: Container(
+            width: double.infinity,
+            color: Colors.white,
+            child: Column(
+              children: [
+                Text(
+                  homeItems.title,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 200,
+                  color: Colors.grey,
+                ),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Flexible(
-                      flex: 1,
-                      child: Container(
-                        margin: EdgeInsets.all(10),
-                        child: Column(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                                child: DistanceGoalText(goal)
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                margin: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                  color: Color.fromRGBO(186, 66, 43, 1),
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                child: Container(
-                                  child: Center(
-                                    child: AutoSizeText(
-                                      homeItems.title,
-                                      style: TextStyle(
-                                          fontSize: widthSize / 14,
-                                          color: Colors.white),
-                                      textAlign: TextAlign.center,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
+                    Text('あと 200m'),
+                    Container(
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 70,
+                            height: 70,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Color.fromRGBO(186, 66, 43, 20),
+                                onPrimary: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
                                   ),
-                                ),
+                                )
+                              ),
+                              onPressed: () {
+                                showHintDialog(context);
+                              },
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.lightbulb, color: Colors.white),
+                                  AutoSizeText('ヒント', maxLines: 1),
+                                ],
                               ),
                             ),
-                            Row(
-                              children: [
-                                Flexible(
-                                  flex: 1,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Colors.black, width: 3),
-                                        borderRadius: BorderRadius.circular(10)),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: ((context) =>
-                                                Camerapage(camera: camera, goal: goal,)),
-                                          ),
-                                        );
-                                      },
-                                      child: Center(
-                                        child: Column(
-                                          children: [
-                                            Icon(Icons.photo_camera_outlined,
-                                                size: widthSize / 8),
-                                            AutoSizeText('写真を撮る',
-                                                maxLines: 1)
-                                          ],
-                                        ),
-                                      ),
+                          ),
+                          SizedBox(width: 10),
+                          SizedBox(
+                            width: 70,
+                            height: 70,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Color.fromRGBO(186, 66, 43, 20),
+                                onPrimary: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10),
                                     ),
+                                  )
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: ((context) =>
+                                        Camerapage(camera: camera, goal: goal,)),
                                   ),
-                                ),
-                                SizedBox(width: 3),
-                                Flexible(
-                                  flex: 1,
-                                  child: CheckmarkImage(isTookPicture),
-                                ),
-                              ],
+                                );
+                              },
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.camera_alt_rounded),
+                                  AutoSizeText('撮影', maxLines: 1),
+                                ],
+                              ),
                             ),
-                          ],
-                        ),
+                          )
+                        ],
                       ),
                     ),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );
+  }
+
+  void showHintDialog(BuildContext context) async {
+    await showDialog<void>(
+        context: context,
+        builder: (_) {
+          return HintDialog(goal);
+        });
   }
 }
