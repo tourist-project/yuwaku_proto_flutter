@@ -44,7 +44,7 @@ class SpotImage extends StatelessWidget {
               return Container(
                 width: double.infinity,
                 height: 220,
-                color: Colors.grey,
+                color: Color(0xffD9D9D9),
                 child: Image(
                   image: MemoryImage(File(snapshot.data!).readAsBytesSync()),
                 ),
