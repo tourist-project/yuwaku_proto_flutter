@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:yuwaku_proto/hint_dialog.dart';
 import 'package:yuwaku_proto/shared_preferences_manager.dart';
 import 'documents_directory_client.dart';
 import 'goal.dart';

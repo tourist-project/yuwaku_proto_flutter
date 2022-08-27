@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yuwaku_proto/checkmark_image.dart';
 import 'package:yuwaku_proto/distance_goal_text.dart';
 import 'package:yuwaku_proto/goal.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_Item.dart';
