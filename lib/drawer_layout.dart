@@ -31,21 +31,21 @@ class DrawerLayout extends StatelessWidget {
           leading: Icon(Icons.launch),
           title: const Text('Webサイト'),
           onTap: () {
-            webSites.launchTourismUrl();
+            webSites.launchTourismURL();
           },
         ),
         ListTile(
           leading: Icon(Icons.camera_alt),
           title: const Text('フォトコンテスト'),
           onTap: () {
-            webSites.photoContestUrl();
+            webSites.launchPhotoContestURL();
           },
         ),
         ListTile(
           leading: Icon(Icons.list_alt),
           title: const Text('アンケート'),
           onTap: () {
-            webSites.questionWebSUrl();
+            webSites.launchQuestionWebSURL();
           },
         ),
         ListTile(
@@ -59,7 +59,7 @@ class DrawerLayout extends StatelessWidget {
           leading: Icon(FontAwesomeIcons.twitter),
           title: const Text('運営Twitter'),
           onTap: () {
-            webSites.twitterUrl();
+            webSites.twitterURL();
           },
         ),
       ],
