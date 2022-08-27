@@ -56,7 +56,7 @@ class GoalListViewCell extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('あと 200m'),
+                    DistanceGoalText(goal),
                     Container(
                       child: Row(
                         children: [
