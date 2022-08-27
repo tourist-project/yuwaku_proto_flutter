@@ -37,111 +37,113 @@ class GoalListViewCell extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CheckmarkNotifier())
       ],
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15),
-          child: Container(
-            width: double.infinity,
-            color: Colors.white,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Container(
-                    height: 50,
-                    child: Stack(
-                      children: [
-                        Center(
-                          child: Text(
-                              homeItems.title,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 25
-                              )
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: isTookPicture?
-                          Image(
-                            image: AssetImage('assets/images/checkMark.png'),
-                          ):
-                          Container(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SpotImage(goal),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    DistanceGoalText(goal),
-                    Container(
-                      child: Row(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Card(
+            child: Container(
+              width: double.infinity,
+              color: Colors.white,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Container(
+                      height: 50,
+                      child: Stack(
                         children: [
-                          SizedBox(
-                            width: 70,
-                            height: 70,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Color.fromRGBO(186, 66, 43, 20),
-                                onPrimary: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
+                          Center(
+                            child: Text(
+                                homeItems.title,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 25
                                 )
-                              ),
-                              onPressed: () {
-                                showHintDialog(context);
-                              },
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(Icons.lightbulb, color: Colors.white),
-                                  AutoSizeText('ヒント', maxLines: 1),
-                                ],
-                              ),
                             ),
                           ),
-                          SizedBox(width: 10),
-                          SizedBox(
-                            width: 70,
-                            height: 70,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Color.fromRGBO(186, 66, 43, 20),
-                                onPrimary: Colors.white,
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: isTookPicture?
+                            Image(
+                              image: AssetImage('assets/images/checkMark.png'),
+                            ):
+                            Container(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SpotImage(goal),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      DistanceGoalText(goal),
+                      Container(
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 70,
+                              height: 70,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: Color.fromRGBO(186, 66, 43, 20),
+                                  onPrimary: Colors.white,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(10),
                                     ),
                                   )
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: ((context) =>
-                                        Camerapage(camera: camera, goal: goal,)),
-                                  ),
-                                );
-                              },
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(Icons.camera_alt_rounded),
-                                  AutoSizeText('撮影', maxLines: 1),
-                                ],
+                                ),
+                                onPressed: () {
+                                  showHintDialog(context);
+                                },
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(Icons.lightbulb, color: Colors.white),
+                                    AutoSizeText('ヒント', maxLines: 1),
+                                  ],
+                                ),
                               ),
                             ),
-                          )
-                        ],
+                            SizedBox(width: 10),
+                            SizedBox(
+                              width: 70,
+                              height: 70,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: Color.fromRGBO(186, 66, 43, 20),
+                                  onPrimary: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10),
+                                      ),
+                                    )
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: ((context) =>
+                                          Camerapage(camera: camera, goal: goal,)),
+                                    ),
+                                  );
+                                },
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(Icons.camera_alt_rounded),
+                                    AutoSizeText('撮影', maxLines: 1),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
