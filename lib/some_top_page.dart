@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:yuwaku_proto/goal_listview_cell.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_Item.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:yuwaku_proto/shared_preferences_manager.dart';
 import 'checkmark_notifier.dart';
 import 'goal.dart';
@@ -116,104 +115,81 @@ class _RunTopPage extends State<RunTopPage> {
             providers: [
               ChangeNotifierProvider(create: (_) => CheckmarkNotifier())
             ],
-              // TODO: SingleChildScrollViewの高さを要素に応じて可変にするべき
               child: SingleChildScrollView(
-                child: Container(
-                  width: widthSize,
-                  height: heightSize * 2.8,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Container(
-                          margin: EdgeInsets.only(
-                              top: widthSize / 12, left: widthSize / 12),
-                          width: widthSize,
-                          height: heightSize / 16,
-                          child: AutoSizeText(
-                              '目標一覧', style: TextStyle(fontSize: widthSize / 12)),
-                        ),
-                      ),
-                      AutoSizeText(
-                        '電球をタップするとヒントを見ることが出来ます。',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      AutoSizeText(
-                        '入場制限で入れないスポットはスキップしてください。',
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.red
-                        ),
-                      ),
-                    Expanded(
-                      flex: 35,
+                child: Column(
+                  children: [
+                    SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
                       child: Container(
-                        margin: EdgeInsets.only(top: widthSize / 18),
-                        child: ListView(
-                          scrollDirection: Axis.vertical,
-                          physics: const NeverScrollableScrollPhysics(),
-                          children: [
-                            GoalListViewCell(
-                                homeItems: homeItems[0],
-                                heightSize: heightSize,
-                                widthSize: widthSize,
-                                errorGetDistance: homeItems[0].distance,
-                                camera: camera,
-                                isTookPicture: context
-                                    .watch<CheckmarkNotifier>()
-                                    .isTakedHimurogoya,
-                                goal: Goal.himurogoya,
-                              ),
-                              GoalListViewCell(
-                                  homeItems: homeItems[1],
-                                  heightSize: heightSize,
-                                  widthSize: widthSize,
-                                  errorGetDistance: homeItems[1].distance,
-                                  camera: camera,
-                                  isTookPicture: context
-                                      .watch<CheckmarkNotifier>()
-                                      .isTakedYumejikan,
-                                  goal: Goal.yumejikan
-                              ),
-                              GoalListViewCell(
-                                  homeItems: homeItems[2],
-                                  heightSize: heightSize,
-                                  widthSize: widthSize,
-                                  errorGetDistance: homeItems[2].distance,
-                                  camera: camera,
-                                  isTookPicture: context
-                                      .watch<CheckmarkNotifier>()
-                                      .isTakedSoyu,
-                                  goal: Goal.soyu
-                              ),
-                              GoalListViewCell(
-                                  homeItems: homeItems[3],
-                                  heightSize: heightSize,
-                                  widthSize: widthSize,
-                                  errorGetDistance: homeItems[3].distance,
-                                  camera: camera,
-                                  isTookPicture: context
-                                      .watch<CheckmarkNotifier>()
-                                      .isTakedAshiyu,
-                                  goal: Goal.ashiyu
-                              ),
-                              GoalListViewCell(
-                                homeItems: homeItems[4],
-                                heightSize: heightSize,
-                                widthSize: widthSize,
-                                errorGetDistance: homeItems[4].distance,
-                                camera: camera,
-                                isTookPicture: context
-                                    .watch<CheckmarkNotifier>()
-                                    .isTakedYakushiji,
-                                goal: Goal.yakushiji,
-                              )
-                            ],
-                          ),
-                        ),
+                        width: double.infinity,
+                        height: 60,
+                        color: Colors.yellow,
                       ),
-                    ],
-                  ),
+                    ),
+                    ListView(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      children: [
+                        GoalListViewCell(
+                          homeItems: homeItems[0],
+                          heightSize: heightSize,
+                          widthSize: widthSize,
+                          errorGetDistance: homeItems[0].distance,
+                          camera: camera,
+                          isTookPicture: context
+                              .watch<CheckmarkNotifier>()
+                              .isTakedHimurogoya,
+                          goal: Goal.himurogoya,
+                        ),
+                        GoalListViewCell(
+                            homeItems: homeItems[1],
+                            heightSize: heightSize,
+                            widthSize: widthSize,
+                            errorGetDistance: homeItems[1].distance,
+                            camera: camera,
+                            isTookPicture: context
+                                .watch<CheckmarkNotifier>()
+                                .isTakedYumejikan,
+                            goal: Goal.yumejikan
+                        ),
+                        GoalListViewCell(
+                            homeItems: homeItems[2],
+                            heightSize: heightSize,
+                            widthSize: widthSize,
+                            errorGetDistance: homeItems[2].distance,
+                            camera: camera,
+                            isTookPicture: context
+                                .watch<CheckmarkNotifier>()
+                                .isTakedSoyu,
+                            goal: Goal.soyu
+                        ),
+                        GoalListViewCell(
+                            homeItems: homeItems[3],
+                            heightSize: heightSize,
+                            widthSize: widthSize,
+                            errorGetDistance: homeItems[3].distance,
+                            camera: camera,
+                            isTookPicture: context
+                                .watch<CheckmarkNotifier>()
+                                .isTakedAshiyu,
+                            goal: Goal.ashiyu
+                        ),
+                        GoalListViewCell(
+                          homeItems: homeItems[4],
+                          heightSize: heightSize,
+                          widthSize: widthSize,
+                          errorGetDistance: homeItems[4].distance,
+                          camera: camera,
+                          isTookPicture: context
+                              .watch<CheckmarkNotifier>()
+                              .isTakedYakushiji,
+                          goal: Goal.yakushiji,
+                        ),
+                        SizedBox(height: 50),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
