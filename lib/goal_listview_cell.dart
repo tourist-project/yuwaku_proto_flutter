@@ -44,7 +44,7 @@ class GoalListViewCell extends StatelessWidget {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Container(
                     height: 50,
                     child: Stack(
