@@ -38,7 +38,7 @@ class GoalListViewCell extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CheckmarkNotifier())
       ],
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.symmetric(horizontal: 15),
           child: Container(
             width: double.infinity,
             color: Colors.white,
@@ -51,11 +51,7 @@ class GoalListViewCell extends StatelessWidget {
                     fontSize: 25
                   ),
                 ),
-                Container(
-                  width: double.infinity,
-                  height: 200,
-                  color: Colors.grey,
-                ),
+                SpotImage(goal),
                 SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

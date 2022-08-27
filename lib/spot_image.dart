@@ -33,14 +33,6 @@ class SpotImage extends StatelessWidget {
     }
   }
 
-  void showHintDialog(BuildContext context) async {
-    await showDialog<void>(
-        context: context,
-        builder: (_) {
-          return HintDialog(goal);
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
     getImagePath(goal);
@@ -51,53 +43,21 @@ class SpotImage extends StatelessWidget {
           builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
             if (snapshot.hasData && snapshot.data != null) {
               return Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.0),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black,
-                        spreadRadius: 3,
-                        blurRadius: 3,
-                        offset: Offset(0, 3))
-                  ],
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: MemoryImage(File(snapshot.data!).readAsBytesSync()),
-                  ),
+                width: double.infinity,
+                height: 220,
+                color: Colors.grey,
+                child: Image(
+                  image: MemoryImage(File(snapshot.data!).readAsBytesSync()),
                 ),
               );
             } else {
               return Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.0),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black,
-                        spreadRadius: 3,
-                        blurRadius: 3,
-                        offset: Offset(0, 3))
-                  ],
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage(_imagePath),
-                  ),
-                ),
+                width: double.infinity,
+                height: 200,
+                color: Colors.grey,
               );
             }
           }
-        ),
-        Align(
-          alignment: Alignment.topRight,
-          child: ElevatedButton(onPressed: () {
-            showHintDialog(context);
-          },
-            child: Icon(Icons.lightbulb, color: Colors.orange.shade600,),
-            style: ElevatedButton.styleFrom(
-              primary: Color.fromRGBO(240, 233, 208, 40),
-              minimumSize: Size(40, 40),
-              shape: CircleBorder(),
-            ),
-          ),
         ),
       ],
     );
