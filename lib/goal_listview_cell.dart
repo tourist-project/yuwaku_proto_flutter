@@ -43,11 +43,31 @@ class GoalListViewCell extends StatelessWidget {
             color: Colors.white,
             child: Column(
               children: [
-                Text(
-                  homeItems.title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Container(
+                    height: 50,
+                    child: Stack(
+                      children: [
+                        Center(
+                          child: Text(
+                              homeItems.title,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25
+                              )
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: isTookPicture?
+                          Image(
+                            image: AssetImage('assets/images/checkMark.png'),
+                          ):
+                          Container(),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 SpotImage(goal),
