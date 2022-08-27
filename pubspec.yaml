@@ -65,6 +65,17 @@ dependencies:
   shared_preferences: ^2.0.15
   flutter_exif_rotation: ^0.5.1
   gallery_saver: ^2.3.2
+  flutter_native_splash: ^2.2.8
+
+flutter_native_splash:
+  color: 'f0e9d0'
+  image: 'assets/images/SplashView.png'
+  android_gravity: fill
+  ios_content_mode: scaleToFill
+
+
+
+
 
 flutter_icons:
   android: true
