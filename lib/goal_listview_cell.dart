@@ -99,7 +99,11 @@ class GoalListViewCell extends StatelessWidget {
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Icon(Icons.lightbulb, color: Colors.white),
+                                    Icon(
+                                      Icons.lightbulb,
+                                      color: Colors.white,
+                                      size: 35,
+                                    ),
                                     AutoSizeText('ヒント', maxLines: 1),
                                   ],
                                 ),
@@ -131,7 +135,11 @@ class GoalListViewCell extends StatelessWidget {
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Icon(Icons.camera_alt_rounded),
+                                    Icon(
+                                      Icons.camera_alt_rounded,
+                                      color: Colors.white,
+                                      size: 35,
+                                    ),
                                     AutoSizeText('撮影', maxLines: 1),
                                   ],
                                 ),
@@ -142,6 +150,7 @@ class GoalListViewCell extends StatelessWidget {
                       ),
                     ],
                   ),
+                  SizedBox(height: 10),
                 ],
               ),
             ),
