@@ -22,7 +22,7 @@ class DrawerLayout extends StatelessWidget {
             decoration: BoxDecoration(),
             child: Container(
                 child: Image(
-                  image: AssetImage('assets/images/icon.png'),
+                  image: AssetImage('assets/images/SideBarLog.png'),
                 )
             ),
           ),
