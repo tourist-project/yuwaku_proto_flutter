@@ -120,11 +120,17 @@ class _RunTopPage extends State<RunTopPage> {
                   children: [
                     SizedBox(height: 20),
                     Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Container(
-                        width: double.infinity,
-                        height: 60,
-                        color: Colors.yellow,
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: InkWell(
+                        onTap: () {
+                          // TODO: Webページへの遷移を追加
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          child: Image(
+                            image: AssetImage('assets/images/photo_contest_image.png'),
+                          ),
+                        ),
                       ),
                     ),
                     ListView(
