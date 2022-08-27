@@ -15,19 +15,19 @@ class SpotImage extends StatelessWidget {
   void getImagePath(Goal goal) {
     switch (goal) {
       case Goal.himurogoya:
-        _imagePath = 'assets/images/HimuroGoya/HimuroGoya.png';
+        _imagePath = 'assets/images/HimuroGoya/HimurogoyaGray.jpg';
         break;
       case Goal.yumejikan:
-        _imagePath = 'assets/images/Yumezikan/Yumezikan.png';
+        _imagePath = 'assets/images/Yumezikan/YumejikanGray.jpg';
         break;
       case Goal.soyu:
-        _imagePath = 'assets/images/Soyu/KeigoSirayu.png';
+        _imagePath = 'assets/images/Soyu/SoyuGray.jpeg';
         break;
       case Goal.ashiyu:
-        _imagePath = 'assets/images/Ashiyu/Asiyu(temp).png';
+        _imagePath = 'assets/images/Ashiyu/AsiyuGray.jpg';
         break;
       case Goal.yakushiji:
-        _imagePath = 'assets/images/Yakushizi1.png';
+        _imagePath = 'assets/images/YakushijiGray.jpg';
         break;
     }
   }
@@ -54,6 +54,10 @@ class SpotImage extends StatelessWidget {
                 width: double.infinity,
                 height: 200,
                 color: Colors.grey,
+                child: Image(
+                  fit: BoxFit.cover,
+                  image: AssetImage(_imagePath),
+                ),
               );
             }
           }
