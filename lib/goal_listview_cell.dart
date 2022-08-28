@@ -12,6 +12,7 @@ import 'package:yuwaku_proto/goal.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_Item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:yuwaku_proto/saved_image_dialog.dart';
 import 'package:yuwaku_proto/shared_preferences_manager.dart';
 import 'package:yuwaku_proto/spot_image.dart';
 import 'checkmark_notifier.dart';
@@ -209,30 +210,5 @@ class GoalListViewCell extends StatelessWidget {
         builder: (_) {
           return SavedImageDialog();
         });
-  }
-}
-
-class SavedImageDialog extends StatelessWidget {
-  const SavedImageDialog({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(
-          '写真の保存が完了しました',
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 15
-          ),
-      ),
-      actions: [
-        TextButton(
-            child: Text("OK"),
-            onPressed: () {
-              Navigator.pop(context);
-            }
-        ),
-      ],
-    );
   }
 }
