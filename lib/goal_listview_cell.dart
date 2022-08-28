@@ -80,8 +80,11 @@ class GoalListViewCell extends StatelessWidget {
                                 child: IconButton(
                                   icon: Icon(Icons.download),
                                   color: Colors.white,
-                                  onPressed: () {
-                                    _saveImage(goal);
+                                  onPressed: () async {
+                                    final result = await _saveImage(goal);
+                                    if (result) {
+                                      showSavedImageDialog(context);
+                                    }
                                   }
                                 ),
                               )
@@ -188,13 +191,48 @@ class GoalListViewCell extends StatelessWidget {
         });
   }
 
-  void _saveImage(Goal goal) async {
+  Future<bool> _saveImage(Goal goal) async {
     final storagePath = await _sharedPreferencesManager.getImageStoragePath(goal);
     if (storagePath != null) {
       File roatedImage = await FlutterExifRotation.rotateImage(path: storagePath);
       final Uint8List imageBuffer = await roatedImage.readAsBytes();
       GallerySaver.saveImage(storagePath);
       await ImageGallerySaver.saveImage(imageBuffer);
+      return true;
     }
+    return false;
+  }
+
+  void showSavedImageDialog(BuildContext context) async {
+    await showDialog<void>(
+        context: context,
+        builder: (_) {
+          return SavedImageDialog();
+        });
+  }
+}
+
+class SavedImageDialog extends StatelessWidget {
+  const SavedImageDialog({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(
+          '写真の保存が完了しました',
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 15
+          ),
+      ),
+      actions: [
+        TextButton(
+            child: Text("OK"),
+            onPressed: () {
+              Navigator.pop(context);
+            }
+        ),
+      ],
+    );
   }
 }
