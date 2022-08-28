@@ -47,7 +47,7 @@ class GoalListViewCell extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: Container(
-                      height: 50,
+                      height: 55,
                       child: Stack(
                         children: [
                           Center(
@@ -62,8 +62,20 @@ class GoalListViewCell extends StatelessWidget {
                           Align(
                             alignment: Alignment.centerRight,
                             child: isTookPicture?
-                            Image(
-                              image: AssetImage('assets/images/checkMark.png'),
+                            SizedBox(
+                              width: 50,
+                              height: 50,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Color.fromRGBO(186, 66, 43, 20),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: IconButton(
+                                  icon: Icon(Icons.download),
+                                  color: Colors.white,
+                                  onPressed: () {}
+                                ),
+                              )
                             ):
                             Container(),
                           ),
