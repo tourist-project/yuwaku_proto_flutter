@@ -5,7 +5,7 @@ import 'package:yuwaku_proto/goal_listview_cell.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_Item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:yuwaku_proto/shared_preferences_manager.dart';
-import 'checkmark_notifier.dart';
+import 'take_spot_notifier.dart';
 import 'goal.dart';
 
 class RunTopPage extends StatefulWidget {
@@ -78,23 +78,23 @@ class _RunTopPage extends State<RunTopPage> {
     final prefs = SharedPreferencesManager();
     var isTookHimurogoya = await prefs.getIsTook(Goal.himurogoya);
     if (isTookHimurogoya == true) {
-      context.read<CheckmarkNotifier>().notifyTakedHimurogoya();
+      context.read<TakeSpotNotifier>().notifyTakedHimurogoya();
     }
     var isTookYumejikan = await prefs.getIsTook(Goal.yumejikan);
     if (isTookYumejikan == true) {
-      context.read<CheckmarkNotifier>().notifyTakedYumejikan();
+      context.read<TakeSpotNotifier>().notifyTakedYumejikan();
     }
     var isTookSoyu = await prefs.getIsTook(Goal.soyu);
     if (isTookSoyu == true) {
-      context.read<CheckmarkNotifier>().notifyTakedSoyu();
+      context.read<TakeSpotNotifier>().notifyTakedSoyu();
     }
     var isTookAshiyu = await prefs.getIsTook(Goal.ashiyu);
     if (isTookAshiyu == true) {
-      context.read<CheckmarkNotifier>().notifyTakedAshiyu();
+      context.read<TakeSpotNotifier>().notifyTakedAshiyu();
     }
     var isTookYakushiji = await prefs.getIsTook(Goal.yakushiji);
     if (isTookYakushiji == true) {
-      context.read<CheckmarkNotifier>().notifyTakedYakushiji();
+      context.read<TakeSpotNotifier>().notifyTakedYakushiji();
     }
   }
 
@@ -114,7 +114,7 @@ class _RunTopPage extends State<RunTopPage> {
           backgroundColor: const Color.fromRGBO(240, 233, 208, 100),
           body: MultiProvider(
             providers: [
-              ChangeNotifierProvider(create: (_) => CheckmarkNotifier())
+              ChangeNotifierProvider(create: (_) => TakeSpotNotifier())
             ],
               child: SingleChildScrollView(
                 child: Column(
@@ -146,7 +146,7 @@ class _RunTopPage extends State<RunTopPage> {
                           errorGetDistance: homeItems[0].distance,
                           camera: camera,
                           isTookPicture: context
-                              .watch<CheckmarkNotifier>()
+                              .watch<TakeSpotNotifier>()
                               .isTakedHimurogoya,
                           goal: Goal.himurogoya,
                         ),
@@ -157,7 +157,7 @@ class _RunTopPage extends State<RunTopPage> {
                             errorGetDistance: homeItems[1].distance,
                             camera: camera,
                             isTookPicture: context
-                                .watch<CheckmarkNotifier>()
+                                .watch<TakeSpotNotifier>()
                                 .isTakedYumejikan,
                             goal: Goal.yumejikan
                         ),
@@ -168,7 +168,7 @@ class _RunTopPage extends State<RunTopPage> {
                             errorGetDistance: homeItems[2].distance,
                             camera: camera,
                             isTookPicture: context
-                                .watch<CheckmarkNotifier>()
+                                .watch<TakeSpotNotifier>()
                                 .isTakedSoyu,
                             goal: Goal.soyu
                         ),
@@ -179,7 +179,7 @@ class _RunTopPage extends State<RunTopPage> {
                             errorGetDistance: homeItems[3].distance,
                             camera: camera,
                             isTookPicture: context
-                                .watch<CheckmarkNotifier>()
+                                .watch<TakeSpotNotifier>()
                                 .isTakedAshiyu,
                             goal: Goal.ashiyu
                         ),
@@ -190,7 +190,7 @@ class _RunTopPage extends State<RunTopPage> {
                           errorGetDistance: homeItems[4].distance,
                           camera: camera,
                           isTookPicture: context
-                              .watch<CheckmarkNotifier>()
+                              .watch<TakeSpotNotifier>()
                               .isTakedYakushiji,
                           goal: Goal.yakushiji,
                         ),

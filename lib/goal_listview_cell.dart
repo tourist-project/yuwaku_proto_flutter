@@ -15,7 +15,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:yuwaku_proto/saved_image_dialog.dart';
 import 'package:yuwaku_proto/shared_preferences_manager.dart';
 import 'package:yuwaku_proto/spot_image.dart';
-import 'checkmark_notifier.dart';
+import 'take_spot_notifier.dart';
 import 'hint_dialog.dart';
 import 'some_camera_page.dart';
 
@@ -42,7 +42,7 @@ class GoalListViewCell extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => CheckmarkNotifier())
+        ChangeNotifierProvider(create: (_) => TakeSpotNotifier())
       ],
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),

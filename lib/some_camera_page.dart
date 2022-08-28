@@ -3,7 +3,7 @@ import 'package:camera/camera.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:provider/provider.dart';
-import 'package:yuwaku_proto/checkmark_notifier.dart';
+import 'package:yuwaku_proto/take_spot_notifier.dart';
 import 'package:yuwaku_proto/goal.dart';
 import 'package:yuwaku_proto/shared_preferences_manager.dart';
 import 'package:flutter/services.dart';
@@ -134,19 +134,19 @@ class DisplayPictureScreen extends StatelessWidget {
     _sharedPreferencesManager.setIsTook(goal);
     switch (goal) {
       case Goal.himurogoya:
-        context.read<CheckmarkNotifier>().notifyTakedHimurogoya();
+        context.read<TakeSpotNotifier>().notifyTakedHimurogoya();
         break;
       case Goal.yumejikan:
-        context.read<CheckmarkNotifier>().notifyTakedYumejikan();
+        context.read<TakeSpotNotifier>().notifyTakedYumejikan();
         break;
       case Goal.soyu:
-        context.read<CheckmarkNotifier>().notifyTakedSoyu();
+        context.read<TakeSpotNotifier>().notifyTakedSoyu();
         break;
       case Goal.ashiyu:
-        context.read<CheckmarkNotifier>().notifyTakedAshiyu();
+        context.read<TakeSpotNotifier>().notifyTakedAshiyu();
         break;
       case Goal.yakushiji:
-        context.read<CheckmarkNotifier>().notifyTakedYakushiji();
+        context.read<TakeSpotNotifier>().notifyTakedYakushiji();
         break;
     }
   }
