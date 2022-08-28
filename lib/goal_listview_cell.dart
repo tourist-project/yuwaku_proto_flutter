@@ -1,12 +1,18 @@
+import 'dart:typed_data';
 import 'dart:ui';
+import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_exif_rotation/flutter_exif_rotation.dart';
+import 'package:gallery_saver/gallery_saver.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:provider/provider.dart';
 import 'package:yuwaku_proto/distance_goal_text.dart';
 import 'package:yuwaku_proto/goal.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_Item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:yuwaku_proto/shared_preferences_manager.dart';
 import 'package:yuwaku_proto/spot_image.dart';
 import 'checkmark_notifier.dart';
 import 'hint_dialog.dart';
@@ -29,6 +35,7 @@ class GoalListViewCell extends StatelessWidget {
   double? errorGetDistance;
   bool isTookPicture;
   final Goal goal;
+  final _sharedPreferencesManager = SharedPreferencesManager();
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +80,9 @@ class GoalListViewCell extends StatelessWidget {
                                 child: IconButton(
                                   icon: Icon(Icons.download),
                                   color: Colors.white,
-                                  onPressed: () {}
+                                  onPressed: () {
+                                    _saveImage(goal);
+                                  }
                                 ),
                               )
                             ):
@@ -177,5 +186,15 @@ class GoalListViewCell extends StatelessWidget {
         builder: (_) {
           return HintDialog(goal);
         });
+  }
+
+  void _saveImage(Goal goal) async {
+    final storagePath = await _sharedPreferencesManager.getImageStoragePath(goal);
+    if (storagePath != null) {
+      File roatedImage = await FlutterExifRotation.rotateImage(path: storagePath);
+      final Uint8List imageBuffer = await roatedImage.readAsBytes();
+      GallerySaver.saveImage(storagePath);
+      await ImageGallerySaver.saveImage(imageBuffer);
+    }
   }
 }
