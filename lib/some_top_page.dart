@@ -111,6 +111,7 @@ class _RunTopPage extends State<RunTopPage> {
 
     return SafeArea(
         child: Scaffold(
+          backgroundColor: const Color.fromRGBO(240, 233, 208, 100),
           body: MultiProvider(
             providers: [
               ChangeNotifierProvider(create: (_) => CheckmarkNotifier())
