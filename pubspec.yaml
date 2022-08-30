@@ -68,14 +68,10 @@ dependencies:
   flutter_native_splash: ^2.2.8
 
 flutter_native_splash:
-  color: 'f0e9d0'
-  image: 'assets/images/SplashView.png'
-  android_gravity: fill
-  ios_content_mode: scaleToFill
-
-
-
-
+  background_image: 'assets/images/SplashView/SplashBackBonbori.png'
+  image: 'assets/images/SplashView/SplashLogoWhite.png'
+  android_gravity: center
+  ios_content_mode: center
 
 flutter_icons:
   android: true
