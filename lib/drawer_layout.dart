@@ -63,6 +63,7 @@ class DrawerLayout extends StatelessWidget {
             leading: Icon(Icons.insert_drive_file),
             title: const Text('利用規約'),
             onTap: () {
+              webSites.launchTermsOfUseURL();
             },
           ),
           ListTile(
