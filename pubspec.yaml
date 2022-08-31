@@ -71,7 +71,7 @@ flutter_native_splash:
   background_image: 'assets/images/SplashView/SplashBackBonbori.png'
   image: 'assets/images/SplashView/SplashLogoWhite.png'
   android_gravity: center
-  ios_content_mode: center
+  ios_content_mode: scaleAspectFit
 
 flutter_icons:
   android: true
