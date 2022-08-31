@@ -126,7 +126,7 @@ class _RunTopPage extends State<RunTopPage> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    SizedBox(height: 40),
+                    SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: InkWell(
@@ -141,7 +141,7 @@ class _RunTopPage extends State<RunTopPage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 10),
                     ListView(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
