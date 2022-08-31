@@ -1,6 +1,8 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:yuwaku_proto/goal_listview_cell.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_Item.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,6 +10,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:yuwaku_proto/shared_preferences_manager.dart';
 import 'checkmark_notifier.dart';
 import 'goal.dart';
+import 'drawer_layout.dart';
+import 'external_website.dart';
 
 class RunTopPage extends StatefulWidget {
   const RunTopPage({Key? key, required this.camera}) : super(key: key);
@@ -68,6 +72,8 @@ class _RunTopPage extends State<RunTopPage> {
       )
   ];
 
+  ExternalWebSites webSites = ExternalWebSites();
+
   @override
   void initState() {
     super.initState();
@@ -112,6 +118,7 @@ class _RunTopPage extends State<RunTopPage> {
 
     return SafeArea(
         child: Scaffold(
+          appBar: AppBar(title: Text('マイアプリ')),
           body: MultiProvider(
             providers: [
               ChangeNotifierProvider(create: (_) => CheckmarkNotifier())
@@ -217,7 +224,10 @@ class _RunTopPage extends State<RunTopPage> {
                 ),
               ),
             ),
-    ),
+          drawer: Drawer(
+            child: DrawerLayout(webSites: webSites),
+        ),
+      ),
     );
   }
 }
