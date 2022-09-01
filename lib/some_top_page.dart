@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -117,7 +119,15 @@ class _RunTopPage extends State<RunTopPage> {
 
     return SafeArea(
         child: Scaffold(
-          appBar: AppBar(title: Text('マイアプリ')),
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text('マイアプリ',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold
+              ),
+            ),
+          ),
           backgroundColor: const Color.fromRGBO(240, 233, 208, 100),
           body: MultiProvider(
             providers: [
