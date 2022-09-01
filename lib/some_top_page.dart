@@ -120,6 +120,7 @@ class _RunTopPage extends State<RunTopPage> {
     return SafeArea(
         child: Scaffold(
           appBar: AppBar(
+            iconTheme: IconThemeData(color: Colors.white),
             centerTitle: true,
             title: Text('マイアプリ',
               style: TextStyle(
