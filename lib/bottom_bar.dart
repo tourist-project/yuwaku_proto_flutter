@@ -1,38 +1,43 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:image/image.dart';
-import 'package:yuwaku_proto/map_component/map_interactive_move.dart';
 import 'package:yuwaku_proto/some_top_page.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
 
-class BottomTabPage extends StatefulWidget {
-  
-  BottomTabPage({Key? key, required this.camera});
+import 'map_component/map_interactive_move.dart';
+
+class BottomBar extends StatefulWidget {
+  BottomBar({Key? key, required this.camera});
+
   final CameraDescription camera;
   @override
   State<StatefulWidget> createState() {
-    return _BottomTabPageState(camera: camera);
+    return _BottomBarState(camera: camera);
   }
 }
 
-class _BottomTabPageState extends State<BottomTabPage> {
-  int _currentIndex = 0;
-  _BottomTabPageState({Key? key, required this.camera});
+class _BottomBarState extends State<BottomBar> {
+  _BottomBarState({required this.camera});
   final CameraDescription camera;
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: IndexedStack(
-        index: _currentIndex,
+        index: _selectedIndex,
         children: [
           RunTopPage(camera: camera),
           TutorialPage(),
-         InteractiveMap(title: '湯涌全体図')
+          InteractiveMap(title: '湯涌全体図')
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        onTap: _onItemTapped,
+        unselectedItemColor: Colors.white,
+        selectedItemColor: Colors.amber[700],
+        backgroundColor: Color(0xfff9cb9a),
+        currentIndex: _selectedIndex,
+        items: [
           BottomNavigationBarItem(
             icon: Icon(
               Icons.add_comment_sharp,
@@ -43,19 +48,16 @@ class _BottomTabPageState extends State<BottomTabPage> {
               icon: Icon(
                 Icons.help,
               ),
-              label: '遊び方'),
+              label: '遊び方'
+          ),
           BottomNavigationBarItem(
               icon: Icon(Icons.map),
-              label: '地図'),
+              label: '地図'
+          ),
         ],
-        currentIndex: _currentIndex,
-        selectedItemColor: Colors.amber[700],
-        onTap: _onItemTapped,
-        backgroundColor: Colors.white12,
-        type: BottomNavigationBarType.fixed,
       ),
     );
   }
 
-  void _onItemTapped(int index) => setState(() => _currentIndex = index );
+  void _onItemTapped(int index) => setState(() => _selectedIndex = index );
 }
