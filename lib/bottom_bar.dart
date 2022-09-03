@@ -2,7 +2,6 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:yuwaku_proto/some_top_page.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
-
 import 'map_component/map_interactive_move.dart';
 
 class BottomBar extends StatefulWidget {
@@ -39,19 +38,24 @@ class _BottomBarState extends State<BottomBar> {
         currentIndex: _selectedIndex,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.add_comment_sharp,
+            icon: ImageIcon(
+              AssetImage('assets/images/stamp.png'),
+              size: 30,
             ),
-            label: 'ホーム',
+            label: 'スタンプ',
           ),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.help,
+                size: 30,
               ),
               label: '遊び方'
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.map),
+              icon: Icon(
+                Icons.map,
+                size: 30,
+              ),
               label: '地図'
           ),
         ],
