@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as prefix;
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -28,8 +30,15 @@ class _TutorialPageState extends State<TutorialPage> {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(240, 233, 208, 100),
       appBar: AppBar(
-          title: const
-          Text("使い方ガイド", style: TextStyle(color: prefix.Colors.black87))),
+        centerTitle: true,
+        title: const
+        Text("使い方ガイド",
+          style: TextStyle(
+              color: prefix.Colors.white,
+              fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
