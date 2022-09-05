@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CheckmarkNotifier extends ChangeNotifier {
+class TakeSpotNotifier extends ChangeNotifier {
 
   var isTakedHimurogoya = false;
   var isTakedYumejikan = false;

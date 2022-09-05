@@ -65,6 +65,8 @@ dependencies:
   shared_preferences: ^2.0.15
   flutter_exif_rotation: ^0.5.1
   gallery_saver: ^2.3.2
+  font_awesome_flutter: ^10.1.0
+
   flutter_native_splash: ^2.2.8
 
 flutter_native_splash:
