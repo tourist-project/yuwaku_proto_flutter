@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as prefix;
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
