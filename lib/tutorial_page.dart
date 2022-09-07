@@ -27,7 +27,16 @@ class _TutorialPageState extends State<TutorialPage> {
     final mediaHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: const Color.fromRGBO(240, 233, 208, 100),
-      appBar: AppBar(title: const Text("使い方ガイド", style: TextStyle(color: prefix.Colors.black87))),
+      appBar: AppBar(
+        centerTitle: true,
+        title: const
+        Text("使い方ガイド",
+          style: TextStyle(
+              color: prefix.Colors.white,
+              fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[

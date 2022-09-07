@@ -115,113 +115,111 @@ class _RunTopPage extends State<RunTopPage> {
         .size
         .width;
 
-    return SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            iconTheme: IconThemeData(color: Colors.white),
-            centerTitle: true,
-            title: Text('マイアプリ',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold
-              ),
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
+        centerTitle: true,
+        title: Text('マイアプリ',
+          style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
           ),
-          backgroundColor: const Color.fromRGBO(240, 233, 208, 100),
-          body: MultiProvider(
-            providers: [
-              ChangeNotifierProvider(create: (_) => TakeSpotNotifier())
-            ],
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: InkWell(
-                        onTap: () {
-                          // TODO: Webページへの遷移を追加
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          child: Image(
-                            image: AssetImage('assets/images/photo_contest_image.png'),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    ListView(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      children: [
-                        GoalListViewCell(
-                          homeItems: homeItems[0],
-                          heightSize: heightSize,
-                          widthSize: widthSize,
-                          errorGetDistance: homeItems[0].distance,
-                          camera: camera,
-                          isTookPicture: context
-                              .watch<TakeSpotNotifier>()
-                              .isTakedHimurogoya,
-                          goal: Goal.himurogoya,
-                        ),
-                        GoalListViewCell(
-                            homeItems: homeItems[1],
-                            heightSize: heightSize,
-                            widthSize: widthSize,
-                            errorGetDistance: homeItems[1].distance,
-                            camera: camera,
-                            isTookPicture: context
-                                .watch<TakeSpotNotifier>()
-                                .isTakedYumejikan,
-                            goal: Goal.yumejikan
-                        ),
-                        GoalListViewCell(
-                            homeItems: homeItems[2],
-                            heightSize: heightSize,
-                            widthSize: widthSize,
-                            errorGetDistance: homeItems[2].distance,
-                            camera: camera,
-                            isTookPicture: context
-                                .watch<TakeSpotNotifier>()
-                                .isTakedSoyu,
-                            goal: Goal.soyu
-                        ),
-                        GoalListViewCell(
-                            homeItems: homeItems[3],
-                            heightSize: heightSize,
-                            widthSize: widthSize,
-                            errorGetDistance: homeItems[3].distance,
-                            camera: camera,
-                            isTookPicture: context
-                                .watch<TakeSpotNotifier>()
-                                .isTakedAshiyu,
-                            goal: Goal.ashiyu
-                        ),
-                        GoalListViewCell(
-                          homeItems: homeItems[4],
-                          heightSize: heightSize,
-                          widthSize: widthSize,
-                          errorGetDistance: homeItems[4].distance,
-                          camera: camera,
-                          isTookPicture: context
-                              .watch<TakeSpotNotifier>()
-                              .isTakedYakushiji,
-                          goal: Goal.yakushiji,
-                        ),
-                        SizedBox(height: 50),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          drawer: Drawer(
-            child: DrawerLayout(webSites: webSites),
         ),
       ),
-    );
+      backgroundColor: const Color.fromRGBO(240, 233, 208, 100),
+      body: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => TakeSpotNotifier())
+        ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: InkWell(
+                    onTap: () {
+                      // TODO: Webページへの遷移を追加
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      child: Image(
+                        image: AssetImage('assets/images/photo_contest_image.png'),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
+                ListView(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  children: [
+                    GoalListViewCell(
+                      homeItems: homeItems[0],
+                      heightSize: heightSize,
+                      widthSize: widthSize,
+                      errorGetDistance: homeItems[0].distance,
+                      camera: camera,
+                      isTookPicture: context
+                          .watch<TakeSpotNotifier>()
+                          .isTakedHimurogoya,
+                      goal: Goal.himurogoya,
+                    ),
+                    GoalListViewCell(
+                        homeItems: homeItems[1],
+                        heightSize: heightSize,
+                        widthSize: widthSize,
+                        errorGetDistance: homeItems[1].distance,
+                        camera: camera,
+                        isTookPicture: context
+                            .watch<TakeSpotNotifier>()
+                            .isTakedYumejikan,
+                        goal: Goal.yumejikan
+                    ),
+                    GoalListViewCell(
+                        homeItems: homeItems[2],
+                        heightSize: heightSize,
+                        widthSize: widthSize,
+                        errorGetDistance: homeItems[2].distance,
+                        camera: camera,
+                        isTookPicture: context
+                            .watch<TakeSpotNotifier>()
+                            .isTakedSoyu,
+                        goal: Goal.soyu
+                    ),
+                    GoalListViewCell(
+                        homeItems: homeItems[3],
+                        heightSize: heightSize,
+                        widthSize: widthSize,
+                        errorGetDistance: homeItems[3].distance,
+                        camera: camera,
+                        isTookPicture: context
+                            .watch<TakeSpotNotifier>()
+                            .isTakedAshiyu,
+                        goal: Goal.ashiyu
+                    ),
+                    GoalListViewCell(
+                      homeItems: homeItems[4],
+                      heightSize: heightSize,
+                      widthSize: widthSize,
+                      errorGetDistance: homeItems[4].distance,
+                      camera: camera,
+                      isTookPicture: context
+                          .watch<TakeSpotNotifier>()
+                          .isTakedYakushiji,
+                      goal: Goal.yakushiji,
+                    ),
+                    SizedBox(height: 50),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      drawer: Drawer(
+        child: DrawerLayout(webSites: webSites),
+    ),
+      );
   }
 }
 
