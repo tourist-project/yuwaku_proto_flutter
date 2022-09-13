@@ -69,25 +69,14 @@ class _DistanceGoalText extends State<DistanceGoalText> {
         stream: _getDistance(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return Column(children: [
-              Spacer(),
-              Container(
-                margin: EdgeInsets.only(right: 5, left: 5),
-                child: AutoSizeText(
-                  '目的地まで',
-                  style: TextStyle(fontSize: 20),
-                ),
+            return Center(
+              child: AutoSizeText(
+                distance != null ?
+                'あと' + distance!.toStringAsFixed(0) + 'm':
+                "Loading",
+                style: TextStyle(fontSize: 24),
               ),
-              Spacer(),
-              Center(
-                child: AutoSizeText(
-                  distance != null ? distance!.toStringAsFixed(0) + 'm':
-              "Loading",
-                  style: TextStyle(fontSize: 24),
-                ),
-              ),
-              Spacer(),
-            ]);
+            );
           } else {
             return Container();
           }

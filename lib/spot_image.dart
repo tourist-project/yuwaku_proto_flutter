@@ -1,50 +1,35 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:yuwaku_proto/hint_dialog.dart';
 import 'package:yuwaku_proto/shared_preferences_manager.dart';
+import 'documents_directory_client.dart';
 import 'goal.dart';
 
 class SpotImage extends StatelessWidget {
 
   Goal goal;
-  String? downloadImageUrl;
-  SpotImage(this.goal, this.downloadImageUrl);
-
-  final sharedPreferencesManager = SharedPreferencesManager();
+  SpotImage(this.goal);
+  final documentsDirectoryClient = DocumentsDirectoryClient();
+  final _sharedPreferencesManager = SharedPreferencesManager();
   late String _imagePath;
 
   void getImagePath(Goal goal) {
     switch (goal) {
       case Goal.himurogoya:
-        _imagePath = 'assets/images/HimuroGoya/HimuroGoya.png';
+        _imagePath = 'assets/images/HimuroGoya/HimurogoyaGray.jpg';
         break;
       case Goal.yumejikan:
-        _imagePath = 'assets/images/Yumezikan/Yumezikan.png';
+        _imagePath = 'assets/images/Yumezikan/YumejikanGray.jpg';
         break;
       case Goal.soyu:
-        _imagePath = 'assets/images/Soyu/KeigoSirayu.png';
+        _imagePath = 'assets/images/Soyu/SoyuGray.jpeg';
         break;
       case Goal.ashiyu:
-        _imagePath = 'assets/images/Ashiyu/Asiyu(temp).png';
+        _imagePath = 'assets/images/Ashiyu/AsiyuGray.jpg';
         break;
       case Goal.yakushiji:
-        _imagePath = 'assets/images/Yakushizi1.png';
+        _imagePath = 'assets/images/YakushijiGray.jpg';
         break;
     }
-  }
-
-  void showHintDialog(BuildContext context) async {
-    await showDialog<void>(
-        context: context,
-        builder: (_) {
-          return HintDialog(goal);
-        });
-  }
-
- ImageProvider setImage(String? url) {
-    if (url != null) {
-      return NetworkImage(url);
-    }
-    return AssetImage(_imagePath);
   }
 
   @override
@@ -52,34 +37,30 @@ class SpotImage extends StatelessWidget {
     getImagePath(goal);
     return Stack(
       children: [
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.0),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black,
-                  spreadRadius: 3,
-                  blurRadius: 3,
-                  offset: Offset(0, 3))
-            ],
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: setImage(downloadImageUrl),
-            ),
-          ),
-        ),
-        Align(
-          alignment: Alignment.topRight,
-          child: ElevatedButton(onPressed: () {
-            showHintDialog(context);
-          },
-            child: Icon(Icons.lightbulb, color: Colors.orange.shade600,),
-            style: ElevatedButton.styleFrom(
-              primary: Color.fromRGBO(240, 233, 208, 40),
-              minimumSize: Size(40, 40),
-              shape: CircleBorder(),
-            ),
-          ),
+        FutureBuilder(
+          future: _sharedPreferencesManager.getImageStoragePath(goal),
+          builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
+            if (snapshot.hasData && snapshot.data != null) {
+              return Container(
+                width: double.infinity,
+                height: 220,
+                color: Color(0xffD9D9D9),
+                child: Image(
+                  image: MemoryImage(File(snapshot.data!).readAsBytesSync()),
+                ),
+              );
+            } else {
+              return Container(
+                width: double.infinity,
+                height: 200,
+                color: Colors.grey,
+                child: Image(
+                  fit: BoxFit.cover,
+                  image: AssetImage(_imagePath),
+                ),
+              );
+            }
+          }
         ),
       ],
     );

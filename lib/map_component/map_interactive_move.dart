@@ -24,7 +24,15 @@ class _InteractiveMap extends State<InteractiveMap>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title, style: TextStyle(color: Colors.black87)),),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(widget.title,
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
       body: Container(
         decoration: BoxDecoration(
           color: Colors.black54,
