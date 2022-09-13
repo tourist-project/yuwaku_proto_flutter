@@ -13,7 +13,7 @@ class ExternalWebSites{
   }
 
   Future launchPhotoContestURL() async {
-    var url = "https://totteku.tourism-project.com/photocon/";
+    var url = "https://totteku.tourism-project.com/contest";
     if (await canLaunch(url)) {
       await launch(url);
     } else {

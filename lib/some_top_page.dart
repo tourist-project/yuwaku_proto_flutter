@@ -139,7 +139,7 @@ class _RunTopPage extends State<RunTopPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: InkWell(
                     onTap: () {
-                      // TODO: Webページへの遷移を追加
+                      webSites.launchPhotoContestURL();
                     },
                     child: Container(
                       width: double.infinity,
