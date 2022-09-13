@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:touchable/touchable.dart';
 import 'package:yuwaku_proto/some_top_page.dart';
 import 'package:camera/camera.dart';
-import 'package:yuwaku_proto/bottom_tab.dart';
 
 class NewCameraPage extends StatefulWidget {
   const NewCameraPage({Key? key, required this.camera}) : super(key: key);

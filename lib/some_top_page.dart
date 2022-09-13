@@ -1,13 +1,16 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:yuwaku_proto/goal_listview_cell.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_Item.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:yuwaku_proto/shared_preferences_manager.dart';
-import 'checkmark_notifier.dart';
+import 'take_spot_notifier.dart';
 import 'goal.dart';
+import 'drawer_layout.dart';
+import 'external_website.dart';
 
 class RunTopPage extends StatefulWidget {
   const RunTopPage({Key? key, required this.camera}) : super(key: key);
@@ -68,6 +71,8 @@ class _RunTopPage extends State<RunTopPage> {
       )
   ];
 
+  ExternalWebSites webSites = ExternalWebSites();
+
   @override
   void initState() {
     super.initState();
@@ -79,23 +84,23 @@ class _RunTopPage extends State<RunTopPage> {
     final prefs = SharedPreferencesManager();
     var isTookHimurogoya = await prefs.getIsTook(Goal.himurogoya);
     if (isTookHimurogoya == true) {
-      context.read<CheckmarkNotifier>().notifyTakedHimurogoya();
+      context.read<TakeSpotNotifier>().notifyTakedHimurogoya();
     }
     var isTookYumejikan = await prefs.getIsTook(Goal.yumejikan);
     if (isTookYumejikan == true) {
-      context.read<CheckmarkNotifier>().notifyTakedYumejikan();
+      context.read<TakeSpotNotifier>().notifyTakedYumejikan();
     }
     var isTookSoyu = await prefs.getIsTook(Goal.soyu);
     if (isTookSoyu == true) {
-      context.read<CheckmarkNotifier>().notifyTakedSoyu();
+      context.read<TakeSpotNotifier>().notifyTakedSoyu();
     }
     var isTookAshiyu = await prefs.getIsTook(Goal.ashiyu);
     if (isTookAshiyu == true) {
-      context.read<CheckmarkNotifier>().notifyTakedAshiyu();
+      context.read<TakeSpotNotifier>().notifyTakedAshiyu();
     }
     var isTookYakushiji = await prefs.getIsTook(Goal.yakushiji);
     if (isTookYakushiji == true) {
-      context.read<CheckmarkNotifier>().notifyTakedYakushiji();
+      context.read<TakeSpotNotifier>().notifyTakedYakushiji();
     }
   }
 
@@ -110,115 +115,111 @@ class _RunTopPage extends State<RunTopPage> {
         .size
         .width;
 
-    return SafeArea(
-        child: Scaffold(
-          body: MultiProvider(
-            providers: [
-              ChangeNotifierProvider(create: (_) => CheckmarkNotifier())
-            ],
-              // TODO: SingleChildScrollViewの高さを要素に応じて可変にするべき
-              child: SingleChildScrollView(
-                child: Container(
-                  width: widthSize,
-                  height: heightSize * 2.8,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Container(
-                          margin: EdgeInsets.only(
-                              top: widthSize / 12, left: widthSize / 12),
-                          width: widthSize,
-                          height: heightSize / 16,
-                          child: AutoSizeText(
-                              '目標一覧', style: TextStyle(fontSize: widthSize / 12)),
-                        ),
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
+        centerTitle: true,
+        title: Text('マイアプリ',
+          style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      backgroundColor: const Color.fromRGBO(240, 233, 208, 100),
+      body: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => TakeSpotNotifier())
+        ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: InkWell(
+                    onTap: () {
+                      // TODO: Webページへの遷移を追加
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      child: Image(
+                        image: AssetImage('assets/images/photo_contest_image.png'),
                       ),
-                      AutoSizeText(
-                        '電球をタップするとヒントを見ることが出来ます。',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      AutoSizeText(
-                        '入場制限で入れないスポットはスキップしてください。',
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.red
-                        ),
-                      ),
-                    Expanded(
-                      flex: 35,
-                      child: Container(
-                        margin: EdgeInsets.only(top: widthSize / 18),
-                        child: ListView(
-                          scrollDirection: Axis.vertical,
-                          physics: const NeverScrollableScrollPhysics(),
-                          children: [
-                            GoalListViewCell(
-                                homeItems: homeItems[0],
-                                heightSize: heightSize,
-                                widthSize: widthSize,
-                                errorGetDistance: homeItems[0].distance,
-                                camera: camera,
-                                isTookPicture: context
-                                    .watch<CheckmarkNotifier>()
-                                    .isTakedHimurogoya,
-                                goal: Goal.himurogoya,
-                              ),
-                              GoalListViewCell(
-                                  homeItems: homeItems[1],
-                                  heightSize: heightSize,
-                                  widthSize: widthSize,
-                                  errorGetDistance: homeItems[1].distance,
-                                  camera: camera,
-                                  isTookPicture: context
-                                      .watch<CheckmarkNotifier>()
-                                      .isTakedYumejikan,
-                                  goal: Goal.yumejikan
-                              ),
-                              GoalListViewCell(
-                                  homeItems: homeItems[2],
-                                  heightSize: heightSize,
-                                  widthSize: widthSize,
-                                  errorGetDistance: homeItems[2].distance,
-                                  camera: camera,
-                                  isTookPicture: context
-                                      .watch<CheckmarkNotifier>()
-                                      .isTakedSoyu,
-                                  goal: Goal.soyu
-                              ),
-                              GoalListViewCell(
-                                  homeItems: homeItems[3],
-                                  heightSize: heightSize,
-                                  widthSize: widthSize,
-                                  errorGetDistance: homeItems[3].distance,
-                                  camera: camera,
-                                  isTookPicture: context
-                                      .watch<CheckmarkNotifier>()
-                                      .isTakedAshiyu,
-                                  goal: Goal.ashiyu
-                              ),
-                              GoalListViewCell(
-                                homeItems: homeItems[4],
-                                heightSize: heightSize,
-                                widthSize: widthSize,
-                                errorGetDistance: homeItems[4].distance,
-                                camera: camera,
-                                isTookPicture: context
-                                    .watch<CheckmarkNotifier>()
-                                    .isTakedYakushiji,
-                                goal: Goal.yakushiji,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
+                SizedBox(height: 10),
+                ListView(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  children: [
+                    GoalListViewCell(
+                      homeItems: homeItems[0],
+                      heightSize: heightSize,
+                      widthSize: widthSize,
+                      errorGetDistance: homeItems[0].distance,
+                      camera: camera,
+                      isTookPicture: context
+                          .watch<TakeSpotNotifier>()
+                          .isTakedHimurogoya,
+                      goal: Goal.himurogoya,
+                    ),
+                    GoalListViewCell(
+                        homeItems: homeItems[1],
+                        heightSize: heightSize,
+                        widthSize: widthSize,
+                        errorGetDistance: homeItems[1].distance,
+                        camera: camera,
+                        isTookPicture: context
+                            .watch<TakeSpotNotifier>()
+                            .isTakedYumejikan,
+                        goal: Goal.yumejikan
+                    ),
+                    GoalListViewCell(
+                        homeItems: homeItems[2],
+                        heightSize: heightSize,
+                        widthSize: widthSize,
+                        errorGetDistance: homeItems[2].distance,
+                        camera: camera,
+                        isTookPicture: context
+                            .watch<TakeSpotNotifier>()
+                            .isTakedSoyu,
+                        goal: Goal.soyu
+                    ),
+                    GoalListViewCell(
+                        homeItems: homeItems[3],
+                        heightSize: heightSize,
+                        widthSize: widthSize,
+                        errorGetDistance: homeItems[3].distance,
+                        camera: camera,
+                        isTookPicture: context
+                            .watch<TakeSpotNotifier>()
+                            .isTakedAshiyu,
+                        goal: Goal.ashiyu
+                    ),
+                    GoalListViewCell(
+                      homeItems: homeItems[4],
+                      heightSize: heightSize,
+                      widthSize: widthSize,
+                      errorGetDistance: homeItems[4].distance,
+                      camera: camera,
+                      isTookPicture: context
+                          .watch<TakeSpotNotifier>()
+                          .isTakedYakushiji,
+                      goal: Goal.yakushiji,
+                    ),
+                    SizedBox(height: 50),
+                  ],
+                ),
+              ],
             ),
+          ),
+        ),
+      drawer: Drawer(
+        child: DrawerLayout(webSites: webSites),
     ),
-    );
+      );
   }
 }
 

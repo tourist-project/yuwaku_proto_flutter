@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yuwaku_proto/checkmark_notifier.dart';
+import 'package:yuwaku_proto/take_spot_notifier.dart';
 import 'package:yuwaku_proto/map_component/map_interactive_move.dart';
 import 'package:yuwaku_proto/some_explain.dart';
-import 'package:yuwaku_proto/bottom_tab.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
 import 'package:flutter/services.dart';
 import 'package:camera/camera.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'bottom_bar.dart';
 import 'firebase_options.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:yuwaku_proto/new_camera_page.dart';
@@ -29,7 +29,7 @@ Future<void> main() async{
   runApp(
       MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => CheckmarkNotifier())
+          ChangeNotifierProvider(create: (_) => TakeSpotNotifier())
         ],
         child: MyApp(camera: firstCamera)
       )
@@ -55,10 +55,11 @@ class MyApp extends StatelessWidget {
           ),
           visualDensity: VisualDensity.adaptivePlatformDensity,
           appBarTheme: AppBarTheme(
-            color: Color.fromRGBO(240, 233, 208, 100),
+            color: Color.fromRGBO(186, 66, 43, 10),
           )),
 
-      home: NewCameraPage(camera: camera),
+
+      home: BottomBar(camera: camera),
 
       routes: <String, WidgetBuilder>{
         '/some_explain': (BuildContext context) => Explain(),
