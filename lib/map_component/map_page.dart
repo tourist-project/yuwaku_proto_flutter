@@ -186,7 +186,7 @@ class _MapPageState extends State<MapPage> {
 
   /// アセット(画像等)の取得
   Future<void> _getAssets() async {
-    final ui.Image img = await MapItem.loadUiImage('assets/images/map_img.png');
+    final ui.Image img = await MapItem.loadUiImage('assets/images/YuwakuMap.png');
     final ui.Image cameraIconImg = await MapItem.loadUiImage('assets/images/camera_red.png');
     this._mapPainter = MapPainter(img, cameraIconImg, _getMoveX, _mapItems);
     for (var item in _mapItems) {

@@ -43,7 +43,7 @@ class _InteractiveMap extends State<InteractiveMap>{
           scaleEnabled: true,
           minScale: 0.2,
           maxScale: 2.0,
-          child: Image.asset('assets/images/map_img.png'),
+          child: Image.asset('assets/images/YuwakuMap.png'),
         ),
       ),
 
