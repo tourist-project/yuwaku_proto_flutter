@@ -10,6 +10,7 @@ import 'package:camera/camera.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:yuwaku_proto/new_camera_page.dart';
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,7 +58,7 @@ class MyApp extends StatelessWidget {
             color: Color.fromRGBO(240, 233, 208, 100),
           )),
 
-      home: BottomTabPage(camera: camera),
+      home: NewCameraPage(camera: camera),
 
       routes: <String, WidgetBuilder>{
         '/some_explain': (BuildContext context) => Explain(),
