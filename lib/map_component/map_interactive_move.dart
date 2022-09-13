@@ -1,14 +1,6 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'dart:typed_data';
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:yuwaku_proto/map_component/map_page.dart';
-
 
 class InteractiveMap extends StatefulWidget{
 
@@ -41,7 +33,7 @@ class _InteractiveMap extends State<InteractiveMap>{
           boundaryMargin: const EdgeInsets.all(30.0),
           constrained: false,
           scaleEnabled: true,
-          minScale: 0.2,
+          minScale: 0.1,
           maxScale: 2.0,
           child: Image.asset('assets/images/YuwakuMap.png'),
         ),
