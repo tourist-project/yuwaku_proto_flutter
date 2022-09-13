@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:yuwaku_proto/take_spot_notifier.dart';
 import 'package:yuwaku_proto/goal.dart';
@@ -107,7 +106,6 @@ class DisplayPictureScreen extends StatelessWidget {
 
   final String imagePath;
   final CameraDescription camera;
-  final storage = FirebaseStorage.instance;
   final Goal goal;
   final _sharedPreferencesManager = SharedPreferencesManager();
   final _documentsDirectoryClient = DocumentsDirectoryClient();

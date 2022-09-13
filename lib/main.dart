@@ -6,9 +6,7 @@ import 'package:yuwaku_proto/some_explain.dart';
 import 'package:yuwaku_proto/tutorial_page.dart';
 import 'package:flutter/services.dart';
 import 'package:camera/camera.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'bottom_bar.dart';
-import 'firebase_options.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 Future<void> main() async{
@@ -20,10 +18,6 @@ Future<void> main() async{
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
 
   runApp(
       MultiProvider(
