@@ -18,6 +18,7 @@ import 'package:yuwaku_proto/spot_image.dart';
 import 'take_spot_notifier.dart';
 import 'hint_dialog.dart';
 import 'some_camera_page.dart';
+import 'new_camera_page.dart';
 
 class GoalListViewCell extends StatelessWidget {
   GoalListViewCell(
@@ -153,7 +154,7 @@ class GoalListViewCell extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                       builder: ((context) =>
-                                          Camerapage(camera: camera, goal: goal,)),
+                                           NewCameraPage(camera: camera, goal: goal,)),
                                     ),
                                   );
                                 },
