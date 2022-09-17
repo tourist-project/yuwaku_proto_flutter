@@ -52,6 +52,11 @@ class DisplayPicturePage extends StatelessWidget {
     }
   }
 
+  void popToHome(BuildContext context) async {
+    int count = 0;
+    Navigator.of(context).popUntil((route) => count++ >= 2);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,7 +94,11 @@ class DisplayPicturePage extends StatelessWidget {
                   child: Container(
                     height: 60,
                     child: ElevatedButton(
-                        onPressed:() {},
+                        onPressed:() async {
+                          await _saveImageToDocumentsDirectory(imagePath, goal);
+                          _checkNotify(context, goal);
+                          popToHome(context);
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xffec6816),
                           shape: RoundedRectangleBorder(
@@ -120,7 +129,9 @@ class DisplayPicturePage extends StatelessWidget {
                   child: Container(
                     height: 60,
                     child: ElevatedButton(
-                        onPressed:() {},
+                        onPressed:() {
+                          Navigator.of(context).pop();
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xff9fc5ea),
                           shape: RoundedRectangleBorder(
