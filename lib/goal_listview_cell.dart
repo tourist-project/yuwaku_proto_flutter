@@ -75,7 +75,7 @@ class GoalListViewCell extends StatelessWidget {
                               height: 50,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Color.fromRGBO(186, 66, 43, 20),
+                                  color: const Color(0xffcb5c63),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: IconButton(
@@ -110,7 +110,7 @@ class GoalListViewCell extends StatelessWidget {
                               height: 70,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  primary: Color.fromRGBO(186, 66, 43, 20),
+                                  primary: const Color(0xffcb5c63),
                                   onPrimary: Colors.white,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.all(
@@ -140,7 +140,7 @@ class GoalListViewCell extends StatelessWidget {
                               height: 70,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  primary: Color.fromRGBO(186, 66, 43, 20),
+                                  primary: const Color(0xffcb5c63),
                                   onPrimary: Colors.white,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(
