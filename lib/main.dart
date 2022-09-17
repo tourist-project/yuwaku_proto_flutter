@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
           ),
           visualDensity: VisualDensity.adaptivePlatformDensity,
           appBarTheme: AppBarTheme(
-            color: Color.fromRGBO(186, 66, 43, 10),
+            color: const Color(0xffcb5c63),
           )),
 
       home: BottomBar(camera: camera),
