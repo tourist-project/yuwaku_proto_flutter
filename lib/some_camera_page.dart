@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
+import 'package:yuwaku_proto/display_picture_page.dart';
 import 'package:yuwaku_proto/take_spot_notifier.dart';
 import 'package:yuwaku_proto/goal.dart';
 import 'package:yuwaku_proto/shared_preferences_manager.dart';
@@ -82,7 +83,7 @@ class _Camerapage extends State<Camerapage>{
           // 表示用の画面に遷移
           await Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => DisplayPictureScreen(imagePath: image.path,camera: camera, goal: goal),
+              builder: (context) => DisplayPicturePage(imagePath: image.path,camera: camera, goal: goal),
               fullscreenDialog: true,
             ),
             );
