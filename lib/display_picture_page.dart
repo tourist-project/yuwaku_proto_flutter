@@ -71,96 +71,98 @@ class DisplayPicturePage extends StatelessWidget {
         ),
         automaticallyImplyLeading: false,
       ),
-      body: Container(
-        color: const Color.fromRGBO(240, 233, 208, 100),
-        child: Column(
-          children: [
-            Center(
-              child: SizedBox(
-                  width: double.infinity,
-                  child: Container(
-                      width: double.infinity,
-                      height: 500,
-                      child: Image.file(File(imagePath))
-                  )
+      body: SingleChildScrollView(
+        child: Container(
+          color: const Color.fromRGBO(240, 233, 208, 100),
+          child: Column(
+            children: [
+              Center(
+                child: SizedBox(
+                    width: double.infinity,
+                    child: Container(
+                        width: double.infinity,
+                        height: 500,
+                        child: Image.file(File(imagePath))
+                    )
+                ),
               ),
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(width: 15),
-                Expanded(
-                  child: Container(
-                    height: 60,
-                    child: ElevatedButton(
-                        onPressed:() async {
-                          await _saveImageToDocumentsDirectory(imagePath, goal);
-                          _checkNotify(context, goal);
-                          popToHome(context);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xffec6816),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(width: 15),
+                  Expanded(
+                    child: Container(
+                      height: 60,
+                      child: ElevatedButton(
+                          onPressed:() async {
+                            await _saveImageToDocumentsDirectory(imagePath, goal);
+                            _checkNotify(context, goal);
+                            popToHome(context);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xffec6816),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ImageIcon(
-                              AssetImage('assets/images/stamp.png'),
-                              color: Colors.white,
-                            ),
-                            Text(
-                                '押す',
-                              style: TextStyle(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ImageIcon(
+                                AssetImage('assets/images/stamp.png'),
                                 color: Colors.white,
-                                fontSize: 18,
                               ),
-                            ),
-                          ],
-                        )
+                              Text(
+                                  '押す',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          )
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: Container(
-                    height: 60,
-                    child: ElevatedButton(
-                        onPressed:() {
-                          Navigator.of(context).pop();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xff9fc5ea),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: Container(
+                      height: 60,
+                      child: ElevatedButton(
+                          onPressed:() {
+                            Navigator.of(context).pop();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xff9fc5ea),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.refresh,
-                              color: Colors.white,
-                            ),
-                            Text(
-                              '取り直す',
-                              style: TextStyle(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.refresh,
                                 color: Colors.white,
-                                fontSize: 18,
                               ),
-                            ),
-                          ],
-                        )
+                              Text(
+                                '取り直す',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          )
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(width: 15),
-              ],
-            ),
-          ],
+                  SizedBox(width: 15),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
