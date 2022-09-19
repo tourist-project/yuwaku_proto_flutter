@@ -54,12 +54,11 @@ class _RunTopPage extends State<RunTopPage> {
       36.485425901995455, 136.75758738535384,
     ),
     HomePageItem(
-        '足湯',
-        "Ashiyu",
-        '湯涌に2つある足湯の1つです。足だけの入浴なので無理なく体をしんから温める'
-            'ことができます。無料なのでぜひ足湯を体験してみていかかでしょう。',
-        'assets/images/Ashiyu/Asiyu(temp).png',
-        36.48582537854954, 136.7574341842218
+        'みどりの里',
+        "Midorino Sato",
+        '',
+        '',
+        36.490402927190495, 136.75423519148546
     ),
     HomePageItem('薬師寺', "Yakushizi",
       '蕎麦打ち体験や梨の収穫体験などの様々なイベントが1年を通して行われ,'
@@ -99,6 +98,10 @@ class _RunTopPage extends State<RunTopPage> {
     var isTookYakushiji = await prefs.getIsTook(Goal.yakushiji);
     if (isTookYakushiji == true) {
       context.read<TakeSpotNotifier>().notifyTakedYakushiji();
+    }
+    var isTookmidorinosato = await prefs.getIsTook(Goal.midorinosato);
+    if (isTookmidorinosato == true) {
+      context.read<TakeSpotNotifier>().notifyTakedMidorinosato();
     }
   }
 
@@ -193,8 +196,8 @@ class _RunTopPage extends State<RunTopPage> {
                         camera: camera,
                         isTookPicture: context
                             .watch<TakeSpotNotifier>()
-                            .isTakedAshiyu,
-                        goal: Goal.ashiyu
+                            .isTakedMidorinosato,
+                        goal: Goal.midorinosato
                     ),
                     GoalListViewCell(
                       homeItems: homeItems[4],

@@ -25,6 +25,8 @@ class DocumentsDirectoryClient {
         return 'ashiyu';
       case Goal.yakushiji:
         return 'yakushiji';
+      case Goal.midorinosato:
+        return 'midorinosato';
     }
   }
 

@@ -30,6 +30,9 @@ class SharedPreferencesManager {
       case Goal.yakushiji:
         await prefs.setBool("isTookYakushiji", true);
         break;
+      case Goal.midorinosato:
+        await prefs.setBool("isTookMidorinosato", true);
+        break;
     }
   }
 
@@ -50,6 +53,9 @@ class SharedPreferencesManager {
         return isTook;
       case Goal.yakushiji:
         bool? isTook = prefs.getBool('isTookYakushiji');
+        return isTook;
+      case Goal.midorinosato:
+        bool? isTook = prefs.getBool('isTookMidorinosato');
         return isTook;
     }
   }
@@ -114,6 +120,9 @@ class SharedPreferencesManager {
       case Goal.yakushiji:
         await prefs.setString("yakushijiImageStoragePath", path);
         break;
+      case Goal.midorinosato:
+        await prefs.setString("midorinosatoImageStoragePath", path);
+        break;
     }
   }
 
@@ -134,6 +143,9 @@ class SharedPreferencesManager {
         return path;
       case Goal.yakushiji:
         String? path = prefs.getString('yakushijiImageStoragePath');
+        return path;
+      case Goal.midorinosato:
+        String? path = prefs.getString('midorinosatoImageStoragePath');
         return path;
     }
   }

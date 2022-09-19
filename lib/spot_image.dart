@@ -29,6 +29,8 @@ class SpotImage extends StatelessWidget {
       case Goal.yakushiji:
         _imagePath = 'assets/images/YakushijiGray.jpg';
         break;
+      case Goal.midorinosato:
+        _imagePath = 'assets/images/MidorinoSatoGray.jpg';
     }
   }
 

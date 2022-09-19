@@ -3,5 +3,6 @@ enum Goal {
   yumejikan,
   soyu,
   ashiyu,
-  yakushiji
+  yakushiji,
+  midorinosato
 }
