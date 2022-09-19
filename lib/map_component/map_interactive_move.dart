@@ -27,7 +27,7 @@ class _InteractiveMap extends State<InteractiveMap>{
       ),
       body: Container(
         decoration: BoxDecoration(
-          color: Colors.black54,
+          color: const Color.fromRGBO(240, 233, 208, 100),
         ),
         child: Center(
           child: InteractiveViewer(
