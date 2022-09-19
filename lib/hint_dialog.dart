@@ -73,7 +73,7 @@ class HintDialog extends StatelessWidget {
             'assets/images/Midorinosato/midorinosato3.jpg',
             'assets/images/Midorinosato/midorinosato4.jpg',
             '・横長の大きな建物',
-            '・広い駐車場があるよ'
+            '・中に広い果樹園があるよ'
         );
         break;
     }
