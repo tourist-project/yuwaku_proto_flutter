@@ -27,15 +27,23 @@ class _InteractiveMap extends State<InteractiveMap>{
       ),
       body: Container(
         decoration: BoxDecoration(
-          color: Colors.black54,
+          color: const Color.fromRGBO(240, 233, 208, 100),
         ),
-        child: InteractiveViewer(
-          boundaryMargin: const EdgeInsets.all(30.0),
-          constrained: false,
-          scaleEnabled: true,
-          minScale: 0.1,
-          maxScale: 2.0,
-          child: Image.asset('assets/images/YuwakuMap.png'),
+        child: Center(
+          child: InteractiveViewer(
+            boundaryMargin: const EdgeInsets.all(30.0),
+            constrained: false,
+            scaleEnabled: true,
+            minScale: 0.1,
+            maxScale: 2.0,
+            child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: Center(
+                    child: Image.asset('assets/images/YuwakuMap.png')
+                ),
+            ),
+          ),
         ),
       ),
 
