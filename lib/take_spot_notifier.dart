@@ -7,6 +7,7 @@ class TakeSpotNotifier extends ChangeNotifier {
   var isTakedSoyu = false;
   var isTakedAshiyu = false;
   var isTakedYakushiji = false;
+  var isTakedMidorinosato = false;
 
   void notifyTakedHimurogoya() {
     isTakedHimurogoya = true;
@@ -30,6 +31,11 @@ class TakeSpotNotifier extends ChangeNotifier {
 
   void notifyTakedYakushiji() {
     isTakedYakushiji = true;
+    notifyListeners();
+  }
+
+  void notifyTakedMidorinosato() {
+    isTakedMidorinosato = true;
     notifyListeners();
   }
 }

@@ -49,6 +49,9 @@ class DisplayPicturePage extends StatelessWidget {
       case Goal.yakushiji:
         context.read<TakeSpotNotifier>().notifyTakedYakushiji();
         break;
+      case Goal.midorinosato:
+        context.read<TakeSpotNotifier>().notifyTakedMidorinosato();
+        break;
     }
   }
 

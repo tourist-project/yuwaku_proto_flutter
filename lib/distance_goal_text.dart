@@ -46,6 +46,10 @@ class _DistanceGoalText extends State<DistanceGoalText> {
         latitude = 36.48566;
         longitude = 136.75794;
         break;
+      case Goal.midorinosato:
+        latitude = 36.490402927190495;
+        longitude = 136.75423519148546;
+        break;
     }
   }
 
