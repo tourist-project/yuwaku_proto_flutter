@@ -120,7 +120,7 @@ class _RunTopPage extends State<RunTopPage> {
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
         centerTitle: true,
-        title: Text('マイアプリ',
+        title: Text('マイスタンプ',
           style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
