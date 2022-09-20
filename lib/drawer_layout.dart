@@ -13,28 +13,27 @@ class DrawerLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double mediaQueryHeight = MediaQuery.of(context).size.height;
     return Container(
       color: Color.fromRGBO(240, 233, 208, 10),
       child: ListView(
         padding: EdgeInsets.all(0),
         children: [
-          SizedBox(
-            height: 80,
-            child: Container(
-              child: DrawerHeader(
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Color.fromRGBO(186, 66, 43, 10),
-                      width: 2
-                    ),
+          Container(
+            height: mediaQueryHeight/7,
+            child: DrawerHeader(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Color.fromRGBO(186, 66, 43, 10),
+                    width: 2
                   ),
                 ),
-                child: Container(
-                    child: Image(
-                      image: AssetImage('assets/images/SideBarLog.png'),
-                    )
-                ),
+              ),
+              child: Container(
+                  child: Image(
+                    image: AssetImage('assets/images/SideBarLog.png'),
+                  )
               ),
             ),
           ),
