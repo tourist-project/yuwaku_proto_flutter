@@ -47,7 +47,7 @@ class DrawerLayout extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.camera_alt),
-            title: const Text('フォトコンテスト'),
+            title: const Text('写真コンテスト'),
             onTap: () {
               webSites.launchPhotoContestURL();
             },
