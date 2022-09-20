@@ -19,23 +19,21 @@ class DrawerLayout extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.all(0),
         children: [
-          SizedBox(
+          Container(
             height: mediaQueryHeight/7,
-            child: Container(
-              child: DrawerHeader(
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Color.fromRGBO(186, 66, 43, 10),
-                      width: 2
-                    ),
+            child: DrawerHeader(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Color.fromRGBO(186, 66, 43, 10),
+                    width: 2
                   ),
                 ),
-                child: Container(
-                    child: Image(
-                      image: AssetImage('assets/images/SideBarLog.png'),
-                    )
-                ),
+              ),
+              child: Container(
+                  child: Image(
+                    image: AssetImage('assets/images/SideBarLog.png'),
+                  )
               ),
             ),
           ),
