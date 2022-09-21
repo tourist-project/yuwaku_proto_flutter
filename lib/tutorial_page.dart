@@ -49,7 +49,6 @@ class _TutorialPageState extends State<TutorialPage> {
                 TutorialStepPage(PageData.first, pageController),
                 TutorialStepPage(PageData.second, pageController),
                 TutorialStepPage(PageData.third, pageController),
-                TutorialStepPage(PageData.forth, pageController),
               ],
             ),
           ),
@@ -57,7 +56,7 @@ class _TutorialPageState extends State<TutorialPage> {
             flex: 1,
             child: SmoothPageIndicator(
               controller: pageController,
-              count: 4,
+              count: 3,
               effect: const WormEffect(
                   dotColor: Colors.grey,
                   activeDotColor: Color.fromRGBO(186, 66, 43, 100)
@@ -74,7 +73,6 @@ enum PageData {
   first,
   second,
   third,
-  forth,
 }
 
 extension PageDataExtension on PageData {
@@ -87,19 +85,14 @@ extension PageDataExtension on PageData {
     PageData.second: {
       'title': '写真を確認',
       'description': '対象地点の写真をパシャリ！！\n'
-          'そして写真を確認して思い出に！！',
+          '写真スタンプを確認して思い出に！！',
       'imagePath': 'assets/images/tutorial_image_step2.png'
     },
     PageData.third: {
-      'title': '近くの写真',
-      'description': 'スポット近くの写真で探索もラクラク',
+      'title': 'ヒントの確認',
+      'description': '電球マークのタップでヒントが見れるぞ！',
       'imagePath': 'assets/images/tutorial_image_step3.png'
     },
-    PageData.forth: {
-      'title': '湯涌全体図',
-      'description': '湯涌温泉街の全体図を確認！！',
-      'imagePath': 'assets/images/tutorial_image_step4.png'
-    }
   };
 
   Map<String, String> get typeName => typeNames[this]!;
