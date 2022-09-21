@@ -85,9 +85,9 @@ extension PageDataExtension on PageData {
       'imagePath': 'assets/images/tutorial_image_step1.png'
     },
     PageData.second: {
-      'title': '距離を確認',
-      'description': '写真を撮る目標地点までの距離を確認！！\n'
-          'そして写真を撮ってみよう',
+      'title': '写真を確認',
+      'description': '対象地点の写真をパシャリ！！\n'
+          'そして写真を確認して思い出に！！',
       'imagePath': 'assets/images/tutorial_image_step2.png'
     },
     PageData.third: {
@@ -129,9 +129,15 @@ class TutorialStepPage extends StatelessWidget {
         ),
         Flexible(
           flex: 7,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.asset(data.typeName['imagePath']!, fit:BoxFit.contain),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.black87),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.asset(data.typeName['imagePath']!, fit:BoxFit.contain),
+            ),
           )
         ),
         Flexible(
