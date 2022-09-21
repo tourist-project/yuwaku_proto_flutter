@@ -49,7 +49,6 @@ class _TutorialPageState extends State<TutorialPage> {
                 TutorialStepPage(PageData.first, pageController),
                 TutorialStepPage(PageData.second, pageController),
                 TutorialStepPage(PageData.third, pageController),
-                TutorialStepPage(PageData.forth, pageController),
               ],
             ),
           ),
@@ -57,7 +56,7 @@ class _TutorialPageState extends State<TutorialPage> {
             flex: 1,
             child: SmoothPageIndicator(
               controller: pageController,
-              count: 4,
+              count: 3,
               effect: const WormEffect(
                   dotColor: Colors.grey,
                   activeDotColor: Color.fromRGBO(186, 66, 43, 100)
@@ -74,7 +73,6 @@ enum PageData {
   first,
   second,
   third,
-  forth,
 }
 
 extension PageDataExtension on PageData {
@@ -85,21 +83,16 @@ extension PageDataExtension on PageData {
       'imagePath': 'assets/images/tutorial_image_step1.png'
     },
     PageData.second: {
-      'title': '距離を確認',
-      'description': '写真を撮る目標地点までの距離を確認！！\n'
-          'そして写真を撮ってみよう',
+      'title': '写真を確認',
+      'description': '対象地点の写真をパシャリ！！\n'
+          '写真スタンプを確認して思い出に！！',
       'imagePath': 'assets/images/tutorial_image_step2.png'
     },
     PageData.third: {
-      'title': '近くの写真',
-      'description': 'スポット近くの写真で探索もラクラク',
+      'title': 'ヒントの確認',
+      'description': '電球マークのタップでヒントが見れるぞ！',
       'imagePath': 'assets/images/tutorial_image_step3.png'
     },
-    PageData.forth: {
-      'title': '湯涌全体図',
-      'description': '湯涌温泉街の全体図を確認！！',
-      'imagePath': 'assets/images/tutorial_image_step4.png'
-    }
   };
 
   Map<String, String> get typeName => typeNames[this]!;
@@ -129,9 +122,15 @@ class TutorialStepPage extends StatelessWidget {
         ),
         Flexible(
           flex: 7,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.asset(data.typeName['imagePath']!, fit:BoxFit.contain),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.black87),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.asset(data.typeName['imagePath']!, fit:BoxFit.contain),
+            ),
           )
         ),
         Flexible(
