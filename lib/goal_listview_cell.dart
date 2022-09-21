@@ -19,7 +19,6 @@ import 'hint_dialog.dart';
 import 'some_camera_page.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-
 class GoalListViewCell extends StatelessWidget {
   GoalListViewCell(
       {required this.homeItems,
@@ -84,8 +83,6 @@ class GoalListViewCell extends StatelessWidget {
                                   color: Colors.white,
                                   onPressed: () async {
                                     final result = await _saveImage(goal);
-                                    // 許可画面
-                                    print(result);
                                     if (result) {
                                       showSavedImageDialog(context);
                                     }
@@ -202,10 +199,9 @@ class GoalListViewCell extends StatelessWidget {
       if (!status.isGranted){
         openAppSettings();
       }
-        if (status.isGranted) { // 権限がある場合
+      if (status.isGranted) { // 権限がある場合
         File roatedImage = await FlutterExifRotation.rotateImage(path: storagePath);
         final Uint8List imageBuffer = await roatedImage.readAsBytes();
-        // GallerySaver.saveImage(storagePath);
         await ImageGallerySaver.saveImage(imageBuffer);
         return true;
       }
