@@ -82,9 +82,15 @@ class GoalListViewCell extends StatelessWidget {
                                   icon: Icon(Icons.download),
                                   color: Colors.white,
                                   onPressed: () async {
-                                    final result = await _saveImage(goal);
-                                    if (result) {
-                                      showSavedImageDialog(context);
+                                    final status = await Permission.storage.request();
+                                    if (!status.isGranted){
+                                      openAppSettings();
+                                    }
+                                    if (status.isGranted) { // 権限がある場合
+                                      final result = await _saveImage(goal);
+                                      if (result) {
+                                        showSavedImageDialog(context);
+                                      }
                                     }
                                   }
                                 ),
@@ -195,16 +201,10 @@ class GoalListViewCell extends StatelessWidget {
   Future<bool> _saveImage(Goal goal) async {
     final storagePath = await _sharedPreferencesManager.getImageStoragePath(goal);
     if (storagePath != null) {
-      final status = await Permission.storage.request();
-      if (!status.isGranted){
-        openAppSettings();
-      }
-      if (status.isGranted) { // 権限がある場合
         File roatedImage = await FlutterExifRotation.rotateImage(path: storagePath);
         final Uint8List imageBuffer = await roatedImage.readAsBytes();
         await ImageGallerySaver.saveImage(imageBuffer);
         return true;
-      }
     }
     return false;
   }
