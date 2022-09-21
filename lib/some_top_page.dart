@@ -116,9 +116,15 @@ class _RunTopPage extends State<RunTopPage> {
         .size
         .width;
 
+    var _scaffoldKey = GlobalKey<ScaffoldState>();
+
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
+        leading: IconButton(
+            onPressed: () => _scaffoldKey.currentState!.openDrawer(),
+          icon: Icon(Icons.menu, color:Colors.white),
+        ),
         centerTitle: true,
         title: Text('マイスタンプ',
           style: TextStyle(
