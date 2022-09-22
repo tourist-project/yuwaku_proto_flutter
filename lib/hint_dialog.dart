@@ -36,7 +36,7 @@ class HintDialog extends StatelessWidget {
         _title = "総湯";
         _modalItem = modalItem(
             'assets/images/Soyu/Soyu3.jpg',
-            'assets/images/Soyu/Modal_Soyu.png',
+            'assets/images/Soyu/Soyu4.png',
             'assets/images/Soyu/Soyu1.png',
             'assets/images/Soyu/Soyu2.png',
             '・扇階段のとなり',
