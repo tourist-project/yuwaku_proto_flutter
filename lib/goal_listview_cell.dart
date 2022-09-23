@@ -82,12 +82,24 @@ class GoalListViewCell extends StatelessWidget {
                                   icon: Icon(Icons.download),
                                   color: Colors.white,
                                   onPressed: () async {
-                                    final androidStatus = await Permission.storage.request();
-                                    final iosStatus = await Permission.photos.request();
-                                    if(androidStatus.isGranted || iosStatus.isGranted){
-                                      final result = await _saveImage(goal);
-                                      if (result) {
-                                        showSavedImageDialog(context);
+                                    final isAndroid = Platform.isAndroid; //OS判定
+                                    final isIOS = Platform.isIOS;
+                                    if(isAndroid){
+                                      final androidStatus = await Permission.storage.request();
+                                      print(PermissionStatus.granted);
+                                      if (androidStatus.isGranted) { // 権限がある場合
+                                        final result = await _saveImage(goal);
+                                        if (result) {
+                                          showSavedImageDialog(context);
+                                        }
+                                      }
+                                    }else if(isIOS){
+                                      final iosStatus = await Permission.photos.request();
+                                      if (iosStatus.isGranted) { // 権限がある場合
+                                        final result = await _saveImage(goal);
+                                        if (result) {
+                                          showSavedImageDialog(context);
+                                        }
                                       }
                                     }
                                   }
