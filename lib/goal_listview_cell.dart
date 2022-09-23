@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_exif_rotation/flutter_exif_rotation.dart';
-import 'package:gallery_saver/gallery_saver.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:provider/provider.dart';
 import 'package:yuwaku_proto/distance_goal_text.dart';
@@ -18,6 +17,7 @@ import 'package:yuwaku_proto/spot_image.dart';
 import 'take_spot_notifier.dart';
 import 'hint_dialog.dart';
 import 'some_camera_page.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class GoalListViewCell extends StatelessWidget {
   GoalListViewCell(
@@ -82,9 +82,25 @@ class GoalListViewCell extends StatelessWidget {
                                   icon: Icon(Icons.download),
                                   color: Colors.white,
                                   onPressed: () async {
-                                    final result = await _saveImage(goal);
-                                    if (result) {
-                                      showSavedImageDialog(context);
+                                    final isAndroid = Platform.isAndroid; //OS判定
+                                    final isIOS = Platform.isIOS;
+                                    if(isAndroid){
+                                      final androidStatus = await Permission.storage.request();
+                                      print(PermissionStatus.granted);
+                                      if (androidStatus.isGranted) { // 権限がある場合
+                                        final result = await _saveImage(goal);
+                                        if (result) {
+                                          showSavedImageDialog(context);
+                                        }
+                                      }
+                                    }else if(isIOS){
+                                      final iosStatus = await Permission.photos.request();
+                                      if (iosStatus.isGranted) { // 権限がある場合
+                                        final result = await _saveImage(goal);
+                                        if (result) {
+                                          showSavedImageDialog(context);
+                                        }
+                                      }
                                     }
                                   }
                                 ),
@@ -195,11 +211,10 @@ class GoalListViewCell extends StatelessWidget {
   Future<bool> _saveImage(Goal goal) async {
     final storagePath = await _sharedPreferencesManager.getImageStoragePath(goal);
     if (storagePath != null) {
-      File roatedImage = await FlutterExifRotation.rotateImage(path: storagePath);
-      final Uint8List imageBuffer = await roatedImage.readAsBytes();
-      GallerySaver.saveImage(storagePath);
-      await ImageGallerySaver.saveImage(imageBuffer);
-      return true;
+        File roatedImage = await FlutterExifRotation.rotateImage(path: storagePath);
+        final Uint8List imageBuffer = await roatedImage.readAsBytes();
+        await ImageGallerySaver.saveImage(imageBuffer);
+        return true;
     }
     return false;
   }
