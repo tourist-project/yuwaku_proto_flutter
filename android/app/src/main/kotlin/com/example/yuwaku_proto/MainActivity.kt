@@ -1,4 +1,4 @@
-package com.example.yuwaku_proto
+package com.tourism.totteku
 
 import io.flutter.embedding.android.FlutterActivity
 
