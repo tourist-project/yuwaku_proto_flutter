@@ -49,7 +49,6 @@ class _TutorialPageState extends State<TutorialPage> {
                 TutorialStepPage(PageData.first, pageController),
                 TutorialStepPage(PageData.second, pageController),
                 TutorialStepPage(PageData.third, pageController),
-                TutorialStepPage(PageData.forth, pageController),
               ],
             ),
           ),
@@ -57,7 +56,7 @@ class _TutorialPageState extends State<TutorialPage> {
             flex: 1,
             child: SmoothPageIndicator(
               controller: pageController,
-              count: 4,
+              count: 3,
               effect: const WormEffect(
                   dotColor: Colors.grey,
                   activeDotColor: Color.fromRGBO(186, 66, 43, 100)
@@ -74,7 +73,6 @@ enum PageData {
   first,
   second,
   third,
-  forth,
 }
 
 extension PageDataExtension on PageData {
@@ -94,12 +92,6 @@ extension PageDataExtension on PageData {
       'title': 'ヒントの確認',
       'description': '電球マークのタップでヒントが見れるぞ！',
       'imagePath': 'assets/images/tutorial_image_step3.png'
-    },
-    PageData.forth: {
-      'title': '写真コンテストの応募について',
-      'description': '青枠のボタンをタップで\n'
-          '写真コンテスト応募ルールの確認',
-      'imagePath': 'assets/images/tutorial_image_photoContest.png'
     },
   };
 

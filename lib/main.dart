@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:camera/camera.dart';
 import 'bottom_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'entry_photoContest_page.dart';
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
         '/some_explain': (BuildContext context) => Explain(),
         '/tutorial_page':(BuildContext context) => TutorialPage(),
         '/map_interactive_move':(BuildContext context) => InteractiveMap(title: '湯涌全体図'),
+        '/entry_photoContest_page':(BuildContext context) => PhotoContestEntry(),
       },
     );
   }

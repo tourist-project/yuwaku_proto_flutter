@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'external_website.dart';
+import 'entry_photoContest_page.dart';
 
 class DrawerLayout extends StatelessWidget {
   const DrawerLayout({
@@ -48,7 +49,9 @@ class DrawerLayout extends StatelessWidget {
             leading: Icon(Icons.camera_alt),
             title: const Text('写真コンテスト'),
             onTap: () {
-              webSites.launchPhotoContestURL();
+              Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => PhotoContestEntry())
+              );
             },
           ),
           ListTile(
