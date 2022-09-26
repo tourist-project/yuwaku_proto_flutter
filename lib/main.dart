@@ -58,7 +58,6 @@ class MyApp extends StatelessWidget {
         '/some_explain': (BuildContext context) => Explain(),
         '/tutorial_page':(BuildContext context) => TutorialPage(),
         '/map_interactive_move':(BuildContext context) => InteractiveMap(title: '湯涌全体図'),
-        '/entry_photoContest_page':(BuildContext context) => PhotoContestEntry(),
       },
     );
   }

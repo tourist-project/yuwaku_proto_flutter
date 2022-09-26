@@ -105,7 +105,6 @@ class _PhotoContestEntryState extends State<PhotoContestEntry> {
               itemCount: _photoContestExplain.length,
             ),
           ),
-
         ],
       ),
     );
