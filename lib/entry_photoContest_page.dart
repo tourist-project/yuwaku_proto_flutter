@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:yuwaku_proto/some_top_page.dart';
 import 'external_website.dart';
 
 class PhotoContestEntry extends StatefulWidget {
@@ -34,6 +35,7 @@ class _PhotoContestEntryState extends State<PhotoContestEntry> {
 
   int _counter = 0;
   ExternalWebSites webSites = ExternalWebSites();
+  var _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +43,13 @@ class _PhotoContestEntryState extends State<PhotoContestEntry> {
         .map((e) => PhotoContestExplain(e.key, e.value)).toList();
 
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('写真コンテスト', style: TextStyle(color: Colors.white)),
+        leading: IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: Icon(Icons.chevron_left, color:Colors.white),
+        ),
+        title: Text('写真コンテスト', style: TextStyle(color: Colors.white),),
       ),
       body: Column(
         children: [
