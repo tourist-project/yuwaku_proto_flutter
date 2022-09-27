@@ -93,13 +93,10 @@ class GoalListViewCell extends StatelessWidget {
                                           showSavedImageDialog(context);
                                         }
                                       }
-                                    }else if(isIOS){
-                                      final iosStatus = await Permission.photos.request();
-                                      if (iosStatus.isGranted) { // 権限がある場合
-                                        final result = await _saveImage(goal);
-                                        if (result) {
-                                          showSavedImageDialog(context);
-                                        }
+                                    } else if(isIOS) {
+                                      final result = await _saveImage(goal);
+                                      if (result) {
+                                        showSavedImageDialog(context);
                                       }
                                     }
                                   }
@@ -213,8 +210,8 @@ class GoalListViewCell extends StatelessWidget {
     if (storagePath != null) {
         File roatedImage = await FlutterExifRotation.rotateImage(path: storagePath);
         final Uint8List imageBuffer = await roatedImage.readAsBytes();
-        await ImageGallerySaver.saveImage(imageBuffer);
-        return true;
+        final result = await ImageGallerySaver.saveImage(imageBuffer);
+        return result['isSuccess'];
     }
     return false;
   }
