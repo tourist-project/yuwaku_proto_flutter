@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:camera/camera.dart';
 import 'bottom_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'entry_photoContest_page.dart';
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();

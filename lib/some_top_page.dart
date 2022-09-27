@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yuwaku_proto/entry_photoContest_page.dart';
 import 'package:yuwaku_proto/goal_listview_cell.dart';
 import 'package:yuwaku_proto/homepage_component/homePage_Item.dart';
 import 'package:flutter/cupertino.dart';
@@ -146,7 +147,9 @@ class _RunTopPage extends State<RunTopPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: InkWell(
                     onTap: () {
-                      webSites.launchPhotoContestURL();
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => PhotoContestEntry())
+                      );
                     },
                     child: Container(
                       width: double.infinity,
