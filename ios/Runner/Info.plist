@@ -26,6 +26,11 @@
 	<true/>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
+	<key>LSApplicationQueriesSchemes</key>
+      <array>
+        <string>https</string>
+        <string>http</string>
+      </array>
 	<key>NSCameraUsageDescription</key>
 	<string>スポットの撮影を行います</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
