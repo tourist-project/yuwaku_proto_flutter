@@ -34,6 +34,16 @@ class SpotImage extends StatelessWidget {
     }
   }
 
+  ImageProvider getSavedImage(String path, String defaultPath) {
+    try {
+      final fileData = File(path);
+      return MemoryImage(fileData.readAsBytesSync());
+    } catch (e) {
+      print(e);
+      return AssetImage(defaultPath);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     getImagePath(goal);
@@ -48,7 +58,7 @@ class SpotImage extends StatelessWidget {
                 height: 220,
                 color: Color(0xffD9D9D9),
                 child: Image(
-                  image: MemoryImage(File(snapshot.data!).readAsBytesSync()),
+                  image: getSavedImage(snapshot.data!, _imagePath),
                 ),
               );
             } else {
