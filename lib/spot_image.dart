@@ -34,9 +34,9 @@ class SpotImage extends StatelessWidget {
     }
   }
 
-  ImageProvider getSavedImage(String path, String defaultPath) {
+  ImageProvider getSavedImage(String loadSuccessPath, String defaultPath) {
     try {
-      final fileData = File(path);
+      final fileData = File(loadSuccessPath);
       return MemoryImage(fileData.readAsBytesSync());
     } catch (e) {
       print(e);
