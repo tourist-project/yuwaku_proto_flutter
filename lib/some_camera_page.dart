@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 class Camerapage extends StatefulWidget{
   Camerapage(
       {
-        Key? key,
+                 Key? key,
         required this.camera,
         required this.goal,
       }
@@ -16,15 +16,15 @@ class Camerapage extends StatefulWidget{
   final Goal goal;
 
   @override
-  _Camerapage createState() => _Camerapage(camera: this.camera, goal: this.goal);
+  _Camerapage           createState() => _Camerapage(camera: this.camera, goal: this.goal);
 }
 
-class _Camerapage extends State<Camerapage>{
+class _Camerapage    extends State<Camerapage>{
   _Camerapage({Key? key,required this.camera, required this.goal});
-  
+
   final CameraDescription camera;
   final Goal goal;
-  
+
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
 
@@ -32,16 +32,16 @@ class _Camerapage extends State<Camerapage>{
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
+            DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
       DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
+          DeviceOrientation.landscapeRight,
     ]);
     _controller = CameraController(
       widget.camera,
       ResolutionPreset.high,
     );
-    _initializeControllerFuture = _controller.initialize();
+    _initializeControllerFuture= _controller.initialize();
   }
   @override
   void dispose() {
