@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 class Camerapage extends StatefulWidget{
   Camerapage(
       {
-                 Key? key,
+          Key? key,
         required this.camera,
         required this.goal,
       }
@@ -16,7 +16,7 @@ class Camerapage extends StatefulWidget{
   final Goal goal;
 
   @override
-  _Camerapage           createState() => _Camerapage(camera: this.camera, goal: this.goal);
+  _Camerapage   createState() => _Camerapage(camera: this.camera, goal: this.goal);
 }
 
 class _Camerapage    extends State<Camerapage>{
