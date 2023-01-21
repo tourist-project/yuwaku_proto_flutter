@@ -166,7 +166,7 @@ class GoalListViewCell extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                       builder: ((context) =>
-                                          Camerapage(camera: camera, goal: goal,)),
+                                          Camerapage(camera: camera, goal: goal)),
                                     ),
                                   );
                                 },
