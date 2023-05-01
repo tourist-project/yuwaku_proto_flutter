@@ -6,11 +6,9 @@ import 'entry_photoContest_page.dart';
 class DrawerLayout extends StatelessWidget {
   const DrawerLayout({
     Key? key,
-    required this.webSites,
   }) : super(key: key);
 
 
-  final ExternalWebSites webSites;
 
   @override
   Widget build(BuildContext context) {
@@ -38,44 +36,44 @@ class DrawerLayout extends StatelessWidget {
               ),
             ),
           ),
-          ListTile(
-            leading: Icon(Icons.launch),
-            title: const Text('Webサイト'),
-            onTap: () {
-              webSites.launchTourismURL();
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.camera_alt),
-            title: const Text('写真コンテスト'),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => PhotoContestEntry())
-              );
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.list_alt),
-            title: const Text('アンケート'),
-            onTap: () {
-              webSites.launchQuestionWebSURL();
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.insert_drive_file),
-            title: const Text('利用規約'),
-            onTap: () {
-              webSites.launchTermsOfUseURL();
-            },
-          ),
-          ListTile(
-            leading: Icon(FontAwesomeIcons.twitter),
-            title: const Text('運営Twitter'),
-            tileColor: Color.fromRGBO(240, 233, 208, 10),
-            onTap: () {
-              webSites.twitterURL();
-            },
-          ),
+          // ListTile(
+          //   leading: Icon(Icons.launch),
+          //   title: const Text('Webサイト'),
+          //   onTap: () {
+          //     webSites.launchTourismURL();
+          //   },
+          // ),
+          // ListTile(
+          //   leading: Icon(Icons.camera_alt),
+          //   title: const Text('写真コンテスト'),
+          //   onTap: () {
+          //     Navigator.push(context, MaterialPageRoute(
+          //         builder: (context) => PhotoContestEntry())
+          //     );
+          //   },
+          // ),
+          // ListTile(
+          //   leading: Icon(Icons.list_alt),
+          //   title: const Text('アンケート'),
+          //   onTap: () {
+          //     webSites.launchQuestionWebSURL();
+          //   },
+          // ),
+          // ListTile(
+          //   leading: Icon(Icons.insert_drive_file),
+          //   title: const Text('利用規約'),
+          //   onTap: () {
+          //     webSites.launchTermsOfUseURL();
+          //   },
+          // ),
+          // ListTile(
+          //   leading: Icon(FontAwesomeIcons.twitter),
+          //   title: const Text('運営Twitter'),
+          //   tileColor: Color.fromRGBO(240, 233, 208, 10),
+          //   onTap: () {
+          //     webSites.twitterURL();
+          //   },
+          // ),
         ],
       ),
     );

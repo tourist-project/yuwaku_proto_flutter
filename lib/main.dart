@@ -54,7 +54,6 @@ class MyApp extends StatelessWidget {
       home: BottomBar(camera: camera),
 
       routes: <String, WidgetBuilder>{
-        '/some_explain': (BuildContext context) => Explain(),
         '/tutorial_page':(BuildContext context) => TutorialPage(),
         '/map_interactive_move':(BuildContext context) => InteractiveMap(title: '湯涌全体図'),
       },
