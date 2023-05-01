@@ -69,8 +69,6 @@ class _RunTopPage extends State<RunTopPage> {
       )
   ];
 
-  ExternalWebSites webSites = ExternalWebSites();
-
   @override
   void initState() {
     super.initState();
@@ -143,22 +141,22 @@ class _RunTopPage extends State<RunTopPage> {
             child: Column(
               children: [
                 SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => PhotoContestEntry())
-                      );
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      child: Image(
-                        image: AssetImage('assets/images/photo_contest_image.png'),
-                      ),
-                    ),
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 15),
+                //   child: InkWell(
+                //     onTap: () {
+                //        Navigator.push(context, MaterialPageRoute(
+                //            builder: (context) => PhotoContestEntry())
+                //       );
+                //     },
+                //     child: Container(
+                //     width: double.infinity,
+                //     child: Image(
+                //       image: AssetImage('assets/images/photo_contest_image.png'),
+                //     ),
+                //    ),
+                //   ),
+                // ),
                 SizedBox(height: 10),
                 ListView(
                   physics: NeverScrollableScrollPhysics(),
@@ -226,9 +224,6 @@ class _RunTopPage extends State<RunTopPage> {
             ),
           ),
         ),
-      drawer: Drawer(
-        child: DrawerLayout(webSites: webSites),
-    ),
       );
   }
 }

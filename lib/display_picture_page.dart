@@ -104,7 +104,6 @@ class DisplayPicturePage extends StatelessWidget {
                             popToHome(context);
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xffec6816),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -137,7 +136,6 @@ class DisplayPicturePage extends StatelessWidget {
                             Navigator.of(context).pop();
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xff9fc5ea),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
